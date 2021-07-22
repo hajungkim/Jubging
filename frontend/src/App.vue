@@ -1,15 +1,11 @@
 <template>
   <div id="app" class="screen">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-import "./assets/css/normalize.css";
+import "@/assets/css/normalize.css";
 export default {
   name: "app"
 };
@@ -25,7 +21,8 @@ export default {
 @media (min-width: 500px) {
   .screen {
     width: 500px;
-    background-color: red;
+    background-color: white;
+    margin : 0 auto;
   }
 }
 </style>
