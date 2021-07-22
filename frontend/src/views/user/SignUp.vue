@@ -20,7 +20,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-	name: 'Signup',
+	name: 'SignUp',
 	data() {
 		return{
 			credentials: {
