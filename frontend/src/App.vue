@@ -1,9 +1,5 @@
 <template>
   <div id="app" class="screen">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
@@ -22,10 +18,11 @@ export default {
 }
 
 /* 500px 이상 */
-@media (min-width: 500px) {
+@media (min-width: 425px) {
   .screen {
-    width: 500px;
+    width: 425px;
     background-color: red;
+    margin: 0 auto;
   }
 }
 </style>
