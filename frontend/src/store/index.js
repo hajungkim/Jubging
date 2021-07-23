@@ -26,18 +26,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login({ commit }, credentials) {
+    login(context, credentials) {
       axios.post('token/', credentials)
         .then(res => {
           localStorage.setItem('access_token', res.data.access)
-          commit('UPDATE_TOKEN', res.data.access)
+          context.commit('UPDATE_TOKEN', res.data.access)
         })
         .catch(err => {
           console.error(err)
         })
     },
-    logout({ commit }) {
-      commit('DELETE_TOKEN')
+    logout(context) {
+      context.commit('DELETE_TOKEN')
       localStorage.removeItem('access_token')
     }
   },
