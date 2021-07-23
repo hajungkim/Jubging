@@ -1,15 +1,11 @@
 <template>
   <div id="app" class="screen">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-import "./assets/css/normalize.css";
+import "@/assets/css/normalize.css";
 export default {
   name: "app"
 };
@@ -21,11 +17,20 @@ export default {
   background-color: red;
 }
 
-/* 500px 이상 */
-@media (min-width: 500px) {
+/* 425px 이상 */
+/* 가로425 세로850 */
+@media (min-width: 425px) {
   .screen {
-    width: 500px;
-    background-color: red;
+    width: 425px;
+    background-color: white;
+    margin : 0 auto;
+  }
+}
+@media (min-width: 850px) {
+  .screen {
+    height: 850px;
+    background-color: white;
+    margin : 0 auto;
   }
 }
 </style>
