@@ -14,7 +14,7 @@ export default new Vuex.Store({
   },
   actions: {
     isCurrent(context,page){
-      return context.commit('isCurrent',page)
+      context.commit('isCurrent',page)
     },
   },
   modules: {

@@ -17,11 +17,18 @@ export default {
   background-color: red;
 }
 
-/* 500px 이상 */
-@media (min-width: 500px) {
+/* 가로412 세로781 & 폰기종 s10 */
+@media (min-width: 412px) {
   .screen {
-    width: 500px;
-    background-color: white;
+    width: 412px;
+    background-color: greenyellow;
+    margin : 0 auto;
+  }
+}
+@media (min-width: 781px) {
+  .screen {
+    height: 781px;
+    background-color: greenyellow;
     margin : 0 auto;
   }
 }
