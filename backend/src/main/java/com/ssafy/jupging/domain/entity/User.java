@@ -1,6 +1,7 @@
 package com.ssafy.jupging.domain.entity;
 
 import com.ssafy.jupging.dto.UserSaveRequestDto;
+import com.ssafy.jupging.dto.UserUpdateRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,12 +34,17 @@ public class User {
 
     private LocalDateTime createdDate;
 
-    public static User saveUser(UserSaveRequestDto request) {
+    public static User saveUser(UserSaveRequestDto requestDto) {
         User result = new User();
-        result.email = request.getEmail();
-        result.nickname = request.getNickname();
-        result.password = request.getPassword();
+        result.email = requestDto.getEmail();
+        result.nickname = requestDto.getNickname();
+        result.password = requestDto.getPassword();
         result.createdDate = LocalDateTime.now();
         return result;
+    }
+
+    public void updateUser(UserUpdateRequestDto requestDto) {
+        this.password = requestDto.getPassword();
+        this.nickname = requestDto.getPassword();
     }
 }
