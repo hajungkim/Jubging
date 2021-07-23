@@ -1,7 +1,6 @@
-package com.ssafy.gupging.domain.entity;
+package com.ssafy.jupging.domain.entity;
 
-import com.ssafy.gupging.dto.UserSaveRequestDto;
-import lombok.Data;
+import com.ssafy.jupging.dto.UserSaveRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

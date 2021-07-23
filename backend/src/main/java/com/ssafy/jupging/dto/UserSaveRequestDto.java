@@ -1,11 +1,9 @@
-package com.ssafy.gupging.dto;
+package com.ssafy.jupging.dto;
 //유저 회원가입 요청 dto
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

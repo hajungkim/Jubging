@@ -1,8 +1,8 @@
-package com.ssafy.gupging.controller;
+package com.ssafy.jupging.controller;
 
-import com.ssafy.gupging.domain.entity.User;
-import com.ssafy.gupging.dto.UserSaveRequestDto;
-import com.ssafy.gupging.service.UserService;
+import com.ssafy.jupging.domain.entity.User;
+import com.ssafy.jupging.dto.UserSaveRequestDto;
+import com.ssafy.jupging.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

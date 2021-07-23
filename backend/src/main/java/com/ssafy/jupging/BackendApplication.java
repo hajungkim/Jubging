@@ -1,4 +1,4 @@
-package com.ssafy.gupging;
+package com.ssafy.jupging;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

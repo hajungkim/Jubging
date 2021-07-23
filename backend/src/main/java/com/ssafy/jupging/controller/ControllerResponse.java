@@ -1,4 +1,4 @@
-package com.ssafy.gupging.controller;
+package com.ssafy.jupging.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
