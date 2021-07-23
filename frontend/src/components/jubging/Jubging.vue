@@ -38,7 +38,6 @@ methods:{
         };
 
         var map = new kakao.maps.Map(container, options);
-        console.log(navigator.geolocation.string)
         if (navigator.geolocation) {
             
             // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -99,5 +98,6 @@ methods:{
 #map {
     width: 100%;
     height: 300px;
+    background-color: aliceblue;
 }
 </style>
