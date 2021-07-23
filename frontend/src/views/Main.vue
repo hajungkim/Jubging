@@ -1,36 +1,27 @@
 <template>
-<div>
+<div class="container">
   <router-view>
   </router-view>
   <div class="bottom-bar">
-    <router-link v-for="link in links" v-bind:key="link.id"
-      :to="`${link.page}`" @click.native="onClick(link)">{{link.text}}</router-link>
+    <router-link :to="{name:'Home'}" @click.native="onClick(1)">홈</router-link>
+    <router-link :to="{name:'Mission'}" @click.native="onClick(2)">미션</router-link>
+    <router-link :to="{name:'Jubging'}" @click.native="onClick(3)">줍깅</router-link>
+    <router-link :to="{name:'Ranking'}" @click.native="onClick(4)">랭킹</router-link>
+    <router-link :to="{name:'My'}" @click.native="onClick(5)">마이</router-link>
   </div>
 </div>
 </template>
 
 <script>
-// import Home from '@/components/home/Home.vue'
-// import Mission from '@/components/mission/Mission.vue'
-// import Jubging from '@/components/jubging/Jubging.vue'
-// import Ranking from '@/components/ranking/Ranking.vue'
-// import My from '@/components/my/My.vue'
 export default {
   name:'Main',
-  // components: {
-  //   Home,
-  //   Mission,
-  //   Jubging,
-  //   Ranking,
-  //   My,
-  // },
   data(){
     return {
       links:[
         {
           id:0,
           text:'홈',
-          page:'/home',
+          page:'/main',
         },
         {
           id:1,
@@ -57,7 +48,7 @@ export default {
   },
   methods:{
     onClick(link){
-      this.$store.dispatch('isCurrent',link.id)
+      this.$store.dispatch('isCurrent',link)
     },
   },
   computed:{
@@ -66,8 +57,15 @@ export default {
 </script>
 
 <style>
+.container{
+  display: flex;
+  flex-direction: column;
+  height:775px;
+}
 .bottom-bar{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin-top:auto;
+  /* top:750px; */
 }
 </style>

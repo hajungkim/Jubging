@@ -1,6 +1,6 @@
 <template>
   <div>
-      followdasd
+      follow
   </div>
 </template>
 

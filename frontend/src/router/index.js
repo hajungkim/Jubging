@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '@/views/Main.vue'
+import Detail from '@/views/Detail.vue'
 import Home from '@/components/home/Home.vue'
 import Mission from '@/components/mission/Mission.vue'
 import Jubging from '@/components/jubging/Jubging.vue'
@@ -10,12 +11,12 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'',
+    path:'/main',
     name:'Main',
     component:Main,
     children:[
       {
-        path:'/home',
+        path:'/main',
         name:'Home',
         component:Home,
       },
@@ -39,8 +40,13 @@ const routes = [
         name:'My',
         component:My,
       },
-    ]
+    ],
   },
+  {
+    path:'/detail',
+    name:'Detail',
+    component:Detail,
+  }
 ]
 
 const router = new VueRouter({
