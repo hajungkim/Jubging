@@ -16,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.ssafy.gupging'
+group = 'com.ssafy.jupging'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 

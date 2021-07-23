@@ -1,4 +1,4 @@
-package com.ssafy.gupging;
+package com.ssafy.jupging;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
