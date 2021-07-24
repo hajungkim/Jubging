@@ -11,10 +11,10 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
-    signup({ dispatch }, credentials) {
+    signup(context, credentials) {
       axios.post('accounts/signup/', credentials)
       .then(() => {
-        dispatch('login', credentials)
+        context.dispatch('login', credentials)
       })
       .catch(err => {
         console.error(err)
