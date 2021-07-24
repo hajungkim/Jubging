@@ -8,8 +8,8 @@
 		<input class="from-input" type="password" id="password" v-model="credentials.password" placeholder="password">
 		<button class="from-btn" @click="login">Login</button>
 		<div class="from-text-align">
-			<span class="from-text-small">Forgot your password?</span>
-			<span class="from-text-small">Sign Up</span>
+			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="from-text-small">Sign Up</span></router-link>
+			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="from-text-small">Forgot your password?</span></router-link>
 		</div>
   </div>
 
@@ -107,6 +107,10 @@ export default {
 	background-color: black;
 	border-radius: 50%;
 	margin: 8px;
+}
+
+.text-decoration-none {
+	text-decoration: none;
 }
 
 </style>
