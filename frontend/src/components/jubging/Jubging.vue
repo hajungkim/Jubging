@@ -1,10 +1,40 @@
 <template>
   <div>
-      <h1>Jubging</h1>
-      <div id="map"></div>
+
+      <div id="header">
+          <div class="goback to_center">
+            <img src="" alt="뒤로가기">
+          </div>
+          <div class="to_center">
+            <img src="" alt="줍깅 로고">
+          </div>
+      </div>
+      <div id="body">
+        <div id="map"></div>
+        <div id="info">
+            <div class="item">
+                <div class="bolder">00:00</div>
+                <div>시간</div>
+            </div>
+            <div class="border"></div>
+            <div class="item">
+                <div class="bolder">0.0</div>
+                <div>거리(km)</div>
+            </div>
+        </div>
+        <button class="btn">시작하기</button>
+      </div>
+
   </div>
 </template>
 
+// <script type="text/javascript">
+//     function getInfo(latitude) {
+//         this.latitude = latitude
+//         //this.longitude = longitude
+//         console.log(`${this.latitude} ${this.longtitude}`)
+//     }
+// </script>
 <script>
 export default {
 
@@ -15,7 +45,9 @@ props: {
 },
 data() {
 	return{
-        myKey: "8774c36051efa950c0ca483b2578a15c"
+        myKey: "8774c36051efa950c0ca483b2578a15c",
+        latitude: 0.0,
+        longitude: 0.0,
 	}
 },
 computed:{
@@ -94,10 +126,59 @@ methods:{
 }
 </script>
 
-<style>
+<style scoped>
+
+#header {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background-color: white;
+}
+#body {
+    display: flex;
+    flex-direction: column;
+    height: 731px;
+    background-color: white;
+}
 #map {
     width: 100%;
-    height: 300px;
-    background-color: aliceblue;
+    height: 0;
+    padding-bottom: 120%;
+}
+#info {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.to_center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.goback {
+    position: absolute;
+    left: 0;
+}
+.item {
+    flex: 1;
+    text-align: center;
+}
+.bolder {
+    font-weight: bold;
+    font-size: 32px;
+}
+.border {
+    border: 1px solid black;
+    height: 60px
+}
+.btn {
+    padding: 20px;
+    margin: 10px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: cadetblue;
 }
 </style>
