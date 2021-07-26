@@ -34,7 +34,7 @@ public class User {
 
     private LocalDateTime createdDate;
 
-    public static User saveUser(UserSaveRequestDto requestDto) {
+    public User saveUser(UserSaveRequestDto requestDto) {
         User result = new User();
         result.email = requestDto.getEmail();
         result.nickname = requestDto.getNickname();
