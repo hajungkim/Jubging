@@ -28,4 +28,9 @@ public class FollowService {
     public List<Follow> findFollower(Long userId) {
         return followRepository.findByFollowUserId(userId);
     }
+
+    @Transactional
+    public void deleteByUserIdAndFollowUserId(Long userId, Long followUserId) {
+        followRepository.deleteByUserIdAndFollowUserId(userId, followUserId);
+    }
 }
