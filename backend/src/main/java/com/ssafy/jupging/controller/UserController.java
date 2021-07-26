@@ -21,7 +21,8 @@ public class UserController {
         ControllerResponse response = null;
 
         try {
-            User user = User.saveUser(requestDto);
+            User user = new User();
+            user.saveUser(requestDto);
             userService.save(user);
 
             response = new ControllerResponse("success", "회원가입에 성공했습니다.");
