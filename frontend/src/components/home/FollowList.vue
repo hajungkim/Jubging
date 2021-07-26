@@ -1,6 +1,6 @@
 <template>
   <div>
-      follow
+      <button>팔로우</button>
   </div>
 </template>
 

@@ -1,20 +1,9 @@
 <template>
-  <div class="grid-container">
-      <article class="location-listing">
-        <div class="article-left1">
-          <router-link :to="{name:'Detail'}">
-            <img src="../../assets/sample.png" width="180px" height="180px">
-          </router-link>
-        </div>  
-      </article>
-      <article class="location-listing">
-        <div class="article-right2">
-          <router-link :to="{name:'Detail'}">
-            <img src="../../assets/sample.png" width="180px" height="180px">
-          </router-link>
-        </div>  
-      </article>
-  </div>
+    <article class="location-listing">
+      <router-link :to="{name:'Detail'}">
+        <img src="@/assets/sample.png" width="180px" height="180px">
+      </router-link>
+    </article>
 </template>
 
 <script>
@@ -22,21 +11,20 @@ export default {
   name:'PhotoList',
   props:{
     img_url:{
-      type:String,
+      type:Object,
     }
   },
+  data(){
+  },
   created(){
-    console.log('@@',this.img_url)
+    console.log(this.img_url.url)
   },
 }
 </script>
 
 <style>
-.grid-container{
-  display: flex;
-  justify-content: center;
-}
 .location-listing{
+  margin-left:10px;
   padding: 5px;
 }
 </style>
