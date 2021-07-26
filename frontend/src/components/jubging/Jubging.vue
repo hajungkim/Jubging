@@ -2,10 +2,10 @@
   <div>
 
       <div id="header">
-          <div class="goback to_center">
+          <div class="goback to-center">
             <img src="" alt="뒤로가기">
           </div>
-          <div class="to_center">
+          <div class="to-center">
             <img src="" alt="줍깅 로고">
           </div>
       </div>
@@ -13,13 +13,13 @@
         <div id="map"></div>
         <div id="info">
             <div class="item">
-                <div class="bolder">00:00</div>
-                <div>시간</div>
+                <div class="bolder">0.0</div>
+                <div>거리(km)</div>
             </div>
             <div class="border"></div>
             <div class="item">
-                <div class="bolder">0.0</div>
-                <div>거리(km)</div>
+                <div class="bolder">00:00</div>
+                <div>시간</div>
             </div>
         </div>
         <button class="btn">시작하기</button>
@@ -143,7 +143,7 @@ methods:{
 #map {
     width: 100%;
     height: 0;
-    padding-bottom: 120%;
+    padding-bottom: 130%;
 }
 #info {
     flex: 1;
@@ -151,7 +151,7 @@ methods:{
     flex-direction: row;
     align-items: center;
 }
-.to_center {
+.to-center {
     height: 100%;
     display: flex;
     justify-content: center;
