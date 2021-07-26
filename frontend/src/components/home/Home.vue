@@ -1,17 +1,12 @@
 <template>
   <div>
-  <div class="top">
+  <div class="main_top">
     <img src="@/assets/jubging.png" alt="logo" width="100px;" style="padding:10px">
     <Search/>
     <FollowList/>
   </div>
-  <span class="today_jub">오늘의 줍깅수 :</span>
-  <div class="grid_photo">
-      <PhotoList
-        v-for="img in imgs"
-        :key="img.title"
-        :img_url="img"
-      />
+  <div class="photo_list">
+      <PhotoList/>
     </div>
   </div>
 </template>
@@ -27,42 +22,6 @@ export default {
     FollowList,
   },
   data(){
-    return{
-      imgs:[
-        {
-          title:'1',
-          url:"@/assets/sample.png",
-        },
-        {
-          title:'2',
-          url:"@/assets/sample2.png",
-        },
-        {
-          title:'3',
-          url:"@/assets/sample3.png",
-        },
-        {
-          title:'4',
-          url:"@/assets/sample4.png",
-        },
-        {
-          title:'5',
-          url:"@/assets/sample5.png",
-        },
-        {
-          title:'6',
-          url:"@/assets/sample6.png",
-        },
-        {
-          title:'7',
-          url:"@/assets/sample7.png",
-        },
-        {
-          title:'8',
-          url:"@/assets/sample8.png",
-        },
-      ]
-    }
   },
   methods:{
   }
@@ -70,7 +29,7 @@ export default {
 </script>
 
 <style>
-.top{
+.main_top{
   display: flex;
   height: 50px;
 }
@@ -80,17 +39,8 @@ export default {
   margin-left:15px;
 }
 
-.grid_photo{
-  overflow:auto;
-  height: 650px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* grid-auto-flow: row dense;
-  grid-auto-rows: auto; */
-  grid-auto-columns: 100px;
-  position: absolute;
-}
-.grid_photo :nth-child(odd){
-  margin-top:25px;
+.photo_list{
+  overflow: auto;
+  height: 660px;
 }
 </style>
