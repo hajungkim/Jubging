@@ -24,10 +24,10 @@ public class Follow {
 
     private LocalDateTime followDate;
 
-    public Follow saveFollow(Long userId, Long followId) {
+    public Follow saveFollow(Long userId, Long followUserId) {
         Follow result = new Follow();
         result.userId = userId;
-        result.followId = followId;
+        result.followUserId = followUserId;
         result.followDate = LocalDateTime.now();
         return result;
     }
