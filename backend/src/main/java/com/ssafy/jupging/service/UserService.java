@@ -19,28 +19,22 @@ public class UserService {
     }
 
     @Transactional
-    public User findUser(String email) {
-        return userRepository.findByEmail(email);
+    public User findUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
     }
 
     @Transactional
-    public void updateUser(UserUpdateRequestDto requestDto) {
-        User user = userRepository.findByEmail(requestDto.getEmail());
-        if (user == null) {
-            throw new IllegalArgumentException("유저 정보가 없습니다.");
-        } else {
-            user.updateUser(requestDto);
-        }
+    public void updateUser(Long userId, UserUpdateRequestDto requestDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
+        user.updateUser(requestDto);
     }
 
     @Transactional
-    public void deleteUser(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new IllegalArgumentException("유저 정보가 없습니다.");
-        } else {
-            userRepository.deleteByEmail(email);
-        }
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
+        userRepository.deleteById(userId);
     }
+
+
 
 }
