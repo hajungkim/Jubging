@@ -12,17 +12,25 @@ export default {
 </script>
 
 <style>
+<style>
 /* 작을 때 */
 .screen {
   background-color: red;
 }
 
-/* 500px 이상 */
-@media (min-width: 425px) {
+/* 가로412 세로781 & 폰기종 s10 */
+@media (min-width: 412px) {
   .screen {
-    width: 425px;
+    width: 412px;
     background-color: red;
-    margin: 0 auto;
+    margin : 0 auto;
+  }
+}
+@media (min-width: 781px) {
+  .screen {
+    height: 781px;
+    background-color: red;
+    margin : 0 auto;
   }
 }
 </style>
