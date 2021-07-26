@@ -32,29 +32,26 @@ public class UserController {
         return response;
     }
 
-    @GetMapping("/find")
-    public ControllerResponse findUser(@RequestParam String email) {
+    @GetMapping("/find/{id}")
+    public ControllerResponse findUser(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
 
         try {
-            User result = userService.findUser(email);
-            if (result == null) {
-                return new ControllerResponse("fail", "회원정보가 없습니다.");
-            }
+            User result = userService.findUser(userId);
             response = new ControllerResponse("success", result);
         } catch (Exception e) {
-            response = new ControllerResponse("fail", "회원정보를 가져오는 중 에러 발생");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
     }
 
-    @PutMapping("/update")
-    public ControllerResponse updateUser(@RequestBody UserUpdateRequestDto requestDto) {
+    @PutMapping("/update/{id}")
+    public ControllerResponse updateUser(@PathVariable("id") Long userId, @RequestBody UserUpdateRequestDto requestDto) {
         ControllerResponse response = null;
 
         try {
-            userService.updateUser(requestDto);
+            userService.updateUser(userId, requestDto);
             response = new ControllerResponse("success", "회원정보를 수정했습니다.");
         } catch (Exception e) {
             response = new ControllerResponse("fail", "업데이트 중 에러발생");
@@ -63,12 +60,12 @@ public class UserController {
         return response;
     }
 
-    @DeleteMapping("/delete")
-    public ControllerResponse deleteUser(@RequestParam String email) {
+    @DeleteMapping("/delete/{id}")
+    public ControllerResponse deleteUser(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
 
         try {
-            userService.deleteUser(email);
+            userService.deleteUser(userId);
             response = new ControllerResponse("success", "회원정보를 삭제했습니다.");
         } catch (Exception e) {
             response = new ControllerResponse("fail", "회원정보 삭제 실패");
