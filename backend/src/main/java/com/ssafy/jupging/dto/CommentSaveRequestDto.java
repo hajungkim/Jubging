@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentSaveRequestDto {
-    private int articleId;
-    private int userId;
+    private Long articleId;
+    private Long userId;
     private String commentContent;
 }

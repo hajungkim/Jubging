@@ -2,11 +2,13 @@ package com.ssafy.jupging.service;
 
 import com.ssafy.jupging.domain.entity.Comment;
 import com.ssafy.jupging.domain.repository.CommentRepository;
+import com.ssafy.jupging.dto.CommentMapping;
 import com.ssafy.jupging.dto.CommentSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,13 +23,18 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(int comment_id) {
+    public void deleteComment(long comment_id) {
         Optional<Comment> comment = commentRepository.findByCommentId(comment_id);
         commentRepository.delete(comment.get());
     }
 
     @Transactional
-    public int countByArticleId(int article_id) {
+    public int countByArticleId(long article_id) {
         return Math.toIntExact(commentRepository.countByArticleId(article_id));
+    }
+
+
+    public List<CommentMapping> findAllComment(long article_id) {
+        return commentRepository.findAllByArticleId(article_id);
     }
 }
