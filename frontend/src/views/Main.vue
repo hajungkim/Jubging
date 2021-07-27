@@ -56,16 +56,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container{
   display: flex;
   flex-direction: column;
-  height:775px;
+  min-height: 781px;
 }
 .bottom-bar{
   display: flex;
   justify-content: space-around;
-  margin-top:auto;
-  /* top:750px; */
+  margin-top: auto;
+  height: 50px;
+  align-items: center;
+  border: 1px solid;
 }
 </style>
