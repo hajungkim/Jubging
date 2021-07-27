@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ControllerResponse<T> {
 
-    private String status;
+    private String status;  //success, fail
     private T data;
+
 }
