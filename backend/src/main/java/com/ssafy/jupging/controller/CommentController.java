@@ -6,19 +6,23 @@ import com.ssafy.jupging.dto.CommentMapping;
 import com.ssafy.jupging.dto.CommentResponseDto;
 import com.ssafy.jupging.dto.CommentSaveRequestDto;
 import com.ssafy.jupging.service.CommentService;
+import com.ssafy.jupging.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
 
     private final CommentService commentService;
+    private final UserService userService;
 
     @PostMapping
     public ControllerResponse saveComment(@RequestBody CommentSaveRequestDto commentSaveRequestDto){
@@ -29,7 +33,7 @@ public class CommentController {
             commentService.saveComment(comment);
             response = new ControllerResponse("success", "댓글 등록 성공");
         }catch (Exception e){
-            response = new ControllerResponse("fail", "댓글 등록 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -43,7 +47,7 @@ public class CommentController {
             commentService.deleteComment(comment_id);
             response = new ControllerResponse("success", "댓글 삭제 성공");
         }catch (Exception e){
-            response = new ControllerResponse("fail", "댓글 삭제 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -54,14 +58,15 @@ public class CommentController {
         ControllerResponse response = null;
 
         try{
-            List<CommentMapping> commentList = commentService.findAllComment(article_id);
-            List<CommentResponseDto> list = commentList
-                    .stream()
-                    .map(comment -> new CommentResponseDto(comment))
-                    .collect(Collectors.toList());
+            List<Comment> commentList = commentService.findAllComment(article_id);
+            List<CommentResponseDto> list = new ArrayList<>();
+            for(Comment comment : commentList){
+                list.add(new CommentResponseDto(comment, userService.findUser(comment.getUserId())));
+            }
+
             response = new ControllerResponse("success", list);
         }catch (Exception e){
-            response = new ControllerResponse("fail", "댓글 조회 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
