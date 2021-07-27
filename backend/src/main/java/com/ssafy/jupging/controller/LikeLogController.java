@@ -91,16 +91,17 @@ public class LikeLogController {
     /**
      * 해당 게시글id 에 좋아요를 누른 사람들의 리스트
      * @param article_id
-     * @return 리스트 - User 객체
+     * @return 리스트 - {nickname, profilepath}
      */
     @GetMapping("/likelist/{article_id}")
     public ControllerResponse findUserLikeList(@PathVariable long article_id){
         ControllerResponse response = null;
         try{
             List<LikeLog> likeLogList = likeLogService.findUserLikeList(article_id);
-            List<User> list = new ArrayList<>();
+            List<String[]> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
-                list.add(userService.findUser(likeLog.getUserId()));
+                User user = userService.findUser(likeLog.getUserId());
+                list.add(new String[]{user.getNickname(), user.getProfilePath()});
             }
             response = new ControllerResponse("success", list);
         }catch (Exception e){
