@@ -29,7 +29,7 @@ export default {
 @media (min-width: 781px) {
   .screen {
     height: 781px;
-    background-color: red;
+    background-color: white;
     margin : 0 auto;
   }
 }
