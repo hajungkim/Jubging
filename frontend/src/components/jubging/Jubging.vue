@@ -1,6 +1,5 @@
 <template>
   <div>
-
       <div id="header">
           <div class="goback to-center">
             <img src="" alt="뒤로가기">
