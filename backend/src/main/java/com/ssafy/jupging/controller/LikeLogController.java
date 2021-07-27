@@ -1,11 +1,17 @@
 package com.ssafy.jupging.controller;
 
+import com.ssafy.jupging.domain.entity.Article;
 import com.ssafy.jupging.domain.entity.LikeLog;
+import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.LikeLogRequestDto;
+import com.ssafy.jupging.dto.LikeLogResponseDto;
+import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.LikeLogService;
+import com.ssafy.jupging.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -14,6 +20,8 @@ import java.util.List;
 public class LikeLogController {
 
     private final LikeLogService likeLogService;
+    private final ArticleService articleService;
+    private final UserService userService;
 
     /**
      * 좋아요 등록, save
@@ -58,7 +66,7 @@ public class LikeLogController {
     /**
      * 사용자가 누른 좋아요 목록을 반환
      * @param user_id
-     * @return
+     * @return 리스트 - LikeLog 객체 + Artocle 객체
      */
     @GetMapping("/{user_id}")
     public ControllerResponse findLikeLog(@PathVariable long user_id){
@@ -66,8 +74,13 @@ public class LikeLogController {
         try{
             List<LikeLog> likeLogList = likeLogService.findLikeLog(user_id);
 
+            List<LikeLogResponseDto> list = new ArrayList<>();
+            for(LikeLog likeLog : likeLogList){
+                Article article = articleService.findByArticleId(likeLog.getArticleId());
+                list.add(new LikeLogResponseDto(likeLog, article));
+            }
 
-            response = new ControllerResponse("success", likeLogList);
+            response = new ControllerResponse("success", list);
         }catch (Exception e){
             response = new ControllerResponse("fail", "좋아요 취소 실패");
         }
@@ -78,15 +91,18 @@ public class LikeLogController {
     /**
      * 해당 게시글id 에 좋아요를 누른 사람들의 리스트
      * @param article_id
-     * @return
+     * @return 리스트 - User 객체
      */
     @GetMapping("/likelist/{article_id}")
     public ControllerResponse findUserLikeList(@PathVariable long article_id){
         ControllerResponse response = null;
         try{
             List<LikeLog> likeLogList = likeLogService.findUserLikeList(article_id);
-
-            response = new ControllerResponse("success", likeLogList);
+            List<User> list = new ArrayList<>();
+            for(LikeLog likeLog : likeLogList){
+                list.add(userService.findUser(likeLog.getUserId()));
+            }
+            response = new ControllerResponse("success", list);
         }catch (Exception e){
             response = new ControllerResponse("fail", "좋아요 취소 실패");
         }
