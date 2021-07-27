@@ -1,8 +1,10 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.User;
+import com.ssafy.jupging.dto.UserLoginRequestDto;
 import com.ssafy.jupging.dto.UserSaveRequestDto;
 import com.ssafy.jupging.dto.UserUpdateRequestDto;
+import com.ssafy.jupging.service.JwtService;
 import com.ssafy.jupging.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,27 @@ import javax.naming.ldap.Control;
 @RequestMapping("/user")
 public class UserController {
 
+    private final JwtService jwtService;
+
     private final UserService userService;
+
+    @PostMapping("/login")
+    public ControllerResponse login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+        ControllerResponse response = null;
+        try {
+            User loginUser = userService.login(userLoginRequestDto);
+            if (loginUser == null) {
+                response = new ControllerResponse("success", false);
+            } else {
+                String token = jwtService.create(loginUser);
+                response = new ControllerResponse("success", token);
+            }
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+
+        return response;
+    }
 
     @PostMapping("/save")
     public ControllerResponse saveUser(@RequestBody UserSaveRequestDto requestDto) {
