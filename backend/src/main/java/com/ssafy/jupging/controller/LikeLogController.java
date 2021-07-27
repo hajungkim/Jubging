@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/likelog")
@@ -38,7 +39,7 @@ public class LikeLogController {
 
             response = new ControllerResponse("success", "좋아요 등록 성공");
         }catch (Exception e){
-            response = new ControllerResponse("fail", "좋아요 등록 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -57,7 +58,7 @@ public class LikeLogController {
             likeLogService.deleteLikeLog(requestDto.getUserId(), requestDto.getArticleId());
             response = new ControllerResponse("success", "좋아요 취소 성공");
         }catch (Exception e){
-            response = new ControllerResponse("fail", "좋아요 취소 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -82,7 +83,7 @@ public class LikeLogController {
 
             response = new ControllerResponse("success", list);
         }catch (Exception e){
-            response = new ControllerResponse("fail", "좋아요 취소 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -96,6 +97,7 @@ public class LikeLogController {
     @GetMapping("/likelist/{article_id}")
     public ControllerResponse findUserLikeList(@PathVariable long article_id){
         ControllerResponse response = null;
+
         try{
             List<LikeLog> likeLogList = likeLogService.findUserLikeList(article_id);
             List<String[]> list = new ArrayList<>();
@@ -105,7 +107,7 @@ public class LikeLogController {
             }
             response = new ControllerResponse("success", list);
         }catch (Exception e){
-            response = new ControllerResponse("fail", "좋아요 취소 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
