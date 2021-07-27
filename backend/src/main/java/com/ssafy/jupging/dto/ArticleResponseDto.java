@@ -12,12 +12,12 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class ArticleResponseDto {
 
-    private int articleId;
+    private Long articleId;
     private String content;
     private String photosPath;
     private int likeCnt;
     private Timestamp createdDate;
-    private int userId;
+    private Long userId;
 
     public ArticleResponseDto(Article article){
         this.articleId=article.getArticleId();
