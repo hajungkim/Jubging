@@ -2,7 +2,7 @@
   <div class="photo-grid">
     <div class="today-jubging"></div>
     <router-link :to="{name:'Detail'}" >
-      <img v-for="photo in photos" :key="photo.id" :src="photo.url" class="photo-img">
+      <img class="photo-img" v-for="photo in photos" :key="photo.id" :src="photo.url">
     </router-link>
   </div>
 </template>
@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .today-jubging {
   width: 185px;
   height: 90px;

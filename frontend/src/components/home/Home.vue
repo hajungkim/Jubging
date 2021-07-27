@@ -1,11 +1,11 @@
 <template>
   <div>
-  <div class="main_top">
-    <img src="@/assets/jubging.png" alt="logo" width="100px;" style="padding:10px">
-    <Search/>
-    <FollowList/>
-  </div>
-  <div class="photo_list">
+    <div class="main_top">
+      <img src="@/assets/jubging.png" alt="logo" width="100px;" style="padding:10px">
+      <Search/>
+      <FollowList/>
+    </div>
+    <div class="photo_list">
       <PhotoList/>
     </div>
   </div>
@@ -28,17 +28,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .main_top{
   display: flex;
   height: 50px;
+  align-items: center;
 }
-.today_jub{
-  position: relative;
-  height: 20px;
-  margin-left:15px;
-}
-
 .photo_list{
   overflow: auto;
   height: 660px;

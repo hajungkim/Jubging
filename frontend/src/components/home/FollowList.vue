@@ -23,7 +23,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .follow_div{
   display: flex;
   margin-left: auto;

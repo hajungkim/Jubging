@@ -1,7 +1,9 @@
 <template>
   <div style="height:781px">
       <div class="top">
-        <img class="back_icon" src="@/assets/back.png" alt="">
+        <router-link :to="{name:'Home'}" >
+          <img class="back_icon" src="@/assets/back.png" alt="">
+        </router-link>
         <img class="logo" src="@/assets/jubging.png" alt="logo" width="100px;">
       </div>
       <div class="article_content">
@@ -13,9 +15,13 @@
             <span>usernickname</span>
           </div>
           <!--사진들-->
-          <div class="article_img_container">
-            <img class="article_img" src="@/assets/sample6.png" alt="">
-          </div>
+          <carousel-3d :width="300" :height="300" :bias="right">
+            <slide v-for="(photo,i) in photos" :index="i" :key="i">
+              <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
+                <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" :src="photo.url">
+              </template>
+            </slide>
+          </carousel-3d>
           <!--게시글 내용-->
           <div class="content_box">
             오늘 줍깅을 했다. 첫게시글~_ ㄷㄹ엄개ddasddad허ㅑㅑㅐ허매허
@@ -34,22 +40,46 @@
 </template>
 
 <script>
+// import "@/assets/css/topbar.css";
+import {Carousel3d,Slide} from 'vue-carousel-3d'
 export default {
-
+  name:'Detail',
+  components:{
+    Carousel3d,
+    Slide
+  },
+  data(){
+    return{
+      photos:[
+        {
+          title:'0',
+          url:'http://placehold.it/165x165',
+        },
+        {
+          title:'1',
+          url:'http://placehold.it/165x165',
+        },
+        // {
+        //   title:'2',
+        //   url:'http://placehold.it/185x185',
+        // },
+        // {
+        //   title:'3',
+        //   url:'http://placehold.it/185x185',
+        // },
+        // {
+        //   title:'4',
+        //   url:'http://placehold.it/185x185',
+        // },
+      ]
+    }
+  }
 }
 </script>
 
-<style>
-.top{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
-  width: 62%;
-}
-.back_icon{
-  margin-left: 5px;
-  width:35px;
+<style scoped>
+.logo{
+  margin-right:155px;
 }
 .article_content{
   display:flex;

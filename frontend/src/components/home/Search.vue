@@ -1,7 +1,9 @@
 <template>
-  <div class="search_div">
-    <input type="text" placeholder="Search">
-    <button class="search_button"><img src="@/assets/search.png" style="width:18px;"></button>
+  <div>
+    <div class="search_div">
+      <input type="text" placeholder="Search">
+      <button class="search_button"><img src="@/assets/search.png" style="width:18px;"></button>
+    </div>
   </div>
 </template>
 
@@ -15,9 +17,5 @@ export default {
 <style scoped>
 .search_button{
   margin-left:-34px;
-}
-.search_div{
-  display:flex;
-  align-items: center;
 }
 </style>
