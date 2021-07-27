@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/article")
@@ -47,7 +48,7 @@ public class ArticleController {
 
             response = new ControllerResponse("success", article);
         }catch (Exception e){
-            response = new ControllerResponse("fail", "게시글 등록 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -59,17 +60,15 @@ public class ArticleController {
      * @return 게시글 내용
      */
     @GetMapping("/detail/{article_id}")
-    public ControllerResponse detailArticle(@PathVariable int article_id){
+    public ControllerResponse detailArticle(@PathVariable Long article_id){
         ControllerResponse response = null;
 
         try{
             Article article = articleService.findByArticleId(article_id);
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
             response = new ControllerResponse("success", articleResponseDto);
-        }catch (IllegalArgumentException e){
-            response = new ControllerResponse("fail", e.getMessage());
         }catch (Exception e){
-            response = new ControllerResponse("fail", "게시글 조회 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
@@ -87,10 +86,8 @@ public class ArticleController {
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
 
             response = new ControllerResponse("success", articleResponseDto);
-        }catch (IllegalArgumentException e){
-            response = new ControllerResponse("fail", e.getMessage());
         }catch (Exception e){
-            response = new ControllerResponse("fail", "게시글 수정 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
         return response;
     }
@@ -101,10 +98,8 @@ public class ArticleController {
         try {
             articleService.deleteArticle(article_id);
             response = new ControllerResponse("success", "게시글 삭제 성공");
-        }catch (IllegalArgumentException e){
-            response = new ControllerResponse("fail", e.getMessage());
         }catch (Exception e){
-            response = new ControllerResponse("fail", "게시글 삭제 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;

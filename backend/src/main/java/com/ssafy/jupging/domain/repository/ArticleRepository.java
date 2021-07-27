@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    Optional<Article> findByArticleId(int article_id);
+    Optional<Article> findByArticleId(long article_id);
 
     List<Article> findByUserId(int user_id);
 
