@@ -34,7 +34,7 @@ public class CommentService {
     }
 
 
-    public List<CommentMapping> findAllComment(long article_id) {
+    public List<Comment> findAllComment(long article_id) {
         return commentRepository.findAllByArticleId(article_id);
     }
 }
