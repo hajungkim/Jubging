@@ -90,6 +90,20 @@ public class HashtagController {
         return response;
     }
 
+    @PutMapping("/test3/{article_id}")
+    public ControllerResponse deleteHashtag(@PathVariable Long article_id){
+        ControllerResponse response = null;
+
+        try {
+            hashtagService.deleteHashtag(article_id);
+            response = new ControllerResponse("success", "해시태그 삭제 성공");
+        } catch (Exception e){
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+
+        return response;
+    }
+
     @GetMapping("/hashlist/{hashtag}")
     public ControllerResponse findHashtag(@PathVariable String hashtag){
         ControllerResponse response = null;
