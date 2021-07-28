@@ -49,6 +49,7 @@ public class ArticleController {
             articleService.save(article);
 
             response = new ControllerResponse("success", article);
+
         }catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
@@ -63,14 +64,14 @@ public class ArticleController {
      */
     @ApiOperation(value = "게시글 상세 조회", notes = "성공 시 응답객체 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/detail/{article_id}")
-    public ControllerResponse detailArticle(@PathVariable int article_id) {
+    public ControllerResponse detailArticle(@PathVariable Long article_id){
         ControllerResponse response = null;
 
         try {
             Article article = articleService.findByArticleId(article_id);
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
             response = new ControllerResponse("success", articleResponseDto);
-        } catch (Exception e){
+        } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
 
@@ -98,12 +99,12 @@ public class ArticleController {
 
     @ApiOperation(value = "게시글 삭제", notes = "성공 시 '게시글 삭제 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @DeleteMapping("/{article_id}")
-    public ControllerResponse deleteArticle(@PathVariable int article_id) {
+    public ControllerResponse deleteArticle(@PathVariable Long article_id){
         ControllerResponse response = null;
         try {
             articleService.deleteArticle(article_id);
             response = new ControllerResponse("success", "게시글 삭제 성공");
-        } catch (Exception e){
+        }  catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
 
@@ -117,7 +118,7 @@ public class ArticleController {
      */
     @ApiOperation(value = "미완성", notes = "", response = ControllerResponse.class)
     @GetMapping("/list/{user_id}")
-    public ControllerResponse findUserArtice(@PathVariable int user_id){
+    public ControllerResponse findUserArtice(@PathVariable Long user_id){
         ControllerResponse response = null;
 
         try{
