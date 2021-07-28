@@ -34,8 +34,14 @@ public class LikeLogController {
         ControllerResponse response = null;
 
         try{
+            //좋아요 로그 기록
             LikeLog likeLog = LikeLog.saveLikeLog(requestDto);
             likeLogService.saveLikeLog(likeLog);
+
+            //좋아요 cnt 값 반영
+            Article article = articleService.findByArticleId(Math.toIntExact(requestDto.getArticleId()));
+            int cnt = article.getLikeCnt();
+            likeLogService.updateLikecnt(true, cnt, requestDto.getArticleId());
 
             response = new ControllerResponse("success", "좋아요 등록 성공");
         }catch (Exception e){
@@ -56,6 +62,12 @@ public class LikeLogController {
 
         try{
             likeLogService.deleteLikeLog(requestDto.getUserId(), requestDto.getArticleId());
+
+            //좋아요 cnt 값 반영
+            Article article = articleService.findByArticleId(Math.toIntExact(requestDto.getArticleId()));
+            int cnt = article.getLikeCnt();
+            likeLogService.updateLikecnt(false, cnt, requestDto.getArticleId());
+
             response = new ControllerResponse("success", "좋아요 취소 성공");
         }catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());
