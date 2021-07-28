@@ -80,7 +80,7 @@ public class CommentController {
     해당 게시글 번호의 댓글 개수 반환
      */
     @ApiOperation(value = "댓글 개수 찾기", notes = "성공 시 해당 게시글 번호의 댓글 개수 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    public int countComment(@PathVariable int article_id){
+    public int countComment(Long article_id){
         return commentService.countByArticleId(article_id);
     }
 

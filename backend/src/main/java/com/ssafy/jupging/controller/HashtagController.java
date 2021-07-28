@@ -43,8 +43,8 @@ public class HashtagController {
 
 
     public void updateHashtag(String content, Long article_id){
-        hashtagService.deleteHashtag(article_id);
-        makeHashtag(content, article_id);
+        hashtagService.deleteHashtag(article_id); //기존 해시태그 삭제
+        makeHashtag(content, article_id); //해시태그 추출->저장
     }
 
     public void deleteHashtag(Long article_id){
