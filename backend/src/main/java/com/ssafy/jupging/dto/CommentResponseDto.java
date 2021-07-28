@@ -26,4 +26,13 @@ public class CommentResponseDto {
         this.commentId=commentMapping.getCommentId();
         this.commentContent=commentMapping.getCommentContent();
     }
+
+    public CommentResponseDto(Comment comment, User user){
+        this.profilePath=user.getProfilePath();
+        this.userId=user.getUserId();
+        this.nickname=user.getNickname();
+
+        this.commentId=comment.getCommentId();
+        this.commentContent=comment.getCommentContent();
+    }
 }
