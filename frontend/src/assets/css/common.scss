@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
+
 $primary: red;
 $secondary: blue;
 $tertiary: green;
@@ -15,6 +17,13 @@ $app-side-margin: 16px;
 
 ////////////////////////////////////////////////////////////
 
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+
+////////////////////////////////////////////////////////////
 
 .bottom-nav1 {
   background: rgb(255, 255, 255);
@@ -149,5 +158,33 @@ $app-side-margin: 16px;
 
   .round-top-right {
     border-top-right-radius: 15px;
+  }
+}
+
+.bottom-nav3 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: auto;
+  height: 60px;
+  padding-top: 4px;
+  background-color: rgb(35, 153, 124);
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 .4rem 1rem 0 rgba(55, 55, 55, .2);
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+    span {
+      font-size: 12px;
+      font-weight: 500;
+    }
   }
 }

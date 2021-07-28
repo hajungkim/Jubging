@@ -55,6 +55,33 @@
     </router-link>
   </div>
 
+  <!-- <div class="bottom-nav3">
+    <router-link to="#" class="item" @click.native="onClick(1, $event)">
+      <font-awesome-icon icon="home" />
+      <span>홈</span>
+    </router-link>
+
+    <router-link to="#" class="item" @click.native="onClick(2, $event)">
+      <font-awesome-icon icon="medal" />
+      <span>미션</span>
+    </router-link>
+    
+    <router-link to="#" class="item" @click.native="onClick(3, $event)">
+      <font-awesome-icon icon="shoe-prints" />
+      <span>줍깅</span>
+    </router-link>
+    
+    <router-link to="#" class="item" @click.native="onClick(4, $event)">
+      <font-awesome-icon icon="trophy" />
+      <span>랭킹</span>
+    </router-link>
+
+    <router-link to="#" class="item" @click.native="onClick(5, $event)">
+      <font-awesome-icon icon="user" />
+      <span>마이</span>
+    </router-link>
+  </div> -->
+
 </div>
 </template>
 
