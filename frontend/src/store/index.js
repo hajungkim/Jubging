@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import axios from 'axios'
 
+axios.defaults.baseURL = 'http://localhost:8080/'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,13 +14,13 @@ export default new Vuex.Store({
   },
   actions: {
     signup(context, credentials) {
-      axios.post('accounts/signup/', credentials)
+      axios.post('user/join/', credentials)
       .then(() => {
-        context.dispatch('login', credentials)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+          context.dispatch('login', credentials)
+        })
+        .catch(err => {
+          console.error(err)
+        })
     }
   },
   modules: {
