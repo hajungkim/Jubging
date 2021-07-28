@@ -42,13 +42,13 @@ public class UserController {
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입 성공 시 '회원 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @PostMapping("/save")
+    @PostMapping("/join")
     public ControllerResponse saveUser(@RequestBody UserSaveRequestDto requestDto) {
         ControllerResponse response = null;
 
         try {
             User user = new User();
-            user.saveUser(requestDto);
+            user = user.saveUser(requestDto);
             userService.save(user);
 
             response = new ControllerResponse("success", "회원 등록 성공");
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 정보 찾기", notes = "성공 시 유저 데이터 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @GetMapping("/find/{id}")
+    @GetMapping("/{id}")
     public ControllerResponse findUser(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
 
@@ -75,7 +75,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "유저 정보 수정", notes = "수정 성공 시 '회원 수정 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ControllerResponse updateUser(@PathVariable("id") Long userId, @RequestBody UserUpdateRequestDto requestDto) {
         ControllerResponse response = null;
 
@@ -90,7 +90,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "회원 탈퇴", notes = "탈퇴 성공 시 '회원 탈퇴 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ControllerResponse deleteUser(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
 

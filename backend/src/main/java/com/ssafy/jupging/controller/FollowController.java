@@ -23,7 +23,7 @@ public class FollowController {
     private final UserService userService;
 
     @ApiOperation(value = "팔로우 등록", notes = "팔로우 등록 성공 시 '팔로우 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @PostMapping("/save")
+    @PostMapping
     public ControllerResponse saveFollow(@RequestParam Long userId, @RequestParam Long followUserId) {
         ControllerResponse response = null;
         try {
@@ -91,7 +91,7 @@ public class FollowController {
     }
 
     @ApiOperation(value = "팔로우 삭제", notes = "성공 시 '팔로우 삭제 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ControllerResponse deleteFollow(@RequestParam Long userId, @RequestParam Long followUserId) {
         ControllerResponse response = null;
         try {
