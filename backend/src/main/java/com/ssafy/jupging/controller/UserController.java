@@ -6,11 +6,13 @@ import com.ssafy.jupging.dto.UserSaveRequestDto;
 import com.ssafy.jupging.dto.UserUpdateRequestDto;
 import com.ssafy.jupging.service.JwtService;
 import com.ssafy.jupging.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.ldap.Control;
 
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
@@ -20,6 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @ApiOperation(value = "로그인", notes = "로그인 성공 시 jwt토큰 반환", response = ControllerResponse.class)
     @PostMapping("/login")
     public ControllerResponse login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
         ControllerResponse response = null;
@@ -38,24 +41,26 @@ public class UserController {
         return response;
     }
 
-    @PostMapping("/save")
+    @ApiOperation(value = "회원가입", notes = "회원가입 성공 시 '회원 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @PostMapping("/join")
     public ControllerResponse saveUser(@RequestBody UserSaveRequestDto requestDto) {
         ControllerResponse response = null;
 
         try {
             User user = new User();
-            user.saveUser(requestDto);
+            user = user.saveUser(requestDto);
             userService.save(user);
 
-            response = new ControllerResponse("success", "회원가입에 성공했습니다.");
+            response = new ControllerResponse("success", "회원 등록 성공");
         } catch (Exception e) {
-            response = new ControllerResponse("fail", "회원가입에 실패했습니다.");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
     }
 
-    @GetMapping("/find/{id}")
+    @ApiOperation(value = "유저 정보 찾기", notes = "성공 시 유저 데이터 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @GetMapping("/{id}")
     public ControllerResponse findUser(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
 
@@ -69,29 +74,31 @@ public class UserController {
         return response;
     }
 
-    @PutMapping("/update/{id}")
+    @ApiOperation(value = "유저 정보 수정", notes = "수정 성공 시 '회원 수정 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @PutMapping("/{id}")
     public ControllerResponse updateUser(@PathVariable("id") Long userId, @RequestBody UserUpdateRequestDto requestDto) {
         ControllerResponse response = null;
 
         try {
             userService.updateUser(userId, requestDto);
-            response = new ControllerResponse("success", "회원정보를 수정했습니다.");
+            response = new ControllerResponse("success", "회원 수정 성공");
         } catch (Exception e) {
-            response = new ControllerResponse("fail", "업데이트 중 에러발생");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "회원 탈퇴", notes = "탈퇴 성공 시 '회원 탈퇴 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @DeleteMapping("/{id}")
     public ControllerResponse deleteUser(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
 
         try {
             userService.deleteUser(userId);
-            response = new ControllerResponse("success", "회원정보를 삭제했습니다.");
+            response = new ControllerResponse("success", "회원 탈퇴 성공");
         } catch (Exception e) {
-            response = new ControllerResponse("fail", "회원정보 삭제 실패");
+            response = new ControllerResponse("fail", e.getMessage());
         }
 
         return response;
