@@ -70,14 +70,13 @@ public class LikeLogController {
      * @return 리스트 - LikeLog 객체 + Artocle 객체
      */
     @GetMapping("/{user_id}")
-    public ControllerResponse findLikeLog(@PathVariable long user_id){
+    public ControllerResponse findLikeLog(@PathVariable Long user_id){
         ControllerResponse response = null;
         try{
             List<LikeLog> likeLogList = likeLogService.findLikeLog(user_id);
-
             List<LikeLogResponseDto> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
-                Article article = articleService.findByArticleId(likeLog.getArticleId());
+                Article article = articleService.findByArticleId(Math.toIntExact(likeLog.getArticleId()));
                 list.add(new LikeLogResponseDto(likeLog, article));
             }
 
