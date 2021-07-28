@@ -19,4 +19,10 @@ public class Hashtag {
     @Column(nullable = false)
     private Long articleId;
 
+    public static Hashtag saveHashtag(String content, Long articleId){
+        Hashtag hashtag = new Hashtag();
+        hashtag.content=content;
+        hashtag.articleId=articleId;
+        return hashtag;
+    }
 }
