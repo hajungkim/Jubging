@@ -4,9 +4,9 @@
 	<img class="logo" src="https://i.imgur.com/M2nwxVM.png" alt="">
 
   <div class="from-group">
-		<input class="from-input" type="text" id="username" v-model="credentials.username" placeholder="email">
+		<input class="from-input" type="text" id="email" v-model="credentials.email" placeholder="email">
 		<input class="from-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-		<button class="from-btn" @click="login">Login</button>
+		<button class="from-btn" @click="login(credentials)">Login</button>
 		<div class="from-text-align">
 			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="from-text-small">Sign Up</span></router-link>
 			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="from-text-small">Forgot your password?</span></router-link>
@@ -18,6 +18,7 @@
 		<div class="social"></div>
 		<div class="social"></div>
 	</div>
+	<button @click="logout">logout</button>
 </div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
 	data() {
 		return{
 			credentials: {
-				username: null,
+				email: null,
 				password: null,
 			}
 		}
@@ -38,6 +39,7 @@ export default {
 	methods:{
 		...mapActions([
 			'login',
+			'logout'
 		]),
 	},
 }
