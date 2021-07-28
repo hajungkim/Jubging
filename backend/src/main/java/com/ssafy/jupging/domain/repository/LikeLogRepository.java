@@ -8,9 +8,9 @@ import java.util.List;
 public interface LikeLogRepository extends JpaRepository<LikeLog, Long> {
     LikeLog save(LikeLog likeLog);
 
-    void deleteByUserIdAndArticleId(Long userId, Long articleId);
+    void deleteByUserIdAndArticleId(long userId, long articleId);
 
-    List<LikeLog> findAllByUserId(Long userId);
+    List<LikeLog> findAllByUserId(long userId);
 
     List<LikeLog> findAllByArticleId(long article_id);
 }
