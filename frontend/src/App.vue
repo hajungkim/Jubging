@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import "@/assets/css/normalize.css";
 export default {
   name: "app"
 };
 </script>
 
 <style lang="scss">
+@import "@/assets/css/normalize.scss";
 @import "@/assets/css/common.scss";
 
 body {
