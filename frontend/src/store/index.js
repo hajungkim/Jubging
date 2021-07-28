@@ -6,8 +6,8 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8080/'
 
 axios.interceptors.request.use(config => {
-  const accessToken = localStorage.getItem('access_token')
-  config.headers.common['Authorization'] = accessToken ? `Bearer ${accessToken}` : ''
+  const Token = localStorage.getItem('token')
+  config.headers.common['Authorization'] = Token ? `Bearer ${Token}` : ''
   return config
 })
 
@@ -15,22 +15,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    accessToken: localStorage.getItem('access_token') || '',
+    Token: localStorage.getItem('token') || '',
   },
   mutations: {
-    UPDATE_TOKEN(state, accessToken) {
-      state.accessToken = accessToken
+    UPDATE_TOKEN(state, Token) {
+      state.Token = Token
     },
     DELETE_TOKEN(state) {
-      state.accessToken = ''
+      state.Token = ''
     }
   },
   actions: {
     login(context, credentials) {
-      axios.post('token/', credentials)
+      axios.post('user/login', credentials)
         .then(res => {
-          localStorage.setItem('access_token', res.data.access)
-          context.commit('UPDATE_TOKEN', res.data.access)
+          localStorage.setItem('token', res.data.data)
+          context.commit('UPDATE_TOKEN', res.data.data)
         })
         .catch(err => {
           console.error(err)
@@ -38,7 +38,7 @@ export default new Vuex.Store({
     },
     logout(context) {
       context.commit('DELETE_TOKEN')
-      localStorage.removeItem('access_token')
+      localStorage.removeItem('token')
     }
   },
   modules: {
