@@ -27,13 +27,6 @@
   </div>
 </template>
 
-// <script type="text/javascript">
-//     function getInfo(latitude) {
-//         this.latitude = latitude
-//         //this.longitude = longitude
-//         console.log(`${this.latitude} ${this.longtitude}`)
-//     }
-// </script>
 <script>
 export default {
 
@@ -57,9 +50,18 @@ created() {
 },
 mounted() {
     console.log("mounted")
-    window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+    window.kakao && window.kakao.maps ? this.initMap() : this.addScript()
+    window["getInfo"] = (latitude, longitude) => {
+        this.getInfo(latitude, longitude)
+    }
 },
 methods:{
+    getInfo(latitude, longitude) {
+        console.log("안녕")
+        this.latitude = latitude
+        this.longitude = longitude
+        console.log(`${this.latitude} ${this.longitude}`)
+    },
     initMap() {
         console.log("ininMap")
         var container = document.getElementById('map');
