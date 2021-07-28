@@ -2,15 +2,8 @@
 <div class="container">
   <router-view>
   </router-view>
-  <!-- <div class="bottom-bar">
-    <router-link :to="{name:'Home'}">홈</router-link>
-    <router-link :to="{name:'Mission'}">미션</router-link>
-    <router-link :to="{name:'Jubging'}">줍깅</router-link>
-    <router-link :to="{name:'Ranking'}">랭킹</router-link>
-    <router-link :to="{name:'My'}">마이</router-link>
-  </div> -->
   
-  <div class="bottom-bar">
+  <!-- <div class="bottom-nav2">
     <div class="nav">
       <div class="nav-slot bg-white round-top-left">
         <a href="#" class="nav-link active">
@@ -38,6 +31,28 @@
         </a>
       </div>
     </div>
+  </div> -->
+
+  <div class="bottom-nav1">
+    <router-link to="#" class="item active" @click.native="onClick(1, $event)">
+      <font-awesome-icon icon="home" class="icon"/>
+    </router-link>
+
+    <router-link to="#" class="item" @click.native="onClick(2, $event)">
+      <font-awesome-icon icon="medal" class="icon"/>
+    </router-link>
+    
+    <router-link :to="{name:'Jubging'}" class="item" @click.native="onClick(3, $event)">
+      <font-awesome-icon icon="shoe-prints" class="icon"/>
+    </router-link>
+    
+    <router-link :to="{name:'Ranking'}" class="item" @click.native="onClick(4, $event)">
+      <font-awesome-icon icon="trophy" class="icon"/>
+    </router-link>
+
+    <router-link :to="{name:'My'}" class="item" @click.native="onClick(5, $event)">
+      <font-awesome-icon icon="user" class="icon"/>
+    </router-link>
   </div>
 
 </div>
@@ -50,23 +65,22 @@ export default {
     return {
     }
   },
+  methods:{
+    onClick(link, event){
+      this.$store.dispatch('isCurrent', link)
+      document.querySelector('.active').classList.remove('active')
+      event.currentTarget.classList.add('active')
+    },
+  },
+
 }
 </script>
 
-<style>
-
+<style lang="scss">
 .container{
   display: flex;
   flex-direction: column;
   min-height: 781px;
-}
-
-.bottom-bar{
-  display: flex;
-  justify-content: space-around;
-  margin-top: auto;
-  height: 50px;
-  align-items: center;
 }
 
 </style>
