@@ -7,6 +7,7 @@ import Mission from '@/components/mission/Mission.vue'
 import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
+import Setting from '@/components/my/Setting.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,6 +47,11 @@ const routes = [
     path:'/detail',
     name:'Detail',
     component:Detail,
+  },
+  {
+    path:'/setting',
+    name:'Setting',
+    component:Setting,
   }
 ]
 

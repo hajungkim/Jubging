@@ -5,7 +5,7 @@
         <img class="back_icon" src="@/assets/back.png" alt="back_icon">
       </router-link>
       <img class="logo" src="@/assets/jubging.png" alt="logo" width="100px;">
-      <img class="hamburger" src="@/assets/hamburger.png" alt="burger" style="margin-right:10px">
+      <img class="hamburger" src="@/assets/hamburger.png" alt="burger" style="margin-right:10px" @click="open">
     </div>
     <!-- 유저 정보 -->
     <div class="my_info">
@@ -45,22 +45,52 @@
     <!-- 나의 게시글 -->
     <div class="photo_list">
       <div class="photo-grid">
-        <router-link :to="{name:'Detail'}" >
+        <router-link :to="{name:'Detail'}">
           <img class="photo-img" v-for="photo in photos" :key="photo.id" :src="photo.url">
         </router-link>
       </div>
     </div>
+    <vue-bottom-sheet ref="myBottomSheet" max-height="370px" max-width="412px" >
+      <div>
+        <router-link :to="{name:'#'}" class="default-link">
+          <div class="bt_common">
+            <font-awesome-icon icon="user" class="fa-2x icon" style="margin-right:17px"/>
+            <span>회원정보변경</span>
+          </div>
+        </router-link>
+        <router-link :to="{name:'#'}" class="default-link">
+          <div class="bt_common likelog">
+            <font-awesome-icon icon="heart" class="fa-2x icon" style="margin-right:15px"/>
+            <span>좋아요 로그</span>
+          </div>
+        </router-link>
+        <router-link :to="{name:'#'}" class="default-link">
+          <div class="bt_common">
+            <font-awesome-icon icon="running" class="fa-2x icon" style="margin-right:19px"/>
+            <span>줍깅 로그</span> 
+          </div>
+        </router-link>
+        <router-link :to="{name:'#'}" class="default-link">
+          <div class="bt_common">
+            <font-awesome-icon icon="sign-out-alt" class="fa-2x icon" style="margin-right:13px"/>
+            <span>로그아웃</span> 
+          </div>
+        </router-link>
+      </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
 <script>
 import "@/assets/css/topbar.css"; // 없어도 되는 이유?
 import {Carousel3d,Slide} from 'vue-carousel-3d'
+import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 export default {
   name:'My',
   components:{
     Carousel3d,
-    Slide
+    Slide,
+    VueBottomSheet,
   },
   data() {
       return {
@@ -99,7 +129,15 @@ export default {
         // },
       ]
     }
-  }
+  },
+  methods: {
+    open() {
+      this.$refs.myBottomSheet.open();
+    },
+    close() {
+      this.$refs.myBottomSheet.close();
+    }
+  },
 }
 </script>
 
@@ -161,8 +199,28 @@ export default {
   column-count: 3;
   column-gap:0;
 }
+
 .photo-img {
   width: 135px;
   height: 135px;
+}
+/* 바텀시트 */
+.bt_common{
+  display: flex;
+  margin-left:40px;
+  align-items: center;
+  /* border: 1px solid; */
+  height: 60px;
+}
+.likelog{
+  margin-left:38px;
+}
+.icon{
+  margin-right:10px;
+}
+/* 라우터 링크 색 변경x */
+.default-link{
+  color:black;
+  text-decoration:none;
 }
 </style>
