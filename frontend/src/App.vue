@@ -25,7 +25,7 @@ export default {
     margin : 0 auto;
   }
 }
-@media (min-width: 781px) {
+@media (min-height: 781px) {
   .screen {
     height: 781px;
     background-color: greenyellow;
