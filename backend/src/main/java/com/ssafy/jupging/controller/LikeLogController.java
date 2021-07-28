@@ -8,6 +8,7 @@ import com.ssafy.jupging.dto.LikeLogResponseDto;
 import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.LikeLogService;
 import com.ssafy.jupging.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class LikeLogController {
      * @param requestDto
      * @return
      */
+    @ApiOperation(value = "좋아요 등록", notes = "성공 시 '좋아요 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
     public ControllerResponse saveLikeLog(@RequestBody LikeLogRequestDto requestDto){
         ControllerResponse response = null;
@@ -56,6 +58,7 @@ public class LikeLogController {
      * @param requestDto
      * @return
      */
+    @ApiOperation(value = "좋아요 취소", notes = "성공 시 '좋아요 취소 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @DeleteMapping
     public ControllerResponse deleteLikeLog(@RequestBody LikeLogRequestDto requestDto){
         ControllerResponse response = null;
@@ -81,6 +84,7 @@ public class LikeLogController {
      * @param user_id
      * @return 리스트 - LikeLog 객체 + Artocle 객체
      */
+    @ApiOperation(value = "좋아요 로그 찾기", notes = "성공 시 사용자가 누른 좋아요 리스트 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/{user_id}")
     public ControllerResponse findLikeLog(@PathVariable Long user_id){
         ControllerResponse response = null;
@@ -105,6 +109,7 @@ public class LikeLogController {
      * @param article_id
      * @return 리스트 - {nickname, profilepath}
      */
+    @ApiOperation(value = "좋아요 누른 사람 찾기", notes = "성공 시 해당 게시글id 에 좋아요를 누른 사람들의 리스트 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/likelist/{article_id}")
     public ControllerResponse findUserLikeList(@PathVariable long article_id){
         ControllerResponse response = null;
