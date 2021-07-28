@@ -6,11 +6,13 @@ import com.ssafy.jupging.dto.CommentMapping;
 import com.ssafy.jupging.dto.CommentResponseDto;
 import com.ssafy.jupging.dto.CommentSaveRequestDto;
 import com.ssafy.jupging.service.CommentService;
+import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class CommentController {
 
     private final CommentService commentService;
+    private final UserService userService;
 
     @ApiOperation(value = "댓글 등록", notes = "성공 시 '댓글 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
@@ -59,11 +62,12 @@ public class CommentController {
         ControllerResponse response = null;
 
         try{
-            List<CommentMapping> commentList = commentService.findAllComment(article_id);
-            List<CommentResponseDto> list = commentList
-                    .stream()
-                    .map(comment -> new CommentResponseDto(comment))
-                    .collect(Collectors.toList());
+            List<Comment> commentList = commentService.findAllComment(article_id);
+            List<CommentResponseDto> list = new ArrayList<>();
+            for(Comment comment : commentList){
+                list.add(new CommentResponseDto(comment, userService.findUser(comment.getUserId())));
+            }
+
             response = new ControllerResponse("success", list);
         }catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());
