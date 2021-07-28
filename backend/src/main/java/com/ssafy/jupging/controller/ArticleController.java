@@ -24,6 +24,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final HashtagController hashtagController;
+    private final CommentController commentController;
 
     /**
      * 게시글 등록
@@ -39,10 +40,10 @@ public class ArticleController {
             Article article = Article.saveArticle(requestDto);
             Article savedArticle =  articleService.save(article);
 
+            //해시태그 저장
             hashtagController.saveHashtag(savedArticle.getContent(), savedArticle.getArticleId());
 
             response = new ControllerResponse("success", article);
-
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
@@ -63,6 +64,8 @@ public class ArticleController {
         try {
             Article article = articleService.findByArticleId(article_id);
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
+            int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+            articleResponseDto.setCommentCnt(commentCnt);
             response = new ControllerResponse("success", articleResponseDto);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -83,6 +86,7 @@ public class ArticleController {
             Article article = articleService.findByArticleId(requestDto.getArticleId());
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
 
+            //해시태그 업데이트
             hashtagController.updateHashtag(articleResponseDto.getContent(), articleResponseDto.getArticleId());
 
             response = new ControllerResponse("success", articleResponseDto);
@@ -97,8 +101,12 @@ public class ArticleController {
     public ControllerResponse deleteArticle(@PathVariable Long article_id){
         ControllerResponse response = null;
         try {
+            //해시태그 삭제
             hashtagController.deleteHashtag(article_id);
+
+            //게시글 삭제
             articleService.deleteArticle(article_id);
+
             response = new ControllerResponse("success", "게시글 삭제 성공");
         }  catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());

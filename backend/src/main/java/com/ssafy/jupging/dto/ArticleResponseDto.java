@@ -19,6 +19,8 @@ public class ArticleResponseDto {
     private Timestamp createdDate;
     private Long userId;
 
+    private int commentCnt;
+
     public ArticleResponseDto(Article article){
         this.articleId=article.getArticleId();
         this.content=article.getContent();
