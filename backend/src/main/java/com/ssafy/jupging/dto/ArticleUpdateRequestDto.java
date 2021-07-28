@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleUpdateRequestDto {
-    private int articleId;
+    private Long articleId;
     private String content;
 }

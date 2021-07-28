@@ -22,7 +22,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public Article findByArticleId(int article_id) {
+    public Article findByArticleId(Long article_id) {
         Article article = articleRepository.findByArticleId(article_id)
                 .orElseThrow(()->new IllegalArgumentException("게시글 정보가 없습니다"));
 
@@ -39,7 +39,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public void deleteArticle(int article_id) {
+    public void deleteArticle(Long article_id) {
 
         Article article = articleRepository.findByArticleId(article_id)
                 .orElseThrow(()->new IllegalArgumentException("게시글 정보가 없습니다"));
@@ -48,7 +48,7 @@ public class ArticleService {
     }
 
     @Transactional
-    public List<Article> findByUserId(int user_id) {
+    public List<Article> findByUserId(Long user_id) {
 
         return articleRepository.findByUserId(user_id);
     }

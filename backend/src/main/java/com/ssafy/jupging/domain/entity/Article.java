@@ -17,7 +17,7 @@ public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int articleId;
+    private Long articleId;
 
     @Column(length = 500, nullable = false)
     private String content;
@@ -33,7 +33,7 @@ public class Article {
     private Timestamp createdDate;
 
     @Column(nullable = false)
-    private int userId;
+    private Long userId;
 
     public static Article saveArticle(ArticleSaveRequestDto request) {
         Article article = new Article();
