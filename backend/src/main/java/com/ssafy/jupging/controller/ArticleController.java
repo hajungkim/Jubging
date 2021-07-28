@@ -93,7 +93,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{article_id}")
-    public ControllerResponse deleteArticle(@PathVariable int article_id){
+    public ControllerResponse deleteArticle(@PathVariable Long article_id){
         ControllerResponse response = null;
         try {
             articleService.deleteArticle(article_id);
@@ -111,7 +111,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/list/{user_id}")
-    public ControllerResponse findUserArtice(@PathVariable int user_id){
+    public ControllerResponse findUserArtice(@PathVariable Long user_id){
         ControllerResponse response = null;
 
         try{
