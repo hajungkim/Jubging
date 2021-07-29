@@ -1,13 +1,14 @@
 package com.ssafy.jupging.service;
 
 import com.ssafy.jupging.domain.entity.Mission;
+import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.domain.repository.MissionRepository;
-import com.ssafy.jupging.dto.MissionSaveResponseDto;
+import com.ssafy.jupging.domain.repository.UserRepository;
+import com.ssafy.jupging.dto.MissionUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,17 +18,19 @@ public class MissionService {
 
     @Transactional
     public void saveInit(Mission mission) {
-        missionRepository.save(missionRepository.save(mission));
+        missionRepository.save(mission);
     }
 
     @Transactional
-    public boolean findByUserId(Long userId) {
-        Optional<Mission> user = missionRepository.findById(userId);
-        // 유저 아이디가 존재하는지 확인
-        if (user.isPresent()) {
-            return false;
-        } else {
-            return true;
-        }
+    public void updateMission(MissionUpdateRequestDto requestDto) {
+        Mission mission = missionRepository.findById(requestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
+        mission.updateMission(requestDto);
     }
+
+    @Transactional
+    public Mission findUserMission(Long userId) {
+        Mission mission = missionRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("미션 정보가 없습니다."));
+        return mission;
+    }
+
 }
