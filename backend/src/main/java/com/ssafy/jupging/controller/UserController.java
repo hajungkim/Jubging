@@ -22,7 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @ApiOperation(value = "로그인", notes = "로그인 성공 시 jwt토큰 반환", response = ControllerResponse.class)
+    @ApiOperation(value = "로그인", notes = "로그인 성공 시 jwt토큰 반환 / 회원정보가 없을 경우 false 반환", response = ControllerResponse.class)
     @PostMapping("/login")
     public ControllerResponse login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
         ControllerResponse response = null;
@@ -38,6 +38,32 @@ public class UserController {
             response = new ControllerResponse("fail", e.getMessage());
         }
 
+        return response;
+    }
+
+    @ApiOperation(value = "이메일 중복체크", notes = "이메일 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
+    @PostMapping("/emailck")
+    public ControllerResponse checkEmail(@RequestParam String email) {
+        ControllerResponse response = null;
+        try {
+            boolean ispresent = userService.checkEmail(email);
+            response = new ControllerResponse("success", ispresent);
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "닉네임 중복체크", notes = "닉네임 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
+    @PostMapping("/nicknameck")
+    public ControllerResponse checkNickname(@RequestParam String nickname) {
+        ControllerResponse response = null;
+        try {
+            boolean ispresent = userService.checkNickname(nickname);
+            response = new ControllerResponse("success", ispresent);
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
         return response;
     }
 
