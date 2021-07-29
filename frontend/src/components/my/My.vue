@@ -33,7 +33,7 @@
     <div class="badge_box">
       <carousel-3d class="badge_carousel"
         :disable3d="true" :width="50" :height="50"
-        :display="5" :space="70" :controlsVisible="true" :controlsPrevHtml="ajwl"
+        :display="5" :space="70" :controlsVisible="true"
       >
         <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">

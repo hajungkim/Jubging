@@ -1,85 +1,15 @@
 <template>
-  <div class="follow_div">
-    <label class="switch">
-      <input type="checkbox" @click="followToggle()">
-      <span class="slider round"></span>
-    </label>
+  <div>
+    
   </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return {
-      toggle:true
-    }
-  },
-  methods:{
-    followToggle(){
-      console.log(this.toggle)
-      this.toggle = !this.toggle
-    }
-  }
+
 }
 </script>
 
-<style scoped>
-.follow_div{
-  display: flex;
-  margin-left: auto;
-  margin-right:10px;
-  justify-content: center;
-  align-items: center;
-}
-.switch{
-  position:relative;
-  display: inline-block;
-  width:40px;
-  height:20px;
-  margin: 5px 5px 0px 0px;
-}
-.switch input{
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider{
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left:0;
-  right:0;
-  bottom:0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-.slider:before{
-  position: absolute;
-  content:"";
-  height: 15px;
-  width: 15px;
-  left:4px;
-  bottom:2px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-input:checked + .slider{
-  background-color: #2196F3;
-}
-input:focus + .slider{
-  box-shadow: 0 0 1px #2196F3;
-}
-input:checked +.slider:before{
-  -webkit-transform: translateX(17px);
-  -ms-transform: translateX(17px);
-  transform: translateX(17px);
-}
-.slider.round{
-  border-radius: 34px;
-}
-.slider.round:before{
-  border-radius: 50%;
-}
+<style>
+
 </style>

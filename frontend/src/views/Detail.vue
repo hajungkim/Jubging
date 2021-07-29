@@ -12,10 +12,10 @@
           <div class="profile_img">
             <img class="profile" src="@/assets/sample.png">
           </div>
-          <span>usernickname</span>
+          <span style="font-weight:bold;">usernickname</span>
         </div>
         <!--사진들-->
-        <carousel-3d :width="300" :height="300" :bias="right">
+        <carousel-3d :width="300" :height="300">
           <slide v-for="(photo,i) in photos" :index="i" :key="i">
             <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
               <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" :src="photo.url">
@@ -37,12 +37,18 @@
         </div>
     </div>
     <vue-bottom-sheet ref="myBottomSheet" max-height="600px" max-width="412px" >
-      <div class="comment_container">
-        ㅇㅁㄴㅇㅁㄴ
-        <div class="input_container">
-          <input type="text" class="comment_input">
-          <font-awesome-icon :icon="['fas','comment']"/>
-        </div>
+      <ul>
+        <li class="comment_container">
+          <img class="comment_profile" src="@/assets/sample.png">
+          <div>
+            <span style="font-weight:bold;">user_name</span>
+            <div class="comment_contents">조깅을 하면서 쓰레기를 줍는 운동.ddasdadddasdasdasdddasasdasddassadasdasdadsddasdas</div>
+          </div>
+        </li>
+      </ul>
+      <div class="input_container">
+        <input type="text" class="comment_input" placeholder="댓글을 입력하세요.">
+        <font-awesome-icon :icon="['fas','comment']" class="comment_icon"/>
       </div>
     </vue-bottom-sheet>
   </div>
@@ -115,15 +121,14 @@ export default {
 .user_info{
   display: flex;
   align-items: center;
-  margin-top: 9vh;
-  margin-bottom: 2.5vh;
+  margin: 9vh 10px 2.5vh 0;
 }
 .profile_img{
   width: 50px;
   height: 50px;
   border-radius: 70%;
   overflow: hidden;
-  margin-right:20px;
+  margin-right:10px;
 }
 .profile{
   width: 100%;
@@ -139,6 +144,7 @@ export default {
   width: 300px;
   margin-bottom:2.5vh;
   text-align: center;
+  word-break:break-all;
 }
 /* 좋아요 댓글 */
 .like_comment_container{
@@ -152,18 +158,34 @@ export default {
 /* 댓글 바텀시트 */
 .comment_container{
   display: flex;
-  flex-direction: column;
-  height: 600px;
+  margin:0px 20px 10px 20px;
 }
 .input_container{
   display: flex;
   justify-content: center;
 }
 .comment_input{
-  width:300px;
+  width:330px;
   height:30px;
   background-color: gainsboro;
   border:1px solid;
   border-radius: 15px 15px 15px 15px;
+  padding:10px;
+}
+.comment_icon{
+  transform: scale(1.5);
+  margin : 7px 0px 0px 10px;
+}
+.comment_profile{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin:5px 10px 0px 0px;
+}
+.comment_contents{
+  width: 300px;
+  font-size:15px;
+  word-break:break-all;
 }
 </style>
