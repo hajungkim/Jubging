@@ -2,9 +2,9 @@
   <div style="height:781px">
     <div class="top">
       <router-link :to="{name:'Home'}" >
-        <img class="back_icon" src="@/assets/back.png" alt="">
+        <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
       </router-link>
-      <img class="logo" src="@/assets/jubging.png" alt="logo" width="100px;">
+      <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
     </div>
     <div class="article_content">
         <!--유저 정보-->
@@ -24,21 +24,25 @@
         </carousel-3d>
         <!--게시글 내용-->
         <div class="content_box">
-          오늘 줍깅을 했다. 첫게시글~_ ㄷㄹ엄개ddasddad허ㅑㅑㅐ허매허
+          오늘 줍깅을 했다. 첫게시글입니다욧
         </div>
         <!--좋아요 댓글-->
         <div class="like_comment_container">
           <div class="lcbox" >
-            <img src="@/assets/heart_empty.png" alt="" style="width:20px; margin-right:5px;"><span style="margin-bottom: 3px;">10</span>
+            <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">10</span>
           </div>
           <div class="lcbox" @click="open">
-            <img src="@/assets/comments.png" alt="" style="width:20px; margin-right:5px;"> <span style="margin-bottom: 3px;">8</span>
+            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">8</span>
           </div>
         </div>
     </div>
     <vue-bottom-sheet ref="myBottomSheet" max-height="600px" max-width="412px" >
       <div class="comment_container">
-        dsadas
+        ㅇㅁㄴㅇㅁㄴ
+        <div class="input_container">
+          <input type="text" class="comment_input">
+          <font-awesome-icon :icon="['fas','comment']"/>
+        </div>
       </div>
     </vue-bottom-sheet>
   </div>
@@ -93,9 +97,15 @@ export default {
 </script>
 
 <style scoped>
+/* 상단바 */
+.back_icon{
+  margin-left:15px;
+}
 .logo{
   margin-right:155px;
+  transform: scale(1.5);
 }
+/* 유저정보 및 게시글 */
 .article_content{
   display:flex;
   flex-direction: column;
@@ -130,6 +140,7 @@ export default {
   margin-bottom:2.5vh;
   text-align: center;
 }
+/* 좋아요 댓글 */
 .like_comment_container{
   display: flex;
 }
@@ -140,6 +151,19 @@ export default {
 }
 /* 댓글 바텀시트 */
 .comment_container{
-  height: 700px;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+}
+.input_container{
+  display: flex;
+  justify-content: center;
+}
+.comment_input{
+  width:300px;
+  height:30px;
+  background-color: gainsboro;
+  border:1px solid;
+  border-radius: 15px 15px 15px 15px;
 }
 </style>

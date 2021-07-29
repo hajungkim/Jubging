@@ -27,15 +27,16 @@ export default {
 .follow_div{
   display: flex;
   margin-left: auto;
-  margin-left:30px;
+  margin-right:10px;
   justify-content: center;
   align-items: center;
 }
 .switch{
   position:relative;
   display: inline-block;
-  width:52px;
-  height:28px;
+  width:40px;
+  height:20px;
+  margin: 5px 5px 0px 0px;
 }
 .switch input{
   opacity: 0;
@@ -56,10 +57,10 @@ export default {
 .slider:before{
   position: absolute;
   content:"";
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
   left:4px;
-  bottom:4px;
+  bottom:2px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -71,9 +72,9 @@ input:focus + .slider{
   box-shadow: 0 0 1px #2196F3;
 }
 input:checked +.slider:before{
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
+  transform: translateX(17px);
 }
 .slider.round{
   border-radius: 34px;
