@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main_top">
-      <img src="@/assets/jubging.png" alt="logo" width="100px;" style="padding:10px">
+      <img src="@/assets/textlogo.png" alt="logo" class="text_logo">
       <Search/>
       <FollowList/>
     </div>
@@ -33,6 +33,11 @@ export default {
   display: flex;
   height: 50px;
   align-items: center;
+}
+.text_logo{
+  width:100px;
+  margin: 10px 20px 0px 15px;
+  transform: scale(1.1);
 }
 .photo_list{
   overflow: auto;
