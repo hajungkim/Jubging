@@ -14,7 +14,7 @@ export default {
 <style>
 /* 작을 때 */
 .screen {
-  background-color: red;
+  background-color: greenyellow;
 }
 
 /* 가로412 세로781 & 폰기종 s10 */
