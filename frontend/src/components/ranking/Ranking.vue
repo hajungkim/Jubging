@@ -1,31 +1,71 @@
 <template>
-  <div id="container">
-    <div id="left">
-      Hello
-    </div>
-    <div id="right">
-      <div style="background-color: red; height: 10px;">Hello</div>
-    </div>
-    <div class="clear"></div>
-  </div>
+  <div>
+		<div class="top-select">
+			<div @click="changeComponent(true)" class="select-item" :class="[flag ? 'active': 'inactive']"><span>유저 랭크</span></div>
+			<div @click="changeComponent(false)" class="select-item" :class="[!flag ? 'active': 'inactive']"><span>지역 랭크</span></div>
+		</div>
+
+		<div class="rank-screen">
+			<UserRank v-show="flag" />
+			<RegionRank v-show="!flag" />
+		</div>
+
+	</div>
 </template>
 
 <script>
-export default {
+import UserRank from '@/components/ranking/UserRank.vue'
+import RegionRank from '@/components/ranking/RegionRank.vue'
 
+export default {
+	name: 'Ranking',
+	components: {
+		UserRank,
+		RegionRank
+	},
+	data() {
+		return {
+			flag: true
+		}
+	},
+	methods: {
+		changeComponent(bool) {
+			this.flag = bool
+		}
+	}
 }
 </script>
 
-<style>
-    #left {
-      width: 200px;
-      float: left;
-    }
-    #right {
-      margin-left: 200px;
-      /* Change this to whatever the width of your left column is*/
-    }
-    .clear {
-      clear: both;
-    }
+<style scoped>
+
+.top-select {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.top-select > .select-item {
+	width: 180px;
+	height: 50px;
+	text-align: center;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.active {
+	color: red;
+	border-bottom: 5px solid red;
+}
+
+.inactive {
+	color: black;
+}
+
+.rank-screen {
+	overflow: auto;
+  height: 650px;
+	margin: 30px 16px;
+}
+
 </style>

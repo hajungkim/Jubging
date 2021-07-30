@@ -57,7 +57,8 @@ export default new Vuex.Store({
       //   title:'9',
       //   url:"@/assets/sample8.png",
       // },
-    ]
+    ],
+    Token: localStorage.getItem('token') || '',
   },
   mutations: {
     isCurrent(state,page){
@@ -75,17 +76,22 @@ export default new Vuex.Store({
     isCurrent(context,page){
       context.commit('isCurrent',page)
     },
-    Token: localStorage.getItem('token') || '',
-    
+
     login(context, credentials) {
       axios.post('user/login', credentials)
-        .then(res => {
-          localStorage.setItem('token', res.data.data)
-          context.commit('UPDATE_TOKEN', res.data.data)
+      .then(res => {
+        localStorage.setItem('token', res.data.data)
+        context.commit('UPDATE_TOKEN', res.data.data)
+      })
+    },
+    signup(context, credentials) {
+      axios.post('user/join/', credentials)
+      .then(() => {
+          context.dispatch('login', credentials)
         })
-        .catch(err => {
-          console.error(err)
-        })
+      .catch(err => {
+        console.error(err)
+       })
     },
     logout(context) {
       context.commit('DELETE_TOKEN')

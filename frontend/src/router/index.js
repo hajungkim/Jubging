@@ -14,6 +14,11 @@ import NewArticle from '@/views/jubging/NewArticle.vue'
 
 import Login from '@/views/user/Login.vue'
 
+import SignUp from '@/views/user/SignUp.vue'
+
+import Mission from '@/components/mission/Mission.vue'
+import Ranking from '@/components/ranking/Ranking.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -77,6 +82,21 @@ const routes = [
     name: 'Login',
     component: Login,
   },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp
+  },
+  {
+    path: '/mission',
+    name: 'mission',
+    component: Mission,
+  },
+  {
+    path: '/ranking',
+    name: 'Ranking',
+    component: Ranking,
+  }
 ]
 
 const router = new VueRouter({
