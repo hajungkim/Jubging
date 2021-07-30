@@ -8,6 +8,10 @@ import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
 import Setting from '@/components/my/Setting.vue'
+import Jubging from '@/components/jubging/Jubging.vue'
+import JubgingOff from '@/views/jubging/JubgingOff.vue'
+import NewArticle from '@/views/jubging/NewArticle.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,6 +56,19 @@ const routes = [
     path:'/setting',
     name:'Setting',
     component:Setting,
+    path: '/jubging',
+    name: 'Jubging',
+    component: Jubging,
+  },
+  {
+    path: '/jubging/register',
+    name: 'Register',
+    component: JubgingOff
+  },
+  {
+    path: '/jubging/article',
+    name: 'NewArticle',
+    component: NewArticle
   }
 ]
 
