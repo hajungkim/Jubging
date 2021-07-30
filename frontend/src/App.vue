@@ -12,7 +12,6 @@ export default {
 </script>
 
 <style>
-<style>
 /* 작을 때 */
 .screen {
   background-color: white;
