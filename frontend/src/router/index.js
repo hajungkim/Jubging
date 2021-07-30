@@ -12,6 +12,8 @@ import Jubging from '@/components/jubging/Jubging.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 
+import Login from '@/views/user/Login.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -69,7 +71,12 @@ const routes = [
     path: '/jubging/article',
     name: 'NewArticle',
     component: NewArticle
-  }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
 ]
 
 const router = new VueRouter({
