@@ -1,15 +1,11 @@
 <template>
   <div id="app" class="screen">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
 <script>
-import "./assets/css/normalize.css";
+import "@/assets/css/normalize.css";
 export default {
   name: "app"
 };
@@ -18,14 +14,22 @@ export default {
 <style>
 /* 작을 때 */
 .screen {
-  background-color: red;
+  background-color: greenyellow;
 }
 
-/* 500px 이상 */
-@media (min-width: 500px) {
+/* 가로412 세로781 & 폰기종 s10 */
+@media (min-width: 412px) {
   .screen {
-    width: 500px;
-    background-color: red;
+    width: 412px;
+    background-color: greenyellow;
+    margin : 0 auto;
+  }
+}
+@media (min-height: 781px) {
+  .screen {
+    height: 781px;
+    background-color: greenyellow;
+    margin : 0 auto;
   }
 }
 </style>
