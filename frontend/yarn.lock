@@ -8748,15 +8748,6 @@ vue-carousel-3d@^1.0.1:
     core-js "^3.6.5"
     vue "^2.6.11"
 
-vue-cli-plugin-vuetify@~2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/vue-cli-plugin-vuetify/-/vue-cli-plugin-vuetify-2.4.1.tgz#a31a9ddb274c8e512aeca7dc2f29d828a18df0af"
-  integrity sha512-ZfhvQ13X41atsCSKdSGiHnSJlhAccv4QIFOZmd8kyq6NktpeeWlvQz/dEKBf6u1AWKmKdwiCDuxS2VNT9fxhOA==
-  dependencies:
-    null-loader "^3.0.0"
-    semver "^7.1.2"
-    shelljs "^0.8.3"
-
 vue-eslint-parser@^7.0.0:
   version "7.9.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.9.0.tgz#5eeedc71f22ebc7b18b957d1ab171acf29a41e64"
@@ -8845,25 +8836,7 @@ vue@^2.6.14:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
 
-<<<<<<< HEAD
-vuetify-loader@^1.7.0:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.7.2.tgz#5cdc45309496cf3a5fe431fd7611706ffa4aa8c8"
-  integrity sha512-2GSo4KvRAOThBsj8mvtIEeIoyBAZx38GDfh8D90e/or7Hzx4813krJKvcQAllyLO/Ln0eQWrq2IuvBXnZ55cSA==
-  dependencies:
-    decache "^4.6.0"
-    file-loader "^6.2.0"
-    loader-utils "^2.0.0"
-
-vuetify@^2.4.0:
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.5.7.tgz#0c7cfa143bffa6a14ef3ca5cfd8f2135713f4360"
-  integrity sha512-3Hn7X6FFtQetc6qy8GcMDKbZRKbiBMDBsYuUjDS4EdpDvHBDTMySpzBWqBNuPjPHRaT3XSrQfoYN84vGDg87Ug==
-
-vuex@^3.4.0:
-=======
 vuex@^3.6.2:
->>>>>>> feature/tmp/fe
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
   integrity sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==
