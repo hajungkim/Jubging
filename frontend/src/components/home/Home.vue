@@ -11,8 +11,21 @@
       </div>
     </div>
     <div class="photo_list">
-      <PhotoList/>
-      <FollowList/>
+      <div class="photo-grid">
+        <div class="today-jubging"></div>
+        <PhotoList
+          v-for="article in photos"
+          :key="article.id"
+          :article="article"
+          v-show="false"
+        />
+      </div>
+      <FollowList
+        v-for="article in photos"
+        :key="article.id"
+        :article="article"
+        v-show="true"
+      />
     </div>
   </div>
 </template>
@@ -21,6 +34,9 @@
 import PhotoList from '@/components/home/PhotoList.vue'
 import Search from '@/components/home/Search.vue'
 import FollowList from '@/components/home/FollowList.vue'
+
+import { mapState } from 'vuex'
+
 export default {
   components:{
     PhotoList,
@@ -37,6 +53,11 @@ export default {
       console.log(this.toggle)
       this.toggle = !this.toggle
     }
+  },
+  computed:{
+    ...mapState([
+      'photos'
+    ])
   }
 }
 </script>
@@ -114,5 +135,14 @@ input:checked +.slider:before{
 }
 .slider.round:before{
   border-radius: 50%;
+}
+.today-jubging {
+  width: 185px;
+  height: 90px;
+}
+.photo-grid {
+  column-count: 2;
+  column-gap: 0px;
+  margin-left: 14px;
 }
 </style>
