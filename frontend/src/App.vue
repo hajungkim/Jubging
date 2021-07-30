@@ -5,15 +5,17 @@
 </template>
 
 <script>
-import "@/assets/css/normalize.css";
 export default {
   name: "app"
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "@/assets/css/normalize.scss";
+@import "@/assets/css/common.scss";
+
 body {
-  background-color: gray;
+  background-color: grey;
 }
 
 /* 작을 때 */
