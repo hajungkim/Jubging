@@ -21,14 +21,7 @@ export default {
 @media (min-width: 412px) {
   .screen {
     width: 412px;
-    background-color: white;
-    margin : 0 auto;
-  }
-}
-@media (min-width: 781px) {
-  .screen {
-    height: 781px;
-    background-color: white;
+    background-color: #5FA6A5;
     margin : 0 auto;
   }
 }
