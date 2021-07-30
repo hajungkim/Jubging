@@ -42,7 +42,7 @@ public class LikeLogService {
     @Transactional
     public void updateLikecnt(boolean like, int cnt, Long articleId) {
 
-        Optional<Article> article = articleRepository.findByArticleId(Math.toIntExact(articleId));
+        Optional<Article> article = articleRepository.findByArticleId(articleId);
 
         article.ifPresent(article1 -> {
             int count = article1.getLikeCnt();

@@ -29,7 +29,7 @@ public class CommentService {
     }
 
     @Transactional
-    public int countByArticleId(long article_id) {
+    public int countByArticleId(Long article_id) {
         return Math.toIntExact(commentRepository.countByArticleId(article_id));
     }
 

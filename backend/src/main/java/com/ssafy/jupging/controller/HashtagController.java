@@ -24,84 +24,31 @@ public class HashtagController {
     private final HashtagService hashtagService;
     private final ArticleService articleService;
 
-    /**
-     * 해시태그 등록
-     * @param requestDto - Content, article_id
-     * @return
-     */
-    @PostMapping("/test")
-    public ControllerResponse saveHashtag(@RequestBody HashtagSaveRequestDto requestDto){
-        ControllerResponse response = null;
+    public void makeHashtag(String content, Long article_id){
+        Pattern pattern = Pattern.compile("\\#[0-9a-zA-Z가-힣]*");
+        Matcher matcher = pattern.matcher(content);
 
-        String content = requestDto.getContent();
-        Long article_id = requestDto.getArticleId();
-
-        try {
-            Pattern pattern = Pattern.compile("\\#[0-9a-zA-Z가-힣]*");
-            Matcher matcher = pattern.matcher(content);
-
-            //해쉬태그 추출 -> 저장
-            while(matcher.find()) {
-                String tag = matcher.group().replace("#", "");
-                System.out.println(tag);
-                Hashtag hashtag = Hashtag.saveHashtag(tag, article_id);
-                hashtagService.saveHashtag(hashtag);
-            }
-
-            response = new ControllerResponse("success", "해시태그 등록 성공");
-        } catch (Exception e){
-            response = new ControllerResponse("fail", e.getMessage());
+        //해쉬태그 추출 -> 저장
+        while(matcher.find()) {
+            String tag = matcher.group().replace("#", "");
+            //System.out.println(tag);
+            Hashtag hashtag = Hashtag.saveHashtag(tag, article_id);
+            hashtagService.saveHashtag(hashtag);
         }
-
-        return response;
     }
 
-    /**
-     * 해시태그 수정 (게시글 수정하면 다시 등록)
-     * @param requestDto
-     * @return
-     */
-    @PutMapping("/test2")
-    public ControllerResponse updateHashtag(@RequestBody HashtagSaveRequestDto requestDto){
-        ControllerResponse response = null;
+    public void saveHashtag(String content, Long article_id){
+        makeHashtag(content, article_id);
+    }
 
-        String content = requestDto.getContent();
-        Long article_id = requestDto.getArticleId();
 
+    public void updateHashtag(String content, Long article_id){
+        hashtagService.deleteHashtag(article_id); //기존 해시태그 삭제
+        makeHashtag(content, article_id); //해시태그 추출->저장
+    }
+
+    public void deleteHashtag(Long article_id){
         hashtagService.deleteHashtag(article_id);
-
-        try {
-            Pattern pattern = Pattern.compile("\\#[0-9a-zA-Z가-힣]*");
-            Matcher matcher = pattern.matcher(content);
-
-            //해쉬태그 추출 -> 저장
-            while(matcher.find()) {
-                String tag = matcher.group().replace("#", "");
-                System.out.println(tag);
-                Hashtag hashtag = Hashtag.saveHashtag(tag, article_id);
-                hashtagService.saveHashtag(hashtag);
-            }
-
-            response = new ControllerResponse("success", "해시태그 수정 성공");
-        } catch (Exception e){
-            response = new ControllerResponse("fail", e.getMessage());
-        }
-
-        return response;
-    }
-
-    @PutMapping("/test3/{article_id}")
-    public ControllerResponse deleteHashtag(@PathVariable Long article_id){
-        ControllerResponse response = null;
-
-        try {
-            hashtagService.deleteHashtag(article_id);
-            response = new ControllerResponse("success", "해시태그 삭제 성공");
-        } catch (Exception e){
-            response = new ControllerResponse("fail", e.getMessage());
-        }
-
-        return response;
     }
 
     @GetMapping("/hashlist/{hashtag}")
@@ -130,7 +77,7 @@ public class HashtagController {
             List<ArticleResponseDto> list = new ArrayList<>();
 
             for(Hashtag hash : hashtagList){
-                Article article = articleService.findByArticleId(Math.toIntExact(hash.getArticleId()));
+                Article article = articleService.findByArticleId(hash.getArticleId());
                 list.add(new ArticleResponseDto(article));
             }
             response = new ControllerResponse("success", list);
