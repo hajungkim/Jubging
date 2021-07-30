@@ -8,16 +8,10 @@ import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
 import Setting from '@/components/my/Setting.vue'
-import Jubging from '@/components/jubging/Jubging.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
-
 import Login from '@/views/user/Login.vue'
-
 import SignUp from '@/views/user/SignUp.vue'
-
-import Mission from '@/components/mission/Mission.vue'
-import Ranking from '@/components/ranking/Ranking.vue'
 
 Vue.use(VueRouter)
 
@@ -63,9 +57,6 @@ const routes = [
     path:'/setting',
     name:'Setting',
     component:Setting,
-    path: '/jubging',
-    name: 'Jubging',
-    component: Jubging,
   },
   {
     path: '/jubging/register',
