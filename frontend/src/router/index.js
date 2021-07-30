@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import SignUp from '@/views/user/SignUp.vue'
 
+import Mission from '@/components/mission/Mission.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -11,6 +12,11 @@ const routes = [
     name: 'SignUp',
     component: SignUp
   },
+  {
+    path: '/mission',
+    name: 'mission',
+    component: Mission,
+  }
 ]
 
 const router = new VueRouter({
