@@ -38,11 +38,4 @@ body {
     margin : 0 auto;
   }
 }
-@media (min-height: 781px) {
-  .screen {
-    height: 781px;
-    background-color: greenyellow;
-    margin : 0 auto;
-  }
-}
 </style>
