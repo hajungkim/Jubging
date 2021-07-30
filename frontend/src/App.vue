@@ -14,14 +14,21 @@ export default {
 <style>
 /* 작을 때 */
 .screen {
-  background-color: greenyellow;
+  background-color: white;
 }
 
 /* 가로412 세로781 & 폰기종 s10 */
 @media (min-width: 412px) {
   .screen {
     width: 412px;
-    background-color: greenyellow;
+    background-color: white;
+    margin : 0 auto;
+  }
+}
+@media (min-width: 781px) {
+  .screen {
+    height: 781px;
+    background-color: white;
     margin : 0 auto;
   }
 }
