@@ -78,16 +78,6 @@ const routes = [
     name: 'SignUp',
     component: SignUp
   },
-  {
-    path: '/mission',
-    name: 'mission',
-    component: Mission,
-  },
-  {
-    path: '/ranking',
-    name: 'Ranking',
-    component: Ranking,
-  }
 ]
 
 const router = new VueRouter({
