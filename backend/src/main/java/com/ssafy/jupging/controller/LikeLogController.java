@@ -41,7 +41,7 @@ public class LikeLogController {
             likeLogService.saveLikeLog(likeLog);
 
             //좋아요 cnt 값 반영
-            Article article = articleService.findByArticleId(Math.toIntExact(requestDto.getArticleId()));
+            Article article = articleService.findByArticleId(requestDto.getArticleId());
             int cnt = article.getLikeCnt();
             likeLogService.updateLikecnt(true, cnt, requestDto.getArticleId());
 
@@ -67,7 +67,7 @@ public class LikeLogController {
             likeLogService.deleteLikeLog(requestDto.getUserId(), requestDto.getArticleId());
 
             //좋아요 cnt 값 반영
-            Article article = articleService.findByArticleId(Math.toIntExact(requestDto.getArticleId()));
+            Article article = articleService.findByArticleId(requestDto.getArticleId());
             int cnt = article.getLikeCnt();
             likeLogService.updateLikecnt(false, cnt, requestDto.getArticleId());
 
@@ -92,7 +92,7 @@ public class LikeLogController {
             List<LikeLog> likeLogList = likeLogService.findLikeLog(user_id);
             List<LikeLogResponseDto> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
-                Article article = articleService.findByArticleId(Math.toIntExact(likeLog.getArticleId()));
+                Article article = articleService.findByArticleId(likeLog.getArticleId());
                 list.add(new LikeLogResponseDto(likeLog, article));
             }
 
