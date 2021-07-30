@@ -5,30 +5,34 @@
 </template>
 
 <script>
-import "./assets/css/normalize.css";
+import "@/assets/css/normalize.css";
 export default {
   name: "app"
 };
 </script>
 
 <style>
+body {
+  background-color: gray;
+}
+
 /* 작을 때 */
 .screen {
-  background-color: red;
+  background-color: white;
 }
 
 /* 가로412 세로781 & 폰기종 s10 */
 @media (min-width: 412px) {
   .screen {
     width: 412px;
-    background-color: #5FA6A5;
+    background-color: white;
     margin : 0 auto;
   }
 }
 @media (min-width: 781px) {
   .screen {
     height: 781px;
-    background-color: #5FA6A5;
+    background-color: white;
     margin : 0 auto;
   }
 }
