@@ -3,6 +3,7 @@
     <div class="main_top">
       <img src="@/assets/textlogo.png" alt="logo" class="text_logo">
       <Search/>
+      <font-awesome-icon :icon="['far','bell']" class="fa-2x" style="margin: 3px 0px 0px 13px;"/>
       <div class="follow_div">
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
@@ -11,21 +12,23 @@
       </div>
     </div>
     <div class="photo_list">
-      <div class="photo-grid">
-        <div class="today-jubging"></div>
+      <div class="photo-grid" v-show="this.toggle">
+        <div class="today-jubging" v-show="this.toggle"></div>
         <PhotoList
           v-for="article in photos"
           :key="article.id"
           :article="article"
-          v-show="false"
+          v-show="toggle"
         />
       </div>
-      <FollowList
-        v-for="article in photos"
-        :key="article.id"
-        :article="article"
-        v-show="true"
-      />
+      <div class="follow_photo_container" v-show="!this.toggle">
+        <FollowList
+          v-for="article in photos"
+          :key="article.id"
+          :article="article"
+          v-show="!toggle"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -50,7 +53,6 @@ export default {
   },
   methods:{
     followToggle(){
-      console.log(this.toggle)
       this.toggle = !this.toggle
     }
   },
@@ -67,16 +69,26 @@ export default {
   display: flex;
   height: 50px;
   align-items: center;
+  margin-bottom:10px;
 }
 .text_logo{
   width:100px;
-  margin: 10px 20px 0px 15px;
-  transform: scale(1.1);
+  margin: 10px 10px 0px 16px;
+  /* transform: scale(1.1); */
 }
 .photo_list{
   overflow: auto;
   height: 660px;
 }
+  .follow_photo_container{
+    display: flex;
+    flex-direction: column;
+  }
+/* 스크롤바 제거 */
+.photo_list::-webkit-scrollbar{
+  display: none;
+}
+
 /* 팔로우 토글 */
 .follow_div{
   display: flex;
