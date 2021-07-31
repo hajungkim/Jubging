@@ -34,10 +34,6 @@ public class Comment {
     @Column(length = 500 , nullable = false)
     private String commentContent;
 
-    //@ManyToOne
-    //@JoinColumn(name = "userId", insertable = false, updatable = false)
-    //private User user;
-
     public static Comment saveComment(CommentSaveRequestDto request) {
         Comment comment = new Comment();
         comment.articleId=request.getArticleId();
