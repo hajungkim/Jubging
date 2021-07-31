@@ -12,7 +12,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     Optional<Article> findByArticleId(Long article_id);
 
-    List<Article> findByUserId(Long user_id);
+    List<Article> findByUserIdOrderByCreatedDate(Long user_id);
 
-    List<Article> findTop10ByOrderByCreatedDateDesc();
+    List<Article> findByOrderByCreatedDateDesc();
 }
