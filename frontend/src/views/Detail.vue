@@ -1,7 +1,7 @@
 <template>
   <div style="height:781px">
     <div class="top">
-      <router-link :to="{name:'Home'}" >
+      <router-link :to="{name:'Home'}" class="default-link">
         <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
       </router-link>
       <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
@@ -37,7 +37,7 @@
         </div>
     </div>
     <vue-bottom-sheet ref="myBottomSheet" max-height="600px" max-width="412px" >
-      <ul>
+      <ul style="padding:0px;">
         <li class="comment_container">
           <img class="comment_profile" src="@/assets/sample.png">
           <div>
@@ -45,6 +45,13 @@
             <div class="comment_contents">조깅을 하면서 쓰레기를 줍는 운동.ddasdadddasdasdasdddasasdasddassadasdasdadsddasdas</div>
           </div>
         </li>
+        <!-- <li class="comment_container">
+          <img class="comment_profile" src="@/assets/sample.png">
+          <div>
+            <span style="font-weight:bold;">user_name</span>
+            <div class="comment_contents">조깅을 하면서 쓰레기를 줍는 운동.ddasdadddasdasdasdddasasdasddassadasdasdadsddasdas</div>
+          </div>
+        </li> -->
       </ul>
       <div class="input_container">
         <input type="text" class="comment_input" placeholder="댓글을 입력하세요.">
@@ -158,7 +165,7 @@ export default {
 /* 댓글 바텀시트 */
 .comment_container{
   display: flex;
-  margin:0px 20px 10px 20px;
+  margin:0px 10px 10px 10px;
 }
 .input_container{
   display: flex;
@@ -177,15 +184,19 @@ export default {
   margin : 7px 0px 0px 10px;
 }
 .comment_profile{
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  margin:5px 10px 0px 0px;
+  margin:5px 5px 0px 0px;
 }
 .comment_contents{
-  width: 300px;
+  width: 330px;
   font-size:15px;
   word-break:break-all;
+}
+.default-link{
+  color:black;
+  text-decoration:none;
 }
 </style>

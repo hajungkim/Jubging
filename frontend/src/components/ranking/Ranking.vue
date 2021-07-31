@@ -64,7 +64,7 @@ export default {
 
 .rank-screen {
 	overflow: auto;
-  height: 650px;
+    height: 650px;
 	margin: 30px 16px;
 }
 
