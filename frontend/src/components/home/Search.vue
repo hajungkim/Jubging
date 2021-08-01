@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div class="search_div">
-      <input type="text" placeholder="검색" class="search_input">
-      <button class="search_button"><font-awesome-icon icon="search"/></button>
-    </div>
+    
   </div>
 </template>
 
@@ -14,11 +11,5 @@ export default {
 </script>
 
 <style scoped>
-.search_button{
-  margin: 7px 0px 0px -20px;
-}
-.search_input{
-  border:1px solid;
-  width: 160px;
-}
+
 </style>
