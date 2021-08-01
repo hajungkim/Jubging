@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faSearch, faTrophy, faShoePrints, faHome, faUser, faMedal, faAngleLeft} from '@fortawesome/free-solid-svg-icons'
 import { faHeart as fasHeart, faRunning, faSignOutAlt, faComment, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart , faCommentDots } from '@fortawesome/free-regular-svg-icons'
-import { faBell } from '@fortawesome/free-regular-svg-icons'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faSearch, faTrophy, faShoePrints, faHome, faUser, faMedal)
 library.add(fasHeart, faRunning, faSignOutAlt, faAngleLeft)
