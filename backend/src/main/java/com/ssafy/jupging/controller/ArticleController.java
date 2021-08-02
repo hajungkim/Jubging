@@ -4,11 +4,16 @@ import com.ssafy.jupging.domain.entity.Article;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.ArticleSaveRequestDto;
 import com.ssafy.jupging.dto.ArticleUpdateRequestDto;
+import com.ssafy.jupging.dto.FollowResponseDto;
 import com.ssafy.jupging.service.ArticleService;
+import com.ssafy.jupging.service.MissionService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -25,6 +30,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final HashtagController hashtagController;
     private final CommentController commentController;
+    private final MissionService missionService;
 
     /**
      * 게시글 등록
@@ -42,6 +48,9 @@ public class ArticleController {
 
             //해시태그 저장
             hashtagController.saveHashtag(savedArticle.getContent(), savedArticle.getArticleId());
+
+            //게시글미션 카운트+1
+            missionService.updateArticleMission(requestDto.getUserId(), true);
 
             response = new ControllerResponse("success", article);
         } catch (Exception e) {
@@ -98,7 +107,7 @@ public class ArticleController {
 
     @ApiOperation(value = "게시글 삭제", notes = "성공 시 '게시글 삭제 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @DeleteMapping("/{article_id}")
-    public ControllerResponse deleteArticle(@PathVariable Long article_id){
+    public ControllerResponse deleteArticle(@PathVariable Long article_id, @RequestParam Long userId){
         ControllerResponse response = null;
         try {
             //해시태그 삭제
@@ -106,6 +115,9 @@ public class ArticleController {
 
             //게시글 삭제
             articleService.deleteArticle(article_id);
+
+            //게시글 미션 카운트-1
+            missionService.updateArticleMission(userId, false);
 
             response = new ControllerResponse("success", "게시글 삭제 성공");
         }  catch (Exception e) {
@@ -120,16 +132,12 @@ public class ArticleController {
      * @param user_id
      * @return
      */
-    @ApiOperation(value = "미완성", notes = "", response = ControllerResponse.class)
+    @ApiOperation(value = "유저가 쓴 게시글 찾기", notes = "성공시 게시글 리스트 반환 / 실패시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/list/{user_id}")
     public ControllerResponse findUserArtice(@PathVariable Long user_id){
         ControllerResponse response = null;
 
         try{
-            /*
-            User 정보를 받아서 먼저 유저를 찾고, 그 유저의 게시글을 찾는 방식으로 바꿔야 함(User 파트 받은 이후에 할 것)
-            임시로  user_id 값으로 게시글 리스트 반환하는 것으로 해놓음
-             */
             List<Article> articleList = articleService.findByUserId(user_id);
             List<ArticleResponseDto> responselist = articleList.stream().map(ArticleResponseDto :: new).collect(Collectors.toList());
 
@@ -154,7 +162,7 @@ public class ArticleController {
         ControllerResponse response = null;
 
         try {
-            List<Article> articleList = articleService.findTop10ByOrderByCreatedDateDesc();
+            List<Article> articleList = articleService.findByOrderByCreatedDateDesc();
             List<ArticleResponseDto> responselist = articleList.stream().map(ArticleResponseDto :: new).collect(Collectors.toList());
 
             response = new ControllerResponse("success", responselist);

@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ArticleSaveRequestDto {
     private String content;
-    private Long user_id;
+    private Long userId;
 }
