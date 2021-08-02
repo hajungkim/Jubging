@@ -49,13 +49,12 @@ public class ArticleService {
 
     @Transactional
     public List<Article> findByUserId(Long user_id) {
-
-        return articleRepository.findByUserId(user_id);
+        return articleRepository.findByUserIdOrderByCreatedDate(user_id);
     }
 
     @Transactional
-    public List<Article> findTop10ByOrderByCreatedDateDesc() {
-        return articleRepository.findTop10ByOrderByCreatedDateDesc();
+    public List<Article> findByOrderByCreatedDateDesc() {
+        return articleRepository.findByOrderByCreatedDateDesc();
     }
 }
 

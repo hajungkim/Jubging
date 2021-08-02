@@ -1,21 +1,17 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Comment;
-import com.ssafy.jupging.domain.repository.CommentRepository;
-import com.ssafy.jupging.dto.CommentMapping;
 import com.ssafy.jupging.dto.CommentResponseDto;
 import com.ssafy.jupging.dto.CommentSaveRequestDto;
 import com.ssafy.jupging.service.CommentService;
 import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor

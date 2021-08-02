@@ -19,14 +19,6 @@ public class CommentResponseDto {
     private Long commentId;
     private String commentContent;
 
-    public CommentResponseDto(CommentMapping commentMapping){
-        this.profilePath=commentMapping.getUserProfilePath();
-        this.userId=commentMapping.getUserId();
-        this.nickname=commentMapping.getUserNickname();
-        this.commentId=commentMapping.getCommentId();
-        this.commentContent=commentMapping.getCommentContent();
-    }
-
     public CommentResponseDto(Comment comment, User user){
         this.profilePath=user.getProfilePath();
         this.userId=user.getUserId();
