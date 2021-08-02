@@ -20,8 +20,8 @@ public class HashtagService {
     }
 
     @Transactional
-    public void deleteHashtag(Long article_id) {
-        hashtagRepository.deleteAllByArticleId(article_id);
+    public void deleteHashtag(Long articleId) {
+        hashtagRepository.deleteAllByArticleId(articleId);
     }
 
     @Transactional
