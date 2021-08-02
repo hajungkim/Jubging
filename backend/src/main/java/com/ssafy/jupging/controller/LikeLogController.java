@@ -7,6 +7,7 @@ import com.ssafy.jupging.dto.LikeLogRequestDto;
 import com.ssafy.jupging.dto.LikeLogResponseDto;
 import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.LikeLogService;
+import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class LikeLogController {
     private final LikeLogService likeLogService;
     private final ArticleService articleService;
     private final UserService userService;
+    private final MissionService missionService;
 
     /**
      * 좋아요 등록, save
@@ -44,6 +46,9 @@ public class LikeLogController {
             Article article = articleService.findByArticleId(requestDto.getArticleId());
             int cnt = article.getLikeCnt();
             likeLogService.updateLikecnt(true, cnt, requestDto.getArticleId());
+
+            //좋아요 미션 카운트+1
+            missionService.updateLikeMission(requestDto.getUserId(), true);
 
             response = new ControllerResponse("success", "좋아요 등록 성공");
         }catch (Exception e){
@@ -70,6 +75,9 @@ public class LikeLogController {
             Article article = articleService.findByArticleId(requestDto.getArticleId());
             int cnt = article.getLikeCnt();
             likeLogService.updateLikecnt(false, cnt, requestDto.getArticleId());
+
+            //좋아요 미션 카운트+1
+            missionService.updateLikeMission(requestDto.getUserId(), false);
 
             response = new ControllerResponse("success", "좋아요 취소 성공");
         }catch (Exception e){

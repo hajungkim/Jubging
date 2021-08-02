@@ -6,6 +6,7 @@ import com.ssafy.jupging.dto.CommentMapping;
 import com.ssafy.jupging.dto.CommentResponseDto;
 import com.ssafy.jupging.dto.CommentSaveRequestDto;
 import com.ssafy.jupging.service.CommentService;
+import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final UserService userService;
+    private final MissionService missionService;
 
     @ApiOperation(value = "댓글 등록", notes = "성공 시 '댓글 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
@@ -33,6 +35,10 @@ public class CommentController {
         try{
             Comment comment = Comment.saveComment(commentSaveRequestDto);
             commentService.saveComment(comment);
+
+            //댓글 미션 +1
+            missionService.updateCommentMission(commentSaveRequestDto.getUserId(), true);
+
             response = new ControllerResponse("success", "댓글 등록 성공");
         }catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());
@@ -43,11 +49,15 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 삭제", notes = "성공 시 '댓글 삭제 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @DeleteMapping("/{comment_id}")
-    public ControllerResponse deleteComment(@PathVariable long comment_id){
+    public ControllerResponse deleteComment(@PathVariable long comment_id, @RequestParam Long userId){
         ControllerResponse response = null;
 
         try{
             commentService.deleteComment(comment_id);
+
+            //댓글 미션 +1
+            missionService.updateCommentMission(userId, false);
+
             response = new ControllerResponse("success", "댓글 삭제 성공");
         }catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());

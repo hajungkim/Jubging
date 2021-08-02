@@ -5,6 +5,7 @@ import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.FollowResponseDto;
 import com.ssafy.jupging.dto.FollowerResponseDto;
 import com.ssafy.jupging.service.FollowService;
+import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class FollowController {
 
     private final FollowService followService;
     private final UserService userService;
+    private final MissionService missionService;
 
     @ApiOperation(value = "팔로우 등록", notes = "팔로우 등록 성공 시 '팔로우 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
@@ -30,6 +32,9 @@ public class FollowController {
             Follow follow = new Follow();
             follow = follow.saveFollow(userId, followUserId);
             followService.saveFollow(follow);
+
+            //팔로우미션+1
+            missionService.updateFollowMission(userId, true);
 
             response = new ControllerResponse("success", "팔로우 등록 성공");
         } catch (Exception e) {
@@ -96,6 +101,9 @@ public class FollowController {
         ControllerResponse response = null;
         try {
             followService.deleteByUserIdAndFollowUserId(userId, followUserId);
+
+            //팔로우 미션-1
+            missionService.updateFollowMission(userId, false);
 
             response = new ControllerResponse("success", "팔로우 삭제 성공");
         } catch (Exception e) {
