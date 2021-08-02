@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -74,6 +75,18 @@ public class UserService {
         user.updateUser(requestDto);
     }
 
+    @Transactional
+    public void updateFollowing(Long userId, boolean isFollowing) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
+        user.updateFollowing(isFollowing);
+    }
+
+    @Transactional
+    public void updateFollower(Long followUserId, boolean isFollower) {
+        User user = userRepository.findById(followUserId).orElseThrow(() -> new IllegalArgumentException("유저 정보가 없습니다."));
+        user.updateFollower(isFollower);
+    }
+
     /*
     회원탈퇴
      */
@@ -83,6 +96,10 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-
+    @Transactional
+    public List<User> searchUser(String keyword) {
+        List<User> searchList = userRepository.findByNicknameContaining(keyword);
+        return searchList;
+    }
 
 }
