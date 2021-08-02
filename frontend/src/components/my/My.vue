@@ -209,7 +209,6 @@ export default {
   display: flex;
   margin-left:40px;
   align-items: center;
-  /* border: 1px solid; */
   height: 60px;
 }
 .likelog{

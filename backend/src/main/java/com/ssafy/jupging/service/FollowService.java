@@ -2,6 +2,7 @@ package com.ssafy.jupging.service;
 
 import com.ssafy.jupging.domain.entity.Follow;
 import com.ssafy.jupging.domain.repository.FollowRepository;
+import com.ssafy.jupging.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

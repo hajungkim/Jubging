@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	ignorecase = true
+[remote "origin"]
+	url = https://lab.ssafy.com/s05-webmobile2-sub2/S05P12B207.git
+	fetch = +refs/*:refs/*
+	mirror = true

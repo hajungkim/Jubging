@@ -20,13 +20,13 @@ public class HashtagService {
     }
 
     @Transactional
-    public void deleteHashtag(Long article_id) {
-        hashtagRepository.deleteAllByArticleId(article_id);
+    public void deleteHashtag(Long articleId) {
+        hashtagRepository.deleteAllByArticleId(articleId);
     }
 
     @Transactional
     public List<Hashtag> findAllHashtag(String hashtag) {
-        return hashtagRepository.findAllByContentContains(hashtag);
+        return hashtagRepository.findHashtagDistinctByContentContains(hashtag);
     }
 
     @Transactional
