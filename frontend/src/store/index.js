@@ -59,17 +59,20 @@ export default new Vuex.Store({
       // },
     ],
     Token: localStorage.getItem('token') || '',
+    userId: null,
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
-    
-    UPDATE_TOKEN(state, Token) {
-      state.Token = Token
+
+    UPDATE_TOKEN(state, data) {
+      state.Token = data.token
+      state.userId = data.userId
     },
     DELETE_TOKEN(state) {
       state.Token = ''
+      state.userId = null
     }
   },
   actions: {
@@ -80,7 +83,7 @@ export default new Vuex.Store({
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
-        localStorage.setItem('token', res.data.data)
+        localStorage.setItem('token', res.data.data.token)
         context.commit('UPDATE_TOKEN', res.data.data)
       })
     },
@@ -94,8 +97,8 @@ export default new Vuex.Store({
        })
     },
     logout(context) {
-      context.commit('DELETE_TOKEN')
       localStorage.removeItem('token')
+      context.commit('DELETE_TOKEN')
     }
   },
   modules: {
