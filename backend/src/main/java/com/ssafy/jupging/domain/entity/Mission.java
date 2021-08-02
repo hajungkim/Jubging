@@ -31,7 +31,6 @@ public class Mission {
 
     private int likeCnt;
     private int followCnt;
-    private int followerCnt;
     private int commentCnt;
     private int articleCnt;
     private int jubgingCnt;
@@ -60,5 +59,46 @@ public class Mission {
         this.jubgingCnt++;
         this.totalDistance += Double.parseDouble(requestDto.getTotalDistance());
     }
+
+    public void updateFollowMission(boolean isFollow) {
+        if (isFollow) {
+            this.followCnt++;
+        } else {
+            if (this.followCnt != 0) {
+                this.followCnt--;
+            }
+        }
+    }
+
+    public void updateArticleMission(boolean isArticle) {
+        if (isArticle) {
+            this.articleCnt++;
+        } else {
+            if (this.articleCnt != 0) {
+                this.articleCnt--;
+            }
+        }
+    }
+
+    public void updateLikeMission(boolean isLike) {
+        if (isLike) {
+            this.likeCnt++;
+        } else {
+            if (this.likeCnt != 0) {
+                this.likeCnt--;
+            }
+        }
+    }
+
+    public void updateCommentMission(boolean isComment) {
+        if (isComment) {
+            this.commentCnt++;
+        } else {
+            if (this.commentCnt != 0) {
+                this.commentCnt--;
+            }
+        }
+    }
+
 
 }

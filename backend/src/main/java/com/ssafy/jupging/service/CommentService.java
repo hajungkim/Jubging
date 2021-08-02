@@ -2,8 +2,6 @@ package com.ssafy.jupging.service;
 
 import com.ssafy.jupging.domain.entity.Comment;
 import com.ssafy.jupging.domain.repository.CommentRepository;
-import com.ssafy.jupging.dto.CommentMapping;
-import com.ssafy.jupging.dto.CommentSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class CommentService {
 
     @Transactional
     public int countByArticleId(Long article_id) {
-        return Math.toIntExact(commentRepository.countByArticleId(article_id));
+        return commentRepository.countByArticleId(article_id);
     }
 
 
