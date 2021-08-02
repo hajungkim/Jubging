@@ -5,6 +5,7 @@ import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.ArticleSaveRequestDto;
 import com.ssafy.jupging.dto.ArticleUpdateRequestDto;
 import com.ssafy.jupging.service.ArticleService;
+import com.ssafy.jupging.service.MissionService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final HashtagController hashtagController;
     private final CommentController commentController;
+    private final MissionService missionService;
 
     /**
      * 게시글 등록
@@ -42,6 +44,9 @@ public class ArticleController {
 
             //해시태그 저장
             hashtagController.saveHashtag(savedArticle.getContent(), savedArticle.getArticleId());
+
+            //게시글미션 카운트+1
+            missionService.updateArticleMission(requestDto.getUserId(), true);
 
             response = new ControllerResponse("success", article);
         } catch (Exception e) {
@@ -98,7 +103,7 @@ public class ArticleController {
 
     @ApiOperation(value = "게시글 삭제", notes = "성공 시 '게시글 삭제 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @DeleteMapping("/{article_id}")
-    public ControllerResponse deleteArticle(@PathVariable Long article_id){
+    public ControllerResponse deleteArticle(@PathVariable Long article_id, @RequestParam Long userId){
         ControllerResponse response = null;
         try {
             //해시태그 삭제
@@ -106,6 +111,9 @@ public class ArticleController {
 
             //게시글 삭제
             articleService.deleteArticle(article_id);
+
+            //게시글 미션 카운트-1
+            missionService.updateArticleMission(userId, false);
 
             response = new ControllerResponse("success", "게시글 삭제 성공");
         }  catch (Exception e) {
