@@ -6,6 +6,8 @@ import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.HashtagSaveRequestDto;
 import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.HashtagService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,9 @@ public class HashtagController {
     private final HashtagService hashtagService;
     private final ArticleService articleService;
 
+    /**
+     * 해시태그 추출하고 디비에 저장하는 함수
+     */
     public void makeHashtag(String content, Long article_id){
         Pattern pattern = Pattern.compile("\\#[0-9a-zA-Z가-힣]*");
         Matcher matcher = pattern.matcher(content);
@@ -31,26 +36,31 @@ public class HashtagController {
         //해쉬태그 추출 -> 저장
         while(matcher.find()) {
             String tag = matcher.group().replace("#", "");
-            //System.out.println(tag);
             Hashtag hashtag = Hashtag.saveHashtag(tag, article_id);
             hashtagService.saveHashtag(hashtag);
         }
     }
 
+    //해시태그 저장 (게시글 저장할 때 호출됨)
     public void saveHashtag(String content, Long article_id){
         makeHashtag(content, article_id);
     }
 
-
+    //해시태그 수정 (게시글 수정할 때, 호출됨 / 삭제하고 다시 저장)
     public void updateHashtag(String content, Long article_id){
         hashtagService.deleteHashtag(article_id); //기존 해시태그 삭제
         makeHashtag(content, article_id); //해시태그 추출->저장
     }
 
+    //해시태그 삭제 (게시글 삭제할 때, 호출됨)
     public void deleteHashtag(Long article_id){
         hashtagService.deleteHashtag(article_id);
     }
 
+    /**
+     * 해시태그 리스트 반환
+     */
+    @ApiOperation(value = "해시태그 검색" ,notes = "성공 시 검색된 모든 해시태그를 리스트로 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/hashlist/{hashtag}")
     public ControllerResponse findHashtag(@PathVariable String hashtag){
         ControllerResponse response = null;
@@ -68,6 +78,10 @@ public class HashtagController {
         return response;
     }
 
+    /**
+     * 검색된 해시태그를 포함한 게시글을 찾음
+     */
+    @ApiOperation(value = "해시태그가 포함된 게시글 찾기", notes = "성공 시 해시태그가 포함된 모든 게시글을 리스트로 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/articlelist/{hashtag}")
     public ControllerResponse findArticleListByHashtag(@PathVariable String hashtag){
         ControllerResponse response = null;
