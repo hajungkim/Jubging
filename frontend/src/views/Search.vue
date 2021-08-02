@@ -92,6 +92,7 @@
 
 <script>
 // import * as Hangul from 'hangul-js';
+import axios from 'axios'
 export default {
   name:"Search",
   data: ()=>{
@@ -146,21 +147,21 @@ export default {
         localStorage.setItem(key,this.keyword)
       }
       // const token=localStorage.getItem('jwt')
-      // const URL = 'http://127.0.0.1:8000/search_auto/'
-      // const params={
-      //   method:'get',
-      //   url:URL,
-      //   headers:{
-      //     Authorization:`JWT ${token}`
-      //   },
-      // }
-      // axios(params)
-      //   .then((res)=>{
-      //       console.log(res)
-      //   })
-      //   .catch((e)=>{
-      //     console.error(err);
-      //   })
+      const URL = `http://localhost:8080/user/search/${this.keyword}`
+      const params={
+        method:'get',
+        url:URL,
+        headers:{
+          // Authorization:`JWT ${token}`
+        },
+      }
+      axios(params)
+        .then((res)=>{
+            console.log(res)
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
     },
     onDeleteItem(e){
       const key=e.target.dataset.key;
