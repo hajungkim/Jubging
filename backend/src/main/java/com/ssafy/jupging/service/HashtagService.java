@@ -26,7 +26,7 @@ public class HashtagService {
 
     @Transactional
     public List<Hashtag> findAllHashtag(String hashtag) {
-        return hashtagRepository.findAllByContentContains(hashtag);
+        return hashtagRepository.findHashtagDistinctByContentContains(hashtag);
     }
 
     @Transactional
