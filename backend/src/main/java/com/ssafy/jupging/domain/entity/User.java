@@ -32,6 +32,10 @@ public class User {
 
     private int articleCount;
 
+    private int follower;
+
+    private int following;
+
     private LocalDateTime createdDate;
 
     public User saveUser(UserSaveRequestDto requestDto) {
@@ -46,5 +50,21 @@ public class User {
     public void updateUser(UserUpdateRequestDto requestDto) {
         this.password = requestDto.getPassword();
         this.nickname = requestDto.getPassword();
+    }
+
+    public void updateFollower(boolean isFollower) {
+        if (isFollower) {
+            this.follower++;
+        } else {
+            this.follower--;
+        }
+    }
+
+    public void updateFollowing(boolean isFollowing) {
+        if (isFollowing) {
+            this.following++;
+        } else {
+            this.following--;
+        }
     }
 }
