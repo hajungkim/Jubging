@@ -21,18 +21,18 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(long comment_id) {
-        Optional<Comment> comment = commentRepository.findByCommentId(comment_id);
+    public void deleteComment(long commentId) {
+        Optional<Comment> comment = commentRepository.findByCommentId(commentId);
         commentRepository.delete(comment.get());
     }
 
     @Transactional
-    public int countByArticleId(Long article_id) {
-        return commentRepository.countByArticleId(article_id);
+    public int countByArticleId(Long articleId) {
+        return commentRepository.countByArticleId(articleId);
     }
 
 
-    public List<Comment> findAllComment(long article_id) {
-        return commentRepository.findAllByArticleId(article_id);
+    public List<Comment> findAllComment(long articleId) {
+        return commentRepository.findAllByArticleId(articleId);
     }
 }
