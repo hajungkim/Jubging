@@ -106,15 +106,15 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "게시글 삭제", notes = "성공 시 '게시글 삭제 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @DeleteMapping("/{article_id}")
-    public ControllerResponse deleteArticle(@PathVariable Long article_id, @RequestParam Long userId){
+    @DeleteMapping
+    public ControllerResponse deleteArticle(@RequestParam Long articleId, @RequestParam Long userId){
         ControllerResponse response = null;
         try {
             //해시태그 삭제
-            hashtagController.deleteHashtag(article_id);
+            hashtagController.deleteHashtag(articleId);
 
             //게시글 삭제
-            articleService.deleteArticle(article_id);
+            articleService.deleteArticle(articleId);
 
             //게시글 미션 카운트-1
             missionService.updateArticleMission(userId, false);

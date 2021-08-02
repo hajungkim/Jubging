@@ -9,7 +9,7 @@ public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 
     void deleteAllByArticleId(Long article_id);
 
-    List<Hashtag> findAllByContentContains(String hashtag);
+    List<Hashtag> findHashtagDistinctByContentContains(String hashtag);
 
     List<Hashtag> findAllByContent(String hashtag);
 }
