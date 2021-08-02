@@ -12,6 +12,7 @@ import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Login from '@/views/user/Login.vue'
 import SignUp from '@/views/user/SignUp.vue'
+import Search from '@/views/Search.vue'
 
 Vue.use(VueRouter)
 
@@ -77,6 +78,11 @@ const routes = [
     path: '/signup',
     name: 'SignUp',
     component: SignUp
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search
   },
 ]
 
