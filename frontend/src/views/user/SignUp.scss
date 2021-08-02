@@ -1,0 +1,41 @@
+@import "@/assets/css/common.scss";
+
+.signup-wrap {
+  height: 781px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  background-color: $primary;
+}
+
+.from-group {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10%;
+
+  .from-input {
+    width: 300px;
+    height: 40px;
+    background: rgba(179, 179, 179, 0.55);
+    border: 0px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    margin-bottom: 14px;
+    color: white;
+  }
+
+  .from-btn {
+    color: white;
+    background: linear-gradient(278.02deg, #1CA592 -0.77%, #FFEAC1 114.65%);
+  
+    width: 340px;
+    height: 40px;
+    border: 0px;
+    border-radius: 20px;
+  }
+
+  .text-decoration-none {
+    text-decoration: none;
+  }
+}
+

@@ -6,26 +6,33 @@
 		<div class="from-group">
 
 			<input class="from-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+			<button @click="validUniqueEmail(credentials.email)">검사</button>
 			<div v-if="error.email">{{error.email}}</div>
+
 			<input class="from-input" type="password" id="password" v-model="credentials.password" placeholder="password">
 			<div v-if="error.password">{{error.password}}</div>
+
 			<input class="from-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
 			<div v-if="error.passwordConfirmation">{{error.passwordConfirmation}}</div>
-			<input class="from-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
 
-			<button class="from-btn" @click="signup(credentials)">Signup</button>
+			<input class="from-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
+			<button @click="validUniqueNickname(credentials.nickname)">검사</button>
+
+			<button class="from-btn" @click="signup(credentials)" :disabled="!isSubmit">Signup</button>
 		</div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:8080/'
 
 export default {
 	name: 'SignUp',
 	data() {
 		return{
-			email: null,
 			credentials: {
 				email: null,
 				password: null,
@@ -33,11 +40,16 @@ export default {
 				nickname: null
 			},
 			error: {
-				email: null,
-				password: null,
-				passwordConfirmation: null,
-				nickname: null
-			}
+				email: false,
+				password: false,
+				passwordConfirmation: false,
+				nickname: false,
+			},
+			unique: {
+				email: false,
+				nickname: false,
+			},
+			isSubmit: false,
 		}
 	},
 	watch: {
@@ -59,8 +71,8 @@ export default {
 				this.error.email = false
 			}
 
-			if (this.credentials.password) {
-				this.error.password = "영문,숫자 포함 8 자리 이상이어야 합니다.";
+			if (this.credentials.password && !this.validPassword(this.credentials.password)) {
+				this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다.";
 			} else {
 				this.error.password = false
 			}
@@ -71,56 +83,52 @@ export default {
 				this.error.passwordConfirmation = false
 			}
 
+			let isSubmit = true;
+			Object.values(this.error).map((err) => {
+				if (err) {
+					isSubmit = false
+				}
+			})
+			Object.values(this.unique).map((unique) => {
+				if (!unique) {
+					isSubmit = false
+				}
+			})
+      this.isSubmit = isSubmit;
 		},
 		validEmail(email) {
-			var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+			var test = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return test.test(email);
     },
-		validPassword() {
-
+		validPassword(password) {
+			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
+			return test.test(password);
+		},
+		validUniqueEmail(email) {
+			axios.post('user/emailck', email)
+			.then(res => {
+				console.log(res)
+				this.unique.email = res.data
+			})
+			.catch(err => {
+        console.error(err)
+       })
+		},
+		validUniqueNickname(nickname) {
+			axios.post('user/nicknameck', nickname)
+			.then(res => {
+				console.log(res)
+				this.unique.nickname = res.data
+			})
+			.catch(err => {
+        console.error(err)
+       })
 		}
 	},
 }
 </script>
 
-<style scoped>
-
-.signup-wrap {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.from-group {
-	display: flex;
-	flex-direction: column;
-	margin-top: 10%
-}
-
-.from-group > .from-input {
-	width: 300px;
-	height: 40px;
-	background: rgba(179, 179, 179, 0.55);
-	border: 0px;
-	border-radius: 20px;
-	padding: 0px 20px;
-	margin-bottom: 14px;
-	color: white;
-}
-
-.from-group > .from-btn {
-	color: white;
-	background: linear-gradient(278.02deg, #1CA592 -0.77%, #FFEAC1 114.65%);
-
-	width: 340px;
-	height: 40px;
-	border: 0px;
-	border-radius: 20px;
-}
-
-.text-decoration-none {
-	text-decoration: none;
-}
-
+<style lang="scss" scoped>
+@import "@/views/user/SignUp.scss";
 
 </style>
