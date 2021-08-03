@@ -24,30 +24,33 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
 	name: 'MissionActive',
 	data() {
 		return {
-			badges: [
-				{
-					name: '좋아요 뱃지',
-					description: 'n개 더 좋아요를 누르면 뱃지 획득!',
-					current: 21,
-					bronze: 10,
-					silver: 20,
-					gold: 30,
-				},
-				{
-					name: '',
-					description: '',
-					current: '',
-					bronze: '',
-					silver: '',
-					gold: '',
-				},
-			]
+			badges: []
+			// badges: [
+			// 	{
+			// 		name: '좋아요 뱃지',
+			// 		description: 'n개 더 좋아요를 누르면 뱃지 획득!',
+			// 		current: 21,
+			// 		bronze: 10,
+			// 		silver: 20,
+			// 		gold: 30,
+			// 	},
+			// ]
 		}
 	},
+	computed: {
+		...mapState([
+			'missions'
+		]),
+	},
+	created() {
+		this.$store.dispatch('getMission')
+	}
 }
 </script>
 
