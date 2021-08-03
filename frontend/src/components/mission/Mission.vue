@@ -15,7 +15,6 @@
 <script>
 import MissionActive from '@/components/mission/MissionActive.vue'
 import MissionJubging from '@/components/mission/MissionJubging.vue'
-import { mapState } from 'vuex'
 
 export default {
 	name: 'Mission',
@@ -28,11 +27,6 @@ export default {
 			flag: true
 		}
 	},
-	computed: {
-		...mapState([
-			'missions',
-		])
-	},
 	created() {
 		this.$store.dispatch('getMission')
 	},
@@ -44,40 +38,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.mission-wrap {
-	height: 721px;
-}
-
-.top-select {
-	display: flex;
-	justify-content: space-evenly;
-}
-
-.top-select > .select-item {
-	width: 180px;
-	height: 50px;
-	text-align: center;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.active {
-	color: red;
-	border-bottom: 5px solid red;
-}
-
-.inactive {
-	color: black;
-}
-
-.mission-screen {
-	overflow: auto;
-  height: 650px;
-	margin: 30px 16px;
-}
+<style lang="scss" scoped>
+@import '@/components/mission/Mission.scss';
 
 </style>
