@@ -6,6 +6,7 @@ import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.HashtagSaveRequestDto;
 import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.HashtagService;
+import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,9 @@ public class HashtagController {
 
     private final HashtagService hashtagService;
     private final ArticleService articleService;
+    private final UserService userService;
+
+    private final CommentController commentController;
 
     /**
      * 해시태그 추출하고 디비에 저장하는 함수
@@ -101,7 +105,15 @@ public class HashtagController {
 
             for(Hashtag hash : hashtagList){
                 Article article = articleService.findByArticleId(hash.getArticleId());
-                list.add(new ArticleResponseDto(article));
+                ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
+
+                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                articleResponseDto.setCommentCnt(commentCnt);
+
+                String nickname = userService.findUser(articleResponseDto.getUserId()).getNickname();
+                articleResponseDto.setNickname(nickname);
+
+                list.add(articleResponseDto);
             }
 
             if (list.isEmpty()) {
