@@ -4,6 +4,7 @@
 			<div class="mission-description">
 				<h2 class="title">{{ badge.name }}</h2>
 				<span class="sub">{{ badge.description }}</span>
+				<span class="sub">{{ badge.currentCnt }}</span>
 			</div>
 			<div class="badges">
 				<div class="badge-group">
@@ -24,33 +25,54 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
 	name: 'MissionActive',
 	data() {
 		return {
-			badges: []
-			// badges: [
-			// 	{
-			// 		name: '좋아요 뱃지',
-			// 		description: 'n개 더 좋아요를 누르면 뱃지 획득!',
-			// 		current: 21,
-			// 		bronze: 10,
-			// 		silver: 20,
-			// 		gold: 30,
-			// 	},
-			// ]
+			badges: [
+				{
+					name: '좋아요 뱃지',
+					description: 'n개 더 좋아요를 누르면 뱃지 획득!',
+					currentCnt: this.$store.state.missions.likeCnt,
+					bronze: 10,
+					silver: 20,
+					gold: 30,
+				},
+				{
+					name: '댓글 뱃지',
+					description: '댓글 설명',
+					currentCnt: this.$store.state.missions.commentCnt,
+					bronze: 10,
+					silver: 20,
+					gold: 30,
+				},
+				{
+					name: '게시글 뱃지',
+					description: '게시글 설명',
+					currentCnt: this.$store.state.missions.articleCnt,
+					bronze: 10,
+					silver: 20,
+					gold: 30,
+				},
+				{
+					name: '팔로우 뱃지',
+					description: '팔로우 설명',
+					currentCnt: this.$store.state.missions.followCnt,
+					bronze: 10,
+					silver: 20,
+					gold: 30,
+				},
+				{
+					name: '줍깅 몇회 뱃지',
+					description: '팔로우 설명',
+					currentCnt: this.$store.state.missions.jubgingCnt,
+					bronze: 10,
+					silver: 20,
+					gold: 30,
+				},
+			]
 		}
 	},
-	computed: {
-		...mapState([
-			'missions'
-		]),
-	},
-	created() {
-		this.$store.dispatch('getMission')
-	}
 }
 </script>
 

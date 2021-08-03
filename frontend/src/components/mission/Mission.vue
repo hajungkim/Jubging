@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mission-wrap">
     <div class="top-select">
 			<div @click="changeComponent(true)" class="select-item" :class="[flag ? 'active': 'inactive']"><span>줍깅 미션</span></div>
 			<div @click="changeComponent(false)" class="select-item" :class="[!flag ? 'active': 'inactive']"><span>활동 미션</span></div>
@@ -15,6 +15,7 @@
 <script>
 import MissionActive from '@/components/mission/MissionActive.vue'
 import MissionJubging from '@/components/mission/MissionJubging.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'Mission',
@@ -27,6 +28,14 @@ export default {
 			flag: true
 		}
 	},
+	computed: {
+		...mapState([
+			'missions',
+		])
+	},
+	created() {
+		this.$store.dispatch('getMission')
+	},
 	methods: {
 		changeComponent(bool) {
 			this.flag = bool
@@ -36,6 +45,11 @@ export default {
 </script>
 
 <style scoped>
+
+.mission-wrap {
+	height: 721px;
+}
+
 .top-select {
 	display: flex;
 	justify-content: space-evenly;
