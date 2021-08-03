@@ -76,55 +76,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.mission-card {
-	width: 380px;
-	height: 250px;
-	background-color: white;
-	border-radius: 10px;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	margin-bottom: 16px;
-}
-
-.mission-description {
-	width: 380px;
-	height: 100px;
-	background-color: gray;
-	border-radius: 10px 10px 0px 0px;
-	text-align: center;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.mission-description > .title {
-	color: white;
-	margin: 0;
-}
-
-.mission-description > .sub {
-	color: white;
-}
-
-.badges {
-	display: flex;
-	justify-content: space-evenly;
-	margin-top: 40px;
-}
-
-.badge {
-	width: 50px;
-	height: 50px;
-	background-color: silver;
-}
-
-.badge-group {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	text-align: center;
-}
+<style lang="scss" scoped>
+@import '@/components/mission/MissionComponent.scss';
 
 </style>
