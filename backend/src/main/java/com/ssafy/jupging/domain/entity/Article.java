@@ -38,7 +38,7 @@ public class Article {
     public static Article saveArticle(ArticleSaveRequestDto request) {
         Article article = new Article();
         article.content=request.getContent();
-        article.userId=request.getUser_id();
+        article.userId=request.getUserId();
         return article;
     }
 }

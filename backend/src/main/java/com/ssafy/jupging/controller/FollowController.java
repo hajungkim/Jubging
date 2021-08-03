@@ -42,6 +42,10 @@ public class FollowController {
             //팔로우미션+1
             missionService.updateFollowMission(userId, true);
 
+            //유저 팔로잉+1, 팔로우 유저 팔로워+1
+            userService.updateFollowing(userId, true);
+            userService.updateFollower(followUserId, true);
+
             response = new ControllerResponse("success", "팔로우 등록 성공");
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -110,6 +114,10 @@ public class FollowController {
 
             //팔로우 미션-1
             missionService.updateFollowMission(userId, false);
+
+            //유저 팔로잉-1, 팔로우 유저 팔로워-1
+            userService.updateFollowing(userId, false);
+            userService.updateFollower(followUserId, false);
 
             response = new ControllerResponse("success", "팔로우 삭제 성공");
         } catch (Exception e) {

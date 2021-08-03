@@ -2,16 +2,17 @@ package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Mission;
 import com.ssafy.jupging.domain.entity.User;
-import com.ssafy.jupging.dto.UserLoginRequestDto;
-import com.ssafy.jupging.dto.UserResponseDto;
-import com.ssafy.jupging.dto.UserSaveRequestDto;
-import com.ssafy.jupging.dto.UserUpdateRequestDto;
+import com.ssafy.jupging.dto.*;
 import com.ssafy.jupging.service.JwtService;
 import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
@@ -48,10 +49,10 @@ public class UserController {
 
     @ApiOperation(value = "이메일 중복체크", notes = "이메일 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
     @PostMapping("/emailck")
-    public ControllerResponse checkEmail(@RequestParam String email) {
+    public ControllerResponse checkEmail(@RequestBody UserEmailCkRequest request) {
         ControllerResponse response = null;
         try {
-            boolean ispresent = userService.checkEmail(email);
+            boolean ispresent = userService.checkEmail(request.getEmail());
             response = new ControllerResponse("success", ispresent);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -61,10 +62,10 @@ public class UserController {
 
     @ApiOperation(value = "닉네임 중복체크", notes = "닉네임 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
     @PostMapping("/nicknameck")
-    public ControllerResponse checkNickname(@RequestParam String nickname) {
+    public ControllerResponse checkNickname(@RequestBody UserNicknameCkRequest request) {
         ControllerResponse response = null;
         try {
-            boolean ispresent = userService.checkNickname(nickname);
+            boolean ispresent = userService.checkNickname(request.getNickname());
             response = new ControllerResponse("success", ispresent);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -141,6 +142,34 @@ public class UserController {
         try {
             userService.deleteUser(userId);
             response = new ControllerResponse("success", "회원 탈퇴 성공");
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+
+        return response;
+    }
+
+    @ApiOperation(value = "유저 검색", notes = "검색 성공 시 팔로우, 이름길이 순으로 리스트 반환 / 결과없으면 null 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @GetMapping("/search/{keyword}")
+    public ControllerResponse searchUser(@PathVariable String keyword) {
+        ControllerResponse response = null;
+
+        try {
+            List<User> searchList = userService.searchUser(keyword);
+            if (searchList.isEmpty()) {
+                response = new ControllerResponse("success", null);
+
+            } else {
+                ArrayList<UserSearchResponseDto> list = new ArrayList<>();
+                for (User user : searchList) {
+                    UserSearchResponseDto responseDto = new UserSearchResponseDto();
+                    responseDto.save(user.getUserId(), user.getNickname(), user.getFollower(), user.getProfilePath());
+                    list.add(responseDto);
+                }
+                Collections.sort(list);
+
+                response = new ControllerResponse("success", list);
+            }
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }

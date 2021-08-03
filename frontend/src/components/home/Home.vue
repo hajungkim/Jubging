@@ -2,12 +2,9 @@
   <div>
     <div class="main_top">
       <img src="@/assets/textlogo.png" alt="logo" class="text_logo">
-      <div class="search_div">
-      <input type="text" placeholder="검색" class="search_input">
-      <button class="search_button"><font-awesome-icon icon="search"/></button>
-      </div>
-      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 0px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
-      <div class="follow_div">
+      <div class="search_alarm_follow">
+      <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
+      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 15px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
@@ -16,7 +13,6 @@
     </div>
     <AlarmModal v-if="isModal" @close-modal="isModal=false">
     </AlarmModal>
-    <Search/>
     <div class="photo_list">
       <div class="photo-grid" v-show="this.toggle">
         <div class="today-jubging" v-show="this.toggle">오늘의 줍깅 : 31231</div>
@@ -41,7 +37,6 @@
 
 <script>
 import PhotoList from '@/components/home/PhotoList.vue'
-import Search from '@/components/home/Search.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
 
@@ -50,7 +45,6 @@ import { mapState } from 'vuex'
 export default {
   components:{
     PhotoList,
-    Search,
     AlarmModal,
     FollowList,
   },
@@ -63,6 +57,9 @@ export default {
   methods:{
     followToggle(){
       this.toggle = !this.toggle
+    },
+    toSearch(){
+      this.$router.push({name:'Search'})
     }
   },
   computed:{
@@ -82,8 +79,8 @@ export default {
 }
 .text_logo{
   width:100px;
-  margin: 10px 10px 0px 16px;
-  /* transform: scale(1.1); */
+  margin: 10px 10px 0px 35px;
+  transform: scale(1.4);
 }
 .search_button{
   margin: 7px 0px 0px -20px;
@@ -112,7 +109,7 @@ export default {
 }
 
 /* 팔로우 토글 */
-.follow_div{
+.search_alarm_follow{
   display: flex;
   margin-left: auto;
   margin-right:10px;
