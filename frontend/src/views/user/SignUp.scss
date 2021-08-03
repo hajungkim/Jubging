@@ -8,23 +8,23 @@
   background-color: $primary;
 }
 
-.from-group {
+.form-group {
 	display: flex;
 	flex-direction: column;
 	margin-top: 10%;
 
-  .from-input {
+  .form-input {
     width: 300px;
     height: 40px;
     background: rgba(179, 179, 179, 0.55);
     border: 0px;
     border-radius: 20px;
     padding: 0px 20px;
-    margin-bottom: 14px;
+    margin-top: 14px;
     color: white;
   }
 
-  .from-btn {
+  .form-btn {
     color: white;
     background: linear-gradient(278.02deg, #1CA592 -0.77%, #FFEAC1 114.65%);
   
@@ -32,10 +32,30 @@
     height: 40px;
     border: 0px;
     border-radius: 20px;
+    margin-top: 14px;
+  }
+
+  .form-disable-btn {
+    color: white;
+    background: gray;
+  
+    width: 340px;
+    height: 40px;
+    border: 0px;
+    border-radius: 20px;
+    margin-top: 14px;
+  }
+
+  .form-check {
+    padding-left: 10px;
   }
 
   .text-decoration-none {
     text-decoration: none;
+  }
+
+  .form-error {
+    padding-left: 10px;
   }
 }
 

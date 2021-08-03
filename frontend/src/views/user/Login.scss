@@ -13,23 +13,23 @@
 	margin-top: 25%;
 }
 
-.from-group {
+.form-group {
 	display: flex;
 	flex-direction: column;
 	margin-top: 18%;
 
-  .from-input {
+  .form-input {
     width: 300px;
     height: 40px;
     background: rgba(179, 179, 179, 0.55);
     border: 0px;
     border-radius: 20px;
     padding: 0px 20px;
-    margin-bottom: 14px;
+    margin-top: 14px;
     color: white;
   }
 
-  .from-btn {
+  .form-btn {
     color: white;
     background: linear-gradient(278.02deg, #1CA592 -0.77%, #FFEAC1 114.65%);
   
@@ -37,14 +37,26 @@
     height: 40px;
     border: 0px;
     border-radius: 20px;
+    margin-top: 14px;
   }
 
-  .from-text-align {
+  .form-disable-btn {
+    color: white;
+    background: grey;
+  
+    width: 340px;
+    height: 40px;
+    border: 0px;
+    border-radius: 20px;
+    margin-top: 14px;
+  }
+
+  .form-text-align {
     display: flex;
     justify-content: space-between;
     padding: 10px;
 
-    .from-text-small {
+    .form-text-small {
       color: white;
       font-size: 14px;
     }
@@ -52,6 +64,10 @@
     .text-decoration-none {
       text-decoration: none;
     }
+  }
+
+  .form-error {
+    padding-left: 10px;
   }
 }
 
