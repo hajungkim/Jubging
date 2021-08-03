@@ -6,6 +6,7 @@ import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.HashtagSaveRequestDto;
 import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.HashtagService;
+import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +27,9 @@ public class HashtagController {
 
     private final HashtagService hashtagService;
     private final ArticleService articleService;
+    private final UserService userService;
+
+    private final CommentController commentController;
 
     /**
      * 해시태그 추출하고 디비에 저장하는 함수
@@ -69,9 +74,17 @@ public class HashtagController {
             List<Hashtag> hashtagList = hashtagService.findAllHashtag(hashtag);
             List<String> list = new ArrayList<>();
             for(Hashtag hash : hashtagList){
-                list.add(hash.getContent());
+                if(!list.contains(hash.getContent())) //중복되는 해시태그 값은 추가 안함
+                    list.add(hash.getContent());
             }
-            response = new ControllerResponse("success", list);
+
+            if (list.isEmpty()) {
+                response = new ControllerResponse("success", null);
+            }
+            else {
+                Collections.sort(list, (String s1, String s2) -> s1.length()-s2.length()); //길이순 정렬
+                response = new ControllerResponse("success", list);
+            }
         } catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());
         }
@@ -92,9 +105,25 @@ public class HashtagController {
 
             for(Hashtag hash : hashtagList){
                 Article article = articleService.findByArticleId(hash.getArticleId());
-                list.add(new ArticleResponseDto(article));
+                ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
+
+                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                articleResponseDto.setCommentCnt(commentCnt);
+
+                String nickname = userService.findUser(articleResponseDto.getUserId()).getNickname();
+                articleResponseDto.setNickname(nickname);
+
+                list.add(articleResponseDto);
             }
-            response = new ControllerResponse("success", list);
+
+            if (list.isEmpty()) {
+                response = new ControllerResponse("success", null);
+            }
+            else{
+                //좋아요 순으로 정렬
+                Collections.sort(list, (ArticleResponseDto o1, ArticleResponseDto o2) -> o2.getLikeCnt()-o1.getLikeCnt());
+                response = new ControllerResponse("success", list);
+            }
         } catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());
         }

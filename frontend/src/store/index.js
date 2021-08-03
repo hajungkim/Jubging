@@ -60,19 +60,25 @@ export default new Vuex.Store({
     ],
     Token: localStorage.getItem('token') || '',
     userId: null,
+<<<<<<< HEAD
     missions: null,
+=======
+>>>>>>> 86addacae7b2ca331e9504d7d731b1d95744a1af
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
 
+<<<<<<< HEAD
     // 미션 관련
     GET_MISSION(state, missions) {
       state.missions = missions
     },
       
     // 유저 관련
+=======
+>>>>>>> 86addacae7b2ca331e9504d7d731b1d95744a1af
     UPDATE_TOKEN(state, data) {
       state.Token = data.token
       state.userId = data.userId
@@ -102,12 +108,34 @@ export default new Vuex.Store({
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
+<<<<<<< HEAD
+=======
+        // 리팩토링할 때 아래로 옮기기 : 로그인 실패할 때도 실행됨
+>>>>>>> 86addacae7b2ca331e9504d7d731b1d95744a1af
         localStorage.setItem('token', res.data.data.token)
         context.commit('UPDATE_TOKEN', res.data.data)
+        return res.data.data
       })
+<<<<<<< HEAD
       .then(() => {
         router.push({ name: 'Main' })
       })
+=======
+      .then((tf) => {
+        if (tf) {
+          router.push({ name: 'Home' })
+        } else {
+          alert('이메일 혹은 비밀번호가 틀렸습니다.')
+        }
+      })
+      .catch(err => {
+        console.error(err)
+       })
+    },
+    logout(context) {
+      localStorage.removeItem('token')
+      context.commit('DELETE_TOKEN')
+>>>>>>> 86addacae7b2ca331e9504d7d731b1d95744a1af
     },
     signup(context, credentials) {
       axios.post('user/join/', credentials)
@@ -118,10 +146,13 @@ export default new Vuex.Store({
         console.error(err)
        })
     },
+<<<<<<< HEAD
     logout(context) {
       localStorage.removeItem('token')
       context.commit('DELETE_TOKEN')
     }
+=======
+>>>>>>> 86addacae7b2ca331e9504d7d731b1d95744a1af
   },
   modules: {
   }

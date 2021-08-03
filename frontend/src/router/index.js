@@ -12,10 +12,25 @@ import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Login from '@/views/user/Login.vue'
 import SignUp from '@/views/user/SignUp.vue'
+import Search from '@/views/Search.vue'
+import FindPassword from '@/views/user/FindPassword.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '*',
+    redirect: '/404'
+  },
+  {
+    path: '/404',
+    name: 'PageNotFound',
+    // component: 
+  },
+  {
+    path: '/',
+    redirect: '/home',
+  },
   {
     path:'/main',
     name:'Main',
@@ -78,6 +93,16 @@ const routes = [
     name: 'SignUp',
     component: SignUp
   },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search
+  },
+  {
+    path: '/findpassword',
+    name: 'FindPassword',
+    component: FindPassword,
+  }
 ]
 
 const router = new VueRouter({
