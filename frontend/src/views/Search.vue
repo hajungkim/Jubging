@@ -21,7 +21,7 @@
       </form>
       <!-- 자동완성 -->
       <!-- <div class="search_full_bar"></div>
-      <ul v-if="true">
+      <ul v-if="isShowAuto" class="keyword_list">
         <li
           class="keyword_item"
           v-for="(item,idx) in autocomplete"
@@ -29,12 +29,12 @@
           @click="onClickAuto"
           :data-keyword="item"  
         >
-           <font-awesome-icon :data-keyword="item" icon="search"/>
-           <span :data-keyword="item">{{item}}</span>
+           <font-awesome-icon class="auto_search_icon" size="sm" :data-keyword="item" icon="search"/>
+           <span class="auto_search_text" :data-keyword="item">{{item}}</span>
         </li>
       </ul> -->
       <!-- 최근 검색어 -->
-      <section class="search_latest" v-if="!isShowAuto && !isSubmit">
+      <section class="search_latest" v-if="isShowAuto && isSubmit">
         <div class="search_latest_tlt">
           <span>최근 검색어</span>
         </div>
@@ -44,44 +44,52 @@
             v-for="(item,idx) in keywordLatest"
             :key="idx"
           >
-            <button>{{item.value}}</button>
+            <button @click="onClickLatest">{{item.value}}</button>
             <button :data-key="item.key" @click="onDeleteItem">X</button>
           </li>
         </ul>
       </section>
       <!-- 유저검색결과 -->
-      <section>
-        <div>
+      <section class="search_user_list" v-if="isShowAuto&&isSubmit">
+        <div class="search_user_list_tlt">
           유저 검색 결과
-          <span>몇 건</span>
+          <span class="search_user_list_text" v-if="userflag">'{{keyword}}' {{users.length}}건</span>
         </div>
-        <ul>
+        <ul class="search_users">
           <li
             @click="onClickUser"
             v-for="(user,idx) in users"
             :key="idx"
             :data-idx=idx
           >
-            <div :data-idx=idx>
-              <img :data-idx=idx :src="user.userImg">
-              <p :data-idx=idx>{{user.userName}}</p>
+            <div :data-idx=idx class="search_user">
+              <img :data-idx=idx src="@/assets/sample.png" class="search_user_img">
+              <p :data-idx=idx class="search_user_name">{{user.nickname}}</p>
             </div>
           </li>
         </ul>
       </section>
       <!-- 게시글 검색결과 -->
-      <section>
-        <div>
+      <section class="search_article_list" v-if="isShowAuto && isSubmit">
+        <div class="search_article_list_tlt">
           게시글 검색 결과
-          <span>몇 건</span>
+          <span class="search_article_list_text">'{{keyword}}' {{articles.length}}건</span>
         </div>
-        <ul>
+        <ul class="search_articles">
           <li
             v-for="(article,idx) in articles"
             :key="idx"
           >
-            <div>
-              이미지 작성자 해시태그 
+            <div @click="onClickArticle" :data-idx=idx class="search_article">
+              <img class="articleImg" src="@/assets/sample.png" :data-idx="article.articleId">
+              <div class="search_article_info" :data-idx="article.articleId">
+                <p :data-idx="article.articleId"><span class="search_article_usernickname" >'김줍깅' </span>님 게시글</p>
+                <p>
+                  <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
+                </p>
+                <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">{{article.likeCnt}}</span>
+                <font-awesome-icon :icon="['far','comment-dots']" style="margin-left:5px;"/><span style="margin-left:5px;">{{article.commentCnt}}</span>
+              </div>
             </div>
           </li>
         </ul>
@@ -103,6 +111,7 @@ export default {
       latestList:[],
       users:[],
       articles:[],
+      userflag:false,
     }
   },
   computed:{
@@ -114,26 +123,11 @@ export default {
       }
       return sortedList;
     },
-    // autocomplete(){
-      // const search = this.keyword;
-      // const search1 = Hangul.disassemble(search).join("");
-      // console.log('!!',search1)
-      // let arr=[];
-    //   this.keywordList
-    //   .filter(function (item) {
-    //     return item.name.includes(search)||item.disassemble.includes(search1)
-    //   })
-    //   .forEach(function (item){
-    //     arr.push(item.name);
-    //   })
-    //   return arr.slice(0,10);
-      // return 0;
-    // },
   },
   methods:{
     search(){
       const key=String(Date.now());
-      if(localStorage.length<4){
+      if(localStorage.length<5){
         localStorage.setItem(key,this.keyword)
         this.latestList.unshift(key);
       }
@@ -147,8 +141,8 @@ export default {
         localStorage.setItem(key,this.keyword)
       }
       // const token=localStorage.getItem('jwt')
-      const URL = `http://localhost:8080/user/search/${this.keyword}`
-      const params={
+      let URL = `http://localhost:8080/user/search/${this.keyword}`
+      let params={
         method:'get',
         url:URL,
         headers:{
@@ -157,11 +151,48 @@ export default {
       }
       axios(params)
         .then((res)=>{
-            console.log(res)
+            this.users=res.data.data
+            if(this.users.length>=1)this.userflag=true
+            else this.userflag=false
+            
         })
         .catch((e)=>{
           console.error(e);
         })
+      this.isSubmit=true;
+      document.querySelector('.input_style').blur();
+    },
+    articleSearch(){
+      let param={
+        method:'get',
+        url:`http://localhost:8080/hashtag/articlelist/${this.keyword}`,
+        headers:{
+          // Authorization:`JWT ${token}`
+        },
+      }
+      axios(param)
+        .then((res)=>{
+          if(res.data.data===null) this.articles=[];
+          else
+            {
+              this.articles=res.data.data;
+              for(let i=0;i<res.data.data.length;i++){
+                let splitwords = this.articles[i].content.split(' ');
+                let hashwords=[];
+                splitwords.forEach(e => {
+                  if(e[0]=='#'){
+                    hashwords.push(e);
+                  }
+                });
+                this.articles[i].hashtags=hashwords;
+              }
+              console.log(this.articles)
+            }
+        })
+        .catch((e)=>{
+          console.error(e);
+        }
+      )
     },
     onDeleteItem(e){
       const key=e.target.dataset.key;
@@ -177,11 +208,13 @@ export default {
     },
     onSubmit(e){
       e.preventDefault();
-      this.search();
+      this.search(); // 한 키워드로 유저 부분을찾기
+      this.articleSearch(); // 게시글 찾기
     },
     onClickAuto(e){
       this.keyword=e.target.dataset.keyword;
       this.search();
+      this.articleSearch();
       this.isShowAuto=false;
     },
     onClickUser(e){
@@ -189,6 +222,16 @@ export default {
       const userId=user.userId;
       console.log(userId)
       // this.$router.push({name:''})
+    },
+    onClickLatest(e){
+      this.keyword=e.target.innerText;
+      this.search();
+      this.articleSearch();
+    },
+    onClickArticle(e){
+      if(e.target.dataset.id){
+        // e.target.dataset.id = article_id 니까 디테일 라우터로 보내주면됨
+      }
     }
   }
 }
@@ -238,5 +281,78 @@ export default {
   margin-right:3px;
   margin-bottom: 5px;
   font-size: 15px;
+}
+.search_user_list{
+  display:flex;
+  flex-direction: column;
+  margin:10px 0px 0px 0px;
+}
+.search_user_list_tlt{
+  width:380px;
+}
+.search_users::-webkit-scrollbar{
+  display: none;
+}
+.search_users{
+  display:flex;
+  flex-wrap:wrap;
+  list-style: none;
+  overflow-y: scroll;
+  padding:0px;
+}
+.search_user{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right:10px;
+}
+.search_user_img{
+  width:51px;
+  height: 51px;
+  border-radius: 50%;
+}
+.search_user_name{
+  margin:0;
+  text-align:center;
+}
+.search_article_list{
+  display:flex;
+  flex-direction: column;
+  height: 500px;
+}
+.search_article_list_tlt{
+  width: 380px;
+}
+.search_articles{
+  list-style: none;
+  overflow-y:scroll;
+  padding:0px;
+  -ms-overflow-style:none;
+}
+.search_articles::-webkit-scrollbar{
+  display: none;
+}
+.search_article{
+  display: flex;
+  margin:0px 10px 10px 0px;
+  align-items:center;
+  border: 1px solid lightgray;
+  /* box-shadow: 0 0 2px #99979725; */
+  border-radius: 10px;
+}
+.search_article img{
+  width:50%;
+  margin:0px 10px 0px 10px;
+}
+.search_article_info{
+  text-align:left;
+  display:inline-block;
+}
+.search_article_usernickname{
+  font-weight: bold;
+}
+.search_article_hashtags{
+  margin-right:5px;
 }
 </style>
