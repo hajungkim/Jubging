@@ -3,22 +3,28 @@
 
 		<h1>회원가입</h1>
 		
-		<div class="from-group">
+		<div class="form-group">
 
-			<input class="from-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-			<button @click="validUniqueEmail(credentials.email)">검사</button>
-			<div v-if="error.email">{{error.email}}</div>
+			<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+			<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
+			<div @click="validUniqueEmail(credentials)" class="form-check">
+				<font-awesome-icon icon="check-circle"/>
+				<span id="check-email"> 이용 가능한 이메일 입니다.</span>
+			</div>
 
-			<input class="from-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-			<div v-if="error.password">{{error.password}}</div>
+			<input class="form-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
+			<div @click="validUniqueNickname(credentials)" class="form-check">
+				<font-awesome-icon icon="check-circle"/>
+				<span id="check-nickname"> 이용 가능한 닉네임 입니다.</span>
+			</div>
 
-			<input class="from-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
-			<div v-if="error.passwordConfirmation">{{error.passwordConfirmation}}</div>
+			<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
+			<div v-if="error.password" class="text-error form-error">{{error.password}}</div>
 
-			<input class="from-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
-			<button @click="validUniqueNickname(credentials.nickname)">검사</button>
+			<input class="form-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
+			<div v-if="error.passwordConfirmation" class="text-error form-error">{{error.passwordConfirmation}}</div>
 
-			<button class="from-btn" @click="signup(credentials)" :disabled="!isSubmit">Signup</button>
+			<button @click="signup(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">Signup</button>
 		</div>
   </div>
 </template>
@@ -34,10 +40,10 @@ export default {
 	data() {
 		return{
 			credentials: {
-				email: null,
-				password: null,
-				passwordConfirmation: null,
-				nickname: null
+				email: '',
+				password: '',
+				passwordConfirmation: '',
+				nickname: ''
 			},
 			error: {
 				email: false,
@@ -65,22 +71,29 @@ export default {
 			'signup',
 		]),
 		checkForm() {
-			if (this.credentials.email && !this.validEmail(this.credentials.email)) {
-				this.error.email = "올바른 이메일이 아닙니다."
+			if (this.credentials.email.length >= 0 && !this.validEmail(this.credentials.email)) {
+				this.error.email = "올바른 이메일 형식이 아닙니다."
 			} else {
 				this.error.email = false
 			}
 
-			if (this.credentials.password && !this.validPassword(this.credentials.password)) {
+			if (this.credentials.password.length >= 0 && !this.validPassword(this.credentials.password)) {
 				this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다.";
 			} else {
 				this.error.password = false
 			}
 
-			if (this.credentials.passwordConfirmation && this.credentials.password !== this.credentials.passwordConfirmation) {
+			if (this.credentials.passwordConfirmation.length >= 0 && this.credentials.password !== this.credentials.passwordConfirmation) {
 				this.error.passwordConfirmation = "비밀번호가 일치하지 않습니다.";
 			} else {
 				this.error.passwordConfirmation = false
+			}
+
+			if (this.credentials.email) {
+				this.validUniqueEmail()
+			}
+			if (this.credentials.nickname) {
+				this.validUniqueNickname()
 			}
 
 			let isSubmit = true;
@@ -104,25 +117,45 @@ export default {
 			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
 			return test.test(password);
 		},
-		validUniqueEmail(email) {
-			axios.post('user/emailck', email)
+		validUniqueEmail() {
+			axios.post('user/emailck', this.credentials)
 			.then(res => {
-				console.log(res)
-				this.unique.email = res.data
+				this.unique.email = res.data.data
+				return res.data.data
+			})
+			.then(data => {
+				let checkEmailText = document.querySelector('#check-email')
+				if (data) {
+					checkEmailText.innerText = " 이용 가능한 이메일 입니다."
+					checkEmailText.classList.remove('text-error')
+				} else {
+					checkEmailText.innerText = " 중복된 이메일 입니다."
+					checkEmailText.classList.add('text-error')
+				}
 			})
 			.catch(err => {
         console.error(err)
-       })
+			})
 		},
-		validUniqueNickname(nickname) {
-			axios.post('user/nicknameck', nickname)
+		validUniqueNickname() {
+			axios.post('user/nicknameck', this.credentials)
 			.then(res => {
-				console.log(res)
-				this.unique.nickname = res.data
+				this.unique.nickname = res.data.data
+				return res.data.data
+			})
+			.then(data => {
+				let checkNicknameText = document.querySelector('#check-nickname')
+				if (data) {
+					checkNicknameText.innerText = " 이용 가능한 닉네임 입니다."
+					checkNicknameText.classList.remove('text-error')
+				} else {
+					checkNicknameText.innerText = " 중복된 닉네임 입니다."
+					checkNicknameText.classList.add('text-error')
+				}
 			})
 			.catch(err => {
         console.error(err)
-       })
+			})
 		}
 	},
 }

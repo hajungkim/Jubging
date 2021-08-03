@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import router from '../router'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -86,6 +86,16 @@ export default new Vuex.Store({
         localStorage.setItem('token', res.data.data.token)
         context.commit('UPDATE_TOKEN', res.data.data)
       })
+      .then(() => {
+        router.push({ name: 'Home' })
+      })
+      .catch(err => {
+        console.error(err)
+       })
+    },
+    logout(context) {
+      localStorage.removeItem('token')
+      context.commit('DELETE_TOKEN')
     },
     signup(context, credentials) {
       axios.post('user/join/', credentials)
@@ -96,10 +106,6 @@ export default new Vuex.Store({
         console.error(err)
        })
     },
-    logout(context) {
-      localStorage.removeItem('token')
-      context.commit('DELETE_TOKEN')
-    }
   },
   modules: {
   }

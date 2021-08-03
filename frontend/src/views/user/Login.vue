@@ -3,17 +3,17 @@
 
 	<img class="logo" src="@/assets/logo/iconlogo.png" alt="">
 
-  <div class="from-group">
-		<input class="from-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-		<div v-if="error.email">{{error.email}}</div>
-		<input class="from-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-		<div v-if="error.password">{{error.password}}</div>
+  <div class="form-group">
+		<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+		<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
+		<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
+		<div v-if="error.password" class="text-error form-error">{{error.password}}</div>
 
-		<button class="from-btn" @click="login(credentials)" :disabled="!isSubmit">Login</button>
+		<button class="form-btn" @click="login(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">Login</button>
 
-		<div class="from-text-align">
-			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="from-text-small">Sign Up</span></router-link>
-			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="from-text-small">Forgot your password?</span></router-link>
+		<div class="form-text-align">
+			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="form-text-small">Sign Up</span></router-link>
+			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="form-text-small">Forgot your password?</span></router-link>
 		</div>
   </div>
 
@@ -22,7 +22,7 @@
 		<div class="social"></div>
 		<div class="social"></div>
 	</div>
-	<button @click="logout">logout</button>
+	<button @click="logout">logout 임시버튼</button>
 </div>
 </template>
 
@@ -34,8 +34,8 @@ export default {
 	data() {
 		return{
 			credentials: {
-				email: null,
-				password: null,
+				email: '',
+				password: '',
 			},
 			error: {
 				email: false,
@@ -58,13 +58,13 @@ export default {
 			'logout'
 		]),
 		checkForm() {
-			if (this.credentials.email && !this.validEmail(this.credentials.email)) {
-				this.error.email = "올바른 이메일이 아닙니다."
+			if (this.credentials.email.length >= 0 && !this.validEmail(this.credentials.email)) {
+				this.error.email = "올바른 이메일 형식이 아닙니다."
 			} else {
 				this.error.email = false
 			}
 
-			if (this.credentials.password && !this.validPassword(this.credentials.password)) {
+			if (this.credentials.password.length >= 0 && !this.validPassword(this.credentials.password)) {
 				this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다.";
 			} else {
 				this.error.password = false
