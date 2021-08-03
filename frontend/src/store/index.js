@@ -83,11 +83,17 @@ export default new Vuex.Store({
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
+        // 리팩토링할 때 아래로 옮기기 : 로그인 실패할 때도 실행됨
         localStorage.setItem('token', res.data.data.token)
         context.commit('UPDATE_TOKEN', res.data.data)
+        return res.data.data
       })
-      .then(() => {
-        router.push({ name: 'Home' })
+      .then((tf) => {
+        if (tf) {
+          router.push({ name: 'Home' })
+        } else {
+          alert('이메일 혹은 비밀번호가 틀렸습니다.')
+        }
       })
       .catch(err => {
         console.error(err)
