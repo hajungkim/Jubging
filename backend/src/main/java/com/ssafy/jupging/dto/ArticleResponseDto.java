@@ -21,6 +21,8 @@ public class ArticleResponseDto {
 
     private int commentCnt;
 
+    private String nickname;
+
     public ArticleResponseDto(Article article){
         this.articleId=article.getArticleId();
         this.content=article.getContent();
