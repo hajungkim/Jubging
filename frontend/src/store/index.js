@@ -70,6 +70,7 @@ export default new Vuex.Store({
     // 미션 관련
     GET_MISSION(state, missions) {
       state.missions = missions
+      console.log(state.missions)
     },
       
     // 유저 관련
@@ -106,9 +107,6 @@ export default new Vuex.Store({
         localStorage.setItem('token', res.data.data.token)
         context.commit('UPDATE_TOKEN', res.data.data)
         return res.data.data
-      })
-      .then(() => {
-        router.push({ name: 'Main' })
       })
       .then((tf) => {
         if (tf) {
