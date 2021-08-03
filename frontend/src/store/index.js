@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import router from '../router'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -59,17 +59,27 @@ export default new Vuex.Store({
       // },
     ],
     Token: localStorage.getItem('token') || '',
+    userId: null,
+    missions: null,
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
-    
-    UPDATE_TOKEN(state, Token) {
-      state.Token = Token
+
+    // 미션 관련
+    GET_MISSION(state, missions) {
+      state.missions = missions
+    },
+      
+    // 유저 관련
+    UPDATE_TOKEN(state, data) {
+      state.Token = data.token
+      state.userId = data.userId
     },
     DELETE_TOKEN(state) {
       state.Token = ''
+      state.userId = null
     }
   },
   actions: {
@@ -77,11 +87,26 @@ export default new Vuex.Store({
       context.commit('isCurrent',page)
     },
 
+    // 미션 관련
+    getMission(context) {
+      axios.get(`mission/${this.state.userId}`)
+      .then(res => {
+        context.commit('GET_MISSION', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
-        localStorage.setItem('token', res.data.data)
+        localStorage.setItem('token', res.data.data.token)
         context.commit('UPDATE_TOKEN', res.data.data)
+      })
+      .then(() => {
+        router.push({ name: 'Main' })
       })
     },
     signup(context, credentials) {
@@ -94,8 +119,8 @@ export default new Vuex.Store({
        })
     },
     logout(context) {
-      context.commit('DELETE_TOKEN')
       localStorage.removeItem('token')
+      context.commit('DELETE_TOKEN')
     }
   },
   modules: {
