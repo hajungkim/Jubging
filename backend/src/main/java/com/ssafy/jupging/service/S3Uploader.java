@@ -3,6 +3,7 @@ package com.ssafy.jupging.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.ssafy.jupging.dto.ImageUploadResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,7 @@ public class S3Uploader {
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
+    public ImageUploadResponseDto upload(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile을 File convert으로 변환 실패"));
 
@@ -33,11 +34,14 @@ public class S3Uploader {
     }
 
     // S3로 파일 업로드 하기
-    private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName(); // S3에 저장된 파일 이름
+    private ImageUploadResponseDto upload(File uploadFile, String dirName) {
+        String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName(); // S3에 저장된 파일 이름 = 키
+
         String uploadImageUrl = putS3(uploadFile, fileName);    // S3로 업로드
         removeNewFile(uploadFile);
-        return uploadImageUrl;
+
+        ImageUploadResponseDto responseDto = new ImageUploadResponseDto(uploadImageUrl, fileName);
+        return responseDto;
     }
 
     // S3로 업로드
@@ -67,6 +71,13 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    public void delete(String filePath){
+        boolean isExistObject = amazonS3Client.doesObjectExist(bucket, filePath);
+        if (isExistObject == true) {
+            amazonS3Client.deleteObject(bucket, filePath);
+        }
     }
 
 }
