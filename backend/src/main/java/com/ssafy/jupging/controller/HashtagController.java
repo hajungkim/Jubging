@@ -2,6 +2,7 @@ package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Article;
 import com.ssafy.jupging.domain.entity.Hashtag;
+import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.HashtagSaveRequestDto;
 import com.ssafy.jupging.service.ArticleService;
@@ -110,8 +111,12 @@ public class HashtagController {
                 int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
                 articleResponseDto.setCommentCnt(commentCnt);
 
-                String nickname = userService.findUser(articleResponseDto.getUserId()).getNickname();
-                articleResponseDto.setNickname(nickname);
+                User user = userService.findUser(articleResponseDto.getUserId());
+                articleResponseDto.setNickname(user.getNickname());
+                articleResponseDto.setProfilePath( user.getProfilePath());
+
+                List<String> hashlist = getHashList(articleResponseDto.getArticleId());
+                articleResponseDto.setHashlist(hashlist);
 
                 list.add(articleResponseDto);
             }
@@ -131,4 +136,14 @@ public class HashtagController {
         return response;
     }
 
+    //articleId에 있는 해시 반환
+    public List<String> getHashList(Long articleId){
+        List<String> list = new ArrayList<>();
+
+        List<Hashtag> hashtagList = hashtagService.findHashtagByArticleId(articleId);
+        for(Hashtag hash : hashtagList){
+            list.add(hash.getContent());
+        }
+        return list;
+    }
 }
