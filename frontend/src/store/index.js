@@ -60,12 +60,19 @@ export default new Vuex.Store({
     ],
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
+    missions: null,
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
 
+    // 미션 관련
+    GET_MISSION(state, missions) {
+      state.missions = missions
+    },
+      
+    // 유저 관련
     UPDATE_TOKEN(state, data) {
       console.log(data)
       state.Token = data.token
@@ -81,6 +88,18 @@ export default new Vuex.Store({
       context.commit('isCurrent',page)
     },
 
+    // 미션 관련
+    getMission(context) {
+      axios.get(`mission/${this.state.userId}`)
+      .then(res => {
+        context.commit('GET_MISSION', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
