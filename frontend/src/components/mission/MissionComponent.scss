@@ -1,5 +1,11 @@
+.mission-component-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .mission-card {
-	width: 380px;
+	width: 376px;
 	height: 250px;
 	background-color: white;
 	border-radius: 10px;
@@ -8,9 +14,8 @@
 }
 
 .mission-description {
-	width: 380px;
+	width: 376px;
 	height: 100px;
-	background-color: gray;
 	border-radius: 10px 10px 0px 0px;
 	text-align: center;
 
