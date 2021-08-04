@@ -49,10 +49,10 @@ public class UserController {
 
     @ApiOperation(value = "이메일 중복체크", notes = "이메일 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
     @PostMapping("/emailck")
-    public ControllerResponse checkEmail(@RequestParam String email) {
+    public ControllerResponse checkEmail(@RequestBody UserEmailCkRequest request) {
         ControllerResponse response = null;
         try {
-            boolean ispresent = userService.checkEmail(email);
+            boolean ispresent = userService.checkEmail(request.getEmail());
             response = new ControllerResponse("success", ispresent);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -62,10 +62,10 @@ public class UserController {
 
     @ApiOperation(value = "닉네임 중복체크", notes = "닉네임 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
     @PostMapping("/nicknameck")
-    public ControllerResponse checkNickname(@RequestParam String nickname) {
+    public ControllerResponse checkNickname(@RequestBody UserNicknameCkRequest request) {
         ControllerResponse response = null;
         try {
-            boolean ispresent = userService.checkNickname(nickname);
+            boolean ispresent = userService.checkNickname(request.getNickname());
             response = new ControllerResponse("success", ispresent);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
