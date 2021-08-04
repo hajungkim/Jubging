@@ -59,7 +59,7 @@ export default new Vuex.Store({
       // },
     ],
     Token: localStorage.getItem('token') || '',
-    userId: null,
+    userId: localStorage.getItem('userId') || '',
     missions: null,
   },
   mutations: {
