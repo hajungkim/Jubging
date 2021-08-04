@@ -2,7 +2,7 @@
   <div>
     <div class="top">
       <router-link :to="{name:'Home'}" >
-        <img class="back_icon" src="@/assets/back.png" alt="back_icon">
+        <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
       </router-link>
       <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
       <img class="hamburger" src="@/assets/hamburger.png" alt="burger" style="margin-right:10px" @click="open">
