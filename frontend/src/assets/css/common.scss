@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
 
-$primary: red;
+$primary: #229788;
 $secondary: blue;
 $tertiary: green;
+
+$Error: #9c0000;
 
 $dark: black;
 $darkgray: gray;
@@ -21,7 +23,17 @@ body {
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+svg {
+  background-color: transparent !important; 
+}
 
+.text-error {
+  color: $Error;
+}
+
+.text-primary {
+  color: $primary;
+}
 
 ////////////////////////////////////////////////////////////
 
