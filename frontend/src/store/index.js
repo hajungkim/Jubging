@@ -17,6 +17,8 @@ export default new Vuex.Store({
   state: {
     currentPage:0,
     articles:[],
+    followarticles:[],
+    selectArticle:[],
     Token: localStorage.getItem('token') || '',
     userId: null,
   },
@@ -35,6 +37,9 @@ export default new Vuex.Store({
     },
     loadArticles(state,data){
       state.articles=data;
+    },
+    loadfollowArticles(state,data){
+      state.followarticles=data;
     }
   },
   actions: {
@@ -76,6 +81,9 @@ export default new Vuex.Store({
     },
     loadArticles(context,data){
       return context.commit('loadArticles',data)
+    },
+    loadFollowArticles(context,data){
+      return context.commit('loadfollowArticles',data)
     }
   },
   modules: {
