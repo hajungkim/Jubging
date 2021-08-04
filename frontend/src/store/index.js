@@ -18,20 +18,28 @@ export default new Vuex.Store({
     currentPage:0,
     articles:[],
     Token: localStorage.getItem('token') || '',
-    userId: null,
+    userId: localStorage.getItem('userId') || '',
+    missions: null,
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
 
+    // 미션 관련
+    GET_MISSION(state, missions) {
+      state.missions = missions
+    },
+      
+    // 유저 관련
     UPDATE_TOKEN(state, data) {
+      console.log(data)
       state.Token = data.token
       state.userId = data.userId
     },
     DELETE_TOKEN(state) {
       state.Token = ''
-      state.userId = null
+      state.userId = ''
     },
     loadArticles(state,data){
       state.articles=data;
@@ -42,16 +50,25 @@ export default new Vuex.Store({
       context.commit('isCurrent',page)
     },
 
+    // 미션 관련
+    getMission(context) {
+      axios.get(`mission/${this.state.userId}`)
+      .then(res => {
+        context.commit('GET_MISSION', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
-        // 리팩토링할 때 아래로 옮기기 : 로그인 실패할 때도 실행됨
-        localStorage.setItem('token', res.data.data.token)
-        context.commit('UPDATE_TOKEN', res.data.data)
-        return res.data.data
-      })
-      .then((tf) => {
-        if (tf) {
+        if (res.data.data) {
+          localStorage.setItem('token', res.data.data.token)
+          localStorage.setItem('userId', res.data.data.userId)
+          context.commit('UPDATE_TOKEN', res.data.data)
           router.push({ name: 'Home' })
         } else {
           alert('이메일 혹은 비밀번호가 틀렸습니다.')
@@ -63,12 +80,14 @@ export default new Vuex.Store({
     },
     logout(context) {
       localStorage.removeItem('token')
+      localStorage.removeItem('userId')
       context.commit('DELETE_TOKEN')
     },
     signup(context, credentials) {
       axios.post('user/join/', credentials)
       .then(() => {
           context.dispatch('login', credentials)
+          alert('회원가입이 완료되었습니다.')
         })
       .catch(err => {
         console.error(err)
