@@ -25,9 +25,9 @@
       </div>
       <div class="follow_photo_container" v-show="!this.toggle">
         <FollowList
-          v-for="(article,idx) in articles"
+          v-for="(followarticle,idx) in followarticles"
           :key="idx"
-          :article="article"
+          :followarticle="followarticle"
           v-show="!toggle"
         />
       </div>
@@ -62,21 +62,11 @@ export default {
     toSearch(){
       this.$router.push({name:'Search'})
     },
-  },
-  computed:{
-    ...mapState([
-      'articles'
-    ])
-  },
-  created(){
-    // const token=localStorage.getItem('jwt')
+    allArticles(){
       let URL = 'http://localhost:8080/article/list'
       let params={
         method:'get',
         url:URL,
-        headers:{
-          // Authorization:`JWT ${token}`
-        },
       }
       axios(params)
         .then((res)=>{
@@ -85,6 +75,32 @@ export default {
         .catch((e)=>{
           console.error(e);
         })
+    },
+    followArticles(){
+    let URL = `http://localhost:8080/follow/findarticle/${this.$store.state.userId}`
+    let params={
+      method:'get',
+      url:URL,
+    }
+    axios(params)
+      .then((res)=>{
+        this.$store.dispatch('loadFollowArticles',res.data.data)    
+      })
+      .catch((e)=>{
+        console.error(e);
+      })
+    }
+  },
+  computed:{
+    ...mapState([
+      'articles',
+      'followarticles',
+    ])
+  },
+  created(){
+    console.log("현재 로그인 유저",this.$store.state.userId)
+    this.allArticles()
+    this.followArticles()
   }
 }
 </script>
