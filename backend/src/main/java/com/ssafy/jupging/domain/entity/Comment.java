@@ -11,6 +11,7 @@ import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,9 +22,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @CreationTimestamp
     @Column(nullable = false)
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private Long articleId;
