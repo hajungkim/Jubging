@@ -53,7 +53,7 @@ created() {
 },
 mounted() {
     console.log("mounted")
-    window.kakao && window.kakao.maps ? this.initMap() : this.addScript()
+    window.kakao && window.kakao.maps ? this.initMap : this.addScript()
     window.getInfo = this.getInfo
 },
 methods:{
@@ -61,11 +61,11 @@ methods:{
         this.latitude = latitude
         this.longitude = longitude
     },
-    initMap(latitude, longitude) {
+    initMap() {
         console.log("ininMap")
         var container = document.getElementById('map');
         var options = {
-            center: new kakao.maps.LatLng(latitude, longitude),
+            center: new kakao.maps.LatLng(33.450701, 126.570667),
             level: 3
         };
 
@@ -79,7 +79,7 @@ methods:{
         console.log("addScript");
         const script = document.createElement('script'); 
         script.onload = () => kakao.maps.load(this.initMap); 
-        script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${this.myKey}&libraries=services,clusterer,drawing`; 
+        script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${this.myKey}`; 
         document.head.appendChild(script); 
     },
 },
