@@ -17,16 +17,16 @@
       <div class="photo-grid" v-show="this.toggle">
         <div class="today-jubging" v-show="this.toggle">오늘의 줍깅 : 31231</div>
         <PhotoList
-          v-for="article in photos"
-          :key="article.id"
+          v-for="(article,idx) in articles"
+          :key="idx"
           :article="article"
           v-show="toggle"
         />
       </div>
       <div class="follow_photo_container" v-show="!this.toggle">
         <FollowList
-          v-for="article in photos"
-          :key="article.id"
+          v-for="(article,idx) in articles"
+          :key="idx"
           :article="article"
           v-show="!toggle"
         />
@@ -39,6 +39,7 @@
 import PhotoList from '@/components/home/PhotoList.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
+import axios from 'axios'
 
 import { mapState } from 'vuex'
 
@@ -60,12 +61,30 @@ export default {
     },
     toSearch(){
       this.$router.push({name:'Search'})
-    }
+    },
   },
   computed:{
     ...mapState([
-      'photos'
+      'articles'
     ])
+  },
+  created(){
+    // const token=localStorage.getItem('jwt')
+      let URL = 'http://localhost:8080/article/list'
+      let params={
+        method:'get',
+        url:URL,
+        headers:{
+          // Authorization:`JWT ${token}`
+        },
+      }
+      axios(params)
+        .then((res)=>{
+          this.$store.dispatch('loadArticles',res.data.data)           
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
   }
 }
 </script>
