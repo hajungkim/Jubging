@@ -33,4 +33,8 @@ public class HashtagService {
     public List<Hashtag> findHashtag(String hashtag) {
         return hashtagRepository.findAllByContent(hashtag);
     }
+
+    public List<Hashtag> findHashtagByArticleId(Long articleId) {
+        return hashtagRepository.findAllByArticleId(articleId);
+    }
 }
