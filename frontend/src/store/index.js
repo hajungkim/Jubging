@@ -16,48 +16,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentPage:0,
-    photos:[
-      {
-        title:'0',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'1',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'2',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'3',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'4',
-        url:'http://placehold.it/185x185',
-      },
-      // {
-      //   title:'5',
-      //   url:'http://placehold.it/185x185',
-      // },
-      // {
-      //   title:'6',
-      //   url:"@/assets/sample6.png",
-      // },
-      // {
-      //   title:'7',
-      //   url:"@/assets/sample7.png",
-      // },
-      // {
-      //   title:'8',
-      //   url:"@/assets/sample8.png",
-      // },
-      // {
-      //   title:'9',
-      //   url:"@/assets/sample8.png",
-      // },
-    ],
+    articles:[],
     Token: localStorage.getItem('token') || '',
     userId: null,
   },
@@ -73,6 +32,9 @@ export default new Vuex.Store({
     DELETE_TOKEN(state) {
       state.Token = ''
       state.userId = null
+    },
+    loadArticles(state,data){
+      state.articles=data;
     }
   },
   actions: {
@@ -112,6 +74,9 @@ export default new Vuex.Store({
         console.error(err)
        })
     },
+    loadArticles(context,data){
+      return context.commit('loadArticles',data)
+    }
   },
   modules: {
   }
