@@ -110,63 +110,7 @@ export default {
 }
 </script>
 
-<style scoped>
-.top3-group {
-	display: flex;
-	justify-content: space-evenly;
-}
-
-.top3 {
-	width: 100px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.top3 > img {
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-}
-
-
-.top20-group {
-	padding: 5px 20px;
-}
-
-.top20 {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.rank-user-group {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.top20-rank {
-	width: 50px;
-	text-align: center;
-}
-
-.top20-user {
-	display: flex;
-	align-items: center;
-	
-}
-
-.top20-user > img {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-}
-
-.top20-score {
-	margin-right: 20px;
-}
+<style lang="scss" scoped>
+@import "@/components/ranking/UserRank.scss";
 
 </style>
