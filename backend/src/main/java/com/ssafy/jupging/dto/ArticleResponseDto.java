@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class ArticleResponseDto {
     private String content;
     private String photosPath;
     private int likeCnt;
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
     private Long userId;
 
     private int commentCnt;
