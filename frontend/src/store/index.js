@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import router from '../router'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -59,17 +59,28 @@ export default new Vuex.Store({
       // },
     ],
     Token: localStorage.getItem('token') || '',
+    userId: localStorage.getItem('userId') || '',
+    missions: null,
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
-    
-    UPDATE_TOKEN(state, Token) {
-      state.Token = Token
+
+    // 미션 관련
+    GET_MISSION(state, missions) {
+      state.missions = missions
+    },
+      
+    // 유저 관련
+    UPDATE_TOKEN(state, data) {
+      console.log(data)
+      state.Token = data.token
+      state.userId = data.userId
     },
     DELETE_TOKEN(state) {
       state.Token = ''
+      state.userId = ''
     }
   },
   actions: {
@@ -77,26 +88,49 @@ export default new Vuex.Store({
       context.commit('isCurrent',page)
     },
 
+    // 미션 관련
+    getMission(context) {
+      axios.get(`mission/${this.state.userId}`)
+      .then(res => {
+        context.commit('GET_MISSION', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
-        localStorage.setItem('token', res.data.data)
-        context.commit('UPDATE_TOKEN', res.data.data)
+        if (res.data.data) {
+          localStorage.setItem('token', res.data.data.token)
+          localStorage.setItem('userId', res.data.data.userId)
+          context.commit('UPDATE_TOKEN', res.data.data)
+          router.push({ name: 'Home' })
+        } else {
+          alert('이메일 혹은 비밀번호가 틀렸습니다.')
+        }
       })
-    },
-    signup(context, credentials) {
-      axios.post('user/join/', credentials)
-      .then(() => {
-          context.dispatch('login', credentials)
-        })
       .catch(err => {
         console.error(err)
        })
     },
     logout(context) {
-      context.commit('DELETE_TOKEN')
       localStorage.removeItem('token')
-    }
+      localStorage.removeItem('userId')
+      context.commit('DELETE_TOKEN')
+    },
+    signup(context, credentials) {
+      axios.post('user/join/', credentials)
+      .then(() => {
+          context.dispatch('login', credentials)
+          alert('회원가입이 완료되었습니다.')
+        })
+      .catch(err => {
+        console.error(err)
+       })
+    },
   },
   modules: {
   }

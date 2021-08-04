@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mission-wrap">
     <div class="top-select">
 			<div @click="changeComponent(true)" class="select-item" :class="[flag ? 'active': 'inactive']"><span>줍깅 미션</span></div>
 			<div @click="changeComponent(false)" class="select-item" :class="[!flag ? 'active': 'inactive']"><span>활동 미션</span></div>
@@ -27,6 +27,9 @@ export default {
 			flag: true
 		}
 	},
+	created() {
+		this.$store.dispatch('getMission')
+	},
 	methods: {
 		changeComponent(bool) {
 			this.flag = bool
@@ -35,35 +38,7 @@ export default {
 }
 </script>
 
-<style scoped>
-.top-select {
-	display: flex;
-	justify-content: space-evenly;
-}
-
-.top-select > .select-item {
-	width: 180px;
-	height: 50px;
-	text-align: center;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.active {
-	color: red;
-	border-bottom: 5px solid red;
-}
-
-.inactive {
-	color: black;
-}
-
-.mission-screen {
-	overflow: auto;
-  height: 650px;
-	margin: 30px 16px;
-}
+<style lang="scss" scoped>
+@import '@/components/mission/Mission.scss';
 
 </style>
