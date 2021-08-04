@@ -7,6 +7,10 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 
 <script>
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:8080/'
+
 export default {
   name: 'RegionRank',
   data() {
@@ -48,22 +52,39 @@ export default {
     var popByName = d3.map();
 
     queue()
-        .defer(d3.json, "municipalities-topo-simple.json")
-        .defer(d3.csv, "population-edited.csv", function(d) {
-            popByName.set(d.name, +d.population);
+      .defer(d3.json, "municipalities-topo-simple.json")
+      .defer(data_request)
+      .await(ready);
+  
+    // .defer(d3.csv, "population-edited.csv", function(d) {
+    //   popByName.set(d.name, +d.population);
+    // })
+
+    function data_request(callback) {
+      axios.get(`article/list`)
+      .then(res => {
+        return res.data.data
+      })
+      .then(datas => {
+        datas.forEach((data) => {
+          console.log(data)
+          popByName.set(data.content, +data.articleId)
         })
-        .await(ready);
-    
+        callback()
+      })
+    }
+
     function ready(error, data) {
-      var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
+        var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
+        console.log(popByName)
 
-      features.forEach(function(d) {
-        d.properties.population = popByName.get(d.properties.name);
-        d.properties.density = d.properties.population / path.area(d);
-        d.properties.quantized = quantize(d.properties.density);
-      });
+        features.forEach(function(d) {
+          d.properties.population = popByName.get(d.properties.name);
+          d.properties.density = d.properties.population / path.area(d);
+          d.properties.quantized = quantize(d.properties.density);
+        });
 
-      svg.selectAll("path")
+        svg.selectAll("path")
           .data(features)
           .enter().append("path")
           .attr("class", function(d) { return "municipality " + d.properties.quantized; })
@@ -76,7 +97,7 @@ export default {
 }
 </script>
 
-<style> 
+<style scoped> 
     svg { background-color: #eee; }
     svg .municipality { fill: red; }
     svg .municipality:hover { stroke: #333; }
