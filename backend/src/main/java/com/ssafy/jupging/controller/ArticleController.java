@@ -1,12 +1,14 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Article;
+import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.ArticleSaveRequestDto;
 import com.ssafy.jupging.dto.ArticleUpdateRequestDto;
 import com.ssafy.jupging.dto.FollowResponseDto;
 import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.MissionService;
+import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ public class ArticleController {
     private final HashtagController hashtagController;
     private final CommentController commentController;
     private final MissionService missionService;
+    private final UserService userService;
 
     /**
      * 게시글 등록
@@ -75,6 +78,11 @@ public class ArticleController {
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
             int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
             articleResponseDto.setCommentCnt(commentCnt);
+
+            User user = userService.findUser(articleResponseDto.getUserId());
+            articleResponseDto.setNickname(user.getNickname());
+            articleResponseDto.setProfilePath(user.getProfilePath());
+
             response = new ControllerResponse("success", articleResponseDto);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
