@@ -7,6 +7,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -56,6 +59,24 @@ public class JubgingLogController {
         try {
             jubgingLogService.deleteJubgingLog(jubgingId);
             response = new ControllerResponse("success", "줍깅로그 삭제 성공");
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "전체 줍깅 카운트 가져오기", notes = "오늘 줍깅 수 반환", response = ControllerResponse.class)
+    @GetMapping("/total")
+    public ControllerResponse countJubgingLog() {
+        ControllerResponse response = null;
+        try {
+            LocalDateTime startDate = LocalDateTime.of(LocalDate.now(), LocalTime.of(00,00,00));
+            LocalDateTime endDate = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59));
+
+            int todayCount = jubgingLogService.countJubgingLog(startDate, endDate);
+
+            response = new ControllerResponse("success", todayCount);
+
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
