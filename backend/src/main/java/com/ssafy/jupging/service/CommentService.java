@@ -22,6 +22,7 @@ public class CommentService {
 
     @Transactional
     public void deleteComment(long commentId) {
+        //특정 댓글 한 개 삭제
         Optional<Comment> comment = commentRepository.findByCommentId(commentId);
         commentRepository.delete(comment.get());
     }
@@ -31,8 +32,14 @@ public class CommentService {
         return commentRepository.countByArticleId(articleId);
     }
 
-
+    @Transactional
     public List<Comment> findAllComment(long articleId) {
         return commentRepository.findAllByArticleId(articleId);
+    }
+
+    @Transactional
+    public void deleteAllComment(Long articleId) {
+        //게시글 삭제할 때, 모든 댓글 삭제
+        commentRepository.deleteAllByArticleId(articleId);
     }
 }

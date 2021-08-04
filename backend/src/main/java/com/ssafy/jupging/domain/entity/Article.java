@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,9 +29,8 @@ public class Article {
     @Column(nullable = false)
     private int likeCnt;
 
-    @CreationTimestamp
     @Column(nullable = false)
-    private Timestamp createdDate;
+    private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private Long userId;

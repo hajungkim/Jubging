@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,5 +29,11 @@ public class JubgingLogService {
     @Transactional
     public void deleteJubgingLog(Long jubgingId) {
         jubgingLogRepository.deleteById(jubgingId);
+    }
+
+    @Transactional
+    public int countJubgingLog(LocalDateTime start, LocalDateTime end) {
+        List<JubgingLog> list = jubgingLogRepository.findByCreatedDateBetween(start, end);
+        return list.size();
     }
 }
