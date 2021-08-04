@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="mission-component-wrap">
 		<div v-for="badge in badges" :key="badge.id" class="mission-card ">
-			<div class="mission-description">
+			<div class="mission-description" :style="{ backgroundImage: 'url(' + badge.bg_image + ')'}">
 				<h2 class="title">{{ badge.name }}</h2>
 				<span class="sub">{{ badge.description }}</span>
 				<span class="sub">{{ badge.currentCnt }}</span>
@@ -37,6 +37,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '일반쓰레기 뱃지',
@@ -45,6 +48,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '고철 뱃지',
@@ -53,6 +59,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
         {
 					name: '병 뱃지',
@@ -61,6 +70,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '캔 뱃지',
@@ -69,6 +81,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '종이 뱃지',
@@ -77,6 +92,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
         {
 					name: '플라스틱 뱃지',
@@ -85,6 +103,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '스티로폼 뱃지',
@@ -93,6 +114,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '비닐 뱃지',
@@ -101,6 +125,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
         {
 					name: '집주변 뱃지',
@@ -109,6 +136,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
         {
 					name: '산 뱃지',
@@ -117,6 +147,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '바다 뱃지',
@@ -125,6 +158,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '강 뱃지',
@@ -133,6 +169,9 @@ export default {
 					bronze: 10,
 					silver: 20,
 					gold: 30,
+					bg_image: 'http://placehold.it/185x185',
+					bronze_image: 'http://placehold.it/185x185',
+					silver_image: 'http://placehold.it/185x185',
 				},
 			]
 		}

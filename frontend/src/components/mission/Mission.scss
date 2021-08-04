@@ -6,16 +6,15 @@
 .top-select {
 	display: flex;
 	justify-content: space-evenly;
-}
-
-.top-select > .select-item {
-	width: 180px;
-	height: 50px;
-	text-align: center;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	.select-item {
+		width: 180px;
+		height: 50px;
+		text-align: center;
+	
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}	
 }
 
 .active {
@@ -29,6 +28,6 @@
 
 .mission-screen {
 	overflow: auto;
-  height: 630px;
-	margin: 30px 16px;
+  height: 640px;
+	margin: 25px 16px;
 }
