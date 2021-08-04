@@ -1,7 +1,7 @@
 <template>
   <div>
   <router-link :to="{name:'Detail'}" >
-    <img class="photo-img" :src="article.url">
+    <img class="photo-img" :src="article.photosPath">
   </router-link>
   </div>
 </template>
