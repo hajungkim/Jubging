@@ -1,8 +1,6 @@
 <template>
-  <div>
-  <router-link :to="{name:'Detail'}" >
-    <img class="photo-img" :src="article.photosPath">
-  </router-link>
+  <div >
+    <img @click="onClick(article)" class="photo-img" :src="article.photosPath">
   </div>
 </template>
 
@@ -14,6 +12,12 @@ export default {
       type:Object,
     },
   },
+  methods:{
+    onClick(article){
+      this.$store.state.selectArticle=article
+      this.$router.push({name:'Detail'})
+    }
+  }
 }
 </script>
 
@@ -24,5 +28,6 @@ export default {
   height: 185px;
   border-radius: 10%;
   margin-bottom: 14px;
+  cursor:pointer;
 }
 </style>
