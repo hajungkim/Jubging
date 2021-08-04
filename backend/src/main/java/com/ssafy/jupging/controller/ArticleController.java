@@ -7,6 +7,7 @@ import com.ssafy.jupging.dto.ArticleSaveRequestDto;
 import com.ssafy.jupging.dto.ArticleUpdateRequestDto;
 import com.ssafy.jupging.dto.FollowResponseDto;
 import com.ssafy.jupging.service.ArticleService;
+import com.ssafy.jupging.service.CommentService;
 import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -31,9 +32,11 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final HashtagController hashtagController;
-    private final CommentController commentController;
     private final MissionService missionService;
     private final UserService userService;
+
+    private final CommentController commentController;
+    private final CommentService commentService;
 
     /**
      * 게시글 등록
@@ -118,14 +121,13 @@ public class ArticleController {
     public ControllerResponse deleteArticle(@RequestParam Long articleId, @RequestParam Long userId){
         ControllerResponse response = null;
         try {
-            //해시태그 삭제
-            hashtagController.deleteHashtag(articleId);
+            hashtagController.deleteHashtag(articleId);//해시태그 삭제
 
-            //게시글 삭제
-            articleService.deleteArticle(articleId);
+            commentService.deleteAllComment(articleId); //댓글삭제
 
-            //게시글 미션 카운트-1
-            missionService.updateArticleMission(userId, false);
+            articleService.deleteArticle(articleId);//게시글 삭제
+
+            missionService.updateArticleMission(userId, false);//게시글 미션 카운트-1
 
             response = new ControllerResponse("success", "게시글 삭제 성공");
         }  catch (Exception e) {
@@ -147,8 +149,19 @@ public class ArticleController {
 
         try{
             List<Article> articleList = articleService.findByUserId(user_id);
-            List<ArticleResponseDto> responselist = articleList.stream().map(ArticleResponseDto :: new).collect(Collectors.toList());
+            List<ArticleResponseDto> responselist = new ArrayList<>();
 
+            for(Article article:articleList){
+                ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
+                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                articleResponseDto.setCommentCnt(commentCnt);
+
+                User user = userService.findUser(articleResponseDto.getUserId());
+                articleResponseDto.setNickname(user.getNickname());
+                articleResponseDto.setProfilePath(user.getProfilePath());
+
+                responselist.add(articleResponseDto);
+            }
             if(responselist.isEmpty())
                 response = new ControllerResponse("success", null);
             else response = new ControllerResponse("success", responselist);
@@ -171,8 +184,19 @@ public class ArticleController {
 
         try {
             List<Article> articleList = articleService.findByOrderByCreatedDateDesc();
-            List<ArticleResponseDto> responselist = articleList.stream().map(ArticleResponseDto :: new).collect(Collectors.toList());
+            List<ArticleResponseDto> responselist = new ArrayList<>();
 
+            for(Article article:articleList){
+                ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
+                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                articleResponseDto.setCommentCnt(commentCnt);
+
+                User user = userService.findUser(articleResponseDto.getUserId());
+                articleResponseDto.setNickname(user.getNickname());
+                articleResponseDto.setProfilePath(user.getProfilePath());
+
+                responselist.add(articleResponseDto);
+            }
             response = new ControllerResponse("success", responselist);
 
         } catch (Exception e) {
