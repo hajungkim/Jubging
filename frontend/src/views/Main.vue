@@ -96,7 +96,7 @@
 export default {
   name:'Main',
   methods:{
-    onClick(link, event){
+    onClick(link,event){
       this.$store.dispatch('isCurrent', link)
       document.querySelector('.active').classList.remove('active')
       event.currentTarget.classList.add('active')
