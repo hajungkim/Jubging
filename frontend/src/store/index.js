@@ -106,7 +106,6 @@ export default new Vuex.Store({
     getRanker(context) {
       axios.get('user/score')
       .then(res => {
-        console.log(res)
         context.commit('GET_RANKER', res.data.data)
       })
       .catch(err => {
