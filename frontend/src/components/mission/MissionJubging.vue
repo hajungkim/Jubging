@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
 	name: 'MissionActive',
 	data() {
@@ -33,7 +35,7 @@ export default {
         {
 					name: '전체거리 뱃지',
 					description: '  설명',
-					currentCnt: this.$store.state.missions.totalDistance,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -44,7 +46,7 @@ export default {
 				{
 					name: '일반쓰레기 뱃지',
 					description: '득!',
-					currentCnt: this.$store.state.missions.trashCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -55,7 +57,7 @@ export default {
 				{
 					name: '고철 뱃지',
 					description: '  설명',
-					currentCnt: this.$store.state.missions.metalCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -66,7 +68,7 @@ export default {
         {
 					name: '병 뱃지',
 					description: '득!',
-					currentCnt: this.$store.state.missions.bottleCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -77,7 +79,7 @@ export default {
 				{
 					name: '캔 뱃지',
 					description: ' 설명',
-					currentCnt: this.$store.state.missions.canCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -88,7 +90,7 @@ export default {
 				{
 					name: '종이 뱃지',
 					description: '  설명',
-					currentCnt: this.$store.state.missions.paperCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -99,7 +101,7 @@ export default {
         {
 					name: '플라스틱 뱃지',
 					description: '득!',
-					currentCnt: this.$store.state.missions.plasticCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -110,7 +112,7 @@ export default {
 				{
 					name: '스티로폼 뱃지',
 					description: ' 설명',
-					currentCnt: this.$store.state.missions.styroformCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -121,7 +123,7 @@ export default {
 				{
 					name: '비닐 뱃지',
 					description: '  설명',
-					currentCnt: this.$store.state.missions.vinylCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -132,7 +134,7 @@ export default {
         {
 					name: '집주변 뱃지',
 					description: '  설명',
-					currentCnt: this.$store.state.missions.arroundCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -143,7 +145,7 @@ export default {
         {
 					name: '산 뱃지',
 					description: '득!',
-					currentCnt: this.$store.state.missions.mountainCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -154,7 +156,7 @@ export default {
 				{
 					name: '바다 뱃지',
 					description: ' 설명',
-					currentCnt: this.$store.state.missions.oceanCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -165,7 +167,7 @@ export default {
 				{
 					name: '강 뱃지',
 					description: '  설명',
-					currentCnt: this.$store.state.missions.riverCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -174,6 +176,28 @@ export default {
 					silver_image: 'http://placehold.it/185x185',
 				},
 			]
+		}
+	},
+	computed: {
+		...mapState([
+			'missions',
+		])
+	},
+	watch: {
+		missions() {
+			this.badges[0].currentCnt = this.missions.totalDistance
+			this.badges[1].currentCnt = this.missions.trashCnt
+			this.badges[2].currentCnt = this.missions.metalCnt
+			this.badges[3].currentCnt = this.missions.bottleCnt
+			this.badges[4].currentCnt = this.missions.canCnt
+			this.badges[5].currentCnt = this.missions.paperCnt
+			this.badges[6].currentCnt = this.missions.plasticCnt
+			this.badges[7].currentCnt = this.missions.styroformCnt
+			this.badges[8].currentCnt = this.missions.vinylCnt
+			this.badges[9].currentCnt = this.missions.arroundCnt
+			this.badges[10].currentCnt = this.missions.mountainCnt
+			this.badges[11].currentCnt = this.missions.oceanCnt
+			this.badges[12].currentCnt = this.missions.riverCnt
 		}
 	},
 }
