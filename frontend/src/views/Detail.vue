@@ -1,9 +1,7 @@
 <template>
   <div style="height:781px">
     <div class="top">
-      <router-link :to="{name:'Home'}" class="default-link">
-        <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
-      </router-link>
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
       <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
     </div>
     <div class="article_content">
@@ -102,7 +100,7 @@ export default {
     }
   },
   created(){
-    // console.log(this.article,'@@@')
+    console.log(this.article,'@@@')
     // console.log(this.$store.state.userId,'로그인아이디')
     this.getComment()
   },
@@ -167,6 +165,10 @@ export default {
         .catch((e)=>{
           console.error(e);
         })
+    },
+    onClick(){
+      if(this.$store.state.backPage==1)this.$router.push({name:'My'})
+      else this.$router.push({name:'Home'})
     }
   },
 }
@@ -176,6 +178,7 @@ export default {
 /* 상단바 */
 .back_icon{
   margin-left:15px;
+  cursor: pointer;
 }
 .logo{
   margin-right:155px;
