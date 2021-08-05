@@ -177,4 +177,27 @@ public class UserController {
         return response;
     }
 
+    @ApiOperation(value = "유저 점수리스트 반환", notes = "점수 오름차순으로 유저 전체 리스트 반환", response = ControllerResponse.class)
+    @GetMapping("/score")
+    public ControllerResponse getScore() {
+        ControllerResponse response = null;
+
+        try {
+            List<User> userList = userService.findAllUser();
+            List<UserRankingResponseDto> scoreList = new ArrayList<>();
+            for (User user : userList) {
+                UserRankingResponseDto responseDto
+                        = new UserRankingResponseDto(user.getUserId(), user.getNickname(), user.getScore(), user.getProfilePath());
+                scoreList.add(responseDto);
+            }
+            Collections.sort(scoreList);
+
+            response = new ControllerResponse("success", scoreList);
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+
+        return response;
+    }
+
 }
