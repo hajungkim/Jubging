@@ -32,7 +32,8 @@ public class JubgingLogController {
 
             // 유저 score 저장
             int score = 100;
-            int disScore = Integer.parseInt(requestDto.getDistance()) * 100;
+            double temp = Double.parseDouble(requestDto.getDistance()) * 100;
+            int disScore = (int) temp;
             String[] time = requestDto.getTotalTime().split(":");
             int timeScore = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]);
             score += disScore + timeScore;
