@@ -20,6 +20,7 @@ export default new Vuex.Store({
     followarticles:[],
     selectArticle:[],
     backPage:0,
+    currentUser:0,
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
