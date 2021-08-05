@@ -2,10 +2,13 @@ package com.ssafy.jupging.service;
 
 import com.ssafy.jupging.domain.entity.JubgingLog;
 import com.ssafy.jupging.domain.repository.JubgingLogRepository;
+import com.ssafy.jupging.dto.JubgingLogSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -15,7 +18,9 @@ public class JubgingLogService {
     private final JubgingLogRepository jubgingLogRepository;
 
     @Transactional
-    public JubgingLog saveJubgingLog(JubgingLog jubgingLog) {
+    public JubgingLog saveJubgingLog(JubgingLogSaveRequestDto requestDto) {
+        JubgingLog jubgingLog = new JubgingLog();
+        jubgingLog = jubgingLog.saveJubgingLog(requestDto);
         return jubgingLogRepository.save(jubgingLog);
     }
 
@@ -27,5 +32,11 @@ public class JubgingLogService {
     @Transactional
     public void deleteJubgingLog(Long jubgingId) {
         jubgingLogRepository.deleteById(jubgingId);
+    }
+
+    @Transactional
+    public int countJubgingLog(LocalDateTime start, LocalDateTime end) {
+        List<JubgingLog> list = jubgingLogRepository.findByCreatedDateBetween(start, end);
+        return list.size();
     }
 }

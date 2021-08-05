@@ -2,12 +2,9 @@
   <div>
     <div class="main_top">
       <img src="@/assets/textlogo.png" alt="logo" class="text_logo">
-      <div class="search_div">
-      <input type="text" placeholder="검색" class="search_input">
-      <button class="search_button"><font-awesome-icon icon="search"/></button>
-      </div>
-      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 0px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
-      <div class="follow_div">
+      <div class="search_alarm_follow">
+      <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
+      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 15px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
@@ -16,22 +13,21 @@
     </div>
     <AlarmModal v-if="isModal" @close-modal="isModal=false">
     </AlarmModal>
-    <Search/>
     <div class="photo_list">
       <div class="photo-grid" v-show="this.toggle">
         <div class="today-jubging" v-show="this.toggle">오늘의 줍깅 : 31231</div>
         <PhotoList
-          v-for="article in photos"
-          :key="article.id"
+          v-for="(article,idx) in articles"
+          :key="idx"
           :article="article"
           v-show="toggle"
         />
       </div>
       <div class="follow_photo_container" v-show="!this.toggle">
         <FollowList
-          v-for="article in photos"
-          :key="article.id"
-          :article="article"
+          v-for="(followarticle,idx) in followarticles"
+          :key="idx"
+          :followarticle="followarticle"
           v-show="!toggle"
         />
       </div>
@@ -41,16 +37,15 @@
 
 <script>
 import PhotoList from '@/components/home/PhotoList.vue'
-import Search from '@/components/home/Search.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
+import axios from 'axios'
 
 import { mapState } from 'vuex'
 
 export default {
   components:{
     PhotoList,
-    Search,
     AlarmModal,
     FollowList,
   },
@@ -58,17 +53,71 @@ export default {
     return {
       toggle:true,
       isModal:false,
+      total:0,
     }
   },
   methods:{
     followToggle(){
       this.toggle = !this.toggle
+    },
+    toSearch(){
+      this.$router.push({name:'Search'})
+    },
+    allArticles(){
+      let URL = 'http://localhost:8080/article/list'
+      let params={
+        method:'get',
+        url:URL,
+      }
+      axios(params)
+        .then((res)=>{
+          this.$store.dispatch('loadArticles',res.data.data)           
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    followArticles(){
+    let URL = `http://localhost:8080/follow/findarticle/${this.$store.state.userId}`
+    let params={
+      method:'get',
+      url:URL,
     }
+    axios(params)
+      .then((res)=>{
+        this.$store.dispatch('loadFollowArticles',res.data.data)    
+      })
+      .catch((e)=>{
+        console.error(e);
+      })
+    },
+    todayJubging(){
+      let URL = 'http://localhost:8080/jubginglog/total'
+      let params={
+        method:'get',
+        url:URL,
+      }
+      axios(params)
+        .then((res)=>{
+          this.total=res.data.data
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
   },
   computed:{
     ...mapState([
-      'photos'
+      'articles',
+      'followarticles',
     ])
+  },
+  created(){
+    console.log("현재 로그인 유저",this.$store.state.userId)
+    this.$store.state.backPage=0
+    this.allArticles()
+    this.followArticles()
+    this.todayJubging()
   }
 }
 </script>
@@ -82,8 +131,8 @@ export default {
 }
 .text_logo{
   width:100px;
-  margin: 10px 10px 0px 16px;
-  /* transform: scale(1.1); */
+  margin: 10px 10px 0px 35px;
+  transform: scale(1.4);
 }
 .search_button{
   margin: 7px 0px 0px -20px;
@@ -112,7 +161,7 @@ export default {
 }
 
 /* 팔로우 토글 */
-.follow_div{
+.search_alarm_follow{
   display: flex;
   margin-left: auto;
   margin-right:10px;

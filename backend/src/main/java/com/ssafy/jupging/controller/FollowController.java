@@ -2,6 +2,7 @@ package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Article;
 import com.ssafy.jupging.domain.entity.Follow;
+import com.ssafy.jupging.domain.entity.Hashtag;
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.FollowResponseDto;
@@ -29,6 +30,9 @@ public class FollowController {
     private final MissionService missionService;
 
     private final ArticleService articleService;
+
+    private final CommentController commentController;
+    private final HashtagController hashtagController;
 
     @ApiOperation(value = "팔로우 등록", notes = "팔로우 등록 성공 시 '팔로우 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
@@ -143,7 +147,20 @@ public class FollowController {
 
                     List<Article> articleList = articleService.findByUserId(followResponseDto.getFollowUserId());
                     for(Article article : articleList){
-                        list.add(new ArticleResponseDto(article));
+                        ArticleResponseDto responseDto = new ArticleResponseDto(article);
+
+                        int commentCnt = commentController.countComment(responseDto.getArticleId()); //댓글 수
+                        responseDto.setCommentCnt(commentCnt);
+
+                        user = userService.findUser(responseDto.getUserId());
+                        responseDto.setNickname(user.getNickname()); //유저 닉네임
+                        responseDto.setProfilePath(user.getProfilePath()); //유저 프로필 경로
+
+                        //해당 게시글에 포함된 해시태그 리스트
+                        List<String> hashlist = hashtagController.getHashList(responseDto.getArticleId());
+                        responseDto.setHashlist(hashlist);
+
+                        list.add(responseDto);
                     }
                 }
 

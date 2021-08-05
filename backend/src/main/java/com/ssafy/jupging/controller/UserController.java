@@ -49,10 +49,10 @@ public class UserController {
 
     @ApiOperation(value = "이메일 중복체크", notes = "이메일 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
     @PostMapping("/emailck")
-    public ControllerResponse checkEmail(@RequestParam String email) {
+    public ControllerResponse checkEmail(@RequestBody UserEmailCkRequest request) {
         ControllerResponse response = null;
         try {
-            boolean ispresent = userService.checkEmail(email);
+            boolean ispresent = userService.checkEmail(request.getEmail());
             response = new ControllerResponse("success", ispresent);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -62,10 +62,10 @@ public class UserController {
 
     @ApiOperation(value = "닉네임 중복체크", notes = "닉네임 중복이면 false / 중복아니면 true 반환", response = ControllerResponse.class)
     @PostMapping("/nicknameck")
-    public ControllerResponse checkNickname(@RequestParam String nickname) {
+    public ControllerResponse checkNickname(@RequestBody UserNicknameCkRequest request) {
         ControllerResponse response = null;
         try {
-            boolean ispresent = userService.checkNickname(nickname);
+            boolean ispresent = userService.checkNickname(request.getNickname());
             response = new ControllerResponse("success", ispresent);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -170,6 +170,29 @@ public class UserController {
 
                 response = new ControllerResponse("success", list);
             }
+        } catch (Exception e) {
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+
+        return response;
+    }
+
+    @ApiOperation(value = "유저 점수리스트 반환", notes = "점수 오름차순으로 유저 전체 리스트 반환", response = ControllerResponse.class)
+    @GetMapping("/score")
+    public ControllerResponse getScore() {
+        ControllerResponse response = null;
+
+        try {
+            List<User> userList = userService.findAllUser();
+            List<UserRankingResponseDto> scoreList = new ArrayList<>();
+            for (User user : userList) {
+                UserRankingResponseDto responseDto
+                        = new UserRankingResponseDto(user.getUserId(), user.getNickname(), user.getScore(), user.getProfilePath());
+                scoreList.add(responseDto);
+            }
+            Collections.sort(scoreList);
+
+            response = new ControllerResponse("success", scoreList);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
