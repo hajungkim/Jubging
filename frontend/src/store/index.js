@@ -21,6 +21,7 @@ export default new Vuex.Store({
     selectArticle:[],
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
+    userInfo: [],
     missions: null,
   },
   mutations: {
@@ -35,7 +36,6 @@ export default new Vuex.Store({
       
     // 유저 관련
     UPDATE_TOKEN(state, data) {
-      console.log(data)
       state.Token = data.token
       state.userId = data.userId
     },
@@ -43,6 +43,10 @@ export default new Vuex.Store({
       state.Token = ''
       state.userId = ''
     },
+    GET_USER_INFO(state, data) {
+      state.userInfo = data
+    },
+
     loadArticles(state,data){
       state.articles=data;
     },
@@ -91,13 +95,33 @@ export default new Vuex.Store({
     signup(context, credentials) {
       axios.post('user/join/', credentials)
       .then(() => {
-          context.dispatch('login', credentials)
-          alert('회원가입이 완료되었습니다.')
-        })
+        context.dispatch('login', credentials)
+        alert('회원가입이 완료되었습니다.')
+      })
       .catch(err => {
         console.error(err)
-       })
+      })
     },
+    getUserInfo(context) {
+      axios.get(`user/${context.state.userId}`)
+      .then(res => {
+        context.commit('GET_USER_INFO', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    changeSetting(context, credentials) {
+      axios.put(`user/${context.state.userId}`, credentials)
+      .then(() => {
+        context.dispatch('getUserInfo')
+        alert('회원 정보가 수정되었습니다.')
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
     loadArticles(context,data){
       return context.commit('loadArticles',data)
     },
