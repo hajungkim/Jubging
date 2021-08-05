@@ -2,18 +2,19 @@
   <div style="height:781px">
     <div class="top">
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
-      <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+      <font-awesome-icon v-if="article.userId===parseInt(loginUser)" icon="trash" class="delete_button" @click="onDelete(article)"/>
     </div>
     <div class="article_content">
         <!--유저 정보-->
-        <div class="user_info">
+        <div class="user_info"  @click="moveProfile(article.userId)">
           <div class="profile_img">
             <img class="profile" :src="article.profilePath">
           </div>
           <span style="font-weight:bold;">{{article.nickname}}</span>
         </div>
         <!--사진들-->
-        <carousel-3d :width="300" :height="300">
+        <carousel-3d :width="300" :height="300" bias="right">
           <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
             <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
               <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" :src="photo.url">
@@ -65,7 +66,6 @@
 
 <script>
 import axios from 'axios'
-import "@/assets/css/topbar.css";
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 export default {
@@ -84,7 +84,7 @@ export default {
         },
         {
           title:'1',
-          url:'http://placehold.it/165x165',
+          url:require('@/assets/badge/can/sample4.png'),
         },
       ],
       comments:[],
@@ -100,8 +100,7 @@ export default {
     }
   },
   created(){
-    console.log(this.article,'@@@')
-    // console.log(this.$store.state.userId,'로그인아이디')
+    console.log(this.article.userId,this.loginUser,'@@')
     this.getComment()
   },
   methods: {
@@ -147,7 +146,6 @@ export default {
         })
     },
     commentDelete(comment){
-      console.log('댓글확인',comment)
       const URL = `http://localhost:8080/comment/${comment.commentId}?userId=${comment.userId}`
       const data = {
         comment_id:comment.commentId,
@@ -169,6 +167,33 @@ export default {
     onClick(){
       if(this.$store.state.backPage==1)this.$router.push({name:'My'})
       else this.$router.push({name:'Home'})
+    },
+    onDelete(article){
+      console.log('@@@',article)
+      const URL = `http://localhost:8080/article?articleId=${article.articleId}&userId=${article.userId}`
+      const data = {
+        articleId:article.articleId,
+        userId:article.userId
+      }
+      const params={
+        method:'delete',
+        url:URL,
+        data:data
+      }
+      axios(params)
+        .then(()=>{
+          this.$router.push({name:'My'})
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    moveProfile(userId){
+      if(userId===parseInt(this.loginUser))this.$router.push({name:'My'})
+      else{
+        this.$store.state.currentUser=userId
+        this.$router.push({name:'Userprofile'})
+      }
     }
   },
 }
@@ -176,12 +201,21 @@ export default {
 
 <style scoped>
 /* 상단바 */
+.top{
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
 .back_icon{
   margin-left:15px;
   cursor: pointer;
 }
 .logo{
-  margin-right:155px;
+  margin-left: 130px;
+  transform: scale(1.5);
+}
+.delete_button{
+  margin-left:120px;
   transform: scale(1.5);
 }
 /* 유저정보 및 게시글 */
@@ -192,6 +226,7 @@ export default {
   justify-content: center;
 }
 .user_info{
+  cursor: pointer;
   display: flex;
   align-items: center;
   margin: 9vh 10px 2.5vh 0;
