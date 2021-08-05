@@ -7,6 +7,7 @@ import Mission from '@/components/mission/Mission.vue'
 import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
+import Userprofile from '@/views/Userprofile.vue'
 import Setting from '@/components/my/Setting.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
@@ -68,6 +69,11 @@ const routes = [
     path:'/detail',
     name:'Detail',
     component:Detail,
+  },
+  {
+    path:'/userprofile',
+    name:'Userprofile',
+    component:Userprofile,
   },
   {
     path:'/setting',

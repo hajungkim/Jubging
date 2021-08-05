@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main_top">
-      <img src="@/assets/textlogo.png" alt="logo" class="text_logo">
+      <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
       <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 15px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
@@ -15,7 +15,7 @@
     </AlarmModal>
     <div class="photo_list">
       <div class="photo-grid" v-show="this.toggle">
-        <div class="today-jubging" v-show="this.toggle">오늘의 줍깅 : 31231</div>
+        <div class="today-jubging" v-show="this.toggle">오늘의 줍깅 : {{this.total}}</div>
         <PhotoList
           v-for="(article,idx) in articles"
           :key="idx"
