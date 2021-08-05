@@ -21,31 +21,15 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Slf4j
+@RequiredArgsConstructor
+@Component
 public class S3Uploader {
 
-    @Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
-
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
-
-    @Value("${cloud.aws.region.static}")
-    private String region;
+    private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
-
-    private AmazonS3Client amazonS3Client;
-
-    @PostConstruct
-    public void S3Client() {
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-        amazonS3Client =  (AmazonS3Client) AmazonS3ClientBuilder.standard()
-                .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .build();
-    }
 
     public ImageUploadResponseDto upload(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러

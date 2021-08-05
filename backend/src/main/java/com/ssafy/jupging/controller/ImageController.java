@@ -9,8 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
-@RestController("/images")
+@RestController
+@RequestMapping("/images")
 public class ImageController {
 
     private final S3Uploader s3Uploader;
@@ -26,32 +28,6 @@ public class ImageController {
             response = new ControllerResponse("success", responseDto);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
-        }
-        return response;
-    }
-
-    @ApiOperation(value = "게시글 이미지 key 저장하기", notes = "", response = ControllerResponse.class)
-    @PostMapping("/artisave")
-    public ControllerResponse saveArticle(@RequestParam String key) {
-        ControllerResponse response = null;
-
-        try {
-
-        } catch (Exception e) {
-
-        }
-        return response;
-    }
-
-    @ApiOperation(value = "프로필 이미지 key 저장하기", notes = "", response = ControllerResponse.class)
-    @PostMapping("/prosave")
-    public ControllerResponse saveProfile(@RequestParam String key) {
-        ControllerResponse response = null;
-
-        try {
-
-        } catch (Exception e) {
-
         }
         return response;
     }
