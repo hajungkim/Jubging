@@ -1,15 +1,19 @@
 <template>
 <div class="login-wrap">
 
-	<img class="logo" src="https://i.imgur.com/M2nwxVM.png" alt="">
+	<img class="logo" src="@/assets/logo/iconlogo.png" alt="">
 
-  <div class="from-group">
-		<input class="from-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-		<input class="from-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-		<button class="from-btn" @click="login(credentials)">Login</button>
-		<div class="from-text-align">
-			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="from-text-small">Sign Up</span></router-link>
-			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="from-text-small">Forgot your password?</span></router-link>
+  <div class="form-group">
+		<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+		<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
+		<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
+		<div v-if="error.password" class="text-error form-error">{{error.password}}</div>
+
+		<button class="form-btn" @click="login(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">Login</button>
+
+		<div class="form-text-align">
+			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="form-text-small">Sign Up</span></router-link>
+			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="form-text-small">Forgot your password?</span></router-link>
 		</div>
   </div>
 
@@ -18,12 +22,11 @@
 		<div class="social"></div>
 		<div class="social"></div>
 	</div>
-	<button @click="logout">logout</button>
+	<button @click="logout">logout 임시버튼</button>
 </div>
 </template>
 
 <script>
-import '@/views/user/login.css'
 import { mapActions } from 'vuex'
 
 export default {
@@ -31,8 +34,21 @@ export default {
 	data() {
 		return{
 			credentials: {
-				email: null,
-				password: null,
+				email: '',
+				password: '',
+			},
+			error: {
+				email: false,
+				password: false,
+			},
+			isSubmit: false,
+		}
+	},
+	watch: {
+		credentials: {
+			deep: true,
+			handler() {
+				this.checkForm()
 			}
 		}
 	},
@@ -41,78 +57,40 @@ export default {
 			'login',
 			'logout'
 		]),
+		checkForm() {
+			if (this.credentials.email.length >= 0 && !this.validEmail(this.credentials.email)) {
+				this.error.email = "올바른 이메일 형식이 아닙니다."
+			} else {
+				this.error.email = false
+			}
+
+			if (this.credentials.password.length >= 0 && !this.validPassword(this.credentials.password)) {
+				this.error.password = "영문, 숫자 포함 8 자리 이상이어야 합니다.";
+			} else {
+				this.error.password = false
+			}
+
+			let isSubmit = true;
+			Object.values(this.error).map((err) => {
+				if (err) {
+					isSubmit = false
+				}
+			})
+      this.isSubmit = isSubmit;
+		},
+		validEmail(email) {
+			var test = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return test.test(email);
+    },
+		validPassword(password) {
+			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
+			return test.test(password);
+		}
 	},
 }
 </script>
 
-<style scoped>
-.login-wrap {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.logo {
-	width: 250px;
-	margin-top: 40%;
-}
-
-.from-group {
-	display: flex;
-	flex-direction: column;
-	margin-top: 10%
-}
-
-.from-group > .from-input {
-	width: 300px;
-	height: 40px;
-	background: rgba(179, 179, 179, 0.55);
-	border: 0px;
-	border-radius: 20px;
-	padding: 0px 20px;
-	margin-bottom: 14px;
-	color: white;
-}
-
-.from-group > .from-btn {
-	color: white;
-	background: linear-gradient(278.02deg, #1CA592 -0.77%, #FFEAC1 114.65%);
-
-	width: 340px;
-	height: 40px;
-	border: 0px;
-	border-radius: 20px;
-}
-
-
-.from-text-align {
-	display: flex;
-	justify-content: space-between;
-	padding: 10px;
-}
-
-.from-text-small {
-	color: white;
-	font-size: 14px;
-}
-
-.social-group {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	margin-top: 20%;
-}
-
-.social {
-	width: 55px;
-	height: 55px;
-	background-color: black;
-	border-radius: 50%;
-	margin: 8px;
-}
-
-.text-decoration-none {
-	text-decoration: none;
-}
+<style lang="scss" scoped>
+@import "@/views/user/Login.scss";
 
 </style>

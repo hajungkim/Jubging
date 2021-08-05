@@ -1,31 +1,28 @@
 <template>
   <div>
     <div class="top">
-      <router-link :to="{name:'Home'}" >
-        <img class="back_icon" src="@/assets/back.png" alt="back_icon">
-      </router-link>
-      <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
-      <img class="hamburger" src="@/assets/hamburger.png" alt="burger" style="margin-right:10px" @click="open">
+      <img class="logo" src="@/assets/textlogo.png" alt="logo">
+      <img class="hamburger" src="@/assets/hamburger.png" alt="burger" @click="open">
     </div>
     <!-- 유저 정보 -->
     <div class="my_info">
       <div class="profile_img">
-        <img class="profile" src="@/assets/sample.png">
+        <img class="profile" :src="user.profilePath">
       </div>
-      <span>usernickname</span>
+      <span>{{user.nickname}}</span>
       <!--게시글 팔로워 팔로잉-->
       <div class="user_active_cnt">
         <div class="lcbox" >
           <span>게시물</span>
-          <span style="text-align:center">22</span>
+          <span style="text-align:center">{{user.articleCount}}</span>
         </div>
         <div class="lcbox">
           <span>팔로워</span>
-          <span style="text-align:center">33</span>
+          <span style="text-align:center">{{user.follower}}</span>
         </div>
         <div class="lcbox">
           <span>팔로잉</span>
-          <span style="text-align:center">11</span>
+          <span style="text-align:center">{{user.following}}</span>
         </div>
       </div>
     </div>
@@ -46,7 +43,7 @@
     <div class="photo_list">
       <div class="photo-grid">
         <router-link :to="{name:'Detail'}">
-          <img class="photo-img" v-for="photo in photos" :key="photo.id" :src="photo.url">
+          <img @click="onClick(article)" class="photo-img" v-for="(article,idx) in articles" :key="idx" :src="article.photosPath">
         </router-link>
       </div>
     </div>
@@ -82,6 +79,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import "@/assets/css/topbar.css"; // 없어도 되는 이유?
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
@@ -94,6 +92,8 @@ export default {
   },
   data() {
       return {
+        user:[],
+        articles:[],
         photos:[
         {
           title:'0',
@@ -136,12 +136,81 @@ export default {
     },
     close() {
       this.$refs.myBottomSheet.close();
+    },
+    getInfo(){
+      let URL = `http://localhost:8080/user/${this.loginUser}`
+      let params={
+        method:'get',
+        url:URL,
+      }
+      axios(params)
+        .then((res)=>{
+          this.user=res.data.data
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    getBadge(){
+      let URL = `http://localhost:8080/mission/${this.loginUser}`
+      let params={
+        method:'get',
+        url:URL,
+      }
+      axios(params)
+        .then((res)=>{
+          console.log('뱃지갯수',res.data.data)
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    getArticle(){
+      let URL = `http://localhost:8080/article/list/${this.loginUser}`
+      let params={
+        method:'get',
+        url:URL,
+      }
+      axios(params)
+        .then((res)=>{
+          console.log('유저아티클',res.data.data)
+          this.articles=res.data.data
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    onClick(article){
+      console.log('@@@@@@@@@@@',article)
+      this.$store.state.selectArticle=article
+      this.$store.state.backPage=1
+      this.$router.push({name:'Detail'})
     }
   },
+  created(){
+    this.getInfo()
+    this.getBadge()
+    this.getArticle()
+},
+  computed:{
+    loginUser(){
+      return this.$store.state.userId
+    }
+  }
 }
 </script>
 
 <style scoped>
+.hamburger{
+  margin-right:10px;
+}
+.logo{
+  display: block;
+  margin:0px auto;
+  width: 100px;
+  transform:scale(1.5);
+  padding-left:20px;
+}
 /* 유저 정보 */
 .my_info{
   display:flex;
@@ -196,13 +265,13 @@ export default {
   width: 412px;
 }
 .photo-grid {
-  column-count: 3;
-  column-gap:0;
+  display:flex;
 }
 
 .photo-img {
   width: 135px;
   height: 135px;
+  margin-left:2px;
 }
 /* 바텀시트 */
 .bt_common{
