@@ -31,7 +31,7 @@ public class ImageController {
     }
 
     @ApiOperation(value = "게시글 이미지 key 저장하기", notes = "", response = ControllerResponse.class)
-    @PostMapping("/article")
+    @PostMapping("/artisave")
     public ControllerResponse saveArticle(@RequestParam String key) {
         ControllerResponse response = null;
 
@@ -44,7 +44,7 @@ public class ImageController {
     }
 
     @ApiOperation(value = "프로필 이미지 key 저장하기", notes = "", response = ControllerResponse.class)
-    @PostMapping("/profile")
+    @PostMapping("/prosave")
     public ControllerResponse saveProfile(@RequestParam String key) {
         ControllerResponse response = null;
 
