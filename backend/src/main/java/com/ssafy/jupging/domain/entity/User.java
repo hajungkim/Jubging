@@ -67,4 +67,8 @@ public class User {
             this.following--;
         }
     }
+
+    public void updateScore(int score) {
+        this.score += score;
+    }
 }
