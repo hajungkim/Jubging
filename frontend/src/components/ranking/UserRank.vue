@@ -3,40 +3,40 @@
     <div class="top3-group">
 			<div class="top3">
 				<div>메달</div>
-				<img :src="top20[1].profile_path">
-				<span>{{ top20[1].nickname }}</span>
-				<span>{{ top20[1].score }}</span>
+				<img :src="rankers[1].profile_path">
+				<span>{{ rankers[1].nickname }}</span>
+				<span>{{ rankers[1].score }}</span>
 			</div>
 
 			<div class="top3">
 				<div>메달</div>
-				<img :src="top20[0].profile_path">
-				<span>{{ top20[0].nickname }}</span>
-				<span>{{ top20[0].score }}</span>
+				<img :src="rankers[0].profile_path">
+				<span>{{ rankers[0].nickname }}</span>
+				<span>{{ rankers[0].score }}</span>
 			</div>
 
 			<div class="top3">
 				<div>메달</div>
-				<img :src="top20[2].profile_path">
-				<span>{{ top20[2].nickname }}</span>
-				<span>{{ top20[2].score }}</span>
+				<img :src="rankers[2].profile_path">
+				<span>{{ rankers[2].nickname }}</span>
+				<span>{{ rankers[2].score }}</span>
 			</div>
 
 		</div>
 		
 		<hr>
 
-		<div class="top20-group">
-			<div v-for="(user, idx) in top20" :key="idx">
-				<div v-if="idx > 2" class="top20">
+		<div class="ranker-group">
+			<div v-for="(user, idx) in rankers" :key="idx">
+				<div v-if="idx > 2" class="ranker">
 					<div class="rank-user-group">
-						<span class="top20-rank">{{ idx }}</span>
-						<div class="top20-user">
-							<img :src="user.profile_path">
+						<span class="ranker-rank">{{ idx }}</span>
+						<div class="ranker-user">
+							<img :src="user.profilePath">
 							<span>{{ user.nickname }}</span>
 						</div>
 					</div>
-					<span class="top20-score">{{ user.score }}</span>
+					<span class="ranker-score">{{ user.score }}</span>
 				</div>
 			</div>
 		</div>
@@ -44,68 +44,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
 	name: 'UserRank',
-	data() {
-		return {
-			top20: [
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-				{
-					nickname: 'daeun',
-					score: '320',
-					profile_path: 'http://placehold.it/185x185',
-				},
-			]
-		}
+	computed: {
+		...mapState([
+			'rankers'
+		])
+	},
+	created() {
+		this.$store.dispatch('getRanker')
 	}
 }
 </script>

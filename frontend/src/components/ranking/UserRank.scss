@@ -18,10 +18,10 @@
 	}
 }
 
-.top20-group {
+.ranker-group {
 	padding: 5px 20px;
 
-	.top20 {
+	.ranker {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -34,12 +34,12 @@
 	justify-content: center;
 	align-items: center;
 
-	.top20-rank {
+	.ranker-rank {
 		width: 50px;
 		text-align: center;
 	}
 
-	.top20-user {
+	.ranker-user {
 		display: flex;
 		align-items: center;
 
@@ -51,6 +51,6 @@
 	}
 }
 
-.top20-score {
+.ranker-score {
 	margin-right: 20px;
 }

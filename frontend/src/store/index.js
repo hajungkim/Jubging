@@ -61,6 +61,7 @@ export default new Vuex.Store({
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
     missions: null,
+    rankers: []
   },
   mutations: {
     isCurrent(state,page){
@@ -71,7 +72,10 @@ export default new Vuex.Store({
     GET_MISSION(state, missions) {
       state.missions = missions
     },
-      
+    
+    GET_RANKER(state, rankers) { 
+      state.rankers = rankers
+    },
     // 유저 관련
     UPDATE_TOKEN(state, data) {
       console.log(data)
@@ -99,6 +103,16 @@ export default new Vuex.Store({
       })
     },
 
+    getRanker(context) {
+      axios.get('user/score')
+      .then(res => {
+        console.log(res)
+        context.commit('GET_RANKER', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)

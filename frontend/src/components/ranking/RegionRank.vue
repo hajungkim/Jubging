@@ -85,7 +85,7 @@ export default {
         return data
       })
       .then(datas => {
-        console.log(datas)
+        // console.log(datas)
         datas.forEach((data) => {
           popByName.set(data.name, +data.jubgingCnt)
         })
@@ -94,25 +94,25 @@ export default {
     }
 
     function ready(error, data) {
-        var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
+      var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
 
-        features.forEach(function(d) {
-          d.properties.jubgingCnt = popByName.get(d.properties.name);
-          d.properties.density = d.properties.jubgingCnt / path.area(d);
-          d.properties.quantized = quantize(d.properties.density);
-        });
+      features.forEach(function(d) {
+        d.properties.jubgingCnt = popByName.get(d.properties.name);
+        d.properties.density = d.properties.jubgingCnt / path.area(d);
+        d.properties.quantized = quantize(d.properties.density);
+      });
 
-        svg.selectAll("path")
-          .data(features)
-          .enter().append("path")
-          .attr("class", function(d) { return "municipality " + d.properties.quantized; })
-          .attr("d", path)
-          .attr("id", function(d) { return d.properties.name; })
-          .append("title")
-          .text(function(d) { 
-            console.log(d.properties.code, d.properties.name)
-            return d.properties.name + ": " + d.properties.jubgingCnt/10000 + "줍깅" 
-            });
+      svg.selectAll("path")
+        .data(features)
+        .enter().append("path")
+        .attr("class", function(d) { return "municipality " + d.properties.quantized; })
+        .attr("d", path)
+        .attr("id", function(d) { return d.properties.name; })
+        .append("title")
+        .text(function(d) { 
+          // console.log(d.properties.code, d.properties.name)
+          return d.properties.name + ": " + d.properties.jubgingCnt/10000 + "줍깅" 
+          });
     }
   }
 }
