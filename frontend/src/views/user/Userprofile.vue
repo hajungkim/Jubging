@@ -161,5 +161,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/views/Userprofile.scss";
+@import "@/views/user/Userprofile.scss";
 </style>

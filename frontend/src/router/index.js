@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '@/views/Main.vue'
-import Detail from '@/views/Detail.vue'
+import Detail from '@/views/home/Detail.vue'
 import Home from '@/components/home/Home.vue'
 import Mission from '@/components/mission/Mission.vue'
 import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
-import Userprofile from '@/views/Userprofile.vue'
+import Userprofile from '@/views/user/Userprofile.vue'
 import Setting from '@/components/my/Setting.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Login from '@/views/user/Login.vue'
 import SignUp from '@/views/user/SignUp.vue'
-import Search from '@/views/Search.vue'
+import Search from '@/views/home/Search.vue'
 import FindPassword from '@/views/user/FindPassword.vue'
 import ChangeSetting from '@/views/user/ChangeSetting.vue'
+import Editarticle from '@/views/home/Editarticle.vue'
 
 Vue.use(VueRouter)
 
@@ -114,6 +115,11 @@ const routes = [
     path: '/changesetting',
     name: 'ChangeSetting',
     component: ChangeSetting,
+  },
+  {
+    path: '/editarticle',
+    name: 'Editarticle',
+    component: Editarticle,
   }
 ]
 
