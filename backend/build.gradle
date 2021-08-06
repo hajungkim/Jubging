@@ -37,8 +37,12 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
+    // aws
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
+
     implementation('org.springframework.boot:spring-boot-starter-test')
     implementation("org.springframework.security:spring-security-test")
+
 }
 
 test {
