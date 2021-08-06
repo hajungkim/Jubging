@@ -12,7 +12,6 @@
         <img height="550px" src="" alt="줍깅 설명">
         <button @click="startJubging()" class="btn">줍깅 시작</button>
       </div>
-
   </div>
 </template>
 
@@ -49,36 +48,6 @@ methods:{
 }
 </script>
 
-<style scoped>
-
-#header {
-    position: relative;
-    width: 100%;
-    height: 50px;
-    background-color: white;
-}
-#body {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background-color: white;
-}
-.to-center {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.goback {
-    position: absolute;
-    left: 0;
-}
-.btn {
-    padding: 20px;
-    margin: 10px 30px;
-    border-radius: 30px;
-    font-weight: bold;
-    font-size: 18px;
-    background-color: cadetblue;
-}
+<style lang="scss" scoped>
+@import "@/components/jubging/Jubging.scss";
 </style>
