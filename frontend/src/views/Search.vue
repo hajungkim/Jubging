@@ -4,7 +4,7 @@
       <router-link :to="{name:'Home'}" class="default-link">
         <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
       </router-link>
-      <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
     </div>
     <div class="search_main">
       <form @submit="onSubmit" class="search_input_box">
