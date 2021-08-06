@@ -77,7 +77,7 @@ export default {
   },
   data(){
     return{
-      photos:[
+      photos: [
         {
           title:'0',
           url:'http://placehold.it/165x165',
@@ -87,8 +87,8 @@ export default {
           url:require('@/assets/badge/can/sample4.png'),
         },
       ],
-      comments:[],
-      comment:'',
+      comments: [],
+      comment: '',
     }
   },
   computed:{
@@ -100,98 +100,98 @@ export default {
     }
   },
   created(){
-    console.log(this.article.userId,this.loginUser,'@@')
     this.getComment()
   },
   methods: {
-    open() {
+    open(){
       this.$refs.myBottomSheet.open();
     },
-    close() {
+    close(){
       this.$refs.myBottomSheet.close();
     },
     getComment(){
       let URL = `http://localhost:8080/comment/${this.article.articleId}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
-          this.comments=res.data.data          
+        .then((res) => {
+          this.comments = res.data.data          
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     commentSubmit(){
       const URL = 'http://localhost:8080/comment/'
       const data = {
-        articleId:this.article.articleId,
-        commentContent:this.comment,
-        userId:this.loginUser,
+        articleId: this.article.articleId,
+        commentContent: this.comment,
+        userId: this.loginUser,
       }
-      const params={
-        method:'post',
-        url:URL,
-        data:data
+      const params = {
+        method: 'post',
+        url: URL,
+        data: data
       }
       axios(params)
-        .then(()=>{
-          this.comment=''
+        .then(() => {
+          this.comment = ''
           this.getComment()
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     commentDelete(comment){
       const URL = `http://localhost:8080/comment/${comment.commentId}?userId=${comment.userId}`
       const data = {
-        comment_id:comment.commentId,
-        userId:comment.userId
+        comment_id: comment.commentId,
+        userId: comment.userId
       }
-      const params={
-        method:'delete',
-        url:URL,
-        data:data
+      const params = {
+        method: 'delete',
+        url: URL,
+        data: data
       }
       axios(params)
-        .then(()=>{
+        .then(() => {
           this.getComment()
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     onClick(){
-      if(this.$store.state.backPage==1)this.$router.push({name:'My'})
+      if(this.$store.state.backPage == 1)this.$router.push({name:'My'})
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
-      console.log('@@@',article)
       const URL = `http://localhost:8080/article?articleId=${article.articleId}&userId=${article.userId}`
       const data = {
-        articleId:article.articleId,
-        userId:article.userId
+        articleId: article.articleId,
+        userId: article.userId
       }
-      const params={
-        method:'delete',
-        url:URL,
-        data:data
+      const params = {
+        method: 'delete',
+        url: URL,
+        data: data
       }
       axios(params)
-        .then(()=>{
+        .then(() => {
           this.$router.push({name:'My'})
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     moveProfile(userId){
-      if(userId===parseInt(this.loginUser))this.$router.push({name:'My'})
+      if(userId === parseInt(this.loginUser)){
+        this.$router.push({name:'My'})
+      }
       else{
-        this.$store.state.currentUser=userId
+        this.$store.state.currentUser = userId
         this.$router.push({name:'Userprofile'})
       }
     }
@@ -199,110 +199,6 @@ export default {
 }
 </script>
 
-<style scoped>
-/* 상단바 */
-.top{
-    display: flex;
-    align-items: center;
-    height: 50px;
-}
-.back_icon{
-  margin-left:15px;
-  cursor: pointer;
-}
-.logo{
-  margin-left: 130px;
-  transform: scale(1.5);
-}
-.delete_button{
-  margin-left:120px;
-  transform: scale(1.5);
-}
-/* 유저정보 및 게시글 */
-.article_content{
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.user_info{
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin: 9vh 10px 2.5vh 0;
-}
-.profile_img{
-  width: 50px;
-  height: 50px;
-  border-radius: 70%;
-  overflow: hidden;
-  margin-right:10px;
-}
-.profile{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.article_img{
-  width: 300px;
-  height: 300px;
-}
-.content_box{
-  margin-top:2.5vh;
-  width: 300px;
-  margin-bottom:2.5vh;
-  text-align: center;
-  word-break:break-all;
-}
-/* 좋아요 댓글 */
-.like_comment_container{
-  display: flex;
-}
-.lcbox{
-  display: flex;
-  align-items: center;
-  padding: 20px;
-}
-/* 댓글 바텀시트 */
-.comment_container{
-  display: flex;
-  margin:0px 10px 10px 10px;
-  align-items: center;
-}
-.input_container{
-  display: flex;
-  justify-content: center;
-}
-.comment_input{
-  width:330px;
-  height:30px;
-  background-color: gainsboro;
-  border:1px solid;
-  border-radius: 15px 15px 15px 15px;
-  padding:10px;
-}
-.comment_icon{
-  cursor: pointer;
-  transform: scale(1.5);
-  margin : 7px 0px 0px 10px;
-}
-.comment_profile{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin:5px 10px 0px 0px;
-}
-.comment_contents{
-  width: 270px;
-  font-size:15px;
-  word-break:break-all;
-}
-.btn_div{
-  margin-left:20px;
-}
-.default-link{
-  color:black;
-  text-decoration:none;
-}
+<style lang="scss" scoped>
+@import "@/views/Detail.scss";
 </style>
