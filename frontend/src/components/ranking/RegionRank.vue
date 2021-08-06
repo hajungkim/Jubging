@@ -7,6 +7,10 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 
 <script>
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:8080/'
+
 export default {
   name: 'RegionRank',
   data() {
@@ -48,29 +52,67 @@ export default {
     var popByName = d3.map();
 
     queue()
-        .defer(d3.json, "municipalities-topo-simple.json")
-        .defer(d3.csv, "population-edited.csv", function(d) {
-            popByName.set(d.name, +d.population);
+      .defer(d3.json, "municipalities-topo-simple.json")
+      // .defer(d3.csv, "population-edited.csv", function(d) {
+      //   popByName.set(d.name, +d.population);
+      // })
+      .defer(data_request)
+      .await(ready);
+  
+
+    function data_request(callback) {
+      axios.get(`article/list`)
+      .then(res => {
+        const data = [
+          {
+            name: '서울특별시',
+            jubgingCnt: '2231422'
+          },
+          {
+            name: '종로구',
+            jubgingCnt: '160070'
+          },
+          {
+            name: '제주시',
+            jubgingCnt: '22314333'
+          },
+          {
+            name: '합천군',
+            jubgingCnt: '22333314'
+          },
+        ]
+        // return res.data.data
+        return data
+      })
+      .then(datas => {
+        // console.log(datas)
+        datas.forEach((data) => {
+          popByName.set(data.name, +data.jubgingCnt)
         })
-        .await(ready);
-    
+        callback()
+      })
+    }
+
     function ready(error, data) {
       var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
 
       features.forEach(function(d) {
-        d.properties.population = popByName.get(d.properties.name);
-        d.properties.density = d.properties.population / path.area(d);
+        d.properties.jubgingCnt = popByName.get(d.properties.name);
+        d.properties.density = d.properties.jubgingCnt / path.area(d);
         d.properties.quantized = quantize(d.properties.density);
       });
 
       svg.selectAll("path")
-          .data(features)
-          .enter().append("path")
-          .attr("class", function(d) { return "municipality " + d.properties.quantized; })
-          .attr("d", path)
-          .attr("id", function(d) { return d.properties.name; })
-          .append("title")
-          .text(function(d) { return d.properties.name + ": " + d.properties.population/10000 + "만 명" });
+        .data(features)
+        .enter().append("path")
+        .attr("class", function(d) { return "municipality " + d.properties.quantized; })
+        .attr("d", path)
+        .attr("id", function(d) { return d.properties.name; })
+        .append("title")
+        .text(function(d) { 
+          // console.log(d.properties.code, d.properties.name)
+          return d.properties.name + ": " + d.properties.jubgingCnt/10000 + "줍깅" 
+          });
     }
   }
 }

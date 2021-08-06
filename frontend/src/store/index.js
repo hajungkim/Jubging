@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import router from '../router'
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -16,60 +16,48 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentPage:0,
-    photos:[
-      {
-        title:'0',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'1',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'2',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'3',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'4',
-        url:'http://placehold.it/185x185',
-      },
-      // {
-      //   title:'5',
-      //   url:'http://placehold.it/185x185',
-      // },
-      // {
-      //   title:'6',
-      //   url:"@/assets/sample6.png",
-      // },
-      // {
-      //   title:'7',
-      //   url:"@/assets/sample7.png",
-      // },
-      // {
-      //   title:'8',
-      //   url:"@/assets/sample8.png",
-      // },
-      // {
-      //   title:'9',
-      //   url:"@/assets/sample8.png",
-      // },
-    ],
+    articles:[],
+    followarticles:[],
+    selectArticle:[],
+    backPage:0,
+    currentUser:0,
     Token: localStorage.getItem('token') || '',
+    userId: localStorage.getItem('userId') || '',
+    userInfo: [],
+    missions: null,
+    rankers: []
   },
   mutations: {
     isCurrent(state,page){
       state.currentPage=page
     },
+
+    // 미션 관련
+    GET_MISSION(state, missions) {
+      state.missions = missions
+    },
     
-    UPDATE_TOKEN(state, Token) {
-      state.Token = Token
+    GET_RANKER(state, rankers) { 
+      state.rankers = rankers
+    },
+    // 유저 관련
+    UPDATE_TOKEN(state, data) {
+      state.Token = data.token
+      state.userId = data.userId
     },
     DELETE_TOKEN(state) {
       state.Token = ''
+      state.userId = ''
+    },
+    GET_USER_INFO(state, data) {
+      state.userInfo = data
+    },
+
+    loadArticles(state,data){
+      state.articles=data;
+    },
+    loadfollowArticles(state,data){
+      state.followarticles=data;
     }
   },
   actions: {
@@ -77,25 +65,83 @@ export default new Vuex.Store({
       context.commit('isCurrent',page)
     },
 
+    // 미션 관련
+    getMission(context) {
+      axios.get(`mission/${this.state.userId}`)
+      .then(res => {
+        context.commit('GET_MISSION', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    getRanker(context) {
+      axios.get('user/score')
+      .then(res => {
+        context.commit('GET_RANKER', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {
-        localStorage.setItem('token', res.data.data)
-        context.commit('UPDATE_TOKEN', res.data.data)
+        if (res.data.data) {
+          localStorage.setItem('token', res.data.data.token)
+          localStorage.setItem('userId', res.data.data.userId)
+          context.commit('UPDATE_TOKEN', res.data.data)
+          router.push({ name: 'Home' })
+        } else {
+          alert('이메일 혹은 비밀번호가 틀렸습니다.')
+        }
       })
-    },
-    signup(context, credentials) {
-      axios.post('user/join/', credentials)
-      .then(() => {
-          context.dispatch('login', credentials)
-        })
       .catch(err => {
         console.error(err)
        })
     },
     logout(context) {
-      context.commit('DELETE_TOKEN')
       localStorage.removeItem('token')
+      localStorage.removeItem('userId')
+      context.commit('DELETE_TOKEN')
+    },
+    signup(context, credentials) {
+      axios.post('user/join/', credentials)
+      .then(() => {
+        context.dispatch('login', credentials)
+        alert('회원가입이 완료되었습니다.')
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    getUserInfo(context) {
+      axios.get(`user/${context.state.userId}`)
+      .then(res => {
+        context.commit('GET_USER_INFO', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    changeSetting(context, credentials) {
+      axios.put(`user/${context.state.userId}`, credentials)
+      .then(() => {
+        context.dispatch('getUserInfo')
+        alert('회원 정보가 수정되었습니다.')
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    loadArticles(context,data){
+      return context.commit('loadArticles',data)
+    },
+    loadFollowArticles(context,data){
+      return context.commit('loadfollowArticles',data)
     }
   },
   modules: {
