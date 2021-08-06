@@ -234,5 +234,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/views/Search.scss";
+@import "@/views/home/Search.scss";
 </style>
