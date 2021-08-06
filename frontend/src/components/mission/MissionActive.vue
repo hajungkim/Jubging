@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
 	name: 'MissionActive',
 	data() {
@@ -33,7 +35,7 @@ export default {
 				{
 					name: '좋아요 뱃지',
 					description: 'n개 더 좋아요를 누르면 뱃지 획득!',
-					currentCnt: this.$store.state.missions.likeCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -44,7 +46,7 @@ export default {
 				{
 					name: '댓글 뱃지',
 					description: '댓글 설명',
-					currentCnt: this.$store.state.missions.commentCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -55,7 +57,7 @@ export default {
 				{
 					name: '게시글 뱃지',
 					description: '게시글 설명',
-					currentCnt: this.$store.state.missions.articleCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -66,7 +68,7 @@ export default {
 				{
 					name: '팔로우 뱃지',
 					description: '팔로우 설명',
-					currentCnt: this.$store.state.missions.followCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -77,7 +79,7 @@ export default {
 				{
 					name: '줍깅 몇회 뱃지',
 					description: '팔로우 설명',
-					currentCnt: this.$store.state.missions.jubgingCnt,
+					currentCnt: '',
 					bronze: 10,
 					silver: 20,
 					gold: 30,
@@ -86,6 +88,20 @@ export default {
 					silver_image: 'http://placehold.it/170x170',
 				},
 			]
+		}
+	},
+	computed: {
+		...mapState([
+			'missions',
+		])
+	},
+	watch: {
+		missions() {
+			this.badges[0].currentCnt = this.missions.likeCnt
+			this.badges[1].currentCnt = this.missions.commentCnt
+			this.badges[2].currentCnt = this.missions.articleCnt
+			this.badges[3].currentCnt = this.missions.followCnt
+			this.badges[4].currentCnt = this.missions.jubgingCnt
 		}
 	},
 }

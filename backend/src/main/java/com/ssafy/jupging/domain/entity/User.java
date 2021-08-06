@@ -49,7 +49,7 @@ public class User {
 
     public void updateUser(UserUpdateRequestDto requestDto) {
         this.password = requestDto.getPassword();
-        this.nickname = requestDto.getPassword();
+        this.nickname = requestDto.getNickname();
     }
 
     public void updateFollower(boolean isFollower) {
@@ -66,5 +66,9 @@ public class User {
         } else {
             this.following--;
         }
+    }
+
+    public void updateScore(int score) {
+        this.score += score;
     }
 }

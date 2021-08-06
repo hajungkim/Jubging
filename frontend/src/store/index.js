@@ -16,51 +16,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     currentPage:0,
-    photos:[
-      {
-        title:'0',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'1',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'2',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'3',
-        url:'http://placehold.it/185x185',
-      },
-      {
-        title:'4',
-        url:'http://placehold.it/185x185',
-      },
-      // {
-      //   title:'5',
-      //   url:'http://placehold.it/185x185',
-      // },
-      // {
-      //   title:'6',
-      //   url:"@/assets/sample6.png",
-      // },
-      // {
-      //   title:'7',
-      //   url:"@/assets/sample7.png",
-      // },
-      // {
-      //   title:'8',
-      //   url:"@/assets/sample8.png",
-      // },
-      // {
-      //   title:'9',
-      //   url:"@/assets/sample8.png",
-      // },
-    ],
+    articles:[],
+    followarticles:[],
+    selectArticle:[],
+    backPage:0,
+    currentUser:0,
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
+    userInfo: [],
     missions: null,
+    rankers: []
   },
   mutations: {
     isCurrent(state,page){
@@ -71,16 +36,28 @@ export default new Vuex.Store({
     GET_MISSION(state, missions) {
       state.missions = missions
     },
-      
+    
+    GET_RANKER(state, rankers) { 
+      state.rankers = rankers
+    },
     // 유저 관련
     UPDATE_TOKEN(state, data) {
-      console.log(data)
       state.Token = data.token
       state.userId = data.userId
     },
     DELETE_TOKEN(state) {
       state.Token = ''
       state.userId = ''
+    },
+    GET_USER_INFO(state, data) {
+      state.userInfo = data
+    },
+
+    loadArticles(state,data){
+      state.articles=data;
+    },
+    loadfollowArticles(state,data){
+      state.followarticles=data;
     }
   },
   actions: {
@@ -99,6 +76,15 @@ export default new Vuex.Store({
       })
     },
 
+    getRanker(context) {
+      axios.get('user/score')
+      .then(res => {
+        context.commit('GET_RANKER', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     // 유저 관련
     login(context, credentials) {
       axios.post('user/login', credentials)
@@ -124,13 +110,39 @@ export default new Vuex.Store({
     signup(context, credentials) {
       axios.post('user/join/', credentials)
       .then(() => {
-          context.dispatch('login', credentials)
-          alert('회원가입이 완료되었습니다.')
-        })
+        context.dispatch('login', credentials)
+        alert('회원가입이 완료되었습니다.')
+      })
       .catch(err => {
         console.error(err)
-       })
+      })
     },
+    getUserInfo(context) {
+      axios.get(`user/${context.state.userId}`)
+      .then(res => {
+        context.commit('GET_USER_INFO', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    changeSetting(context, credentials) {
+      axios.put(`user/${context.state.userId}`, credentials)
+      .then(() => {
+        context.dispatch('getUserInfo')
+        alert('회원 정보가 수정되었습니다.')
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+
+    loadArticles(context,data){
+      return context.commit('loadArticles',data)
+    },
+    loadFollowArticles(context,data){
+      return context.commit('loadfollowArticles',data)
+    }
   },
   modules: {
   }
