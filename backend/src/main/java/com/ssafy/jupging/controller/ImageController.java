@@ -23,22 +23,27 @@ public class ImageController {
         ControllerResponse response = null;
 
         try {
-            ImageUploadResponseDto responseDto = s3Uploader.upload(multipartFile, "static");
+            String imgUrl = s3Uploader.upload(multipartFile, "static");
 
-            response = new ControllerResponse("success", responseDto);
+            response = new ControllerResponse("success", imgUrl);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
         }
         return response;
     }
 
-    @ApiOperation(value = "key로 이미지 삭제", notes = "성공 시 '이미지 삭제 성공' 반환", response = ControllerResponse.class)
+    @ApiOperation(value = "url로 이미지 삭제", notes = "성공 시 '이미지 삭제 성공' 반환", response = ControllerResponse.class)
     @DeleteMapping
-    public ControllerResponse deleteImage(@RequestParam String key) {
+    public ControllerResponse deleteImage(@RequestParam String imgUrl) {
         ControllerResponse response = null;
 
         try {
-            s3Uploader.delete(key);
+            String[] imgUrlArr = imgUrl.split("#");
+            for (String url : imgUrlArr) {
+                String[] urlArr = url.split("amazonaws.com/");
+                String key = urlArr[1];
+                s3Uploader.delete(key);
+            }
             response = new ControllerResponse("success", "이미지 삭제 성공");
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
