@@ -1,22 +1,21 @@
 <template>
   <div style="height:781px">
     <div class="top">
-      <router-link :to="{name:'Home'}" class="default-link">
-        <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
-      </router-link>
-      <img class="logo" src="@/assets/textlogo.png" alt="logo" width="100px;">
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+      <font-awesome-icon v-if="article.userId===parseInt(loginUser)" icon="trash" class="delete_button" @click="onDelete(article)"/>
     </div>
     <div class="article_content">
         <!--유저 정보-->
-        <div class="user_info">
+        <div class="user_info"  @click="moveProfile(article.userId)">
           <div class="profile_img">
-            <img class="profile" src="@/assets/sample.png">
+            <img class="profile" :src="article.profilePath">
           </div>
-          <span style="font-weight:bold;">usernickname</span>
+          <span style="font-weight:bold;">{{article.nickname}}</span>
         </div>
         <!--사진들-->
-        <carousel-3d :width="300" :height="300">
-          <slide v-for="(photo,i) in photos" :index="i" :key="i">
+        <carousel-3d :width="300" :height="300" bias="right">
+          <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
             <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
               <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" :src="photo.url">
             </template>
@@ -24,45 +23,49 @@
         </carousel-3d>
         <!--게시글 내용-->
         <div class="content_box">
-          오늘 줍깅을 했다. 첫게시글입니다욧
+          {{article.content}}
         </div>
         <!--좋아요 댓글-->
         <div class="like_comment_container">
           <div class="lcbox" >
-            <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">10</span>
+            <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">{{article.likeCnt}}</span>
           </div>
           <div class="lcbox" @click="open">
-            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">8</span>
+            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">{{article.commentCnt}}</span>
           </div>
         </div>
     </div>
     <vue-bottom-sheet ref="myBottomSheet" max-height="600px" max-width="412px" >
       <ul style="padding:0px;">
-        <li class="comment_container">
-          <img class="comment_profile" src="@/assets/sample.png">
+        <li class="comment_container"
+          v-for="(comment,idx) in comments"
+          :key="idx"
+        >
+          <img class="comment_profile" :src="comment.profilePath">
           <div>
-            <span style="font-weight:bold;">user_name</span>
-            <div class="comment_contents">조깅을 하면서 쓰레기를 줍는 운동.ddasdadddasdasdasdddasasdasddassadasdasdadsddasdas</div>
+            <span style="font-weight:bold;">{{comment.nickname}}</span>
+            <div class="comment_contents">{{comment.commentContent}}</div>
+          </div>
+          <div class="btn_div" v-if="comment.userId===loginUser">
+            <button @click="commentDelete(comment)" class="comment_delete_button">X</button>
           </div>
         </li>
-        <!-- <li class="comment_container">
-          <img class="comment_profile" src="@/assets/sample.png">
-          <div>
-            <span style="font-weight:bold;">user_name</span>
-            <div class="comment_contents">조깅을 하면서 쓰레기를 줍는 운동.ddasdadddasdasdasdddasasdasddassadasdasdadsddasdas</div>
-          </div>
-        </li> -->
       </ul>
       <div class="input_container">
-        <input type="text" class="comment_input" placeholder="댓글을 입력하세요.">
-        <font-awesome-icon :icon="['fas','comment']" class="comment_icon"/>
+        <input
+          type="text"
+          class="comment_input"
+          v-model="comment"
+          @keyup.enter="commentSubmit"
+          placeholder="댓글을 입력하세요.">
+        <font-awesome-icon @click="commentSubmit" :icon="['fas','comment']" class="comment_icon"/>
       </div>
     </vue-bottom-sheet>
   </div>
 </template>
 
 <script>
-import "@/assets/css/topbar.css";
+import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 export default {
@@ -81,22 +84,24 @@ export default {
         },
         {
           title:'1',
-          url:'http://placehold.it/165x165',
+          url:require('@/assets/badge/can/sample4.png'),
         },
-        // {
-        //   title:'2',
-        //   url:'http://placehold.it/185x185',
-        // },
-        // {
-        //   title:'3',
-        //   url:'http://placehold.it/185x185',
-        // },
-        // {
-        //   title:'4',
-        //   url:'http://placehold.it/185x185',
-        // },
-      ]
+      ],
+      comments:[],
+      comment:'',
     }
+  },
+  computed:{
+    article(){
+      return this.$store.state.selectArticle
+    },
+    loginUser(){
+      return this.$store.state.userId
+    }
+  },
+  created(){
+    console.log(this.article.userId,this.loginUser,'@@')
+    this.getComment()
   },
   methods: {
     open() {
@@ -104,6 +109,91 @@ export default {
     },
     close() {
       this.$refs.myBottomSheet.close();
+    },
+    getComment(){
+      let URL = `http://localhost:8080/comment/${this.article.articleId}`
+      let params={
+        method:'get',
+        url:URL,
+      }
+      axios(params)
+        .then((res)=>{
+          this.comments=res.data.data          
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    commentSubmit(){
+      const URL = 'http://localhost:8080/comment/'
+      const data = {
+        articleId:this.article.articleId,
+        commentContent:this.comment,
+        userId:this.loginUser,
+      }
+      const params={
+        method:'post',
+        url:URL,
+        data:data
+      }
+      axios(params)
+        .then(()=>{
+          this.comment=''
+          this.getComment()
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    commentDelete(comment){
+      const URL = `http://localhost:8080/comment/${comment.commentId}?userId=${comment.userId}`
+      const data = {
+        comment_id:comment.commentId,
+        userId:comment.userId
+      }
+      const params={
+        method:'delete',
+        url:URL,
+        data:data
+      }
+      axios(params)
+        .then(()=>{
+          this.getComment()
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    onClick(){
+      if(this.$store.state.backPage==1)this.$router.push({name:'My'})
+      else this.$router.push({name:'Home'})
+    },
+    onDelete(article){
+      console.log('@@@',article)
+      const URL = `http://localhost:8080/article?articleId=${article.articleId}&userId=${article.userId}`
+      const data = {
+        articleId:article.articleId,
+        userId:article.userId
+      }
+      const params={
+        method:'delete',
+        url:URL,
+        data:data
+      }
+      axios(params)
+        .then(()=>{
+          this.$router.push({name:'My'})
+        })
+        .catch((e)=>{
+          console.error(e);
+        })
+    },
+    moveProfile(userId){
+      if(userId===parseInt(this.loginUser))this.$router.push({name:'My'})
+      else{
+        this.$store.state.currentUser=userId
+        this.$router.push({name:'Userprofile'})
+      }
     }
   },
 }
@@ -111,11 +201,21 @@ export default {
 
 <style scoped>
 /* 상단바 */
+.top{
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
 .back_icon{
   margin-left:15px;
+  cursor: pointer;
 }
 .logo{
-  margin-right:155px;
+  margin-left: 130px;
+  transform: scale(1.5);
+}
+.delete_button{
+  margin-left:120px;
   transform: scale(1.5);
 }
 /* 유저정보 및 게시글 */
@@ -126,6 +226,7 @@ export default {
   justify-content: center;
 }
 .user_info{
+  cursor: pointer;
   display: flex;
   align-items: center;
   margin: 9vh 10px 2.5vh 0;
@@ -166,6 +267,7 @@ export default {
 .comment_container{
   display: flex;
   margin:0px 10px 10px 10px;
+  align-items: center;
 }
 .input_container{
   display: flex;
@@ -180,6 +282,7 @@ export default {
   padding:10px;
 }
 .comment_icon{
+  cursor: pointer;
   transform: scale(1.5);
   margin : 7px 0px 0px 10px;
 }
@@ -188,12 +291,15 @@ export default {
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  margin:5px 5px 0px 0px;
+  margin:5px 10px 0px 0px;
 }
 .comment_contents{
-  width: 330px;
+  width: 270px;
   font-size:15px;
   word-break:break-all;
+}
+.btn_div{
+  margin-left:20px;
 }
 .default-link{
   color:black;

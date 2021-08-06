@@ -1,0 +1,56 @@
+
+.top3-group {
+	display: flex;
+	justify-content: space-evenly;
+
+	.top3 {
+	width: 100px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+		img {
+			width: 80px;
+			height: 80px;
+			border-radius: 50%;
+		}
+	}
+}
+
+.ranker-group {
+	padding: 5px 20px;
+
+	.ranker {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+}
+
+.rank-user-group {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.ranker-rank {
+		width: 50px;
+		text-align: center;
+	}
+
+	.ranker-user {
+		display: flex;
+		align-items: center;
+
+		img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+		}
+	}
+}
+
+.ranker-score {
+	margin-right: 20px;
+}
