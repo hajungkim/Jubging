@@ -2,13 +2,6 @@
 <div class="container">
   <router-view>
   </router-view>
-  <!-- <div class="bottom-bar">
-    <router-link :to="{name:'Home'}" @click.native="onClick(1)">홈</router-link>
-    <router-link :to="{name:'Mission'}" @click.native="onClick(2)">미션</router-link>
-    <router-link :to="{name:'Jubging'}" @click.native="onClick(3)">줍깅</router-link>
-    <router-link :to="{name:'Ranking'}" @click.native="onClick(4)">랭킹</router-link>
-    <router-link :to="{name:'My'}" @click.native="onClick(5)">마이</router-link>
-  </div> -->
   
   <!-- <div class="bottom-nav2">
     <div class="nav">
@@ -108,10 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container{
-  display: flex;
-  flex-direction: column;
-  min-height: 781px;
-}
+@import "@/views/Main.scss";
 
 </style>
