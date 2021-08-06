@@ -95,39 +95,8 @@
 <script>
 export default {
   name:'Main',
-  data(){
-    return {
-      links:[
-        {
-          id:0,
-          text:'홈',
-          page:'/main',
-        },
-        {
-          id:1,
-          text:'미션',
-          page:'/mission',
-        },
-        {
-          id:2,
-          text:'줍깅',
-          page:'/jubging',
-        },
-        {
-          id:3,
-          text:'랭킹',
-          page:'/ranking',
-        },
-        {
-          id:4,
-          text:'마이',
-          page:'/my',
-        },
-      ]
-    }
-  },
   methods:{
-    onClick(link, event){
+    onClick(link,event){
       this.$store.dispatch('isCurrent', link)
       document.querySelector('.active').classList.remove('active')
       event.currentTarget.classList.add('active')

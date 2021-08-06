@@ -21,18 +21,25 @@ public class CommentService {
     }
 
     @Transactional
-    public void deleteComment(long comment_id) {
-        Optional<Comment> comment = commentRepository.findByCommentId(comment_id);
+    public void deleteComment(long commentId) {
+        //특정 댓글 한 개 삭제
+        Optional<Comment> comment = commentRepository.findByCommentId(commentId);
         commentRepository.delete(comment.get());
     }
 
     @Transactional
-    public int countByArticleId(Long article_id) {
-        return commentRepository.countByArticleId(article_id);
+    public int countByArticleId(Long articleId) {
+        return commentRepository.countByArticleId(articleId);
     }
 
+    @Transactional
+    public List<Comment> findAllComment(long articleId) {
+        return commentRepository.findAllByArticleId(articleId);
+    }
 
-    public List<Comment> findAllComment(long article_id) {
-        return commentRepository.findAllByArticleId(article_id);
+    @Transactional
+    public void deleteAllComment(Long articleId) {
+        //게시글 삭제할 때, 모든 댓글 삭제
+        commentRepository.deleteAllByArticleId(articleId);
     }
 }
