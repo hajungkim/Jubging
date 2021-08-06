@@ -7,15 +7,32 @@ import Mission from '@/components/mission/Mission.vue'
 import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
+import Userprofile from '@/views/Userprofile.vue'
 import Setting from '@/components/my/Setting.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Login from '@/views/user/Login.vue'
 import SignUp from '@/views/user/SignUp.vue'
+import Search from '@/views/Search.vue'
+import FindPassword from '@/views/user/FindPassword.vue'
+import ChangeSetting from '@/views/user/ChangeSetting.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '*',
+    redirect: '/404'
+  },
+  {
+    path: '/404',
+    name: 'PageNotFound',
+    // component: 
+  },
+  {
+    path: '/',
+    redirect: '/home',
+  },
   {
     path:'/main',
     name:'Main',
@@ -54,6 +71,11 @@ const routes = [
     component:Detail,
   },
   {
+    path:'/userprofile',
+    name:'Userprofile',
+    component:Userprofile,
+  },
+  {
     path:'/setting',
     name:'Setting',
     component:Setting,
@@ -78,6 +100,21 @@ const routes = [
     name: 'SignUp',
     component: SignUp
   },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search
+  },
+  {
+    path: '/findpassword',
+    name: 'FindPassword',
+    component: FindPassword,
+  },
+  {
+    path: '/changesetting',
+    name: 'ChangeSetting',
+    component: ChangeSetting,
+  }
 ]
 
 const router = new VueRouter({
