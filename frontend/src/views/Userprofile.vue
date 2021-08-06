@@ -61,9 +61,9 @@ export default {
   },
   data() {
       return {
-        user:[],
-        articles:[],
-        photos:[
+        user: [],
+        articles: [],
+        photos: [
         {
           title:'0',
           url:'http://placehold.it/139x139',
@@ -99,159 +99,67 @@ export default {
       ]
     }
   },
+  created(){
+    this.getInfo()
+    this.getBadge()
+    this.getArticle()
+  },
+  computed:{
+    currentUser(){
+      return  this.$store.state.currentUser
+    }
+  },
   methods: {
     getInfo(){
       let URL = `http://localhost:8080/user/${this.currentUser}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
-          this.user=res.data.data
+        .then((res) => {
+          this.user = res.data.data
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     getBadge(){
       let URL = `http://localhost:8080/mission/${this.currentUser}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
-          console.log('뱃지갯수',res.data.data)
+        .then((res) => {
+          console.log('뱃지갯수', res.data.data)
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     getArticle(){
       let URL = `http://localhost:8080/article/list/${this.currentUser}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
+        .then((res) => {
           console.log('유저아티클',res.data.data)
-          this.articles=res.data.data
+          this.articles = res.data.data
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     onClick(){
-      this.$router.push({name:'Detail'})
+      this.$router.push({ name: 'Detail' })
     }
   },
-  created(){
-    this.getInfo()
-    this.getBadge()
-    this.getArticle()
-},
-  computed:{
-    currentUser(){
-      return  this.$store.state.currentUser
-    }
-  }
 }
 </script>
 
-<style scoped>
-.top{
-    display: flex;
-    align-items: center;
-    height: 50px;
-}
-.logo{
-  margin-left:130px;
-  width: 100px;
-  transform:scale(1.5);
-}
-.back_icon{
-    margin-left:16px;
-}
-/* 유저 정보 */
-.my_info{
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items:center;
-}
-.profile_img{
-  display: flex;
-  align-items: center;
-  width: 80px;
-  height: 80px;
-  border-radius: 70%;
-  overflow: hidden;
-  margin-top:3vh;
-  margin-bottom:1vh;
-}
-.profile{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.user_active_cnt{
-  display: flex;
-  width: 350px;
-  justify-content: space-around;
-  margin-top:3vh;
-}
-.lcbox{
-  display: flex;
-  flex-direction: column;
-}
-/* 뱃지부분 */
-.badge_box{
-  margin-top: 3vh;
-  /* border: solid 1px; */
-  margin-bottom:3vh;
-
-}
-.article_img{
-  width: 50px;
-  height: 50px;
-}
-.badge_carousel{
-  margin: 0;
-  
-}
-/* 피드 부분 */
-.photo_list{
-  overflow: auto;
-  height: 412px;
-  width: 412px;
-}
-.photo-grid {
-  display:flex;
-}
-
-.photo-img {
-  width: 135px;
-  height: 135px;
-  margin-left:2px;
-}
-/* 바텀시트 */
-.bt_common{
-  display: flex;
-  margin-left:40px;
-  align-items: center;
-  height: 60px;
-}
-.likelog{
-  margin-left:38px;
-}
-.icon{
-  margin-right:10px;
-}
-/* 라우터 링크 색 변경x */
-.default-link{
-  color:black;
-  text-decoration:none;
-}
+<style lang="scss" scoped>
+@import "@/views/Userprofile.scss";
 </style>
