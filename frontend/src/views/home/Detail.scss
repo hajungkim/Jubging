@@ -27,7 +27,7 @@ justify-content: center;
 cursor: pointer;
 display: flex;
 align-items: center;
-margin: 3.5vh 10px 0vh 0;
+margin: 3.5vh 10px 2vh 0;
 }
 .profile_img{
 width: 50px;
@@ -50,10 +50,12 @@ height: 300px;
   color: gray;
 }
 .content_box{
+display:flex;
+align-items: center;
+justify-content: center;
 margin-top:0.3vh;
 width: 340px;
 height: 190px;
-text-align: center;
 overflow:auto;
 font-weight: bold;
 }
@@ -80,9 +82,13 @@ justify-content: center;
 width:330px;
 height:30px;
 background-color: gainsboro;
-border:1px solid;
+border:0px;
 border-radius: 15px 15px 15px 15px;
 padding:10px;
+margin-bottom:10px;
+}
+input:focus{
+  outline:none;
 }
 .comment_icon{
 cursor: pointer;
