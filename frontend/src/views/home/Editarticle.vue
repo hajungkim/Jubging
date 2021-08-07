@@ -53,53 +53,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/css/common.scss";
-.top{
-  display: flex;
-  align-items: center;
-  height: 50px;
-}
-.back_icon{
-margin-left:15px;
-cursor: pointer;
-}
-.logo{
-margin-left: 130px;
-transform: scale(1.5);
-}
-.content{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.text{
-  text-align: center;
-  margin-top:50px;
-  font-weight: bold;
-  font-size:20px;
-}
-textarea{
-  width: 360px;
-  height: 400px;
-  border-radius: 15px;
-  resize:none;
-  padding:10px;
-}
-textarea:focus {outline:none;}
-.edit_button{
-  color: #00bfa5;
-  background-color: white;
-  width : 360px;
-  height: 40px;
-  margin-top:150px;
-  border-radius: 20px;
-  border-color:#00bfa5;
-  border:2px solid;
-  font-weight: bold;
-}
-.logo_img{
-  height: 120px;
-  width: 120px;
-  margin-top:10px;
-  opacity: 0.6;
-}
+@import "@/views/home/Editarticle.scss";
 </style>
