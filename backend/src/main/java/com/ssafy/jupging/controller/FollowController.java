@@ -7,10 +7,7 @@ import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.FollowResponseDto;
 import com.ssafy.jupging.dto.FollowerResponseDto;
-import com.ssafy.jupging.service.ArticleService;
-import com.ssafy.jupging.service.FollowService;
-import com.ssafy.jupging.service.MissionService;
-import com.ssafy.jupging.service.UserService;
+import com.ssafy.jupging.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +28,8 @@ public class FollowController {
 
     private final ArticleService articleService;
 
-    private final CommentController commentController;
-    private final HashtagController hashtagController;
+    private final CommentService commentService;
+    private final HashtagService hashtagService;
 
     @ApiOperation(value = "팔로우 등록", notes = "팔로우 등록 성공 시 '팔로우 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
@@ -149,7 +146,7 @@ public class FollowController {
                     for(Article article : articleList){
                         ArticleResponseDto responseDto = new ArticleResponseDto(article);
 
-                        int commentCnt = commentController.countComment(responseDto.getArticleId()); //댓글 수
+                        int commentCnt = commentService.countComment(responseDto.getArticleId()); //댓글 수
                         responseDto.setCommentCnt(commentCnt);
 
                         user = userService.findUser(responseDto.getUserId());
@@ -157,7 +154,7 @@ public class FollowController {
                         responseDto.setProfilePath(user.getProfilePath()); //유저 프로필 경로
 
                         //해당 게시글에 포함된 해시태그 리스트
-                        List<String> hashlist = hashtagController.getHashList(responseDto.getArticleId());
+                        List<String> hashlist = hashtagService.getHashList(responseDto.getArticleId());
                         responseDto.setHashlist(hashlist);
 
                         list.add(responseDto);
