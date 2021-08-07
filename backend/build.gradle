@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 
@@ -26,25 +26,31 @@ repositories {
 }
 
 dependencies {
-    implementation ('io.jsonwebtoken:jjwt:0.9.0')
-    implementation ('org.springframework.boot:spring-boot-starter-web')
-    implementation('org.projectlombok:lombok')
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation('org.springframework.session:spring-session-jdbc')
-    implementation("org.mariadb.jdbc:mariadb-java-client")
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.webjars:bootstrap:4.5.0'
+    implementation 'org.webjars:jquery:3.5.1'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.session:spring-session-jdbc'
+
+    compileOnly 'io.jsonwebtoken:jjwt:0.9.0'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 
     // swagger
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
-    // aws
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
-
-    implementation('org.springframework.boot:spring-boot-starter-test')
-    implementation("org.springframework.security:spring-security-test")
-
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.security:spring-security-test'
 }
 
 test {
     useJUnitPlatform()
+}
+
+bootJar{
+    archiveBaseName="jubging"
+    archiveVersion = "0.0.1-SNAPSHOT"
 }
