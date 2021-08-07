@@ -35,7 +35,6 @@ public class ArticleController {
     private final MissionService missionService;
     private final UserService userService;
 
-    private final CommentController commentController;
     private final CommentService commentService;
 
     /**
@@ -79,7 +78,7 @@ public class ArticleController {
         try {
             Article article = articleService.findByArticleId(article_id);
             ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
-            int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+            int commentCnt = commentService.countComment(articleResponseDto.getArticleId());
             articleResponseDto.setCommentCnt(commentCnt);
 
             User user = userService.findUser(articleResponseDto.getUserId());
@@ -153,7 +152,7 @@ public class ArticleController {
 
             for(Article article:articleList){
                 ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
-                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                int commentCnt = commentService.countComment(articleResponseDto.getArticleId());
                 articleResponseDto.setCommentCnt(commentCnt);
 
                 User user = userService.findUser(articleResponseDto.getUserId());
@@ -188,7 +187,7 @@ public class ArticleController {
 
             for(Article article:articleList){
                 ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
-                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                int commentCnt = commentService.countComment(articleResponseDto.getArticleId());
                 articleResponseDto.setCommentCnt(commentCnt);
 
                 User user = userService.findUser(articleResponseDto.getUserId());
