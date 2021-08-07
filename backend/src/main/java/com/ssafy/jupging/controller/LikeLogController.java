@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
@@ -34,13 +35,19 @@ public class LikeLogController {
      */
     @ApiOperation(value = "좋아요 등록/취소", notes = "성공 시 '좋아요 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
-    public ControllerResponse saveLikeLog(@RequestBody LikeLogRequestDto requestDto, @RequestParam boolean like){
+    public ControllerResponse saveLikeLog(@RequestBody LikeLogRequestDto requestDto){
         ControllerResponse response = null;
 
         try{
-            //좋아요 로그 기록
-            LikeLog likeLog = LikeLog.saveLikeLog(requestDto);
+            boolean like =true;
+            Optional<LikeLog> likeOX = likeLogService.findLikeLog(requestDto.getUserId(), requestDto.getArticleId());
+            if(likeOX.isPresent()){ //이미 좋아요를 누른 기록이 있을 경우
+                like =false;
+            }
+
             if (like == true) {
+                //좋아요 로그 기록
+                LikeLog likeLog = LikeLog.saveLikeLog(requestDto);
                 likeLogService.saveLikeLog(likeLog);
             } else {
                 likeLogService.deleteLikeLog(requestDto.getUserId(), requestDto.getArticleId());
@@ -100,10 +107,11 @@ public class LikeLogController {
 
         try{
             List<LikeLog> likeLogList = likeLogService.findUserLikeList(article_id);
-            List<String[]> list = new ArrayList<>();
+            List<LikeLogResponseDto> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
                 User user = userService.findUser(likeLog.getUserId());
-                list.add(new String[]{user.getNickname(), user.getProfilePath()});
+                LikeLogResponseDto responseDto = new LikeLogResponseDto(likeLog, user, likeLog.getArticleId());
+                list.add(responseDto);
             }
             response = new ControllerResponse("success", list);
         }catch (Exception e){
