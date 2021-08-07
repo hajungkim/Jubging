@@ -7,7 +7,6 @@ import com.ssafy.jupging.domain.repository.LikeLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +31,11 @@ public class LikeLogService {
     @Transactional
     public List<LikeLog> findLikeLog(Long userId) {
         return likeLogRepository.findAllByUserIdOrderByCreatedDateDesc(userId);
+    }
+
+    @Transactional
+    public Optional<LikeLog> findLikeLog(Long userId,Long articleId) {
+        return likeLogRepository.findByUserIdAndArticleId(userId, articleId);
     }
 
     @Transactional
