@@ -8,7 +8,7 @@ import Jubging from '@/components/jubging/Jubging.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
 import My from '@/components/my/My.vue'
 import Userprofile from '@/views/user/Userprofile.vue'
-import Setting from '@/components/my/Setting.vue'
+import Logs from '@/components/my/Logs.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Login from '@/views/user/Login.vue'
@@ -64,6 +64,11 @@ const routes = [
         name:'My',
         component:My,
       },
+      {
+        path:'Logs',
+        name:'Logs',
+        component:Logs,
+      },
     ],
   },
   {
@@ -75,11 +80,6 @@ const routes = [
     path:'/userprofile',
     name:'Userprofile',
     component:Userprofile,
-  },
-  {
-    path:'/setting',
-    name:'Setting',
-    component:Setting,
   },
   {
     path: '/jubging/register',
