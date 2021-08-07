@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -36,5 +37,16 @@ public class HashtagService {
 
     public List<Hashtag> findHashtagByArticleId(Long articleId) {
         return hashtagRepository.findAllByArticleId(articleId);
+    }
+
+    //articleId에 있는 해시 반환
+    public List<String> getHashList(Long articleId){
+        List<String> list = new ArrayList<>();
+
+        List<Hashtag> hashtagList = hashtagRepository.findAllByArticleId(articleId);
+        for(Hashtag hash : hashtagList){
+            list.add(hash.getContent());
+        }
+        return list;
     }
 }

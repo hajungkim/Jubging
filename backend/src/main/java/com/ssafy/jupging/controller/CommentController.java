@@ -10,7 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -71,7 +73,9 @@ public class CommentController {
             List<Comment> commentList = commentService.findAllComment(article_id);
             List<CommentResponseDto> list = new ArrayList<>();
             for(Comment comment : commentList){
-                list.add(new CommentResponseDto(comment, userService.findUser(comment.getUserId())));
+                CommentResponseDto commentResponseDto = new CommentResponseDto(comment, userService.findUser(comment.getUserId()));
+                commentResponseDto.setTime(commentTimeFormat(comment.getCreatedDate()));
+                list.add(commentResponseDto);
             }
 
             response = new ControllerResponse("success", list);
@@ -82,13 +86,34 @@ public class CommentController {
         return response;
     }
 
-    /*
-    해당 게시글 번호의 댓글 개수 반환
-     */
-    @ApiOperation(value = "댓글 개수 찾기", notes = "성공 시 해당 게시글 번호의 댓글 개수 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    public int countComment(Long article_id){
-        return commentService.countByArticleId(article_id);
+    private static class TIME_VALUE{
+        public static final int SEC = 60;
+        public static final int MIN = 60;
+        public static final int HOUR = 24;
+        public static final int DAY = 30;
+        public static final int MONTH = 12;
     }
 
+    public String commentTimeFormat(LocalDateTime createdDate){
+        long curTime = System.currentTimeMillis();
+        long regTime = java.sql.Timestamp.valueOf(createdDate).getTime();
+        long diff = (curTime - regTime) / 1000;
 
+        String msg = "";
+
+        if (diff < TIME_VALUE.SEC) {
+            msg = "방금전";
+        } else if ((diff /= TIME_VALUE.SEC) < TIME_VALUE.MIN) {
+            msg = diff + "분전";
+        } else if ((diff /= TIME_VALUE.MIN) < TIME_VALUE.HOUR) {
+            msg = (diff) + "시간전";
+        } else if ((diff /= TIME_VALUE.HOUR) < TIME_VALUE.DAY) {
+            msg = (diff) + "일전";
+        } else if ((diff /= TIME_VALUE.DAY) < TIME_VALUE.MONTH) {
+            msg = (diff) + "달전";
+        } else {
+            msg = (diff) + "년전";
+        }
+        return msg;
+    }
 }
