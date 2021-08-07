@@ -1,0 +1,16 @@
+.like_container{
+  display: flex;
+  margin:0px 10px 10px 10px;
+  align-items: center;
+  }
+  .like_profile{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin:5px 10px 0px 0px;
+  }
+  .like_date{
+    font-size:13px;
+    color:gray;
+  }
