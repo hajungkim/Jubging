@@ -28,11 +28,6 @@ public class CommentService {
     }
 
     @Transactional
-    public int countByArticleId(Long articleId) {
-        return commentRepository.countByArticleId(articleId);
-    }
-
-    @Transactional
     public List<Comment> findAllComment(long articleId) {
         return commentRepository.findAllByArticleId(articleId);
     }
@@ -41,5 +36,9 @@ public class CommentService {
     public void deleteAllComment(Long articleId) {
         //게시글 삭제할 때, 모든 댓글 삭제
         commentRepository.deleteAllByArticleId(articleId);
+    }
+
+    public int countComment(Long article_id){
+        return commentRepository.countByArticleId(article_id);
     }
 }
