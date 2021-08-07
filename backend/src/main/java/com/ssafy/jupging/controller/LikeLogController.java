@@ -67,7 +67,7 @@ public class LikeLogController {
      * @param user_id
      * @return 리스트 - LikeLog 객체 + Artocle 객체
      */
-    @ApiOperation(value = "좋아요 로그 찾기", notes = "성공 시 사용자가 누른 좋아요 리스트 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @ApiOperation(value = "좋아요 로그 찾기(최신순 정렬)", notes = "성공 시 사용자가 누른 좋아요 리스트 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/{user_id}")
     public ControllerResponse findLikeLog(@PathVariable Long user_id){
         ControllerResponse response = null;
@@ -76,7 +76,8 @@ public class LikeLogController {
             List<LikeLogResponseDto> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
                 Article article = articleService.findByArticleId(likeLog.getArticleId());
-                list.add(new LikeLogResponseDto(likeLog, article));
+                User user = userService.findUser(article.getUserId());
+                list.add(new LikeLogResponseDto(likeLog, article, user));
             }
 
             response = new ControllerResponse("success", list);

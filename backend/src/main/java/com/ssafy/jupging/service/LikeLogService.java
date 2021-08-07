@@ -31,7 +31,7 @@ public class LikeLogService {
 
     @Transactional
     public List<LikeLog> findLikeLog(Long userId) {
-        return likeLogRepository.findAllByUserId(userId);
+        return likeLogRepository.findAllByUserIdOrderByCreatedDateDesc(userId);
     }
 
     @Transactional

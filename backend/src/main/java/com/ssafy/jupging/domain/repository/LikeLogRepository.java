@@ -10,7 +10,7 @@ public interface LikeLogRepository extends JpaRepository<LikeLog, Long> {
 
     void deleteByUserIdAndArticleId(long userId, long articleId);
 
-    List<LikeLog> findAllByUserId(long userId);
+    List<LikeLog> findAllByUserIdOrderByCreatedDateDesc(long userId);
 
     List<LikeLog> findAllByArticleId(long article_id);
 }
