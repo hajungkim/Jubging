@@ -31,7 +31,7 @@
         </span>
         <!--게시글 내용-->
         <div class="content_box">
-          {{content}}
+          {{ content }}
         </div>
         <Likeusermodal v-if="isModal" @close-modal="isModal=false" :likePeoples="likePeoples">
         </Likeusermodal>
@@ -227,7 +227,9 @@ export default {
         })
     },
     onClick(){
-      if(this.$store.state.backPage == 1)this.$router.push({name:'My'})
+      if(this.$store.state.backPage === 1)this.$router.push({name:'My'})
+      else if(this.$store.state.backPage === 2) this.$router.push({name:'Search'})
+      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile'})
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
@@ -255,6 +257,7 @@ export default {
       }
       else{
         this.$store.state.currentUser = userId
+        this.$store.state.backPage = 4
         this.$router.push({name:'Userprofile'})
       }
     },
