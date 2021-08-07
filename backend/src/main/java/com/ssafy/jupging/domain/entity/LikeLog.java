@@ -30,7 +30,7 @@ public class LikeLog {
         LikeLog likeLog = new LikeLog();
         likeLog.userId=requestDto.getUserId();
         likeLog.articleId= requestDto.getArticleId();
-
+        likeLog.createdDate=LocalDateTime.now();
         return likeLog;
     }
 }
