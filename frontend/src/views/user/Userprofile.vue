@@ -158,7 +158,7 @@ export default {
         this.$router.push({ name: 'Search' })
       }
       else{
-      this.$router.push({ name: 'Detail' })
+      this.$router.push({ name: 'Home' })
       }
     },
     onDetail(article){

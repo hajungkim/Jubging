@@ -60,7 +60,7 @@ export default {
     ...mapState([
       'articles',
       'followarticles',
-    ])
+    ]),
   },
   created(){
     console.log("현재 로그인 유저",this.$store.state.userId)

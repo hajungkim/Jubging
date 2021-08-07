@@ -1,32 +1,26 @@
 <template>
   <div>
     <div class="follow_container">
-      <router-link :to="{name:'Detail'}" class="default-link">
-        <img class="photo-img" :src="followarticle.photosPath">
-      </router-link>
+      <img class="photo-img" :src="followarticle.photosPath" @click="moveDetail(followarticle)">
       <div class="article_info">
-        <router-link :to="{name:'My'}" class="default-link">
-          <div style="display:flex; justify-content: center;">
-            <img class="follow_profile" :src="user.profilePath">
-            <span style="margin-top:20px; font-weight:bold">{{followarticle.nickname}}</span>
+        <div style="display:flex; justify-content: center;" @click="moveProfile(followarticle.userId)">
+          <img class="follow_profile" :src="user.profilePath">
+          <span style="margin-top:20px; font-weight:bold">{{followarticle.nickname}}</span>
+        </div>
+        <div class="hashtag_container" @click="moveDetail(followarticle)">
+          <span v-for="(hash,idx) in followarticle.hashlist" :key="idx">#{{hash}}</span>
+        </div>
+        <div class="like_comment_container">
+          <div class="lcbox">
+            <font-awesome-icon :icon="['fas','users']"/><span style="margin-left:5px;">{{user.follower}}</span>
           </div>
-        </router-link>
-        <router-link :to="{name:'Detail'}" class="default-link">
-          <div class="hashtag_container">
-            <span v-for="(hash,idx) in followarticle.hashlist" :key="idx">#{{hash}}</span>
+          <div class="lcbox">
+            <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">{{followarticle.likeCnt}}</span>
           </div>
-          <div class="like_comment_container">
-            <div class="lcbox">
-              <font-awesome-icon :icon="['fas','users']"/><span style="margin-left:5px;">{{user.follower}}</span>
-            </div>
-            <div class="lcbox">
-              <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">{{followarticle.likeCnt}}</span>
-            </div>
-            <div class="lcbox">
-              <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">{{followarticle.commentCnt}}</span>
-            </div>
+          <div class="lcbox">
+            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">{{followarticle.commentCnt}}</span>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -63,6 +57,17 @@ export default {
       .catch((e) => {
         console.error(e);
     })
+  },
+  methods:{
+    moveDetail(article){
+      this.$store.state.selectArticle = article
+      this.$router.push({name:'Detail'})
+    },
+    moveProfile(userId){
+      this.$store.state.currentUser = userId
+      this.$store.state.backPage = 0
+      this.$router.push({name:'Userprofile'})
+    }
   }
 }
 </script>
