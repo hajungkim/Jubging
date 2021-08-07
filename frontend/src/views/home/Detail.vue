@@ -60,7 +60,10 @@
         >
           <img class="comment_profile" :src="comment.profilePath">
           <div>
-            <span style="font-weight:bold;">{{comment.nickname}}</span>
+            <div>
+              <span style="font-weight:bold;">{{comment.nickname}}</span>
+              <span class="comment_time">{{comment.time}}</span>
+            </div>
             <div class="comment_contents">{{comment.commentContent}}</div>
           </div>
           <div class="btn_div" v-if="comment.userId===loginUser">
@@ -145,6 +148,9 @@ export default {
     loginUser(){
       return this.$store.state.userId
     },
+    userInfo(){
+      return this.$store.state.userInfo
+    }
   },
   created(){
     this.getComment()
@@ -172,18 +178,11 @@ export default {
       }
       axios(params)
         .then((res) => {
-          this.comments = res.data.data
-          this.timeforToday()    
+          this.comments = res.data.data  
         })
         .catch((e) => {
           console.error(e);
         })
-    },
-    timeforToday(){
-      const today = new Date();
-      // const timeValue = new Date()
-      console.log(this.comments)
-      console.log(today)
     },
     commentSubmit(){
       const URL = 'http://localhost:8080/comment/'
@@ -262,10 +261,10 @@ export default {
       }
     },
     likeToggle(){
-      const URL = `http://localhost:8080/likelog`
+      const URL = `http://localhost:8080/likelog/`
       const data = {
         articleId: this.article.articleId,
-        userId: this.loginUser
+        userId: parseInt(this.loginUser)
       }
       const params = {
         method: 'post',
@@ -306,7 +305,11 @@ export default {
       axios(params)
         .then((res) => {
           this.likePeoples = res.data.data
-          console.log(this.likePeople)
+          console.log(this.likePeoples)
+          // this.likePeoples.forEach(element => {
+            // if(element[0]===)
+          // });
+          
         })
         .catch((e) => {
           console.error(e);
