@@ -6,6 +6,7 @@ import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.HashtagSaveRequestDto;
 import com.ssafy.jupging.service.ArticleService;
+import com.ssafy.jupging.service.CommentService;
 import com.ssafy.jupging.service.HashtagService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.Api;
@@ -29,8 +30,7 @@ public class HashtagController {
     private final HashtagService hashtagService;
     private final ArticleService articleService;
     private final UserService userService;
-
-    private final CommentController commentController;
+    private final CommentService commentService;
 
     /**
      * 해시태그 추출하고 디비에 저장하는 함수
@@ -108,14 +108,14 @@ public class HashtagController {
                 Article article = articleService.findByArticleId(hash.getArticleId());
                 ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
 
-                int commentCnt = commentController.countComment(articleResponseDto.getArticleId());
+                int commentCnt = commentService.countComment(articleResponseDto.getArticleId());
                 articleResponseDto.setCommentCnt(commentCnt);
 
                 User user = userService.findUser(articleResponseDto.getUserId());
                 articleResponseDto.setNickname(user.getNickname());
                 articleResponseDto.setProfilePath( user.getProfilePath());
 
-                List<String> hashlist = getHashList(articleResponseDto.getArticleId());
+                List<String> hashlist = hashtagService.getHashList(articleResponseDto.getArticleId());
                 articleResponseDto.setHashlist(hashlist);
 
                 list.add(articleResponseDto);
@@ -134,16 +134,5 @@ public class HashtagController {
         }
 
         return response;
-    }
-
-    //articleId에 있는 해시 반환
-    public List<String> getHashList(Long articleId){
-        List<String> list = new ArrayList<>();
-
-        List<Hashtag> hashtagList = hashtagService.findHashtagByArticleId(articleId);
-        for(Hashtag hash : hashtagList){
-            list.add(hash.getContent());
-        }
-        return list;
     }
 }
