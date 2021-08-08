@@ -38,37 +38,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.mission-wrap {
-	height: 721px;
-}
-
-.top-select {
-	display: flex;
-	justify-content: space-evenly;
-}
-.select-item {
-	width: 180px;
-	height: 50px;
-	text-align: center;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}	
-.active {
-	color: #00bfa5;
-	border-bottom: 5px solid #00bfa5;
-}
-
-.inactive {
-	color: black;
-}
-
-.mission-screen {
-	overflow: auto;
-  height: 640px;
-	margin: 25px 16px;
-}
+<style lang="scss" scoped>
+@import "@/components/my/Logs.scss";
 </style>

@@ -3,6 +3,12 @@
     <div class="top">
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
+      <span v-if="follow" class="followbtn">
+        <font-awesome-icon class="btnstyle" :icon="['fas','star']" @click="deleteFollow()"/>
+      </span>
+      <span v-else class="followbtn">
+        <font-awesome-icon class="btnstyle" :icon="['far','star']" @click="onFollow()"/>
+      </span>
     </div>
     <!-- 유저 정보 -->
     <div class="my_info">
@@ -53,6 +59,7 @@
 <script>
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
+import { mapState } from 'vuex'
 export default {
   name:'Userprofile',
   components:{
@@ -96,18 +103,22 @@ export default {
         //   title:'7',
         //   url:'http://placehold.it/139x139',
         // },
-      ]
+        ],
+        follow: false,
+        // followCnt: 0,
     }
   },
   created(){
     this.getInfo()
+    this.getFollow()
     this.getBadge()
     this.getArticle()
   },
   computed:{
-    currentUser(){
-      return  this.$store.state.currentUser
-    }
+    ...mapState([
+      'currentUser',
+			'userId',
+		]),
   },
   methods: {
     getInfo(){
@@ -119,6 +130,7 @@ export default {
       axios(params)
         .then((res) => {
           this.user = res.data.data
+          // this.followCnt = res.data.data.follower
         })
         .catch((e) => {
           console.error(e);
@@ -136,6 +148,25 @@ export default {
         })
         .catch((e) => {
           console.error(e);
+        })
+    },
+    getFollow(){
+      let URL = `http://localhost:8080/follow/findfollow/${this.userId}`
+      let params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          res.data.data.some(element => {
+            if (element.followUserId === this.currentUser){
+              this.follow = true
+            }
+            return 0;
+          });
+        })
+        .catch(() => {
+          this.follow = false
         })
     },
     getArticle(){
@@ -157,15 +188,52 @@ export default {
       if (this.$store.state.backPage === 2 || this.$store.state.searchflag === true){
         this.$router.push({ name: 'Search' })
       }
+      else if (this.$store.state.backPage === 4){
+        this.$store.state.backPage = 3
+        this.$router.push({ name:"Detail"})
+      }
+      else if (this.$store.state.backPage === 1){
+        this.$router.push({ name:"My" })
+      }
       else{
-      this.$router.push({ name: 'Detail' })
+      this.$router.push({ name: 'Home' })
       }
     },
     onDetail(article){
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 3
       this.$router.push({ name: 'Detail' })
-    }
+    },
+    onFollow(){
+      let URL = `http://localhost:8080/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let params = {
+        method: 'post',
+        url: URL,
+      }
+      axios(params)
+        .then(() => {
+          this.follow = true
+          this.getInfo()
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    deleteFollow(){
+      let URL = `http://localhost:8080/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let params = {
+        method: 'delete',
+        url: URL,
+      }
+      axios(params)
+        .then(() => {
+          this.follow = false
+          this.getInfo()
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
   },
 }
 </script>
