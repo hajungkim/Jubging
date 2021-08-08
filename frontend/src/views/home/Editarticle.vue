@@ -6,9 +6,9 @@
     </div>
     <div class="content">
       <span class="text">게시글 수정하기</span>
-      <textarea v-model="content" type="text" style="margin-top:15px;"></textarea>
+      <textarea v-model="content" type="text"></textarea>
       <!-- <img src="@/assets/logo/iconlogo.png" class="logo_img"> -->
-      <button class="edit_button" @click="onEdit">수정 완료</button>
+      <button class="btn" @click="onEdit">수정 완료</button>
     </div>
   </div>
 </template>
