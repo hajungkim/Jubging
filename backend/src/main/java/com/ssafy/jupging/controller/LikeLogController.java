@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
@@ -32,54 +33,35 @@ public class LikeLogController {
      * @param requestDto
      * @return
      */
-    @ApiOperation(value = "좋아요 등록", notes = "성공 시 '좋아요 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @ApiOperation(value = "좋아요 등록/취소", notes = "성공 시 '좋아요 등록 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @PostMapping
     public ControllerResponse saveLikeLog(@RequestBody LikeLogRequestDto requestDto){
         ControllerResponse response = null;
 
         try{
-            //좋아요 로그 기록
-            LikeLog likeLog = LikeLog.saveLikeLog(requestDto);
-            likeLogService.saveLikeLog(likeLog);
+            boolean like =true;
+            Optional<LikeLog> likeOX = likeLogService.findLikeLog(requestDto.getUserId(), requestDto.getArticleId());
+            if(likeOX.isPresent()){ //이미 좋아요를 누른 기록이 있을 경우
+                like =false;
+            }
+
+            if (like == true) {
+                //좋아요 로그 기록
+                LikeLog likeLog = LikeLog.saveLikeLog(requestDto);
+                likeLogService.saveLikeLog(likeLog);
+            } else {
+                likeLogService.deleteLikeLog(requestDto.getUserId(), requestDto.getArticleId());
+            }
 
             //좋아요 cnt 값 반영
             Article article = articleService.findByArticleId(requestDto.getArticleId());
             int cnt = article.getLikeCnt();
-            likeLogService.updateLikecnt(true, cnt, requestDto.getArticleId());
+            likeLogService.updateLikecnt(like, cnt, requestDto.getArticleId());
 
             //좋아요 미션 카운트+1
-            missionService.updateLikeMission(requestDto.getUserId(), true);
+            missionService.updateLikeMission(requestDto.getUserId(), like);
 
-            response = new ControllerResponse("success", "좋아요 등록 성공");
-        }catch (Exception e){
-            response = new ControllerResponse("fail", e.getMessage());
-        }
-
-        return response;
-    }
-
-    /**
-     * 좋아요 취소
-     * @param requestDto
-     * @return
-     */
-    @ApiOperation(value = "좋아요 취소", notes = "성공 시 '좋아요 취소 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
-    @DeleteMapping
-    public ControllerResponse deleteLikeLog(@RequestBody LikeLogRequestDto requestDto){
-        ControllerResponse response = null;
-
-        try{
-            likeLogService.deleteLikeLog(requestDto.getUserId(), requestDto.getArticleId());
-
-            //좋아요 cnt 값 반영
-            Article article = articleService.findByArticleId(requestDto.getArticleId());
-            int cnt = article.getLikeCnt();
-            likeLogService.updateLikecnt(false, cnt, requestDto.getArticleId());
-
-            //좋아요 미션 카운트+1
-            missionService.updateLikeMission(requestDto.getUserId(), false);
-
-            response = new ControllerResponse("success", "좋아요 취소 성공");
+            response = new ControllerResponse("success", "좋아요 반영 성공");
         }catch (Exception e){
             response = new ControllerResponse("fail", e.getMessage());
         }
@@ -92,7 +74,7 @@ public class LikeLogController {
      * @param user_id
      * @return 리스트 - LikeLog 객체 + Artocle 객체
      */
-    @ApiOperation(value = "좋아요 로그 찾기", notes = "성공 시 사용자가 누른 좋아요 리스트 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @ApiOperation(value = "좋아요 로그 찾기(최신순 정렬)", notes = "성공 시 사용자가 누른 좋아요 리스트 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
     @GetMapping("/{user_id}")
     public ControllerResponse findLikeLog(@PathVariable Long user_id){
         ControllerResponse response = null;
@@ -101,7 +83,8 @@ public class LikeLogController {
             List<LikeLogResponseDto> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
                 Article article = articleService.findByArticleId(likeLog.getArticleId());
-                list.add(new LikeLogResponseDto(likeLog, article));
+                User user = userService.findUser(article.getUserId());
+                list.add(new LikeLogResponseDto(likeLog, article, user));
             }
 
             response = new ControllerResponse("success", list);
@@ -124,10 +107,11 @@ public class LikeLogController {
 
         try{
             List<LikeLog> likeLogList = likeLogService.findUserLikeList(article_id);
-            List<String[]> list = new ArrayList<>();
+            List<LikeLogResponseDto> list = new ArrayList<>();
             for(LikeLog likeLog : likeLogList){
                 User user = userService.findUser(likeLog.getUserId());
-                list.add(new String[]{user.getNickname(), user.getProfilePath()});
+                LikeLogResponseDto responseDto = new LikeLogResponseDto(likeLog, user, likeLog.getArticleId());
+                list.add(responseDto);
             }
             response = new ControllerResponse("success", list);
         }catch (Exception e){

@@ -12,6 +12,7 @@ import org.hibernate.annotations.ManyToAny;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,7 +23,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @Column(nullable = false)
     private LocalDateTime createdDate;
 
     @Column(nullable = false)
@@ -39,6 +39,7 @@ public class Comment {
         comment.articleId=request.getArticleId();
         comment.userId=request.getUserId();
         comment.commentContent=request.getCommentContent();
+        comment.createdDate=LocalDateTime.now();
         return comment;
     }
 }
