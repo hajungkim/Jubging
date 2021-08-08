@@ -37,7 +37,7 @@ public class EmailController {
     }
 
     @ApiOperation(value = "이메일 인증번호가 맞는지 체크", notes = "성공시 '인증성공' 반환 / 실패 시 에러메시지", response = ControllerResponse.class)
-    @PostMapping("/authcheck")
+    @GetMapping("/authcheck")
     public ControllerResponse checkAuthKey(@RequestBody AuthorizationRequestDto authorizationRequestDto){
         ControllerResponse response = null;
 
@@ -59,7 +59,7 @@ public class EmailController {
     }
 
     @ApiOperation(value = "임시 비밀번호 발급", notes = "임시비밀번호 발급 및 이메일 전송 성공시 '전송 성공' 반환 / 실패 시 에러메시지", response = ControllerResponse.class)
-    @PostMapping("/changepw/{userId}")
+    @PutMapping("/changepw/{userId}")
     public ControllerResponse sendTempPwEmail(@PathVariable Long userId){
         ControllerResponse response = null;
 
