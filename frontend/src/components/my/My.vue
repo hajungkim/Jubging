@@ -16,16 +16,19 @@
           <span>게시물</span>
           <span style="text-align:center">{{user.articleCount}}</span>
         </div>
-        <div class="lcbox">
+        <div class="lcbox" @click="isfollower=true">
           <span>팔로워</span>
           <span style="text-align:center">{{user.follower}}</span>
         </div>
-        <div class="lcbox">
+        <div class="lcbox" @click="isfollowing=true">
           <span>팔로잉</span>
           <span style="text-align:center">{{user.following}}</span>
         </div>
       </div>
-      <!-- <img src="@/assets/badge/can/sample4.png"> -->
+      <FollowerModal v-if="isfollower" @close-modal="isfollower=false">
+        </FollowerModal>
+      <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false">
+        </FollowingModal>  
     </div>
     <!-- 뱃지 리스트 -->
     <div class="badge_box">
@@ -87,12 +90,17 @@
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import FollowerModal from "@/components/my/FollowerModal.vue"
+import FollowingModal from "@/components/my/FollowingModal.vue"
+import { mapState } from 'vuex'
 export default {
   name:'My',
   components:{
     Carousel3d,
     Slide,
     VueBottomSheet,
+    FollowerModal,
+    FollowingModal,
   },
   data() {
     return {
@@ -100,6 +108,8 @@ export default {
       articles: [],
       badges: {},
       badge_photo: [],
+      isfollower: false,
+      isfollowing: false,
       photos: [
         {
           title:'0',
@@ -137,9 +147,9 @@ export default {
     }
   },
   computed:{
-    loginUser(){
-      return this.$store.state.userId
-    },
+		...mapState([
+			'userId'
+		]),
   },
   created(){
     this.getInfo()
@@ -154,7 +164,7 @@ export default {
       this.$refs.myBottomSheet.close();
     },
     getInfo(){
-      let URL = `http://localhost:8080/user/${this.loginUser}`
+      let URL = `http://localhost:8080/user/${this.userId}`
       let params = {
         method: 'get',
         url: URL,
@@ -168,7 +178,7 @@ export default {
         })
     },
     getBadge(){
-      let URL = `http://localhost:8080/mission/${this.loginUser}`
+      let URL = `http://localhost:8080/mission/${this.userId}`
       let params = {
         method:'get',
         url:URL,
@@ -183,7 +193,7 @@ export default {
         })
     },
     getArticle(){
-      let URL = `http://localhost:8080/article/list/${this.loginUser}`
+      let URL = `http://localhost:8080/article/list/${this.userId}`
       let params={
         method:'get',
         url:URL,
