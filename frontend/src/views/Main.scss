@@ -1,3 +1,5 @@
+@import '@/assets/css/common.scss';
+
 .container{
   display: flex;
   flex-direction: column;
@@ -145,15 +147,15 @@
   justify-content: space-around;
   align-items: center;
   margin-top: auto;
-  height: 60px;
+  height: 56px;
   padding-top: 4px;
-  background-color: rgb(35, 153, 124);
+  background-color: $white;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 .4rem 1rem 0 rgba(55, 55, 55, .2);
 
   a {
     text-decoration: none;
-    color: white;
+    color: $gray;
   }
 
   .item {
@@ -162,8 +164,12 @@
     align-items: center;
     font-size: 1.5rem;
     span {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
     }
+  }
+
+  .active {
+    color: $primary;
   }
 }
