@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="top3-group">
+    <div class="top3-group" v-if="rankers">
 			<div class="top3-group-silver">
 				<font-awesome-icon icon="trophy" class="silver"/>
 				<div class="top3">
