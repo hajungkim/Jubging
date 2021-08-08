@@ -1,6 +1,7 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.User;
+import com.ssafy.jupging.dto.AuthorizationRequestDto;
 import com.ssafy.jupging.service.EmailService;
 import com.ssafy.jupging.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,33 @@ public class EmailController {
         if(!userService.checkEmail(email))
             return new ControllerResponse("fail", "이미 존재하는 이메일");
 
-        emailService.sendAuthEmail(email);
-        response = new ControllerResponse("success", "인증 메일 전송 성공");
+        try{
+            emailService.sendAuthEmail(email);
+            response = new ControllerResponse("success", "인증 메일 전송 성공");
+        }catch (Exception e){
+            response = new ControllerResponse("fail", e.getMessage());
+        }
+
+        return response;
+    }
+
+    @PostMapping("/authcheck")
+    public ControllerResponse checkAuthKey(@RequestBody AuthorizationRequestDto authorizationRequestDto){
+        ControllerResponse response = null;
+
+        try{
+            String auth = emailService.checkAuthKey(authorizationRequestDto.getEmail());
+
+            if (auth.equals(authorizationRequestDto.getAuthKey())) {
+                response = new ControllerResponse("success", "인증 성공");
+            }
+            else {
+                response = new ControllerResponse("fail", "인증 실패");
+            }
+
+        }catch (Exception e){
+            response = new ControllerResponse("fail", e.getMessage());
+        }
 
         return response;
     }
@@ -34,8 +60,12 @@ public class EmailController {
 
         User user = userService.findUser(userId);
 
-        emailService.sendTempPwEmail(user);
-        response = new ControllerResponse("success", "임시 비밀번호 메일 전송 성공");
+        try{
+            emailService.sendTempPwEmail(user);
+            response = new ControllerResponse("success", "임시 비밀번호 메일 전송 성공");
+        }catch (Exception e){
+            response = new ControllerResponse("fail", e.getMessage());
+        }
 
         return response;
     }

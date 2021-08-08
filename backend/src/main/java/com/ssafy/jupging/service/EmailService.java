@@ -1,6 +1,9 @@
 package com.ssafy.jupging.service;
 
+import com.ssafy.jupging.domain.entity.Authorization;
 import com.ssafy.jupging.domain.entity.User;
+import com.ssafy.jupging.domain.repository.AuthorizationRepository;
+import com.ssafy.jupging.dto.AuthorizationRequestDto;
 import com.ssafy.jupging.handler.EmailHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -15,6 +18,8 @@ public class EmailService {
     private final JavaMailSenderImpl mailSender;
     private final UserService userService;
 
+    private final AuthorizationRepository authorizationRepository;
+
     private boolean lowerCheck;
     private int size;
 
@@ -24,6 +29,7 @@ public class EmailService {
         return makeAuthKey();
     }
 
+    //난수 생성
     private String makeAuthKey() {
         Random ran = new Random();
         StringBuffer sb = new StringBuffer();
@@ -42,24 +48,29 @@ public class EmailService {
         return sb.toString();
     }
 
-    public String sendAuthEmail(String email){
-        String auth = getKey(5, true);
+    //이메일 인증 코드
+    public void sendAuthEmail(String email){
+        String authKey = getKey(5, true);
 
         try{
             EmailHandler mailHandler = new EmailHandler(mailSender);
             mailHandler.setTo(email);
             mailHandler.setSubject("[Jubging] 줍깅 회원가입 인증번호 안내");
-            String message = makeContent(0, "메일인증",email, auth);
+            String message = makeContent(0, "메일인증",email, authKey);
             mailHandler.setText(message, true);
             mailHandler.send();
+
+            Authorization emailRequest = new Authorization();
+            emailRequest.saveAuthorization(email, authKey);
+
+            authorizationRepository.save(emailRequest);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return auth;
     }
 
+    //임시 비밀번호 발급
     public void sendTempPwEmail(User user){
         String tempKey = getKey(10, true);
 
@@ -78,6 +89,9 @@ public class EmailService {
         }
     }
 
+    /**
+     * 이메일 내용 생성해서 전송
+     */
     private String makeContent(int n, String title, String nickname, String key) {
         StringBuffer sb = new StringBuffer();
 
@@ -122,5 +136,9 @@ public class EmailService {
 
 
         return sb.toString();
+    }
+
+    public String checkAuthKey(String email) {
+        return authorizationRepository.findByEmail(email).getAuthKey();
     }
 }
