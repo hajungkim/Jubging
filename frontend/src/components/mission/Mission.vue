@@ -1,8 +1,8 @@
 <template>
   <div class="mission-wrap">
     <div class="top-select">
-			<div @click="changeComponent(true)" class="select-item" :class="[flag ? 'active': 'inactive']"><span>줍깅 미션</span></div>
-			<div @click="changeComponent(false)" class="select-item" :class="[!flag ? 'active': 'inactive']"><span>활동 미션</span></div>
+			<div @click="changeComponent(true)" class="select-item" :class="{ 'item-active' : flag }"><span>줍깅 미션</span></div>
+			<div @click="changeComponent(false)" class="select-item" :class="{ 'item-active' : !flag }"><span>활동 미션</span></div>
 		</div>
 
 		<div class="mission-screen">
