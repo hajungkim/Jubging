@@ -7,13 +7,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FollowResponseDto {
 
-    private Long followUserId;
+    private Long userId;
 
     private String nickName;
 
-    public void saveIdAndNick(Long followUserId, String nickName) {
-        this.followUserId = followUserId;
+    private String profilePath;
+
+    public void saveIdAndNick(Long userId, String nickName, String profilePath) {
+        this.userId = userId;
         this.nickName = nickName;
+        this.profilePath = profilePath;
     }
 
 }
