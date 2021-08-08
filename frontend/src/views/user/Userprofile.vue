@@ -43,7 +43,7 @@
     <div class="photo_list">
       <div class="photo-grid">
         <router-link :to="{name:'Detail'}">
-          <img @click="onClick(article)" class="photo-img" v-for="(article,idx) in articles" :key="idx" :src="article.photosPath">
+          <img @click="onDetail(article)" class="photo-img" v-for="(article,idx) in articles" :key="idx" :src="article.photosPath">
         </router-link>
       </div>
     </div>
@@ -154,6 +154,16 @@ export default {
         })
     },
     onClick(){
+      if (this.$store.state.backPage === 2 || this.$store.state.searchflag === true){
+        this.$router.push({ name: 'Search' })
+      }
+      else{
+      this.$router.push({ name: 'Detail' })
+      }
+    },
+    onDetail(article){
+      this.$store.state.selectArticle = article
+      this.$store.state.backPage = 3
       this.$router.push({ name: 'Detail' })
     }
   },
@@ -161,5 +171,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/views/Userprofile.scss";
+@import "@/views/user/Userprofile.scss";
 </style>

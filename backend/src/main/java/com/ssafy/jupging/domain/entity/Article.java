@@ -39,6 +39,7 @@ public class Article {
         Article article = new Article();
         article.content=request.getContent();
         article.userId=request.getUserId();
+        article.createdDate=LocalDateTime.now();
         return article;
     }
 }

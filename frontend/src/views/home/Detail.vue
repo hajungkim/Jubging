@@ -1,9 +1,13 @@
 <template>
   <div style="height:781px">
     <div class="top">
-      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
-      <font-awesome-icon v-if="article.userId===parseInt(loginUser)" icon="trash" class="delete_button" @click="onDelete(article)"/>
+      <font-awesome-icon
+        v-if="article.userId===parseInt(loginUser)"
+        :icon="['fas','ellipsis-h']" 
+        class="option_button"
+        @click="openOption"/>
     </div>
     <div class="article_content">
         <!--유저 정보-->
@@ -11,27 +15,40 @@
           <div class="profile_img">
             <img class="profile" :src="article.profilePath">
           </div>
-          <span style="font-weight:bold;">{{article.nickname}}</span>
+          <span style="font-weight:bold; font-size:18px;">{{article.nickname}}</span>
         </div>
         <!--사진들-->
         <carousel-3d :width="300" :height="300" bias="right">
           <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
             <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
-              <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" :src="photo.url">
+              <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
+              onRight:(rightIndex>=0)}" :src="photo.url" @dblclick="likeToggle">
             </template>
           </slide>
         </carousel-3d>
+        <span class="datetext">
+          {{article.createdDate.slice(0,10)}}
+        </span>
         <!--게시글 내용-->
         <div class="content_box">
-          {{article.content}}
+          {{ content }}
         </div>
+        <Likeusermodal v-if="isModal" @close-modal="isModal=false" :likePeoples="likePeoples">
+        </Likeusermodal>
         <!--좋아요 댓글-->
         <div class="like_comment_container">
-          <div class="lcbox" >
-            <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px;">{{article.likeCnt}}</span>
+          <div class="lcbox">
+            <span v-if="like">
+              <font-awesome-icon  @click="likeToggle" :icon="['fas','heart']"/>
+              <span style="margin-left:5px;" @click="isModal=true">{{likeCnt}}</span>
+            </span>
+            <span v-else>
+              <font-awesome-icon  @click="likeToggle" :icon="['far','heart']"/>
+              <span style="margin-left:5px;" @click="isModal=true">{{likeCnt}}</span>
+            </span>
           </div>
           <div class="lcbox" @click="open">
-            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">{{article.commentCnt}}</span>
+            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">{{commentCnt}}</span>
           </div>
         </div>
     </div>
@@ -43,7 +60,10 @@
         >
           <img class="comment_profile" :src="comment.profilePath">
           <div>
-            <span style="font-weight:bold;">{{comment.nickname}}</span>
+            <div>
+              <span style="font-weight:bold;">{{comment.nickname}}</span>
+              <span class="comment_time">{{comment.time}}</span>
+            </div>
             <div class="comment_contents">{{comment.commentContent}}</div>
           </div>
           <div class="btn_div" v-if="comment.userId===loginUser">
@@ -61,6 +81,28 @@
         <font-awesome-icon @click="commentSubmit" :icon="['fas','comment']" class="comment_icon"/>
       </div>
     </vue-bottom-sheet>
+    <vue-bottom-sheet ref="articleOption" max-height="280px" max-width="412px" >
+      <div class="option_container">
+        <router-link :to="{name:'Editarticle'}" class="default-link">
+          <div class="bt_common">
+            <font-awesome-icon
+              icon="edit"
+              class="fa-2x update_icon"
+            />
+            <span>게시글 수정하기</span>
+          </div>
+        </router-link>
+        <div class="bt_common" style="margin-top:15px;">
+          <font-awesome-icon
+            icon="trash"
+            class="fa-2x delete_button"
+            @click="onDelete(article)"
+            style="margin-right:17px"
+          />
+          <span>게시글 삭제하기</span>
+        </div>
+      </div>
+    </vue-bottom-sheet>
   </div>
 </template>
 
@@ -68,12 +110,14 @@
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import Likeusermodal from '@/views/home/Likeusermodal.vue';
 export default {
   name:'Detail',
   components:{
     Carousel3d,
     Slide,
     VueBottomSheet,
+    Likeusermodal,
   },
   data(){
     return{
@@ -87,8 +131,14 @@ export default {
           url:require('@/assets/badge/can/sample4.png'),
         },
       ],
+      isModal:false,
+      content:'',
       comments: [],
       comment: '',
+      like: false,
+      likeCnt: 0,
+      likePeoples:[],
+      commentCnt: 0,
     }
   },
   computed:{
@@ -97,10 +147,15 @@ export default {
     },
     loginUser(){
       return this.$store.state.userId
+    },
+    userInfo(){
+      return this.$store.state.userInfo
     }
   },
   created(){
     this.getComment()
+    this.getDetail()
+    this.getLike()
   },
   methods: {
     open(){
@@ -108,6 +163,12 @@ export default {
     },
     close(){
       this.$refs.myBottomSheet.close();
+    },
+    openOption(){
+      this.$refs.articleOption.open();
+    },
+    closeOption(){
+      this.$refs.articleOption.close();
     },
     getComment(){
       let URL = `http://localhost:8080/comment/${this.article.articleId}`
@@ -117,7 +178,7 @@ export default {
       }
       axios(params)
         .then((res) => {
-          this.comments = res.data.data          
+          this.comments = res.data.data  
         })
         .catch((e) => {
           console.error(e);
@@ -139,6 +200,7 @@ export default {
         .then(() => {
           this.comment = ''
           this.getComment()
+          this.getDetail()
         })
         .catch((e) => {
           console.error(e);
@@ -164,7 +226,9 @@ export default {
         })
     },
     onClick(){
-      if(this.$store.state.backPage == 1)this.$router.push({name:'My'})
+      if(this.$store.state.backPage === 1)this.$router.push({name:'My'})
+      else if(this.$store.state.backPage === 2) this.$router.push({name:'Search'})
+      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile'})
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
@@ -192,13 +256,69 @@ export default {
       }
       else{
         this.$store.state.currentUser = userId
+        this.$store.state.backPage = 4
         this.$router.push({name:'Userprofile'})
       }
+    },
+    likeToggle(){
+      const URL = `http://localhost:8080/likelog/`
+      const data = {
+        articleId: this.article.articleId,
+        userId: parseInt(this.loginUser)
+      }
+      const params = {
+        method: 'post',
+        url: URL,
+        data: data
+      }
+      axios(params)
+        .then(() => {
+          this.like = !this.like
+          this.getDetail()
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    getDetail(){
+      const URL = `http://localhost:8080/article/detail/${this.article.articleId}`
+      const params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          this.likeCnt = res.data.data.likeCnt
+          this.commentCnt = res.data.data.commentCnt
+          this.content = res.data.data.content
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    getLike(){
+      const URL = `http://localhost:8080/likelog/likelist/${this.article.articleId}`
+      const params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          this.likePeoples = res.data.data
+          console.log(this.likePeoples)
+          // this.likePeoples.forEach(element => {
+            // if(element[0]===)
+          // });
+          
+        })
+        .catch((e) => {
+          console.error(e);
+        })
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-@import "@/views/Detail.scss";
+@import "@/views/home/Detail.scss";
 </style>

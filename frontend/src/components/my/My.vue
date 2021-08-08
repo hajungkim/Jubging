@@ -54,13 +54,13 @@
     </div>
     <vue-bottom-sheet ref="myBottomSheet" max-height="370px" max-width="412px" >
       <div>
-        <router-link :to="{name:'#'}" class="default-link">
+        <router-link :to="{name:'ChangeSetting'}" class="default-link">
           <div class="bt_common">
             <font-awesome-icon icon="user" class="fa-2x icon" style="margin-right:17px"/>
             <span>회원정보변경</span>
           </div>
         </router-link>
-        <router-link :to="{name:'#'}" class="default-link">
+        <router-link :to="{name:'Logs'}" class="default-link">
           <div class="bt_common likelog">
             <font-awesome-icon icon="heart" class="fa-2x icon" style="margin-right:15px"/>
             <span>좋아요 로그</span>
