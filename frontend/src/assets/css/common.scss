@@ -39,4 +39,23 @@ svg {
   color: $primary;
 }
 
+.btn {
+  color: $primary;
+  background-color: $white;
+  width : 360px;
+  height: 40px;
+  border-radius: 20px;
+  border:2px solid $primary;
+  font-weight: bold;
+}
+
+.btn-disable {
+  color: $gray;
+  background-color: $white;
+  width : 360px;
+  height: 40px;
+  border-radius: 20px;
+  border:2px solid $gray;
+  font-weight: bold;
+}
 ////////////////////////////////////////////////////////////
