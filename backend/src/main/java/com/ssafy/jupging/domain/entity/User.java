@@ -71,4 +71,8 @@ public class User {
     public void updateScore(int score) {
         this.score += score;
     }
+
+    public void changePassword(String tempKey){
+        this.password=tempKey;
+    }
 }
