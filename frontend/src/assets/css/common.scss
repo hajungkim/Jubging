@@ -58,4 +58,19 @@ svg {
   border:2px solid $gray;
   font-weight: bold;
 }
+
+.top-select {
+	display: flex;
+	justify-content: space-evenly;
+	.select-item {
+		font-weight: 500;
+		width: 180px;
+		height: 50px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}	
+}
+
 ////////////////////////////////////////////////////////////
