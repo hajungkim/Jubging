@@ -1,8 +1,8 @@
 <template>
   <div class="ranking-wrap">
 		<div class="top-select">
-			<div @click="changeComponent(true)" class="select-item" :class="[flag ? 'active': 'inactive']"><span>유저 랭크</span></div>
-			<div @click="changeComponent(false)" class="select-item" :class="[!flag ? 'active': 'inactive']"><span>지역 랭크</span></div>
+			<div @click="changeComponent(true)" class="select-item" :class="{ 'item-active' : flag }"><span>유저 랭크</span></div>
+			<div @click="changeComponent(false)" class="select-item" :class="{ 'item-active' : !flag }"><span>지역 랭크</span></div>
 		</div>
 
 		<div class="rank-screen">
