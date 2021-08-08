@@ -34,55 +34,44 @@ export default {
 			badges: [
 				{
 					name: '좋아요 뱃지',
-					description: 'n개 더 좋아요를 누르면 뱃지 획득!',
+					description: '좋아요를 눌러 뱃지를 획득하세요!',
 					currentCnt: '',
 					bronze: 10,
-					silver: 20,
-					gold: 30,
+					silver: 50,
+					gold: 100,
 					bg_image: 'http://placehold.it/185x185',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '댓글 뱃지',
-					description: '댓글 설명',
+					description: '댓글을 작성하여 뱃지를 획득하세요!',
 					currentCnt: '',
 					bronze: 10,
-					silver: 20,
-					gold: 30,
-					bg_image: 'http://placehold.it/170x170',
-					bronze_image: 'http://placehold.it/170x170',
-					silver_image: 'http://placehold.it/170x170',
-				},
-				{
-					name: '게시글 뱃지',
-					description: '게시글 설명',
-					currentCnt: '',
-					bronze: 10,
-					silver: 20,
-					gold: 30,
+					silver: 50,
+					gold: 100,
 					bg_image: 'http://placehold.it/170x170',
 					bronze_image: 'http://placehold.it/170x170',
 					silver_image: 'http://placehold.it/170x170',
 				},
 				{
 					name: '팔로우 뱃지',
-					description: '팔로우 설명',
+					description: '팔로우하여 뱃지를 획득하세요!',
 					currentCnt: '',
 					bronze: 10,
-					silver: 20,
-					gold: 30,
+					silver: 50,
+					gold: 100,
 					bg_image: 'http://placehold.it/170x170',
 					bronze_image: 'http://placehold.it/170x170',
 					silver_image: 'http://placehold.it/170x170',
 				},
 				{
-					name: '줍깅 몇회 뱃지',
-					description: '팔로우 설명',
+					name: '줍깅 횟수 뱃지',
+					description: '줍깅을 실천하고 뱃지를 획득하세요!',
 					currentCnt: '',
 					bronze: 10,
-					silver: 20,
-					gold: 30,
+					silver: 50,
+					gold: 100,
 					bg_image: 'http://placehold.it/170x170',
 					bronze_image: 'http://placehold.it/170x170',
 					silver_image: 'http://placehold.it/170x170',
@@ -99,9 +88,8 @@ export default {
 		missions() {
 			this.badges[0].currentCnt = this.missions.likeCnt
 			this.badges[1].currentCnt = this.missions.commentCnt
-			this.badges[2].currentCnt = this.missions.articleCnt
-			this.badges[3].currentCnt = this.missions.followCnt
-			this.badges[4].currentCnt = this.missions.jubgingCnt
+			this.badges[2].currentCnt = this.missions.followCnt
+			this.badges[3].currentCnt = this.missions.jubgingCnt
 		}
 	},
 }
