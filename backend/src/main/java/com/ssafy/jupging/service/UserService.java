@@ -115,13 +115,12 @@ public class UserService {
     }
 
     @Transactional
-    public void changePassword(Long userId, String tempKey) {
+    public void changePassword(Long userId, String password) {
         Optional<User> user = userRepository.findById(userId);
 
         user.ifPresent(user1 -> {
-            user1.changePassword(tempKey);
+            user1.changePassword(password);
             userRepository.save(user1);
         });
-
     }
 }
