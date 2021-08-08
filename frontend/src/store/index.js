@@ -20,7 +20,7 @@ export default new Vuex.Store({
     userInfo: [],
     currentUser: 0,
     currentPage: 0,  
-    backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail
+    backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
     searchflag: false,
     likeflag: false,
     articles: [],

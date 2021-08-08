@@ -4,6 +4,7 @@
       <li class="like_container"
         v-for="(log,idx) in likelogs"
         :key="idx"
+        @click="moveDetail(log)"
       >
         <img class="like_profile" :src="log.profilePath">
         <div>
@@ -17,6 +18,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   name: 'Likelog',
   data(){
@@ -25,16 +27,16 @@ export default {
     }
   },
   computed:{
-    loginUser(){
-      return this.$store.state.userId
-    }
+		...mapState([
+			'userId'
+		]),
   },
   created(){
     this.getLikelogs()
   },
   methods:{
     getLikelogs(){
-      const URL = `http://localhost:8080/likelog/${this.loginUser}`
+      const URL = `http://localhost:8080/likelog/${this.userId}`
       const params = {
         method: 'get',
         url: URL,
@@ -46,7 +48,23 @@ export default {
         .catch((e) => {
           console.error(e);
         })
-    }
+    },
+    moveDetail(article){
+      let URL = `http://localhost:8080/article/detail/${article.articleId}`
+      let params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          this.$store.state.selectArticle = res.data.data
+          this.$store.state.backPage = 5
+          this.$router.push({name:'Detail'})   
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
   }
 }
 </script>
