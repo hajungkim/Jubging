@@ -4,12 +4,22 @@
 	<img class="logo" src="@/assets/logo/iconlogo.png" alt="">
 
   <div class="form-group">
-		<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-		<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
-		<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-		<div v-if="error.password" class="text-error form-error">{{error.password}}</div>
+		<div class="form-mb">
+			<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+			<div v-if="error.email" class="text-error form-error">
+				<font-awesome-icon icon="check-circle"/>
+				<span> {{ error.email }}</span>
+			</div>
+		</div>
+		<div class="form-mb">
+			<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
+			<div v-if="error.password" class="text-error form-error">
+				<font-awesome-icon icon="check-circle"/>
+				<span> {{ error.password }}</span>
+			</div>
+		</div>
 
-		<button class="form-btn" @click="login(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">Login</button>
+		<button class="btn" @click="login(credentials)" :disabled="!isSubmit" :class="{ 'btn-disable' : !isSubmit }">Login</button>
 
 		<div class="form-text-align">
 			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="form-text-small">Sign Up</span></router-link>
@@ -23,6 +33,7 @@
 		<div class="social"></div>
 	</div>
 	<button @click="logout">logout 임시버튼</button>
+	<span>로그인 없이 둘러보기</span>
 </div>
 </template>
 
