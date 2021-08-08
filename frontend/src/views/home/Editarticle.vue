@@ -26,7 +26,7 @@ export default {
   },
   methods:{
     onClick(){
-      this.$router.push({name:'Detail'})
+      this.$router.push({ name:'Detail' })
     },
     onEdit(){
       let URL = `http://localhost:8080/article/`
