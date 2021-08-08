@@ -33,22 +33,21 @@
         <div class="content_box">
           {{ content }}
         </div>
-        <Likeusermodal v-if="isModal" @close-modal="isModal=false" :likePeoples="likePeoples">
-        </Likeusermodal>
+        <LikeuserModal v-if="isModal" @close-modal="isModal=false" :likePeoples="likePeoples">
+        </LikeuserModal>
         <!--좋아요 댓글-->
         <div class="like_comment_container">
           <div class="lcbox">
             <span v-if="like">
-              <font-awesome-icon  @click="likeToggle" :icon="['fas','heart']"/>
-              <span style="margin-left:5px;" @click="isModal=true">{{likeCnt}}</span>
+              <font-awesome-icon size="lg" @click="likeToggle" :icon="['fas','heart']"/>
             </span>
             <span v-else>
-              <font-awesome-icon  @click="likeToggle" :icon="['far','heart']"/>
-              <span style="margin-left:5px;" @click="isModal=true">{{likeCnt}}</span>
+              <font-awesome-icon size="lg" @click="likeToggle" :icon="['far','heart']"/>
             </span>
+            <span style="margin-left:5px; font-size:18px;" @click="isModal=true">{{likeCnt}}</span>
           </div>
           <div class="lcbox" @click="open">
-            <font-awesome-icon :icon="['far','comment-dots']"/><span style="margin-left:5px;">{{commentCnt}}</span>
+            <font-awesome-icon size="lg" :icon="['far','comment-dots']"/><span style="margin-left:5px; font-size:18px;">{{commentCnt}}</span>
           </div>
         </div>
     </div>
@@ -110,14 +109,15 @@
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
-import Likeusermodal from '@/views/home/Likeusermodal.vue';
+import LikeuserModal from '@/views/home/LikeuserModal.vue';
+import { mapState } from 'vuex'
 export default {
   name:'Detail',
   components:{
     Carousel3d,
     Slide,
     VueBottomSheet,
-    Likeusermodal,
+    LikeuserModal,
   },
   data(){
     return{
@@ -142,15 +142,12 @@ export default {
     }
   },
   computed:{
-    article(){
-      return this.$store.state.selectArticle
-    },
-    loginUser(){
-      return this.$store.state.userId
-    },
-    userInfo(){
-      return this.$store.state.userInfo
-    }
+    ...mapState([
+      'selectArticle',
+			'userId',
+      'userInfo',
+      'likeflag',
+		]),
   },
   created(){
     this.getComment()
@@ -171,7 +168,7 @@ export default {
       this.$refs.articleOption.close();
     },
     getComment(){
-      let URL = `http://localhost:8080/comment/${this.article.articleId}`
+      let URL = `http://localhost:8080/comment/${this.selectArticle.articleId}`
       let params = {
         method: 'get',
         url: URL,
@@ -187,9 +184,9 @@ export default {
     commentSubmit(){
       const URL = 'http://localhost:8080/comment/'
       const data = {
-        articleId: this.article.articleId,
+        articleId: this.selectArticle.articleId,
         commentContent: this.comment,
-        userId: this.loginUser,
+        userId: this.userId,
       }
       const params = {
         method: 'post',
@@ -229,6 +226,7 @@ export default {
       if(this.$store.state.backPage === 1)this.$router.push({name:'My'})
       else if(this.$store.state.backPage === 2) this.$router.push({name:'Search'})
       else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile'})
+      else if(this.$store.state.backPage === 5) this.$router.push({name:'Logs'})
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
@@ -251,7 +249,7 @@ export default {
         })
     },
     moveProfile(userId){
-      if(userId === parseInt(this.loginUser)){
+      if(userId === this.loginUser){
         this.$router.push({name:'My'})
       }
       else{
@@ -263,8 +261,8 @@ export default {
     likeToggle(){
       const URL = `http://localhost:8080/likelog/`
       const data = {
-        articleId: this.article.articleId,
-        userId: parseInt(this.loginUser)
+        articleId: this.selectArticle.articleId,
+        userId: this.userId
       }
       const params = {
         method: 'post',
@@ -281,7 +279,7 @@ export default {
         })
     },
     getDetail(){
-      const URL = `http://localhost:8080/article/detail/${this.article.articleId}`
+      const URL = `http://localhost:8080/article/detail/${this.selectArticle.articleId}`
       const params = {
         method: 'get',
         url: URL,
@@ -297,7 +295,7 @@ export default {
         })
     },
     getLike(){
-      const URL = `http://localhost:8080/likelog/likelist/${this.article.articleId}`
+      const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
       const params = {
         method: 'get',
         url: URL,
@@ -305,10 +303,12 @@ export default {
       axios(params)
         .then((res) => {
           this.likePeoples = res.data.data
-          console.log(this.likePeoples)
-          // this.likePeoples.forEach(element => {
-            // if(element[0]===)
-          // });
+          this.likePeoples.some(element => {
+            if(element.userId === this.userId){
+              this.like = true
+            }
+            return 0;
+          });
           
         })
         .catch((e) => {

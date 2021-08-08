@@ -18,6 +18,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   name: 'Jubginglog',
   data(){
@@ -26,16 +27,16 @@ export default {
     }
   },
   computed:{
-    loginUser(){
-      return this.$store.state.userId
-    }
+		...mapState([
+			'userId'
+		]),
   },
   created(){
     this.getJunbginglogs()
   },
   methods:{
     getJunbginglogs(){
-      const URL = `http://localhost:8080/jubginglog/${this.loginUser}`
+      const URL = `http://localhost:8080/jubginglog/${this.userId}`
       const params = {
         method: 'get',
         url: URL,
@@ -47,22 +48,11 @@ export default {
         .catch((e) => {
           console.error(e);
         })
-    }
+    },
   }
 }
 </script>
 
-<style scoped>
-.jubging_container{
-  display: flex;
-  margin:0px 10px 10px 10px;
-  align-items: center;
-}
-.jubging_profile{
-  width: 200px;
-  height: 200px;
-  border-radius: 20%;
-  overflow: hidden;
-  margin:5px 10px 0px 0px;
-}
+<style lang="scss" scoped>
+@import '@/components/my/Jubginglog.scss'
 </style>
