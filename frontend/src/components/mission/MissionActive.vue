@@ -88,9 +88,8 @@ export default {
 		missions() {
 			this.badges[0].currentCnt = this.missions.likeCnt
 			this.badges[1].currentCnt = this.missions.commentCnt
-			this.badges[2].currentCnt = this.missions.articleCnt
-			this.badges[3].currentCnt = this.missions.followCnt
-			this.badges[4].currentCnt = this.missions.jubgingCnt
+			this.badges[2].currentCnt = this.missions.followCnt
+			this.badges[3].currentCnt = this.missions.jubgingCnt
 		}
 	},
 }

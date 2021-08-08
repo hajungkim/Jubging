@@ -1,10 +1,10 @@
 <template>
   <div class="mission-component-wrap">
 		<div v-for="badge in badges" :key="badge.id" class="mission-card ">
-			<div class="mission-description" :style="{ backgroundImage: 'url(' + badge.bg_image + ')'}">
+			<div class="mission-description" :style="{ backgroundImage: 'url(' + require(`../../assets/bg/${badge.bg_image}`) + ')'}">
 				<h2 class="title">{{ badge.name }}</h2>
 				<span class="sub">{{ badge.description }}</span>
-				<span class="sub">{{ badge.currentCnt }}</span>
+				<!-- <span class="sub">{{ badge.currentCnt }}</span> -->
 			</div>
 			<div class="badges">
 				<div class="badge-group">
@@ -39,7 +39,7 @@ export default {
 					bronze: 10,
 					silver: 50,
 					gold: 100,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -50,7 +50,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -61,7 +61,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -72,7 +72,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -83,7 +83,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -94,7 +94,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -105,7 +105,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -116,7 +116,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -127,7 +127,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -138,7 +138,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -149,7 +149,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -160,7 +160,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
@@ -171,7 +171,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'http://placehold.it/185x185',
+					bg_image: 'totalDistance.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
