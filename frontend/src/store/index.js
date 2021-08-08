@@ -27,7 +27,7 @@ export default new Vuex.Store({
     followarticles: [],
     selectArticle: [],
     missions: [],
-    rankers: []
+    rankers: null,
   },
   mutations: {
     // 기타
