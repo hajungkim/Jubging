@@ -1,0 +1,94 @@
+.top{
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.hamburger{
+margin-right:10px;
+}
+.logo{
+display: block;
+margin:0px auto;
+width: 100px;
+transform:scale(1.5);
+padding-left:20px;
+}
+/* 유저 정보 */
+.my_info{
+display:flex;
+height: 217px;
+flex-direction: column;
+justify-content: center;
+align-items:center;
+}
+.profile_img{
+display: flex;
+align-items: center;
+width: 80px;
+height: 80px;
+border-radius: 70%;
+overflow: hidden;
+margin-top:3vh;
+margin-bottom:1vh;
+}
+.profile{
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.user_active_cnt{
+display: flex;
+width: 350px;
+justify-content: space-around;
+margin-top:3vh;
+}
+.lcbox{
+display: flex;
+flex-direction: column;
+}
+/* 뱃지부분 */
+.badge_box{
+margin-top: 3vh;
+margin-bottom:3vh;
+
+}
+.badge_img{
+height: 50px;
+}
+.badge_carousel{
+margin: 0;
+}
+
+/* 피드 부분 */
+.photo_list{
+overflow: auto;
+height: 346px;
+width: 412px;
+}
+.photo-grid {
+display:flex;
+/* height: auto; */
+}
+.photo-img {
+width: 135px;
+height: 135px;
+margin-left:2px;
+}
+/* 바텀시트 */
+.bt_common{
+display: flex;
+margin-left:40px;
+align-items: center;
+height: 60px;
+}
+.likelog{
+margin-left:38px;
+}
+.icon{
+margin-right:10px;
+}
+/* 라우터 링크 색 변경x */
+.default-link{
+color:black;
+text-decoration:none;
+}

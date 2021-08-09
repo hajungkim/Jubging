@@ -2,13 +2,6 @@
 <div class="container">
   <router-view>
   </router-view>
-  <!-- <div class="bottom-bar">
-    <router-link :to="{name:'Home'}" @click.native="onClick(1)">홈</router-link>
-    <router-link :to="{name:'Mission'}" @click.native="onClick(2)">미션</router-link>
-    <router-link :to="{name:'Jubging'}" @click.native="onClick(3)">줍깅</router-link>
-    <router-link :to="{name:'Ranking'}" @click.native="onClick(4)">랭킹</router-link>
-    <router-link :to="{name:'My'}" @click.native="onClick(5)">마이</router-link>
-  </div> -->
   
   <!-- <div class="bottom-nav2">
     <div class="nav">
@@ -40,7 +33,7 @@
     </div>
   </div> -->
 
-  <div class="bottom-nav1">
+  <!-- <div class="bottom-nav1">
     <router-link :to="{name:'Home'}" class="item active" @click.native="onClick(1, $event)">
       <font-awesome-icon icon="home" class="icon"/>
     </router-link>
@@ -60,34 +53,34 @@
     <router-link :to="{name:'My'}" class="item" @click.native="onClick(5, $event)">
       <font-awesome-icon icon="user" class="icon"/>
     </router-link>
-  </div>
+  </div> -->
 
-  <!-- <div class="bottom-nav3">
-    <router-link to="#" class="item" @click.native="onClick(1, $event)">
+  <div class="bottom-nav3">
+    <router-link :to="{ name: 'Home' }" class="item active" @click.native="onClick(1, $event)">
       <font-awesome-icon icon="home" />
       <span>홈</span>
     </router-link>
 
-    <router-link to="#" class="item" @click.native="onClick(2, $event)">
+    <router-link :to="{ name: 'Mission' }" class="item" @click.native="onClick(2, $event)">
       <font-awesome-icon icon="medal" />
       <span>미션</span>
     </router-link>
     
-    <router-link to="#" class="item" @click.native="onClick(3, $event)">
+    <router-link :to="{ name: 'Jubging' }" class="item" @click.native="onClick(3, $event)">
       <font-awesome-icon icon="shoe-prints" />
       <span>줍깅</span>
     </router-link>
     
-    <router-link to="#" class="item" @click.native="onClick(4, $event)">
+    <router-link :to="{ name: 'Ranking' }" class="item" @click.native="onClick(4, $event)">
       <font-awesome-icon icon="trophy" />
       <span>랭킹</span>
     </router-link>
 
-    <router-link to="#" class="item" @click.native="onClick(5, $event)">
+    <router-link :to="{ name: 'My' }" class="item" @click.native="onClick(5, $event)">
       <font-awesome-icon icon="user" />
       <span>마이</span>
     </router-link>
-  </div> -->
+  </div>
 
 </div>
 </template>
@@ -108,10 +101,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container{
-  display: flex;
-  flex-direction: column;
-  min-height: 781px;
-}
+@import "@/views/Main.scss";
 
 </style>

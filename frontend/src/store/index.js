@@ -15,12 +15,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    currentPage:0,
-    articles:[],
-    followarticles:[],
-    selectArticle:[],
-    backPage:0,
-    currentUser:0,
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
@@ -29,21 +23,44 @@ export default new Vuex.Store({
     isJubgingOn: false,
     jubgingInfo: {},
     jubgingOption: {},
+    currentUser: 0,
+    currentPage: 0,  
+    backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
+    searchflag: false,
+    likeflag: false,
+    articles: [],
+    followarticles: [],
+    selectArticle: [],
+    missions: [],
+    rankers: null,
   },
   mutations: {
-    isCurrent(state,page){
-      state.currentPage=page
+    // 기타
+    IS_CURRENT(state, page) {
+      state.currentPage = page
     },
 
-    // 미션 관련
+    // 홈
+    LOAD_ARTICLES(state,data) {
+      state.articles = data;
+    },
+    LOAD_FOLLOW_ATICLES(state,data) {
+      state.followarticles = data;
+    },
+
+    // 미션
     GET_MISSION(state, missions) {
       state.missions = missions
     },
-    
+  
+    // 줍깅
+  
+    // 랭킹
     GET_RANKER(state, rankers) { 
       state.rankers = rankers
     },
-    // 유저 관련
+
+    // 유저
     UPDATE_TOKEN(state, data) {
       state.Token = data.token
       state.userId = data.userId
@@ -73,11 +90,21 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    isCurrent(context,page){
-      context.commit('isCurrent',page)
+    // 기타
+    isCurrent(context, page){
+      context.commit('IS_CURRENT', page)
     },
 
-    // 미션 관련
+    // 홈
+    loadArticles(context,data){
+      return context.commit('LOAD_ARTICLES', data)
+    },
+    
+    loadFollowArticles(context,data){
+      return context.commit('LOAD_FOLLOW_ATICLES',data)
+    },
+
+    // 미션
     getMission(context) {
       axios.get(`mission/${this.state.userId}`)
       .then(res => {
@@ -88,6 +115,9 @@ export default new Vuex.Store({
       })
     },
 
+    // 줍깅
+
+    // 랭킹
     getRanker(context) {
       axios.get('user/score')
       .then(res => {
@@ -97,7 +127,10 @@ export default new Vuex.Store({
         console.error(err)
       })
     },
-    // 유저 관련
+
+    // 마이
+
+    // 유저
     login(context, credentials) {
       axios.post('user/login', credentials)
       .then(res => {

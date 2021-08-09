@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     }
 }
 
@@ -26,24 +26,39 @@ repositories {
 }
 
 dependencies {
-    compile ('io.jsonwebtoken:jjwt:0.9.0')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.projectlombok:lombok')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.session:spring-session-jdbc')
-    compile("org.mariadb.jdbc:mariadb-java-client")
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.webjars:bootstrap:4.5.0'
+    implementation 'org.webjars:jquery:3.5.1'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.session:spring-session-jdbc'
+
+    compileOnly 'io.jsonwebtoken:jjwt:0.9.0'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 
     // swagger
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compileOnly group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compileOnly group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
     // aws
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.1.RELEASE'
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile("org.springframework.security:spring-security-test")
+    //email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
+    implementation group: 'org.springframework', name: 'spring-context-support', version: '5.2.6.RELEASE'
+
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.security:spring-security-test'
 }
 
 test {
     useJUnitPlatform()
+}
+
+bootJar{
+    archiveBaseName="jubging"
+    archiveVersion = "0.0.1-SNAPSHOT"
 }

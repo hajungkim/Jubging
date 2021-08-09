@@ -14,20 +14,13 @@ export default {
   },
   methods:{
     onClick(article){
-      this.$store.state.selectArticle=article
+      this.$store.state.selectArticle = article
       this.$router.push({name:'Detail'})
     }
   }
 }
 </script>
 
-<style scoped>
-.photo-img {
-  display: inline-block;
-  width: 185px;
-  height: 185px;
-  border-radius: 10%;
-  margin-bottom: 14px;
-  cursor:pointer;
-}
+<style lang="scss" scoped>
+@import "@/components/home/PhotoList.scss";
 </style>
