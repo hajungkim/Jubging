@@ -4,7 +4,7 @@
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
       <span v-if="follow" class="followbtn">
-        <font-awesome-icon class="btnstyle" :icon="['fas','star']" @click="deleteFollow()"/>
+          <font-awesome-icon class="btnstyle" :icon="['fas','star']" @click="deleteFollow()"/>
       </span>
       <span v-else class="followbtn">
         <font-awesome-icon class="btnstyle" :icon="['far','star']" @click="onFollow()"/>
@@ -15,23 +15,35 @@
       <div class="profile_img">
         <img class="profile" :src="user.profilePath">
       </div>
-      <span>{{user.nickname}}</span>
+      <div>
+        <!-- <span v-if="follow" class="followbtn">
+          <font-awesome-icon class="btnstyle" :icon="['fas','star']" @click="deleteFollow()"/>
+        </span>
+        <span v-else class="followbtn">
+          <font-awesome-icon class="btnstyle" :icon="['far','star']" @click="onFollow()"/>
+        </span> -->
+        <span>{{user.nickname}}</span>
+      </div>
       <!--게시글 팔로워 팔로잉-->
       <div class="user_active_cnt">
         <div class="lcbox" >
           <span>게시물</span>
           <span style="text-align:center">{{user.articleCount}}</span>
         </div>
-        <div class="lcbox">
+        <div class="lcbox" @click="isfollower=true">
           <span>팔로워</span>
           <span style="text-align:center">{{user.follower}}</span>
         </div>
-        <div class="lcbox">
+        <div class="lcbox" @click="isfollowing=true">
           <span>팔로잉</span>
           <span style="text-align:center">{{user.following}}</span>
         </div>
       </div>
     </div>
+    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = currentUser>
+      </FollowerModal>
+    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = currentUser>
+      </FollowingModal>  
     <!-- 뱃지 리스트 -->
     <div class="badge_box">
       <carousel-3d class="badge_carousel"
@@ -60,15 +72,21 @@
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import { mapState } from 'vuex'
+import FollowerModal from "@/components/my/FollowerModal.vue"
+import FollowingModal from "@/components/my/FollowingModal.vue"
 export default {
   name:'Userprofile',
   components:{
     Carousel3d,
     Slide,
+    FollowerModal,
+    FollowingModal,
   },
   data() {
       return {
         user: [],
+        isfollower: false,
+        isfollowing: false,
         articles: [],
         photos: [
         {
@@ -109,6 +127,7 @@ export default {
     }
   },
   created(){
+    this.$store.state.currentUser = localStorage.getItem('currentUser')
     this.getInfo()
     this.getFollow()
     this.getBadge()
@@ -151,7 +170,7 @@ export default {
         })
     },
     getFollow(){
-      let URL = `http://localhost:8080/follow/findfollow/${this.userId}`
+      let URL = `http://localhost:8080/follow/findfollow/${this.currentUser}`
       let params = {
         method: 'get',
         url: URL,
@@ -177,8 +196,8 @@ export default {
       }
       axios(params)
         .then((res) => {
-          console.log('유저아티클',res.data.data)
           this.articles = res.data.data
+          this.articles.reverse()
         })
         .catch((e) => {
           console.error(e);
@@ -189,7 +208,7 @@ export default {
         this.$router.push({ name: 'Search' })
       }
       else if (this.$store.state.backPage === 4){
-        this.$store.state.backPage = 3
+        // this.$store.state.backPage = 3
         this.$router.push({ name:"Detail"})
       }
       else if (this.$store.state.backPage === 1){
