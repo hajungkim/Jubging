@@ -3,6 +3,12 @@
     <div class="top">
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick()"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
+      <span v-if="follow" class="followbtn">
+        <font-awesome-icon class="btnstyle" :icon="['fas','star']" @click="deleteFollow()"/>
+      </span>
+      <span v-else class="followbtn">
+        <font-awesome-icon class="btnstyle" :icon="['far','star']" @click="onFollow()"/>
+      </span>
     </div>
     <!-- 유저 정보 -->
     <div class="my_info">
@@ -43,7 +49,7 @@
     <div class="photo_list">
       <div class="photo-grid">
         <router-link :to="{name:'Detail'}">
-          <img @click="onClick(article)" class="photo-img" v-for="(article,idx) in articles" :key="idx" :src="article.photosPath">
+          <img @click="onDetail(article)" class="photo-img" v-for="(article,idx) in articles" :key="idx" :src="article.photosPath">
         </router-link>
       </div>
     </div>
@@ -53,6 +59,7 @@
 <script>
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
+import { mapState } from 'vuex'
 export default {
   name:'Userprofile',
   components:{
@@ -61,9 +68,9 @@ export default {
   },
   data() {
       return {
-        user:[],
-        articles:[],
-        photos:[
+        user: [],
+        articles: [],
+        photos: [
         {
           title:'0',
           url:'http://placehold.it/139x139',
@@ -96,162 +103,141 @@ export default {
         //   title:'7',
         //   url:'http://placehold.it/139x139',
         // },
-      ]
+        ],
+        follow: false,
+        // followCnt: 0,
     }
+  },
+  created(){
+    this.getInfo()
+    this.getFollow()
+    this.getBadge()
+    this.getArticle()
+  },
+  computed:{
+    ...mapState([
+      'currentUser',
+			'userId',
+		]),
   },
   methods: {
     getInfo(){
       let URL = `http://localhost:8080/user/${this.currentUser}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
-          this.user=res.data.data
+        .then((res) => {
+          this.user = res.data.data
+          // this.followCnt = res.data.data.follower
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     getBadge(){
       let URL = `http://localhost:8080/mission/${this.currentUser}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
-          console.log('뱃지갯수',res.data.data)
+        .then((res) => {
+          console.log('뱃지갯수', res.data.data)
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
+        })
+    },
+    getFollow(){
+      let URL = `http://localhost:8080/follow/findfollow/${this.userId}`
+      let params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          res.data.data.some(element => {
+            if (element.followUserId === this.currentUser){
+              this.follow = true
+            }
+            return 0;
+          });
+        })
+        .catch(() => {
+          this.follow = false
         })
     },
     getArticle(){
       let URL = `http://localhost:8080/article/list/${this.currentUser}`
-      let params={
-        method:'get',
-        url:URL,
+      let params = {
+        method: 'get',
+        url: URL,
       }
       axios(params)
-        .then((res)=>{
+        .then((res) => {
           console.log('유저아티클',res.data.data)
-          this.articles=res.data.data
+          this.articles = res.data.data
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.error(e);
         })
     },
     onClick(){
-      this.$router.push({name:'Detail'})
-    }
+      if (this.$store.state.backPage === 2 || this.$store.state.searchflag === true){
+        this.$router.push({ name: 'Search' })
+      }
+      else if (this.$store.state.backPage === 4){
+        this.$store.state.backPage = 3
+        this.$router.push({ name:"Detail"})
+      }
+      else if (this.$store.state.backPage === 1){
+        this.$router.push({ name:"My" })
+      }
+      else{
+      this.$router.push({ name: 'Home' })
+      }
+    },
+    onDetail(article){
+      this.$store.state.selectArticle = article
+      this.$store.state.backPage = 3
+      this.$router.push({ name: 'Detail' })
+    },
+    onFollow(){
+      let URL = `http://localhost:8080/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let params = {
+        method: 'post',
+        url: URL,
+      }
+      axios(params)
+        .then(() => {
+          this.follow = true
+          this.getInfo()
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    deleteFollow(){
+      let URL = `http://localhost:8080/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let params = {
+        method: 'delete',
+        url: URL,
+      }
+      axios(params)
+        .then(() => {
+          this.follow = false
+          this.getInfo()
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
   },
-  created(){
-    this.getInfo()
-    this.getBadge()
-    this.getArticle()
-},
-  computed:{
-    currentUser(){
-      return  this.$store.state.currentUser
-    }
-  }
 }
 </script>
 
-<style scoped>
-.top{
-    display: flex;
-    align-items: center;
-    height: 50px;
-}
-.logo{
-  margin-left:130px;
-  width: 100px;
-  transform:scale(1.5);
-}
-.back_icon{
-    margin-left:16px;
-}
-/* 유저 정보 */
-.my_info{
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items:center;
-}
-.profile_img{
-  display: flex;
-  align-items: center;
-  width: 80px;
-  height: 80px;
-  border-radius: 70%;
-  overflow: hidden;
-  margin-top:3vh;
-  margin-bottom:1vh;
-}
-.profile{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.user_active_cnt{
-  display: flex;
-  width: 350px;
-  justify-content: space-around;
-  margin-top:3vh;
-}
-.lcbox{
-  display: flex;
-  flex-direction: column;
-}
-/* 뱃지부분 */
-.badge_box{
-  margin-top: 3vh;
-  /* border: solid 1px; */
-  margin-bottom:3vh;
-
-}
-.article_img{
-  width: 50px;
-  height: 50px;
-}
-.badge_carousel{
-  margin: 0;
-  
-}
-/* 피드 부분 */
-.photo_list{
-  overflow: auto;
-  height: 412px;
-  width: 412px;
-}
-.photo-grid {
-  display:flex;
-}
-
-.photo-img {
-  width: 135px;
-  height: 135px;
-  margin-left:2px;
-}
-/* 바텀시트 */
-.bt_common{
-  display: flex;
-  margin-left:40px;
-  align-items: center;
-  height: 60px;
-}
-.likelog{
-  margin-left:38px;
-}
-.icon{
-  margin-right:10px;
-}
-/* 라우터 링크 색 변경x */
-.default-link{
-  color:black;
-  text-decoration:none;
-}
+<style lang="scss" scoped>
+@import "@/views/user/Userprofile.scss";
 </style>

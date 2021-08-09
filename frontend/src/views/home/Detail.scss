@@ -1,0 +1,133 @@
+/* 상단바 */
+.top{
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.back_icon{
+margin-left:15px;
+cursor: pointer;
+}
+.logo{
+margin-left: 130px;
+transform: scale(1.5);
+}
+.option_button{
+margin-left:120px;
+transform: scale(1.5);
+}
+/* 유저정보 및 게시글 */
+.article_content{
+display:flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+.user_info{
+cursor: pointer;
+display: flex;
+align-items: center;
+margin: 3.5vh 10px 2vh 0;
+}
+.profile_img{
+width: 50px;
+height: 50px;
+border-radius: 70%;
+overflow: hidden;
+margin-right:10px;
+}
+.profile{
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.article_img{
+width: 300px;
+height: 300px;
+}
+.datetext{
+  font-size:14px;
+  color: gray;
+}
+.content_box{
+display:flex;
+align-items: center;
+justify-content: center;
+margin-top:0.3vh;
+width: 340px;
+height: 190px;
+overflow:auto;
+font-weight: bold;
+}
+/* 좋아요 댓글 */
+.like_comment_container{
+display: flex;
+}
+.lcbox{
+display: flex;
+align-items: center;
+padding: 20px;
+}
+/* 댓글 바텀시트 */
+.comment_container{
+display: flex;
+margin:0px 10px 10px 10px;
+align-items: center;
+}
+.input_container{
+display: flex;
+justify-content: center;
+}
+.comment_input{
+width:330px;
+height:30px;
+background-color: gainsboro;
+border:0px;
+border-radius: 15px 15px 15px 15px;
+padding:10px;
+margin-bottom:10px;
+}
+input:focus{
+  outline:none;
+}
+.comment_icon{
+cursor: pointer;
+transform: scale(1.5);
+margin : 7px 0px 0px 10px;
+}
+.comment_profile{
+width: 40px;
+height: 40px;
+border-radius: 50%;
+overflow: hidden;
+margin:5px 10px 0px 0px;
+}
+.comment_time{
+  margin-left: 5px;
+  font-size: 13px;
+}
+.comment_contents{
+width: 270px;
+font-size:15px;
+word-break:break-all;
+}
+.btn_div{
+margin-left:20px;
+}
+.default-link{
+color:black;
+text-decoration:none;
+}
+.option_container{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bt_common{
+  height:60px;
+  border-bottom: 1px solid lightgray;
+  width: 330px;
+}
+.update_icon{
+  margin: 10px 9px 0px 0px;
+}

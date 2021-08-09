@@ -19,6 +19,9 @@ public class CommentResponseDto {
     private Long commentId;
     private String commentContent;
 
+    //댓글 작성 정보
+    private String time;
+
     public CommentResponseDto(Comment comment, User user){
         this.profilePath=user.getProfilePath();
         this.userId=user.getUserId();
