@@ -1,11 +1,49 @@
 @import "@/assets/css/common.scss";
 
 .change-setting-wrap {
-  height: 781px;
+  height: 731px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: $white;
+}
+
+/* 상단바 */
+.top{
+  display: flex;
+  align-items: center;
+  height: 50px;
+  .back_icon{
+    margin-left:15px;
+    cursor: pointer;
+  }
+  .logo{
+    margin-left: 130px;
+    transform: scale(1.5);
+  }
+  .option_button{
+    margin-left:120px;
+    transform: scale(1.5);
+  }
+}
+
+
+.profile-img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+  img {
+    width: auto;
+    height: 100%;
+  }
 }
 
 .form-group {
