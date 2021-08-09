@@ -17,7 +17,7 @@ public class ImageController {
 
     private final S3Uploader s3Uploader;
 
-    @ApiOperation(value = "이미지 업로드", notes = "이미지 url, key 반환", response = ControllerResponse.class)
+    @ApiOperation(value = "이미지 업로드", notes = "이미지 url 반환", response = ControllerResponse.class)
     @PostMapping
     public ControllerResponse uploadImage(@RequestParam("file")MultipartFile multipartFile) throws IOException {
         ControllerResponse response = null;
