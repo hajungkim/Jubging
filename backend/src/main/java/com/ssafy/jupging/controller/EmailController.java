@@ -37,7 +37,7 @@ public class EmailController {
     }
 
     @ApiOperation(value = "이메일 인증번호가 맞는지 체크", notes = "성공시 '인증성공' 반환 / 실패 시 에러메시지", response = ControllerResponse.class)
-    @GetMapping("/authcheck")
+    @PostMapping("/authcheck")
     public ControllerResponse checkAuthKey(@RequestBody AuthorizationRequestDto authorizationRequestDto){
         ControllerResponse response = null;
 
