@@ -119,7 +119,7 @@ public class UserController {
         return response;
     }
 
-    @ApiOperation(value = "유저 정보 수정", notes = "수정 성공 시 '회원 수정 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @ApiOperation(value = "유저 정보 수정", notes = "수정 성공 시 '회원 수정 성공' 반환 / 실패 시 에러메세지 / 이미지변경 시 userController에서 url받고 저장", response = ControllerResponse.class)
     @PutMapping("/{id}")
     public ControllerResponse updateUser(@PathVariable("id") Long userId, @RequestBody UserUpdateRequestDto requestDto) {
         ControllerResponse response = null;
