@@ -83,7 +83,8 @@ const routes = [
   {
     path: '/jubging/register',
     name: 'Register',
-    component: JubgingOff
+    component: JubgingOff,
+    props: true
   },
   {
     path: '/jubging/article',
