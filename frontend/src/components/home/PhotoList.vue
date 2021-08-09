@@ -14,7 +14,7 @@ export default {
   },
   methods:{
     onClick(article){
-      this.$store.state.selectArticle = article
+      this.$store.dispatch('isSelectArticle',article)
       this.$router.push({name:'Detail'})
     }
   }

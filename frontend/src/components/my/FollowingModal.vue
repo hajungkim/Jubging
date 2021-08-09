@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" style="z-index:1050;">
 		<div class="overlay" @click="$emit('close-modal')"></div>
 			<div class="modal-card">
 				<div class="modal_top" style="font-size:20px;">나의 팔로잉<button class="close" @click="$emit('close-modal')">닫기</button></div>
@@ -22,6 +22,9 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 export default {
   name:'FollowingModal',
+  props:{
+    currentUser: String,
+  },
   data(){
     return{
       followings:[],
@@ -37,7 +40,7 @@ export default {
   },
 	methods:{
     getFollowing(){
-      let URL = `http://localhost:8080/follow/findfollow/${this.userId}`
+      let URL = `http://localhost:8080/follow/findfollow/${this.currentUser}`
       let params={
         method:'get',
         url:URL,
@@ -51,9 +54,19 @@ export default {
         })
     },
     moveProfile(following){
-      this.$store.state.currentUser = following.followerUserId
+      if(following.followUserId === this.userId){
+        this.$router.push({name:'My'})
+        return
+      }
+      this.$store.state.currentUser = following.followUserId
+      localStorage.setItem('currentUser', following.followUserId)
 			this.$store.state.backPage = 1
-			this.$router.push({name:'Userprofile'})
+      if (this.$route.path === '/userprofile'){
+        this.$router.go(this.$router.currentRoute)
+      }
+      else{
+        this.$router.push({name:'Userprofile'})
+      }
     }
 	}
 }

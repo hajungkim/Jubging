@@ -25,9 +25,9 @@
           <span style="text-align:center">{{user.following}}</span>
         </div>
       </div>
-      <FollowerModal v-if="isfollower" @close-modal="isfollower=false">
+      <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = userId>
         </FollowerModal>
-      <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false">
+      <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = userId>
         </FollowingModal>  
     </div>
     <!-- 뱃지 리스트 -->
@@ -36,7 +36,7 @@
         :disable3d="true" :width="50" :height="50" dir="ltr" :clickable="false"
         :display="5" :space="70" :controlsVisible="true"
       >
-        <slide v-for="(photo,i) in badge_photo" :index="i" :key="i">
+        <slide v-for="(photo,i) in badgephotos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="badge_img" :src="photo.url" :data-index="index"
             :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" >
@@ -47,14 +47,13 @@
     <!-- 나의 게시글 -->
     <div class="photo_list">
       <div class="photo-grid">
-        <router-link :to="{name:'Detail'}">
+        <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
           <img @click="onClick(article)" class="photo-img"
-          v-for="(article,idx) in articles"
-          :key="idx"
           :src="article.photosPath">
-        </router-link>
+        </span>
       </div>
     </div>
+    <!-- 바텀시트 -->
     <vue-bottom-sheet ref="myBottomSheet" max-height="370px" max-width="412px" >
       <div>
         <router-link :to="{name:'ChangeSetting'}" class="default-link">
@@ -106,31 +105,30 @@ export default {
     return {
       user: [],
       articles: [],
-      badges: {},
-      badge_photo: [],
       isfollower: false,
       isfollowing: false,
+      // photos:[],
       photos: [
         {
           title:'0',
-          url:require('@/assets/badge/can/sample4.png'),
+          url:require('@/assets/badge/plastic/sample7.png'),      
         },
         {
           title:'1',
-          url:'http://placehold.it/139x139',
+          url:require('@/assets/badge/arround/sample2.png'),
         },
-        {
-          title:'2',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'3',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'4',
-          url:'http://placehold.it/139x139',
-        },
+        // {
+        //   title:'2',
+        //   url:require('@/assets/badge/arround/sample2.png'),
+        // },
+        // {
+        //   title:'3',
+        //   url:'http://placehold.it/139x139',
+        // },
+        // {
+        //   title:'4',
+        //   url:'http://placehold.it/139x139',
+        // },
         // {
         //   title:'5',
         //   url:'http://placehold.it/139x139',
@@ -143,17 +141,19 @@ export default {
         //   title:'7',
         //   url:'http://placehold.it/139x139',
         // },
-      ]
+        ],
     }
   },
   computed:{
 		...mapState([
-			'userId'
+			'userId',
+      'badgephotos'
 		]),
   },
   created(){
+    this.$store.dispatch('getBadge')
     this.getInfo()
-    this.getBadge()
+    // this.getBadge()
     this.getArticle()
   },
   methods: {
@@ -177,21 +177,6 @@ export default {
           console.error(e);
         })
     },
-    getBadge(){
-      let URL = `http://localhost:8080/mission/${this.userId}`
-      let params = {
-        method:'get',
-        url:URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.badges=res.data.data
-          this.getBadgeImg()
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-    },
     getArticle(){
       let URL = `http://localhost:8080/article/list/${this.userId}`
       let params={
@@ -201,26 +186,11 @@ export default {
       axios(params)
         .then((res) => {
           this.articles=res.data.data
+          this.articles.reverse()
         })
         .catch((e) => {
           console.error(e);
         })
-    },
-    getBadgeImg(){
-      const word = 'can'
-      const medal = 'sample4.png'
-      this.badge_photo.push({url:require(`@/assets/badge/${word}/${medal}`)})
-      this.badge_photo.push({url:require(`@/assets/badge/${word}/${medal}`)})
-      console.log(this.badge_photo)
-      console.log(this.photos)
-      // for(const key in this.badges){
-      //   if(key ==='canCnt' || key ==='plasticCnt' || key ==='vinylCnt' || key ==='bottleCnt' ||
-      //    key ==='metal_cnt' || key === 'styroformCnt' || key === 'paperCnt' || key ==='trashCnt'){
-      //      if(2<this.badges[key] && this.badges[key]<10){
-      //        this.badge_photo.push('@/assets/badge/textlogo.png')
-      //      }
-      //    }
-      // }
     },
     onClick(article){
       this.$store.state.selectArticle = article
