@@ -4,30 +4,30 @@
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
       <font-awesome-icon
-        v-if="article.userId===parseInt(loginUser)"
+        v-if="selectArticle.userId===parseInt(userId)"
         :icon="['fas','ellipsis-h']" 
         class="option_button"
         @click="openOption"/>
     </div>
     <div class="article_content">
         <!--유저 정보-->
-        <div class="user_info"  @click="moveProfile(article.userId)">
+        <div class="user_info"  @click="moveProfile(selectArticle.userId)">
           <div class="profile_img">
-            <img class="profile" :src="article.profilePath">
+            <img class="profile" :src="selectArticle.profilePath"> <!--src="@/assets/defaultuserimg.png"--> 
           </div>
-          <span style="font-weight:bold; font-size:18px;">{{article.nickname}}</span>
+          <span style="font-weight:bold; font-size:18px;">{{selectArticle.nickname}}</span>
         </div>
         <!--사진들-->
         <carousel-3d :width="300" :height="300" bias="right">
           <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
             <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
               <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
-              onRight:(rightIndex>=0)}" :src="photo.url" @dblclick="likeToggle">
+              onRight:(rightIndex>=0)}" :src="photo" @dblclick="likeToggle">
             </template>
           </slide>
         </carousel-3d>
         <span class="datetext">
-          {{article.createdDate.slice(0,10)}}
+          {{selectArticle.createdDate.slice(0,10)}}
         </span>
         <!--게시글 내용-->
         <div class="content_box">
@@ -65,7 +65,7 @@
             </div>
             <div class="comment_contents">{{comment.commentContent}}</div>
           </div>
-          <div class="btn_div" v-if="comment.userId===loginUser">
+          <div class="btn_div" v-if="comment.userId===userId">
             <button @click="commentDelete(comment)" class="comment_delete_button">X</button>
           </div>
         </li>
@@ -95,7 +95,7 @@
           <font-awesome-icon
             icon="trash"
             class="fa-2x delete_button"
-            @click="onDelete(article)"
+            @click="onDelete(selectArticle)"
             style="margin-right:17px"
           />
           <span>게시글 삭제하기</span>
@@ -121,16 +121,7 @@ export default {
   },
   data(){
     return{
-      photos: [
-        {
-          title:'0',
-          url:'http://placehold.it/165x165',
-        },
-        {
-          title:'1',
-          url:require('@/assets/badge/can/sample4.png'),
-        },
-      ],
+      photos: [],
       isModal:false,
       content:'',
       comments: [],
@@ -150,6 +141,7 @@ export default {
 		]),
   },
   created(){
+    this.getImages()
     this.getComment()
     this.getDetail()
     this.getLike()
@@ -174,8 +166,13 @@ export default {
         url: URL,
       }
       axios(params)
-        .then((res) => {
+        .then((res) => { 
           this.comments = res.data.data  
+          this.comments.forEach(element => {          
+            if (element.profilePath === null) {
+              element.profilePath = require("@/assets/user_default.png")
+            }
+          });
         })
         .catch((e) => {
           console.error(e);
@@ -249,11 +246,12 @@ export default {
         })
     },
     moveProfile(userId){
-      if(userId === this.loginUser){
+      if(userId === this.userId){
         this.$router.push({name:'My'})
       }
       else{
         this.$store.state.currentUser = userId
+        localStorage.setItem('currentUser', userId)
         this.$store.state.backPage = 4
         this.$router.push({name:'Userprofile'})
       }
@@ -293,6 +291,14 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+    },
+    getImages(){
+      if (this.selectArticle.photosPath !== null){
+      this.photos = this.selectArticle.photosPath.split('#')
+      }
+      else{
+        this.photos = []
+      }
     },
     getLike(){
       const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`

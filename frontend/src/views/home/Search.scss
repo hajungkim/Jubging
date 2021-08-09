@@ -1,3 +1,4 @@
+@import '@/assets/css/common.scss'; 
 .top{
   display: flex;
   align-items: center;
@@ -54,12 +55,12 @@ input:focus{
   font-size: 15px;
 }
 .lastkeyword{
-  color: #00bfa5;
+  color: $primary;
   font-size:16px;
   margin-right:5px;
   background-color: white;
   border-radius: 20px;
-  border-color:#00bfa5;
+  border-color:$primary;
   border:2px solid;
 }
 .search_user_list{
@@ -90,9 +91,9 @@ input:focus{
   padding-top:10px;
 }
 .search_user_img{
-  width:55px;
-  height: 55px;
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 20%;
 }
 .search_user_name{
   margin:0;

@@ -66,13 +66,12 @@ height: 346px;
 width: 412px;
 }
 .photo-grid {
-display:flex;
-/* height: auto; */
+  display:flex;
+  flex-wrap:wrap;
 }
 .photo-img {
 width: 135px;
 height: 135px;
-margin-left:2px;
 }
 /* 바텀시트 */
 .bt_common{

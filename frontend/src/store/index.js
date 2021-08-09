@@ -27,7 +27,8 @@ export default new Vuex.Store({
     followarticles: [],
     selectArticle: [],
     missions: [],
-    rankers: []
+    rankers: [],
+    badgephotos: [],
   },
   mutations: {
     // 기타
@@ -42,7 +43,12 @@ export default new Vuex.Store({
     LOAD_FOLLOW_ATICLES(state,data) {
       state.followarticles = data;
     },
-
+    ISSELECTARTICLE(state,data){
+      state.selectArticle = data
+      if (data.profilePath === null){
+        state.selectArticle.profilePath = require("@/assets/user_default.png")
+      }
+    },
     // 미션
     GET_MISSION(state, missions) {
       state.missions = missions
@@ -67,13 +73,38 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
+    //마이
+    GET_BADGE(state,data){
+      for(const key in data)
+      {
+        console.log('뱃지종류',key,'갯수',data[key])
+        if (key === 'bottleCnt' || key === 'canCnt' || key === 'metalCnt' ||
+            key === 'paperCnt' ||  key === 'plasticCnt' || key === 'styroformCnt' ||
+            key === 'trashCnt' || key === 'vinylCnt' || key === 'jubgingCnt' ||
+            key === 'arroundCnt' || key === 'mountainCnt' || key === 'oceanCnt' || key === 'riverCnt'){
+          if (data[key]>=3 && data[key]<10){
+            this.photos.push({url: require('@/assets/badge/can/sample4.png')})
+          }
+          else if (data[key]>=10 && data[key]<20){
+            this.photos.push({url: require('@/assets/badge/can/sample4.png')})
+          }
+          else if (data[key]>=20){
+            this.photos.push({url: require('@/assets/badge/can/sample4.png')})
+          }
+        }
+        // 여기부터 댓글,좋아요,팔로우,거리
+      }
+      console.log(state.badgephotos,'@이스리얼')
+    }
   },
   actions: {
     // 기타
     isCurrent(context, page){
       context.commit('IS_CURRENT', page)
     },
-
+    isSelectArticle(context,article){
+      context.commit('ISSELECTARTICLE', article)
+    },
     // 홈
     loadArticles(context,data){
       return context.commit('LOAD_ARTICLES', data)
@@ -108,7 +139,15 @@ export default new Vuex.Store({
     },
 
     // 마이
-
+    getBadge(context){
+      axios.get(`mission/${this.state.userId}`)
+      .then(res => {
+        context.commit('GET_BADGE', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     // 유저
     login(context, credentials) {
       axios.post('user/login', credentials)
