@@ -1,4 +1,5 @@
 /* 상단바 */
+@import '@/assets/css/common.scss'; 
 .top{
   display: flex;
   align-items: center;
@@ -110,6 +111,13 @@ margin:5px 10px 0px 0px;
 width: 270px;
 font-size:15px;
 word-break:break-all;
+}
+.comment_delete_button{
+  color: $primary;
+  background-color: white;
+  border-color:$primary;
+  border-radius: 20%;
+  border:2px solid;
 }
 .btn_div{
 margin-left:20px;

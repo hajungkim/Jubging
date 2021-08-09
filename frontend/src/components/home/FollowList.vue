@@ -10,7 +10,7 @@
         <div class="hashtag_container" @click="moveDetail(followarticle)">
           <span v-for="(hash,idx) in followarticle.hashlist" :key="idx">#{{hash}}</span>
         </div>
-        <div class="like_comment_container">
+        <div class="like_comment_container" @click="moveDetail(followarticle)">
           <div class="lcbox">
             <font-awesome-icon :icon="['fas','users']"/><span style="margin-left:5px;">{{user.follower}}</span>
           </div>
@@ -51,7 +51,12 @@ export default {
     }
     axios(params)
       .then((res) => {
-        this.user.profilePath = res.data.data.profilePath
+        if (res.data.data.profilePath == null) {
+          this.user.profilePath = require("@/assets/user_default.png")
+        }
+        else{
+          this.user.profilePath = res.data.data.profilePath
+        }
         this.user.follower = res.data.data.follower          
       })
       .catch((e) => {

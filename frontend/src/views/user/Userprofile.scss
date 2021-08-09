@@ -14,10 +14,12 @@ transform:scale(1.5);
 }
 .followbtn{
   margin-left:auto;
-  margin-right:16px;
+  margin-right:16px; // Top
+  // margin-right:2px; // 이름 옆
 }
 .btnstyle{
   color: #00bfa5;
+  transform: scale(1.3);
 }
 /* 유저 정보 */
 .my_info{
@@ -53,18 +55,18 @@ flex-direction: column;
 }
 /* 뱃지부분 */
 .badge_box{
-margin-top: 3vh;
-/* border: solid 1px; */
-margin-bottom:3vh;
-
+  margin-top: 3vh;
+  /* border: solid 1px; */
+  margin-bottom:3vh;
+  z-index:0;
 }
 .article_img{
-width: 50px;
-height: 50px;
+  width: 50px;
+  height: 50px;
 }
 .badge_carousel{
-margin: 0;
-
+  margin: 0;
+  z-index:0;
 }
 /* 피드 부분 */
 .photo_list{
