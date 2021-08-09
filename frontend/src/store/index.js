@@ -25,7 +25,10 @@ export default new Vuex.Store({
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
     missions: null,
-    rankers: []
+    rankers: [],
+    isJubgingOn: false,
+    jubgingInfo: {},
+    jubgingOption: {},
   },
   mutations: {
     isCurrent(state,page){
@@ -58,6 +61,15 @@ export default new Vuex.Store({
     },
     loadfollowArticles(state,data){
       state.followarticles=data;
+    },
+    JUBGING_ON(state, data) {
+      state.isJubgingOn = data
+    },
+    SET_JUBGING_INFO(state, data) {
+      state.jubgingInfo = data
+    },
+    SET_JUBGING_OPTION(state, data) {
+      state.jubgingOption = data
     }
   },
   actions: {
@@ -142,7 +154,17 @@ export default new Vuex.Store({
     },
     loadFollowArticles(context,data){
       return context.commit('loadfollowArticles',data)
+    },
+    jubgingOn(context, data) {
+      return context.commit('JUBGING_ON', data)
+    },
+    setJubgingInfo(context, data) {
+      return context.commit("SET_JUBGING_INFO", data)
+    },
+    setJubgingOption(context, data) {
+      return context.commit("SET_JUBGING_OPTION", data)
     }
+
   },
   modules: {
   }
