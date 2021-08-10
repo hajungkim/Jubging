@@ -33,7 +33,7 @@
         <div class="content_box">
           {{ content }}
         </div>
-        <LikeuserModal v-if="isModal" @close-modal="isModal=false" :likePeoples="likePeoples">
+        <LikeuserModal v-if="isModal" @close-modal="isModal=false" :selectArticle="selectArticle">
         </LikeuserModal>
         <!--좋아요 댓글-->
         <div class="like_comment_container">
@@ -128,7 +128,6 @@ export default {
       comment: '',
       like: false,
       likeCnt: 0,
-      likePeoples:[],
       commentCnt: 0,
     }
   },
@@ -301,25 +300,25 @@ export default {
       }
     },
     getLike(){
-      const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.likePeoples = res.data.data
-          this.likePeoples.some(element => {
-            if(element.userId === this.userId){
-              this.like = true
-            }
-            return 0;
-          });
-          
-        })
-        .catch((e) => {
-          console.error(e);
-        })
+    const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
+		const params = {
+			method: 'get',
+			url: URL,
+		}
+		axios(params)
+			.then((res) => {
+        this.likePeoples = res.data.data
+				this.likePeoples.some(element => {
+					if(element.userId === parseInt(this.userId)){
+						this.like = true
+					}
+					return 0;
+				});
+				
+			})
+			.catch((e) => {
+				console.error(e);
+			})
     }
   },
 }
