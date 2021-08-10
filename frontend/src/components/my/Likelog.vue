@@ -24,6 +24,7 @@ export default {
   data(){
     return{
       likelogs: [],
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -36,7 +37,7 @@ export default {
   },
   methods:{
     getLikelogs(){
-      const URL = `http://localhost:8080/likelog/${this.userId}`
+      const URL = `${this.BASEURL}/likelog/${this.userId}`
       const params = {
         method: 'get',
         url: URL,
@@ -50,7 +51,7 @@ export default {
         })
     },
     moveDetail(article){
-      let URL = `http://localhost:8080/article/detail/${article.articleId}`
+      let URL = `${this.BASEURL}/article/detail/${article.articleId}`
       let params = {
         method: 'get',
         url: URL,

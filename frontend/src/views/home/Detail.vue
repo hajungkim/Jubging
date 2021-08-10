@@ -129,6 +129,7 @@ export default {
       like: false,
       likeCnt: 0,
       commentCnt: 0,
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -159,7 +160,7 @@ export default {
       this.$refs.articleOption.close();
     },
     getComment(){
-      let URL = `http://localhost:8080/comment/${this.selectArticle.articleId}`
+      let URL = `${this.BASEURL}/comment/${this.selectArticle.articleId}`
       let params = {
         method: 'get',
         url: URL,
@@ -178,7 +179,7 @@ export default {
         })
     },
     commentSubmit(){
-      const URL = 'http://localhost:8080/comment/'
+      const URL = `${this.BASEURL}/comment/`
       const data = {
         articleId: this.selectArticle.articleId,
         commentContent: this.comment,
@@ -226,7 +227,7 @@ export default {
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
-      const URL = `http://localhost:8080/article?articleId=${article.articleId}&userId=${article.userId}`
+      const URL = `${this.BASEURL}/article?articleId=${article.articleId}&userId=${article.userId}`
       const data = {
         articleId: article.articleId,
         userId: article.userId
@@ -256,7 +257,7 @@ export default {
       }
     },
     likeToggle(){
-      const URL = `http://localhost:8080/likelog/`
+      const URL = `${this.BASEURL}/likelog/`
       const data = {
         articleId: this.selectArticle.articleId,
         userId: this.userId
@@ -276,7 +277,7 @@ export default {
         })
     },
     getDetail(){
-      const URL = `http://localhost:8080/article/detail/${this.selectArticle.articleId}`
+      const URL = `${this.BASEURL}/article/detail/${this.selectArticle.articleId}`
       const params = {
         method: 'get',
         url: URL,
@@ -300,7 +301,7 @@ export default {
       }
     },
     getLike(){
-    const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
+    const URL = `${this.BASEURL}/likelog/likelist/${this.selectArticle.articleId}`
 		const params = {
 			method: 'get',
 			url: URL,

@@ -2,7 +2,7 @@
   <div class="modal" style="z-index:1050;">
 		<div class="overlay" @click="$emit('close-modal')"></div>
 			<div class="modal-card">
-				<div class="modal_top" style="font-size:20px;">나의 팔로잉<button class="close" @click="$emit('close-modal')">닫기</button></div>
+				<div class="modal_top" style="font-size:20px;">{{usernickname}}'s Followings<button class="close" @click="$emit('close-modal')">닫기</button></div>
 					<div>
 						<ul style="padding:0px; margin-top:20px;">
 							<li class="comment_container" v-for="(following,idx) in followings" :key="idx" @click="moveProfile(following)">
@@ -24,10 +24,13 @@ export default {
   name:'FollowingModal',
   props:{
     currentUser: String,
+    usernickname: String,
   },
   data(){
     return{
+      nickname: '',
       followings:[],
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -40,13 +43,14 @@ export default {
   },
 	methods:{
     getFollowing(){
-      let URL = `http://localhost:8080/follow/findfollow/${this.currentUser}`
+      let URL = `${this.BASEURL}/follow/findfollow/${this.currentUser}`
       let params={
         method:'get',
         url:URL,
       }
       axios(params)
         .then((res) => {
+          console.log(res.data.data)
           this.followings=res.data.data
         })
         .catch((e) => {
@@ -58,8 +62,8 @@ export default {
         this.$router.push({name:'My'})
         return
       }
-      this.$store.state.currentUser = following.followUserId
-      localStorage.setItem('currentUser', following.followUserId)
+      this.$store.state.currentUser = following.userId
+      localStorage.setItem('currentUser', following.userId)
 			this.$store.state.backPage = 1
       if (this.$route.path === '/userprofile'){
         this.$router.go(this.$router.currentRoute)
