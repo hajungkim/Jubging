@@ -8,7 +8,14 @@
   background-color: $white;
 }
 
-/* 상단바 */
+.profile-img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
 .top{
   display: flex;
   align-items: center;
@@ -25,14 +32,6 @@
     margin-left:120px;
     transform: scale(1.5);
   }
-}
-
-
-.profile-img-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .profile-img {
@@ -55,7 +54,7 @@
     width: 316px;
     height: 36px;
     border: 2px solid $gray;
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 0px 20px;
     color: #2E2E30;
   }

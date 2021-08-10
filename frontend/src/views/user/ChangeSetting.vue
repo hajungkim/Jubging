@@ -2,11 +2,10 @@
   <div>
     <div class="top">
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
-      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+      <h4 class="m-0 logo">회원 정보 수정</h4>
     </div>
 
     <div class="change-setting-wrap">
-      <h1>정보 수정</h1>
 
       <div class="profile-img-wrap">
         <div class="profile-img">
@@ -48,7 +47,7 @@
           </div>
         </div>
 
-        <button class="btn" @click="changeSettingAndPic" :disabled="!isSubmit" :class="{ 'btn-disable' : !isSubmit }">수정 완료</button>
+        <button class="btn-user-mgt" @click="changeSettingAndPic" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">수정 완료</button>
       </div>
     </div>
   </div>
