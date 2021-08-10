@@ -19,7 +19,7 @@
 			</div>
 		</div>
 
-		<button class="btn" @click="login(credentials)" :disabled="!isSubmit" :class="{ 'btn-disable' : !isSubmit }">Login</button>
+		<button class="btn-user-mgt" @click="login(credentials)" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">Login</button>
 
 		<div class="form-text-align">
 			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="form-text-small">Sign Up</span></router-link>
