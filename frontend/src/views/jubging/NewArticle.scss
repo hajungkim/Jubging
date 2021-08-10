@@ -21,15 +21,17 @@
   display: flex;
   flex-wrap: wrap;
 }
+.logo{
+  display: block;
+  margin:0px auto;
+  width: 100px;
+  transform:scale(1.5);
+}
 .to-center {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.goback {
-  position: absolute;
-  left: 0;
 }
 .item {
   text-align: center;
@@ -48,10 +50,11 @@
   font-weight: bold;
   font-size: 32px;
 }
-.btn {
+.btn-next {
   padding: 20px;
   margin: 10px 30px;
   border-radius: 30px;
   font-weight: bold;
   font-size: 18px;
+  background-color: cadetblue;
 }

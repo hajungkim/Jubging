@@ -1,11 +1,8 @@
 <template>
   <div>
     <div id="header">
-      <div class="goback to-center">
-        <img src="" alt="뒤로가기">
-      </div>
       <div class="to-center">
-        <img src="" alt="줍깅 로고">
+        <img class="logo" src="@/assets/logo/textlogo.png" alt="줍깅 로고">
       </div>
       </div>
       <div id="body">
@@ -49,7 +46,7 @@
             <div class="item-grid"  @click="toggleTrash('metal')" :class="{'item-check': trash.metal}">고철</div>
           </div>
         </div>
-        <button class="btn" @click="goNewArticle()">글 쓰기 ></button>
+        <button class="btn-next" @click="goNewArticle()">글 쓰기 ></button>
       </div>
   </div>
 </template>
