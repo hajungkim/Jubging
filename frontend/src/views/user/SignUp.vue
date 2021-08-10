@@ -1,46 +1,76 @@
 <template>
-  <div class="signup-wrap">
+  <div>
+    <div class="top">
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+    </div>
 
-		<h1>회원가입</h1>
-		
-		<div class="form-group">
-			<div class="form-mb">
-				<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-				<div v-if="error.email" class="text-error form-error">
-					<font-awesome-icon icon="check-circle"/>
-					<span> {{ error.email }}</span>
+		<div class="signup-wrap">
+			<div class="text-group">
+				<h2 class="m-0">새로운 계정 만들기</h2>
+				<p class="m-0">이메일은 추후 변경할 수 없습니다.</p>
+			</div>
+			
+			<div class="form-group">
+
+				<div class="form-mb">
+					<p class="from-item-text">이메일</p>
+					<div class="form-input-email">
+						<input type="text" id="email" v-model="credentials.email" placeholder="email">
+						<button @click="sendEmail" :disabled="error.email || !unique.email"><span>인증 메일 발송</span></button>
+					</div>
+					<div v-if="error.email" class="text-error form-error">
+						<font-awesome-icon icon="check-circle"/>
+						<span> {{ error.email }}</span>
+					</div>
+					<div v-show="credentials.email" class="form-check" id="check-email" v-if="!error.email">
+						<font-awesome-icon icon="check-circle"/>
+						<span id="check-email-text"> 이메일을 입력하세요.</span>
+					</div>
 				</div>
-				<div class="form-check" id="check-email" v-if="!error.email">
-          <font-awesome-icon icon="check-circle"/>
-          <span id="check-email-text"> 이용 가능한 이메일 입니다.</span>
-        </div>
-			</div>
 
-			<div class="form-mb">
-				<input class="form-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
-				<div class="form-check" id="check-nickname">
-          <font-awesome-icon icon="check-circle"/>
-          <span id="check-nickname-text"> 이용 가능한 닉네임 입니다.</span>
-        </div>
-			</div>
-
-			<div class="form-mb">
-				<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-				<div v-if="error.password" class="text-error form-error">
-					<font-awesome-icon icon="check-circle"/>
-					<span> {{ error.password }}</span>
+				<div class="form-mb">
+					<p class="from-item-text">인증 번호</p>
+					<input class="form-input" type="text" id="certificationNumber" v-model="certificationNumber" placeholder="certificationNumber">
+					<div v-if="certification.isSend" class="form-check">
+						<font-awesome-icon icon="check-circle"/>
+						<span> 이메일로 인증 번호를 전송했습니다.</span>
+					</div>
+					<div v-if="certificationNumber" class="form-check form-error" id="check-certificationNumber">
+						<font-awesome-icon icon="check-circle"/>
+						<span> {{ certification.text }}</span>
+					</div>
 				</div>
-			</div>
 
-			<div class="form-mb">
-				<input class="form-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
-				<div v-if="error.passwordConfirmation" class="text-error form-error">
-					<font-awesome-icon icon="check-circle"/>
-					<span> {{ error.passwordConfirmation }}</span>
+				<div class="form-mb">
+					<p class="from-item-text">닉네임</p>
+					<input class="form-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
+					<div v-show="credentials.nickname" class="form-check" id="check-nickname">
+						<font-awesome-icon icon="check-circle"/>
+						<span id="check-nickname-text"> 닉네임을 입력하세요.</span>
+					</div>
 				</div>
-			</div>
 
-			<button class="btn" @click="signup(credentials)" :disabled="!isSubmit" :class="{ 'btn-disable' : !isSubmit }">Signup</button>
+				<div class="form-mb">
+					<p class="from-item-text">비밀번호</p>
+					<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
+					<div v-if="error.password" class="text-error form-error">
+						<font-awesome-icon icon="check-circle"/>
+						<span> {{ error.password }}</span>
+					</div>
+				</div>
+
+				<div class="form-mb">
+					<p class="from-item-text">비밀번호 재입력</p>
+					<input class="form-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
+					<div v-if="error.passwordConfirmation" class="text-error form-error">
+						<font-awesome-icon icon="check-circle"/>
+						<span> {{ error.passwordConfirmation }}</span>
+					</div>
+				</div>
+
+				<button class="btn-user-mgt" @click="signup(credentials)" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">Signup</button>
+			</div>
 		</div>
   </div>
 </template>
@@ -59,7 +89,7 @@ export default {
 				email: '',
 				password: '',
 				passwordConfirmation: '',
-				nickname: ''
+				nickname: '',
 			},
 			error: {
 				email: false,
@@ -71,6 +101,12 @@ export default {
 				email: false,
 				nickname: false,
 			},
+			certificationNumber: '',
+			certification: {
+				text: false,
+				isSend: false,
+				isCertificate: false,
+			},
 			isSubmit: false,
 		}
 	},
@@ -80,7 +116,10 @@ export default {
 			handler() {
 				this.checkForm()
 			}
-		}
+		},
+		certificationNumber() {
+			this.certificationEmail()
+		},
 	},
 	methods:{
 		...mapActions([
@@ -139,6 +178,10 @@ export default {
               isSubmit = false
           }
         })
+				// 백 인증 되면 
+				// if (!this.certification.isCertificate) {
+				// 	isSubmit = false
+				// }
         this.isSubmit = isSubmit;
       })
       .catch(err => {
@@ -153,6 +196,47 @@ export default {
 			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
 			return test.test(password);
 		},
+		sendEmail(email) {
+      axios.post(`email/auth/${email}`)
+      .then(() => {
+        this.certification.isSend = true
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+		certificationEmail() {
+			if (this.certificationNumber) {
+				const data = {
+					'authKey': this.certificationNumber,
+					'email': this.credentials.email
+				}
+				axios.post('/email/authcheck/', data)
+				.then(res => {
+					if (res.data.data === '인증 성공') {
+						this.certification.isCertificate = true
+						this.certification.text = ' 인증이 완료되었습니다.'
+						document.querySelector('#check-certificationNumber').classList.remove('text-error')
+					} else {
+						this.certification.isCertificate = false
+						this.certification.text = ' 인증 번호가 틀렸습니다.'
+						document.querySelector('#check-certificationNumber').classList.add('text-error')
+					}
+				})
+				.then(() => {
+					this.checkForm()
+				})
+				.catch(err => {
+					console.error(err)
+				})
+			} else {
+				this.certification.isCertificate = false
+				this.checkForm()
+			}
+    },
+		back() {
+			this.$router.push({ name: 'Login' })
+		}
 	},
 }
 </script>
