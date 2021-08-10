@@ -2,11 +2,9 @@ package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Article;
 import com.ssafy.jupging.domain.entity.Follow;
-import com.ssafy.jupging.domain.entity.Hashtag;
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.ArticleResponseDto;
 import com.ssafy.jupging.dto.FollowResponseDto;
-import com.ssafy.jupging.dto.FollowerResponseDto;
 import com.ssafy.jupging.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +66,7 @@ public class FollowController {
                 for (Follow foll : followList) {
                     User user = userService.findUser(foll.getFollowUserId());
                     FollowResponseDto followResponseDto = new FollowResponseDto();
-                    followResponseDto.saveIdAndNick(user.getUserId(), user.getNickname());
+                    followResponseDto.saveIdAndNick(user.getUserId(), user.getNickname(), user.getProfilePath());
                     followResponseDtoList.add(followResponseDto);
                 }
 
@@ -90,15 +88,15 @@ public class FollowController {
             if (followerList.isEmpty()) {
                 response = new ControllerResponse("success", null);
             } else {
-                List<FollowerResponseDto> followerResponseDtoList = new ArrayList<>();
+                List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
                 for (Follow foll : followerList) {
                     User user = userService.findUser(foll.getUserId());
-                    FollowerResponseDto followerResponseDto = new FollowerResponseDto();
-                    followerResponseDto.saveIdAndNick(user.getUserId(), user.getNickname());
-                    followerResponseDtoList.add(followerResponseDto);
+                    FollowResponseDto followResponseDto = new FollowResponseDto();
+                    followResponseDto.saveIdAndNick(user.getUserId(), user.getNickname(), user.getProfilePath());
+                    followResponseDtoList.add(followResponseDto);
                 }
 
-                response = new ControllerResponse("success", followerResponseDtoList);
+                response = new ControllerResponse("success", followResponseDtoList);
             }
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -140,9 +138,9 @@ public class FollowController {
                 for (Follow foll : followList) {
                     User user = userService.findUser(foll.getFollowUserId());
                     FollowResponseDto followResponseDto = new FollowResponseDto();
-                    followResponseDto.saveIdAndNick(user.getUserId(), user.getNickname());
+                    followResponseDto.saveIdAndNick(user.getUserId(), user.getNickname(), user.getProfilePath());
 
-                    List<Article> articleList = articleService.findByUserId(followResponseDto.getFollowUserId());
+                    List<Article> articleList = articleService.findByUserId(followResponseDto.getUserId());
                     for(Article article : articleList){
                         ArticleResponseDto responseDto = new ArticleResponseDto(article);
 

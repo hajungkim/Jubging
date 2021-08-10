@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
 
-$primary: #229788;
+$primary: #00bfa5;
 $secondary: blue;
 $tertiary: green;
 
@@ -37,6 +37,70 @@ svg {
 
 .text-primary {
   color: $primary;
+}
+
+.m-0 {
+  margin: 0px;
+}
+
+.p-0 {
+  padding: 0px;
+}
+
+//////////////////////////////// 컴포넌트
+
+.btn {
+  color: $primary;
+  background-color: $white;
+  width : 360px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid $primary;
+  font-weight: bold;
+}
+
+.btn-disable {
+  color: $gray;
+  background-color: $white;
+  width : 360px;
+  height: 40px;
+  border-radius: 20px;
+  border:2px solid $gray;
+  font-weight: bold;
+}
+
+.btn-user-mgt {
+  color: $white;
+  background-color: $primary;
+  width : 360px;
+  height: 40px;
+  border-radius: 12px;
+  border: 0px;
+  font-weight: bold;
+}
+
+.btn-user-mgt-disable {
+  color: $white;
+  background-color: $gray;
+  width : 360px;
+  height: 40px;
+  border-radius: 12px;
+  border: 0px;
+  font-weight: bold;
+}
+
+.top-select {
+	display: flex;
+	justify-content: space-evenly;
+	.select-item {
+		font-weight: 500;
+		width: 180px;
+		height: 50px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}	
 }
 
 ////////////////////////////////////////////////////////////

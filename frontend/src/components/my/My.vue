@@ -16,24 +16,27 @@
           <span>게시물</span>
           <span style="text-align:center">{{user.articleCount}}</span>
         </div>
-        <div class="lcbox">
+        <div class="lcbox" @click="isfollower=true">
           <span>팔로워</span>
           <span style="text-align:center">{{user.follower}}</span>
         </div>
-        <div class="lcbox">
+        <div class="lcbox" @click="isfollowing=true">
           <span>팔로잉</span>
           <span style="text-align:center">{{user.following}}</span>
         </div>
       </div>
-      <!-- <img src="@/assets/badge/can/sample4.png"> -->
+      <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = userId :usernickname = usernickname>
+        </FollowerModal> 
+      <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = userId :usernickname = usernickname>
+        </FollowingModal>  
     </div>
     <!-- 뱃지 리스트 -->
-    <div class="badge_box">
+    <div class="badge_box" v-if="ischange">
       <carousel-3d class="badge_carousel"
-        :disable3d="true" :width="50" :height="50" dir="ltr" :clickable="false"
-        :display="5" :space="70" :controlsVisible="true"
+        :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
+        :display="4" :space="70" :controlsVisible="true" style="padding-left:70px;"
       >
-        <slide v-for="(photo,i) in badge_photo" :index="i" :key="i">
+        <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="badge_img" :src="photo.url" :data-index="index"
             :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" >
@@ -44,23 +47,22 @@
     <!-- 나의 게시글 -->
     <div class="photo_list">
       <div class="photo-grid">
-        <router-link :to="{name:'Detail'}">
+        <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
           <img @click="onClick(article)" class="photo-img"
-          v-for="(article,idx) in articles"
-          :key="idx"
           :src="article.photosPath">
-        </router-link>
+        </span>
       </div>
     </div>
-    <vue-bottom-sheet ref="myBottomSheet" max-height="370px" max-width="412px" >
+    <!-- 바텀시트 -->
+    <vue-bottom-sheet ref="myBottomSheet" max-height="370px" max-width="412px">
       <div>
-        <router-link :to="{name:'#'}" class="default-link">
+        <router-link :to="{name:'ChangeSetting'}" class="default-link">
           <div class="bt_common">
             <font-awesome-icon icon="user" class="fa-2x icon" style="margin-right:17px"/>
             <span>회원정보변경</span>
           </div>
         </router-link>
-        <router-link :to="{name:'#'}" class="default-link">
+        <router-link :to="{name:'Logs'}" class="default-link">
           <div class="bt_common likelog">
             <font-awesome-icon icon="heart" class="fa-2x icon" style="margin-right:15px"/>
             <span>좋아요 로그</span>
@@ -87,59 +89,34 @@
 import axios from 'axios'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+import FollowerModal from "@/components/my/FollowerModal.vue"
+import FollowingModal from "@/components/my/FollowingModal.vue"
+import { mapState } from 'vuex'
 export default {
   name:'My',
   components:{
     Carousel3d,
     Slide,
     VueBottomSheet,
+    FollowerModal,
+    FollowingModal,
   },
   data() {
     return {
       user: [],
       articles: [],
-      badges: {},
-      badge_photo: [],
-      photos: [
-        {
-          title:'0',
-          url:require('@/assets/badge/can/sample4.png'),
-        },
-        {
-          title:'1',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'2',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'3',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'4',
-          url:'http://placehold.it/139x139',
-        },
-        // {
-        //   title:'5',
-        //   url:'http://placehold.it/139x139',
-        // },
-        // {
-        //   title:'6',
-        //   url:'http://placehold.it/139x139',
-        // },
-        // {
-        //   title:'7',
-        //   url:'http://placehold.it/139x139',
-        // },
-      ]
+      isfollower: false,
+      isfollowing: false,
+      ischange: false,
+      photos:[],
+      BASEURL: 'http://localhost:8080',
+      usernickname: '',
     }
   },
   computed:{
-    loginUser(){
-      return this.$store.state.userId
-    },
+		...mapState([
+			'userId',
+		]),
   },
   created(){
     this.getInfo()
@@ -154,63 +131,77 @@ export default {
       this.$refs.myBottomSheet.close();
     },
     getInfo(){
-      let URL = `http://localhost:8080/user/${this.loginUser}`
+      let URL = `${this.BASEURL}/user/${this.userId}`
       let params = {
         method: 'get',
         url: URL,
       }
       axios(params)
         .then((res) => {
-          this.user=res.data.data
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-    },
-    getBadge(){
-      let URL = `http://localhost:8080/mission/${this.loginUser}`
-      let params = {
-        method:'get',
-        url:URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.badges=res.data.data
-          this.getBadgeImg()
+          this.user = res.data.data
+          this.usernickname = res.data.data.nickname
         })
         .catch((e) => {
           console.error(e);
         })
     },
     getArticle(){
-      let URL = `http://localhost:8080/article/list/${this.loginUser}`
+      let URL = `${this.BASEURL}/article/list/${this.userId}`
       let params={
         method:'get',
         url:URL,
       }
       axios(params)
         .then((res) => {
-          this.articles=res.data.data
+          this.articles = res.data.data
+          this.articles.reverse()
         })
         .catch((e) => {
           console.error(e);
         })
     },
-    getBadgeImg(){
-      const word = 'can'
-      const medal = 'sample4.png'
-      this.badge_photo.push({url:require(`@/assets/badge/${word}/${medal}`)})
-      this.badge_photo.push({url:require(`@/assets/badge/${word}/${medal}`)})
-      console.log(this.badge_photo)
-      console.log(this.photos)
-      // for(const key in this.badges){
-      //   if(key ==='canCnt' || key ==='plasticCnt' || key ==='vinylCnt' || key ==='bottleCnt' ||
-      //    key ==='metal_cnt' || key === 'styroformCnt' || key === 'paperCnt' || key ==='trashCnt'){
-      //      if(2<this.badges[key] && this.badges[key]<10){
-      //        this.badge_photo.push('@/assets/badge/textlogo.png')
-      //      }
-      //    }
-      // }
+    getBadge(){
+    let URL = `${this.BASEURL}/mission/${this.userId}`
+    let params = {
+      method: 'get',
+      url: URL,
+    }
+    axios(params)
+      .then((res) => {
+        for(const key in res.data.data)
+        {
+          if (key === 'bottle' || key === 'can' || key === 'metal' ||
+              key === 'paper' ||  key === 'plastic' || key === 'styroform' ||
+              key === 'trash' || key === 'vinyl' || key === 'jubging' ||
+              key === 'arround' || key === 'mountain' || key === 'ocean' || key === 'river'){
+            if (res.data.data[key] >= 3 && res.data.data[key] < 10){
+              this.photos.push({url: require(`@/assets/badge/${key}/bronze.png`)})
+            }
+            else if (res.data.data[key] >= 10 && res.data.data[key] < 20){
+              this.photos.push({url: require(`@/assets/badge/${key}/silver.png`)})
+            }
+            else if (res.data.data[key] >= 20){
+                this.photos.push({url: require(`@/assets/badge/${key}/gold.png`)})
+            }
+          }
+          // 여기부터 댓글,좋아요,팔로우,거리
+          else if (key === 'comment' || key === 'like' || key === 'follow' || key === 'distance'){
+            if (res.data.data[key] >= 10 && res.data.data[key] < 50){
+                this.photos.push({url: require(`@/assets/badge/${key}/bronze.png`)})
+            }
+            else if (res.data.data[key] >=50 && res.data.data[key]<100){
+                this.photos.push({url: require(`@/assets/badge/${key}/silver.png`)})
+            }
+            else if (res.data.data[key] >= 100){
+                this.photos.push({url: require(`@/assets/badge/${key}/gold.png`)})
+            }
+          }
+        }
+        this.ischange = true
+        })
+      .catch((e) => {
+        console.error(e);
+      })
     },
     onClick(article){
       this.$store.state.selectArticle = article

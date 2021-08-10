@@ -50,6 +50,7 @@ public class User {
     public void updateUser(UserUpdateRequestDto requestDto) {
         this.password = requestDto.getPassword();
         this.nickname = requestDto.getNickname();
+        this.profilePath = requestDto.getProfilePath();
     }
 
     public void updateFollower(boolean isFollower) {
@@ -70,5 +71,9 @@ public class User {
 
     public void updateScore(int score) {
         this.score += score;
+    }
+
+    public void changePassword(String tempKey){
+        this.password=tempKey;
     }
 }

@@ -19,13 +19,15 @@ export default new Vuex.Store({
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
     currentUser: 0,
-    currentPage: 0,
-    backPage: 0,
+    currentPage: 0,  
+    backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
+    searchflag: false,
+    likeflag: false,
     articles: [],
     followarticles: [],
     selectArticle: [],
     missions: [],
-    rankers: []
+    rankers: null,
   },
   mutations: {
     // 기타
@@ -40,7 +42,12 @@ export default new Vuex.Store({
     LOAD_FOLLOW_ATICLES(state,data) {
       state.followarticles = data;
     },
-
+    ISSELECTARTICLE(state,data){
+      state.selectArticle = data
+      if (data.profilePath === null){
+        state.selectArticle.profilePath = require("@/assets/user_default.png")
+      }
+    },
     // 미션
     GET_MISSION(state, missions) {
       state.missions = missions
@@ -65,13 +72,16 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
+    //마이
   },
   actions: {
     // 기타
     isCurrent(context, page){
       context.commit('IS_CURRENT', page)
     },
-
+    isSelectArticle(context,article){
+      context.commit('ISSELECTARTICLE', article)
+    },
     // 홈
     loadArticles(context,data){
       return context.commit('LOAD_ARTICLES', data)
@@ -104,7 +114,6 @@ export default new Vuex.Store({
         console.error(err)
       })
     },
-
     // 마이
 
     // 유저
