@@ -45,7 +45,7 @@ svg {
   width : 360px;
   height: 40px;
   border-radius: 20px;
-  border:2px solid $primary;
+  border: 2px solid $primary;
   font-weight: bold;
 }
 
@@ -56,6 +56,26 @@ svg {
   height: 40px;
   border-radius: 20px;
   border:2px solid $gray;
+  font-weight: bold;
+}
+
+.btn-user-mgt {
+  color: $white;
+  background-color: $primary;
+  width : 360px;
+  height: 40px;
+  border-radius: 12px;
+  border: 0px;
+  font-weight: bold;
+}
+
+.btn-user-mgt-disable {
+  color: $white;
+  background-color: $gray;
+  width : 360px;
+  height: 40px;
+  border-radius: 12px;
+  border: 0px;
   font-weight: bold;
 }
 

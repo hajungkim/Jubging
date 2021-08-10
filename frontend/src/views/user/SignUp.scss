@@ -1,7 +1,36 @@
 @import "@/assets/css/common.scss";
 
+.top{
+  display: flex;
+  align-items: center;
+  height: 50px;
+  .back_icon{
+    margin-left:15px;
+    cursor: pointer;
+  }
+  .logo{
+    margin-left: 130px;
+    transform: scale(1.5);
+  }
+  .option_button{
+    margin-left:120px;
+    transform: scale(1.5);
+  }
+}
+
+.text-group {
+  margin-top: 30px;
+  display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.m-0 {
+  margin: 0px;
+}
+
 .signup-wrap {
-  height: 781px;
+  height: 731px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -11,17 +40,41 @@
 .form-group {
 	display: flex;
 	flex-direction: column;
-	margin-top: 10%;
+	margin-top: 8%;
 
   .form-input {
     width: 316px;
     height: 36px;
     border: 2px solid $gray;
-    border-radius: 20px;
+    border-radius: 12px;
     padding: 0px 20px;
     color: #2E2E30;
   }
 
+  .form-input-email {
+    display: flex;
+    align-items: center;
+    input {
+      width: 230px;
+      height: 36px;
+      border: 2px solid $gray;
+      border-radius: 12px 0px 0px 12px;
+      padding: 0px 20px;
+      color: #2E2E30;
+    }
+    button {
+      width: 86px;
+      height: 40px;
+      border: 0px;
+      border-radius: 0px 12px 12px 0px;
+      background-color: $primary;
+      padding: 0px;
+      margin: 0px;
+      color: $white;
+      font-size: 12px;
+    }
+  }
+  
   .form-mb {
     margin-bottom: 14px;
   }
@@ -37,5 +90,10 @@
   .form-error {
     padding-left: 10px;
   }
+
+  .from-item-text {
+    margin: 0px;
+    padding-left: 10px;
+  } 
 }
 
