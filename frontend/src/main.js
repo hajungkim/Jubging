@@ -9,14 +9,14 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faTrophy, faShoePrints, faHome, faUser, faMedal,
   faAngleLeft, faSearch, faRunning, faSignOutAlt, faComment, faUsers, faBell,
-  faHeart as fasHeart, faCheckCircle, faTrash, faBars,faEllipsisH, faEdit
+  faHeart as fasHeart, faCheckCircle, faTrash, faBars,faEllipsisH, faEdit, faStar
 } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeart , faCommentDots } from '@fortawesome/free-regular-svg-icons'
+import { faHeart as farHeart , faCommentDots, faStar as farStar } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
   faTrophy, faShoePrints, faHome, faUser, faMedal,
   faAngleLeft, faSearch, faRunning, faSignOutAlt, faComment, faUsers, faBell,
-  fasHeart, faCheckCircle, faTrash, faBars, faEllipsisH, faEdit
+  fasHeart, faCheckCircle, faTrash, faBars, faEllipsisH, faEdit, faStar, farStar
 )
 library.add( farHeart, faCommentDots )
 

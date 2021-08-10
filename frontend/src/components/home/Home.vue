@@ -51,16 +51,17 @@ export default {
   },
   data(){
     return {
-      toggle:true,
-      isModal:false,
-      total:0,
+      toggle: true,
+      isModal: false,
+      total: 0,
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
     ...mapState([
       'articles',
       'followarticles',
-    ])
+    ]),
   },
   created(){
     console.log("현재 로그인 유저",this.$store.state.userId)
@@ -77,7 +78,7 @@ export default {
       this.$router.push({name:'Search'})
     },
     allArticles(){
-      let URL = 'http://localhost:8080/article/list'
+      let URL = `${this.BASEURL}/article/list`
       let params = {
         method: 'get',
         url: URL,
@@ -91,7 +92,7 @@ export default {
         })
     },
     followArticles(){
-    let URL = `http://localhost:8080/follow/findarticle/${this.$store.state.userId}`
+    let URL = `${this.BASEURL}/follow/findarticle/${this.$store.state.userId}`
     let params = {
       method: 'get',
       url: URL,
@@ -105,7 +106,7 @@ export default {
       })
     },
     todayJubging(){
-      let URL = 'http://localhost:8080/jubginglog/total'
+      let URL = `${this.BASEURL}/jubginglog/total`
       let params = {
         method: 'get',
         url: URL,

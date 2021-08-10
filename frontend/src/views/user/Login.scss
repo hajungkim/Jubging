@@ -5,50 +5,30 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-  background-color: $primary;
+  background-color: $white;
 }
 
 .logo {
 	width: 200px;
-	margin-top: 25%;
+	margin-top: 15%;
 }
 
 .form-group {
 	display: flex;
 	flex-direction: column;
-	margin-top: 18%;
+	margin-top: 15%;
 
   .form-input {
-    width: 300px;
-    height: 40px;
-    background: rgba(179, 179, 179, 0.55);
-    border: 0px;
-    border-radius: 20px;
+    width: 316px;
+    height: 36px;
+    border: 2px solid $gray;
+    border-radius: 12px;
     padding: 0px 20px;
-    margin-top: 14px;
-    color: white;
+    color: #2E2E30;
   }
 
-  .form-btn {
-    color: white;
-    background: linear-gradient(278.02deg, #1CA592 -0.77%, #FFEAC1 114.65%);
-  
-    width: 340px;
-    height: 40px;
-    border: 0px;
-    border-radius: 20px;
-    margin-top: 14px;
-  }
-
-  .form-disable-btn {
-    color: white;
-    background: grey;
-  
-    width: 340px;
-    height: 40px;
-    border: 0px;
-    border-radius: 20px;
-    margin-top: 14px;
+  .form-mb {
+    margin-bottom: 14px;
   }
 
   .form-text-align {
@@ -57,7 +37,7 @@
     padding: 10px;
 
     .form-text-small {
-      color: white;
+      color: $primary;
       font-size: 14px;
     }
 
@@ -80,7 +60,7 @@
   .social {
     width: 55px;
     height: 55px;
-    background-color: white;
+    border: 2px solid $primary;
     border-radius: 50%;
     margin: 8px;
   }

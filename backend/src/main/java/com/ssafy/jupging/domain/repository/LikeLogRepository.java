@@ -4,6 +4,7 @@ import com.ssafy.jupging.domain.entity.LikeLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LikeLogRepository extends JpaRepository<LikeLog, Long> {
     LikeLog save(LikeLog likeLog);
@@ -13,4 +14,6 @@ public interface LikeLogRepository extends JpaRepository<LikeLog, Long> {
     List<LikeLog> findAllByUserIdOrderByCreatedDateDesc(long userId);
 
     List<LikeLog> findAllByArticleId(long article_id);
+
+    Optional<LikeLog> findByUserIdAndArticleId(Long userId, Long articleId);
 }

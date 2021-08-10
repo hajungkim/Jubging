@@ -22,32 +22,32 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-}
 
-.mission-description > .title {
-	color: white;
-	margin: 0;
-}
+	.title {
+		color: white;
+		margin: 0;
+	}
 
-.mission-description > .sub {
-	color: white;
+	.sub {
+		color: white;
+	}
 }
 
 .badges {
 	display: flex;
 	justify-content: space-evenly;
 	margin-top: 40px;
-}
 
-.badge {
-	width: 50px;
-	height: 50px;
-	background-color: silver;
-}
+	.badge-group {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
 
-.badge-group {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	text-align: center;
+		.badge {
+			width: 50px;
+			height: 50px;
+			background-color: silver;
+		}
+	}
 }

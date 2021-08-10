@@ -1,15 +1,28 @@
 <template>
-  <div class="findPassword-wrap">
+  <div>
+    <div class="top">
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+    </div>
 
-		<h1>비밀번호 찾기</h1>
-    <p>이메일로 임시 비밀번호를 발급해드립니다.</p>
-		
-		<div class="form-group">
-			<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-			<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
-			<button @click="findPassword(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">비밀번호 재설정</button>
-		</div>
+    <div class="findPassword-wrap">
+			<div class="text-group">
+				<h2 class="m-0">비밀번호 찾기</h2>
+				<p class="m-0">이메일로 임시 비밀번호를 발급해드립니다</p>
+			</div>
+      
+      <div class="form-group">
+        <div class="form-mb">
+          <input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+          <div v-if="error.email" class="text-error form-error">
+            <font-awesome-icon icon="check-circle"/>
+            <span> {{ error.email }}</span>
+          </div>
+        </div>
+        <button @click="findPassword(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'btn-user-mgt' : 'btn-user-mgt-disable']">비밀번호 재발급</button>
+      </div>
 
+    </div>
   </div>
 </template>
 
@@ -27,7 +40,8 @@ export default {
 			},
       error: {
         email: false,
-      }
+      },
+      isSubmit: false
     }
   },
   watch: {
@@ -59,17 +73,20 @@ export default {
     findPassword() {
       axios.post('user/emailck', this.credentials)
         .then(res => {
-          if (res.data.data) {
-            alert('존재하지 않는 이메일 입니다.')
-          } else { 
+          if (res.data.data == '전송 성공') {
             alert('해당 이메일로 임시 비밀번호를 발급했습니다.')
-            // 임시 비밀번호 발급 요청 추가 예정
+            this.$router.push({ name: 'Login' })
+          } else { 
+            alert('존재하지 않는 이메일 입니다.')
           }
         })
         .catch(err => {
           console.error(err)
         })
-    }
+    },
+		back() {
+			this.$router.push({ name: 'Login' })
+		}
 	},
 }
 </script>

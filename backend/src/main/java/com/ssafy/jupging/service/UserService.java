@@ -7,6 +7,7 @@ import com.ssafy.jupging.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -113,4 +114,13 @@ public class UserService {
         return searchList;
     }
 
+    @Transactional
+    public void changePassword(Long userId, String password) {
+        Optional<User> user = userRepository.findById(userId);
+
+        user.ifPresent(user1 -> {
+            user1.changePassword(password);
+            userRepository.save(user1);
+        });
+    }
 }
