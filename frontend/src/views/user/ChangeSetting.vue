@@ -1,46 +1,54 @@
 <template>
-  <div class="change-setting-wrap">
+  <div>
+    <div class="top">
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
+      <h4 class="m-0 logo">회원 정보 수정</h4>
+    </div>
 
-    <h1>정보 수정</h1>
-    
-    <div class="form-group">
-      <div class="form-mb">
-        <input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-        <div v-if="error.email" class="text-error form-error">
-          <font-awesome-icon icon="check-circle"/>
-          <span> {{ error.email }}</span>
+    <div class="change-setting-wrap">
+
+      <div class="profile-img-wrap">
+        <div class="profile-img">
+          <img :src="credentials.profilePath" id="profileImage" >
         </div>
-        <div class="form-check" id="check-email" v-if="!error.email">
-          <font-awesome-icon icon="check-circle"/>
-          <span id="check-email-text"> 이용 가능한 이메일 입니다.</span>
-        </div>
+        <input type="file" accept="image/*" @change="readImage" ref="input-profilePath">
       </div>
 
-      <div class="form-mb">
-        <input class="form-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
-        <div class="form-check" id="check-nickname">
-          <font-awesome-icon icon="check-circle"/>
-          <span id="check-nickname-text"> 이용 가능한 닉네임 입니다.</span>
+      <div class="form-group">
+        <div class="form-mb">
+          <input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email" disabled=true>
+          <div class="form-check" id="check-email" v-if="!error.email">
+            <font-awesome-icon icon="check-circle"/>
+            <span id="check-email-text"> 이메일은 변경할 수 없습니다.</span>
+          </div>
         </div>
-      </div>
 
-      <div class="form-mb">
-        <input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="new password">
-        <div v-if="error.password" class="text-error form-error">
-          <font-awesome-icon icon="check-circle"/>
-          <span> {{ error.password }}</span>
+        <div class="form-mb">
+          <input class="form-input" type="text" id="nickname" v-model="credentials.nickname" placeholder="nickname">
+          <div class="form-check" id="check-nickname">
+            <font-awesome-icon icon="check-circle"/>
+            <span id="check-nickname-text"> 이용 가능한 닉네임 입니다.</span>
+          </div>
         </div>
-      </div>
 
-      <div class="form-mb">
-        <input class="form-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
-        <div v-if="error.passwordConfirmation" class="text-error form-error">
-          <font-awesome-icon icon="check-circle"/>
-          <span> {{ error.passwordConfirmation }}</span>
+        <div class="form-mb">
+          <input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="new password">
+          <div v-if="error.password" class="text-error form-error">
+            <font-awesome-icon icon="check-circle"/>
+            <span> {{ error.password }}</span>
+          </div>
         </div>
-      </div>
 
-        <button class="btn" @click="changeSetting(credentials)" :disabled="!isSubmit" :class="{ 'btn-disable' : !isSubmit }">수정 완료</button>
+        <div class="form-mb">
+          <input class="form-input" type="password" id="passwordConfirmation" v-model="credentials.passwordConfirmation" placeholder="password Confirmation">
+          <div v-if="error.passwordConfirmation" class="text-error form-error">
+            <font-awesome-icon icon="check-circle"/>
+            <span> {{ error.passwordConfirmation }}</span>
+          </div>
+        </div>
+
+        <button class="btn-user-mgt" @click="changeSettingAndPic" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">수정 완료</button>
+      </div>
     </div>
   </div>
 </template>
@@ -59,16 +67,15 @@ export default {
         email: '',
         password: '',
         passwordConfirmation: '',
-        nickname: ''
+        nickname: '',
+        profilePath: ''
       },
       error: {
-        email: false,
         password: false,
         passwordConfirmation: false,
         nickname: false,
       },
       unique: {
-        email: true,
         nickname: true,
       },
       isSubmit: false,
@@ -91,6 +98,7 @@ export default {
       this.credentials.password = this.userInfo.password
       this.credentials.passwordConfirmation = this.userInfo.password
       this.credentials.nickname = this.userInfo.nickname
+      this.credentials.profilePath = this.userInfo.profilePath
     }
    },
   created() {
@@ -98,15 +106,9 @@ export default {
   },
   methods:{
     ...mapActions([
-			'getUserInfo', 'changeSetting'
+			'getUserInfo',
 		]),
     checkForm() {
-      if (this.credentials.email.length >= 0 && !this.validEmail(this.credentials.email)) {
-        this.error.email = " 올바른 이메일 형식이 아닙니다."
-      } else {
-        this.error.email = false
-      }
-
       if (this.credentials.password.length >= 0 && !this.validPassword(this.credentials.password)) {
         this.error.password = " 영문, 숫자 포함 8 자리 이상이어야 합니다.";
       } else {
@@ -119,28 +121,12 @@ export default {
         this.error.passwordConfirmation = false
       }
 
-      axios.all([axios.post('user/emailck', this.credentials), axios.post('user/nicknameck', this.credentials)])
-      .then(axios.spread((res1, res2) => {
-        if (this.credentials.email === this.userInfo.email) {
-          this.unique.email = true
-        } else {
-          this.unique.email = res1.data.data
-        }
-
-        if (!this.error.email) {
-          if (this.unique.email) {
-            document.querySelector('#check-email-text').innerText = " 이용 가능한 이메일 입니다."
-            document.querySelector('#check-email').classList.remove('text-error')
-          } else {
-            document.querySelector('#check-email-text').innerText = " 중복된 이메일 입니다."
-            document.querySelector('#check-email').classList.add('text-error')
-         }
-        }
-
+      axios.post('user/nicknameck', this.credentials)
+      .then(res => {
         if (this.credentials.nickname === this.userInfo.nickname) {
           this.unique.nickname = true
         } else {
-          this.unique.nickname = res2.data.data
+          this.unique.nickname = res.data.data
         }
 
         if (this.unique.nickname) {
@@ -150,7 +136,7 @@ export default {
           document.querySelector('#check-nickname-text').innerText = " 중복된 닉네임 입니다."
           document.querySelector('#check-nickname').classList.add('text-error')
         }
-      }))
+      })
       .then(() => {
         let isSubmit = true;
         Object.values(this.error).map((err) => {
@@ -169,14 +155,45 @@ export default {
         console.error(err)
       })
     },
-    validEmail(email) {
-      var test = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return test.test(email);
-    },
     validPassword(password) {
       var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
       return test.test(password);
     },
+    readImage(event) {
+      if (event.target && event.target.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          var profileImage = document.querySelector("#profileImage");
+          profileImage.setAttribute("src", event.target.result);
+        }
+        reader.readAsDataURL(event.target.files[0]);
+      }
+    },
+    changeSettingAndPic() {
+      let profilePath = this.$refs['input-profilePath'].files[0]
+
+      if (profilePath) {
+        let form = new FormData()
+        form.append('file', profilePath)
+
+        axios.post('/images', form, { header: { 'Content-Type': 'multipart/form-data' } })
+        .then(res => {
+          this.credentials.profilePath = res.data.data
+        })
+        .then(() => {
+          this.$store.dispatch('changeSetting', this.credentials)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      } else {
+        this.$store.dispatch('changeSetting', this.credentials)
+      }
+    },
+    back() {
+      // 수정 예정
+      this.$router.push({ name:'Userprofile' })
+    }
   },
 }
 </script>
