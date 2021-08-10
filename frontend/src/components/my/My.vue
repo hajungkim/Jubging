@@ -33,10 +33,10 @@
     <!-- 뱃지 리스트 -->
     <div class="badge_box">
       <carousel-3d class="badge_carousel"
-        :disable3d="true" :width="50" :height="50" dir="ltr" :clickable="false"
-        :display="5" :space="70" :controlsVisible="true"
+        :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
+        :display="4" :space="70" :controlsVisible="true" style="padding-left:70px;"
       >
-        <slide v-for="(photo,i) in badgephotos" :index="i" :key="i">
+        <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="badge_img" :src="photo.url" :data-index="index"
             :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" >
@@ -107,41 +107,51 @@ export default {
       articles: [],
       isfollower: false,
       isfollowing: false,
-      // photos:[],
-      photos: [
-        {
-          title:'0',
-          url:require('@/assets/badge/plastic/sample7.png'),      
-        },
-        {
-          title:'1',
-          url:require('@/assets/badge/arround/sample2.png'),
-        },
-        // {
-        //   title:'2',
-        //   url:require('@/assets/badge/arround/sample2.png'),
-        // },
-        // {
-        //   title:'3',
-        //   url:'http://placehold.it/139x139',
-        // },
-        // {
-        //   title:'4',
-        //   url:'http://placehold.it/139x139',
-        // },
-        // {
-        //   title:'5',
-        //   url:'http://placehold.it/139x139',
-        // },
-        // {
-        //   title:'6',
-        //   url:'http://placehold.it/139x139',
-        // },
-        // {
-        //   title:'7',
-        //   url:'http://placehold.it/139x139',
-        // },
-        ],
+      ischange: false,
+      badgecnt: [],
+      photos:[],
+      // photos: [
+      //   {
+      //     title:'0',
+      //     url:{
+      //       gold: require('@/assets/badge/arround/sample.png'),
+      //       silver:'http://placehold.it/139x139',
+      //       bronze:'http://placehold.it/139x139',
+      //     }
+      //   },
+      //   {
+      //     title:'1',
+      //     url:{
+      //       gold:require('@/assets/badge/arround/sample2.png'),
+      //       silver:'http://placehold.it/139x139',
+      //       bronze:'http://placehold.it/139x139',
+      //     }
+      //   },
+      //   {
+      //     title:'2',
+      //     url:{
+      //       gold:require('@/assets/badge/arround/sample3.png'),
+      //       silver:'http://placehold.it/139x139',
+      //       bronze:'http://placehold.it/139x139',
+      //     }
+      //   },
+      //   {
+      //     title:'3',
+      //     url:{
+      //       gold:'http://placehold.it/139x139',
+      //       silver:'http://placehold.it/139x139',
+      //       bronze:'http://placehold.it/139x139',
+      //     }
+      //   },
+      //   {
+      //     title:'4',
+      //     url:{
+      //       gold:'http://placehold.it/139x139',
+      //       silver:'http://placehold.it/139x139',
+      //       bronze:'http://placehold.it/139x139',
+      //     }
+      //   },
+      // ],
     }
   },
   computed:{
@@ -150,8 +160,56 @@ export default {
       'badgephotos'
 		]),
   },
+  watch:{
+    ischange() {
+      console.log(this.photos,'~~')
+    }
+  },
   created(){
     this.$store.dispatch('getBadge')
+    let URL = `http://localhost:8080/mission/${this.userId}`
+    let params = {
+      method: 'get',
+      url: URL,
+    }
+    axios(params)
+      .then((res) => {
+        for(const key in res.data.data)
+        {
+          console.log('뱃지종류',key,'갯수',res.data.data[key])
+          if (key === 'bottleCnt' || key === 'canCnt' || key === 'metalCnt' ||
+              key === 'paperCnt' ||  key === 'plasticCnt' || key === 'styroformCnt' ||
+              key === 'trashCnt' || key === 'vinylCnt' || key === 'jubgingCnt' ||
+              key === 'arroundCnt' || key === 'mountainCnt' || key === 'oceanCnt' || key === 'riverCnt'){
+            if (res.data.data[key] >= 3 && res.data.data[key] < 10){
+              this.photos.push({url: require('@/assets/badge/arround/sample3.png')})
+            }
+            else if (res.data.data[key] >= 10 && res.data.data[key] < 20){
+              this.photos.push({url: require('@/assets/badge/arround/sample2.png')})
+            }
+            else if (res.data.data[key] >= 20){
+                this.photos.push({url: require('@/assets/badge/arround/sample.png')})
+            }
+          }
+          // 여기부터 댓글,좋아요,팔로우,거리
+          else if (key === 'commentCnt' || key === 'likeCnt' || key === 'followCnt' || key === 'totalDistance'){
+            if (res.data.data[key] >= 10 && res.data.data[key] < 50){
+                this.photos.push({url: require('@/assets/badge/arround/sample3.png')})
+            }
+            else if (res.data.data[key] >=50 && res.data.data[key]<100){
+                this.photos.push({url: require('@/assets/badge/arround/sample2.png')})
+            }
+            else if (res.data.data[key] >= 100){
+                this.photos.push({url: require('@/assets/badge/arround/sample.png')})
+            }
+          }
+        }
+        this.ischange = true
+        console.log(this.photos,'@이스리얼')
+        })
+      .catch((e) => {
+        console.error(e);
+      })
     this.getInfo()
     // this.getBadge()
     this.getArticle()
