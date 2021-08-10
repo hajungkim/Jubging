@@ -40,15 +40,15 @@
         </div>
       </div>
     </div>
-    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = currentUser>
+    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = currentUser :usernickname = usernickname>
       </FollowerModal>
-    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = currentUser>
+    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = currentUser :usernickname = usernickname>
       </FollowingModal>  
     <!-- 뱃지 리스트 -->
-    <div class="badge_box">
+    <div class="badge_box" v-if="ischange">
       <carousel-3d class="badge_carousel"
-        :disable3d="true" :width="50" :height="50"
-        :display="5" :space="70" :controlsVisible="true"
+        :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
+        :display="4" :space="70" :controlsVisible="true" style="padding-left:70px;"
       >
         <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
@@ -60,9 +60,10 @@
     <!-- 유저 게시글 -->
     <div class="photo_list">
       <div class="photo-grid">
-        <router-link :to="{name:'Detail'}">
-          <img @click="onDetail(article)" class="photo-img" v-for="(article,idx) in articles" :key="idx" :src="article.photosPath">
-        </router-link>
+        <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
+          <img @click="onClick(article)" class="photo-img"
+          :src="article.photosPath">
+        </span>
       </div>
     </div>
   </div>
@@ -88,42 +89,11 @@ export default {
         isfollower: false,
         isfollowing: false,
         articles: [],
-        photos: [
-        {
-          title:'0',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'1',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'2',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'3',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'4',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'5',
-          url:'http://placehold.it/139x139',
-        },
-        {
-          title:'6',
-          url:'http://placehold.it/139x139',
-        },
-        // {
-        //   title:'7',
-        //   url:'http://placehold.it/139x139',
-        // },
-        ],
+        photos: [],
+        ischange: false,
         follow: false,
-        // followCnt: 0,
+        BASEURL: 'http://localhost:8080',
+        usernickname: '',
     }
   },
   created(){
@@ -141,7 +111,7 @@ export default {
   },
   methods: {
     getInfo(){
-      let URL = `http://localhost:8080/user/${this.currentUser}`
+      let URL = `${this.BASEURL}/user/${parseInt(this.currentUser)}`
       let params = {
         method: 'get',
         url: URL,
@@ -149,28 +119,57 @@ export default {
       axios(params)
         .then((res) => {
           this.user = res.data.data
-          // this.followCnt = res.data.data.follower
+          this.usernickname = res.data.data.nickname
         })
         .catch((e) => {
           console.error(e);
         })
     },
     getBadge(){
-      let URL = `http://localhost:8080/mission/${this.currentUser}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
-        .then((res) => {
-          console.log('뱃지갯수', res.data.data)
+    let URL = `${this.BASEURL}/mission/${parseInt(this.currentUser)}`
+    let params = {
+      method: 'get',
+      url: URL,
+    }
+    axios(params)
+      .then((res) => {
+        for(const key in res.data.data)
+        {
+          if (key === 'bottle' || key === 'can' || key === 'metal' ||
+              key === 'paper' ||  key === 'plastic' || key === 'styroform' ||
+              key === 'trash' || key === 'vinyl' || key === 'jubging' ||
+              key === 'arround' || key === 'mountain' || key === 'ocean' || key === 'river'){
+            if (res.data.data[key] >= 3 && res.data.data[key] < 10){
+              this.photos.push({url: require(`@/assets/badge/${key}/bronze.png`)})
+            }
+            else if (res.data.data[key] >= 10 && res.data.data[key] < 20){
+              this.photos.push({url: require(`@/assets/badge/${key}/silver.png`)})
+            }
+            else if (res.data.data[key] >= 20){
+                this.photos.push({url: require(`@/assets/badge/${key}/gold.png`)})
+            }
+          }
+          // 여기부터 댓글,좋아요,팔로우,거리
+          else if (key === 'comment' || key === 'like' || key === 'follow' || key === 'distance'){
+            if (res.data.data[key] >= 10 && res.data.data[key] < 50){
+                this.photos.push({url: require(`@/assets/badge/${key}/bronze.png`)})
+            }
+            else if (res.data.data[key] >=50 && res.data.data[key]<100){
+                this.photos.push({url: require(`@/assets/badge/${key}/silver.png`)})
+            }
+            else if (res.data.data[key] >= 100){
+                this.photos.push({url: require(`@/assets/badge/${key}/gold.png`)})
+            }
+          }
+        }
+        this.ischange = true
         })
-        .catch((e) => {
-          console.error(e);
-        })
+      .catch((e) => {
+        console.error(e);
+      })
     },
     getFollow(){
-      let URL = `http://localhost:8080/follow/findfollow/${this.currentUser}`
+      let URL = `${this.BASEURL}/follow/findfollow/${this.currentUser}`
       let params = {
         method: 'get',
         url: URL,
@@ -189,7 +188,7 @@ export default {
         })
     },
     getArticle(){
-      let URL = `http://localhost:8080/article/list/${this.currentUser}`
+      let URL = `${this.BASEURL}/article/list/${this.currentUser}`
       let params = {
         method: 'get',
         url: URL,
@@ -224,7 +223,7 @@ export default {
       this.$router.push({ name: 'Detail' })
     },
     onFollow(){
-      let URL = `http://localhost:8080/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
       let params = {
         method: 'post',
         url: URL,
@@ -239,7 +238,7 @@ export default {
         })
     },
     deleteFollow(){
-      let URL = `http://localhost:8080/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
       let params = {
         method: 'delete',
         url: URL,

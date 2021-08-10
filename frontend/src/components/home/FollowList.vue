@@ -40,11 +40,12 @@ export default {
       user:{
         profilePath: '',
         follower: 0,
-      }
+      },
+      BASEURL: 'http://localhost:8080'
     }
   },
   created(){
-    let URL = `http://localhost:8080/user/${this.followarticle.userId}`
+    let URL = `${this.BASEURL}/user/${this.followarticle.userId}`
     let params = {
       method: 'get',
       url: URL,

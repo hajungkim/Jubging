@@ -66,7 +66,7 @@
             :key="idx"
           > <!--:src="article.photosPath"-->
             <div @click="onClickArticle(article)" :data-idx=idx class="search_article">
-              <img class="articleImg" src="@/assets/sample.png" :data-idx="article.articleId">
+              <img class="articleImg" src="@/assets/sample.png" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
               <div class="search_article_info" :data-idx="article.articleId">
                 <div data-idx="article.articleId" class="search_article_usernickname" >'{{article.nickname}}'</div>
                 <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
@@ -97,6 +97,7 @@ export default {
       users: [],
       articles: [],
       userflag: false,
+      BASEURL: 'http://localhost:8080',
     }
   },
   craeted(){
@@ -127,7 +128,7 @@ export default {
           this.latestList.unshift(key);
         }
       }
-      let URL = `http://localhost:8080/user/search/${this.keyword}`
+      let URL = `${this.BASEURL}/user/search/${this.keyword}`
       let params = {
         method: 'get',
         url: URL,
@@ -150,7 +151,7 @@ export default {
     articleSearch(){
       let param = {
         method: 'get',
-        url: `http://localhost:8080/hashtag/articlelist/${this.keyword}`,
+        url: `${this.BASEURL}/hashtag/articlelist/${this.keyword}`,
       }
       axios(param)
         .then((res) => {
@@ -171,6 +172,7 @@ export default {
                 this.articles[i].hashtags = hashwords;
               }
             }
+          console.log(this.articles)
         })
         .catch((e) => {
           console.error(e);
@@ -209,6 +211,7 @@ export default {
     },
     moveUser(user){
       this.$store.state.currentUser = user.userId;
+      localStorage.setItem('currentUser', user.userId)
       this.$store.state.backPage = 2;
       this.$store.state.searchflag = true;
       this.$router.push({name:'Userprofile'})

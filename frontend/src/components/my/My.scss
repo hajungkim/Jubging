@@ -40,7 +40,7 @@ object-fit: cover;
 display: flex;
 width: 350px;
 justify-content: space-around;
-margin-top:3vh;
+margin-top:2vh;
 }
 .lcbox{
 display: flex;
@@ -48,9 +48,8 @@ flex-direction: column;
 }
 /* 뱃지부분 */
 .badge_box{
-margin-top: 3vh;
-margin-bottom:3vh;
-
+margin-top: 1.5vh;
+margin-bottom:1.5vh;
 }
 .badge_img{
 height: 60px;
@@ -62,7 +61,7 @@ margin: 0;
 /* 피드 부분 */
 .photo_list{
 overflow: auto;
-height: 336px;
+height: 367px;
 width: 412px;
 }
 .photo-grid {

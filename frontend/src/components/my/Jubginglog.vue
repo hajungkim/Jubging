@@ -24,6 +24,7 @@ export default {
   data(){
     return{
       jubginglogs: [],
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -36,7 +37,7 @@ export default {
   },
   methods:{
     getJunbginglogs(){
-      const URL = `http://localhost:8080/jubginglog/${this.userId}`
+      const URL = `${this.BASEURL}/jubginglog/${this.userId}`
       const params = {
         method: 'get',
         url: URL,
