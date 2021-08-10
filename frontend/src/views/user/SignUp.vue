@@ -178,9 +178,10 @@ export default {
               isSubmit = false
           }
         })
-				if (!this.certification.isCertificate) {
-					isSubmit = false
-				}
+				// 백 인증 되면 
+				// if (!this.certification.isCertificate) {
+				// 	isSubmit = false
+				// }
         this.isSubmit = isSubmit;
       })
       .catch(err => {
