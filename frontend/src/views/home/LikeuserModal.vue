@@ -19,13 +19,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name:'LikeuserModal',
+	data(){
+		return{
+			likePeoples:[],
+		}
+	},
 	props:{
-    likePeoples: {
-      type:Array,
-    }
+		selectArticle:{
+			type: Object,
+		}
   },
+	created(){
+		const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
+		const params = {
+			method: 'get',
+			url: URL,
+		}
+		axios(params)
+			.then((res) => {
+				this.likePeoples = res.data.data				
+			})
+			.catch((e) => {
+				console.error(e);
+			})
+	},
 	methods:{
 		moveProfile(user){
 			this.$store.state.currentUser = user.userId;
