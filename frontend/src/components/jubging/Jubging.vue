@@ -1,20 +1,17 @@
 <template>
   <div>
       <div id="header">
-          <div class="goback to-center">
-            <img src="" alt="뒤로가기">
-          </div>
           <div class="to-center">
-            <img src="" alt="줍깅 로고">
+            <img class="logo" src="@/assets/logo/textlogo.png" alt="줍깅 로고">
           </div>
       </div>
       <div id="body">
         <img height="550px" src="" alt="줍깅 설명">
-        <button id="btn-jubging" @click="startJubging()" class="btn">{{ msg }}</button>
+        <button @click="startJubging()" class="btn-jubging">{{ msg }}</button>
       </div>
   </div>
 </template>
-
+ 
 <script>
 export default {
 

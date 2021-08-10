@@ -1,11 +1,8 @@
 <template>
   <div>
     <div id="header">
-      <div class="goback to-center">
-        <img src="" alt="뒤로가기">
-      </div>
       <div class="to-center">
-        <img src="" alt="줍깅 로고">
+        <img class="logo" src="@/assets/logo/textlogo.png" alt="줍깅 로고">
       </div>
     </div>
     <div id="body">
@@ -19,17 +16,21 @@
           rows="14"
         ></textarea>
       </div>
+      <input type="file">
       <div class="item">
         <div id="photo">
           <div class="item-grid">+</div>
         </div>
       </div>
-      <button class="btn">올리기 ></button>
+      <button class="btn-next">올리기 ></button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:8080/'
 export default {
 
 }
