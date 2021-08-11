@@ -30,6 +30,9 @@ export default new Vuex.Store({
     rankers: null,
     badgephotos: [],
     stompClient: null,
+    isJubgingOn: false,
+    jubgingInfo: {},
+    jubgingOption: {},
   },
   mutations: {
     // 기타
@@ -56,7 +59,15 @@ export default new Vuex.Store({
     },
   
     // 줍깅
-  
+    JUBGING_ON(state, data) {
+      state.isJubgingOn = data
+    },
+    SET_JUBGING_INFO(state, data) {
+      state.jubgingInfo = data
+    },
+    SET_JUBGING_OPTION(state, data) {
+      state.jubgingOption = data
+    },
     // 랭킹
     GET_RANKER(state, rankers) { 
       state.rankers = rankers
@@ -75,6 +86,7 @@ export default new Vuex.Store({
       state.userInfo = data
     },
     //마이
+
   },
   actions: {
     // 기타
@@ -105,7 +117,12 @@ export default new Vuex.Store({
     },
 
     // 줍깅
-
+    setJubgingInfo(context, data) {
+      return context.commit("SET_JUBGING_INFO", data)
+    },
+    setJubgingOption(context, data) {
+      return context.commit("SET_JUBGING_OPTION", data)
+    },
     // 랭킹
     getRanker(context) {
       axios.get('user/score')
