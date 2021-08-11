@@ -248,7 +248,7 @@ export default {
     onClick(){
       if(this.$store.state.backPage === 1)this.$router.push({name:'My'})
       else if(this.$store.state.backPage === 2) this.$router.push({name:'Search'})
-      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile'})
+      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile', params: { user_nickname: this.selectArticle.nickname }})
       else if(this.$store.state.backPage === 5) this.$router.push({name:'Logs'})
       else this.$router.push({name:'Home'})
     },
@@ -279,7 +279,7 @@ export default {
         this.$store.state.currentUser = userId
         localStorage.setItem('currentUser', userId)
         this.$store.state.backPage = 4
-        this.$router.push({name:'Userprofile'})
+        this.$router.push({name:'Userprofile', params: { user_nickname: this.selectArticle.nickname }})
       }
     },
     likeToggle(){
