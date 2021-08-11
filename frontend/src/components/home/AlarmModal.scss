@@ -28,14 +28,19 @@
 	align-items: center;
 	justify-content: space-between;
 }
-.comment_container{
+.alarm_container{
   display: flex;
   margin: 0px 10px 10px 5px;
 }
-.comment_profile{
+.alarm_profile{
   width: 40px;
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0px 10px 0px 0px;
 }
+.alarm_time{
+	margin-left: 5px;
+	font-size: 12px;
+	color: grey;
+  }
