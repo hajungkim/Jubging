@@ -29,6 +29,7 @@ export default new Vuex.Store({
     missions: [],
     rankers: null,
     badgephotos: [],
+    stompClient: null,
   },
   mutations: {
     // 기타
