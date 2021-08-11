@@ -61,7 +61,7 @@
     <div class="photo_list">
       <div class="photo-grid">
         <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
-          <img @click="onClick(article)" class="photo-img"
+          <img @click="onDetail(article)" class="photo-img"
           :src="article.photosPath">
         </span>
       </div>
@@ -107,6 +107,7 @@ export default {
     ...mapState([
       'currentUser',
 			'userId',
+      'selectArticle',
 		]),
   },
   methods: {
@@ -207,8 +208,7 @@ export default {
         this.$router.push({ name: 'Search' })
       }
       else if (this.$store.state.backPage === 4){
-        // this.$store.state.backPage = 3
-        this.$router.push({ name:"Detail"})
+        this.$router.push({name:'Detail', params: { article_id: this.selectArticle.articleId }})
       }
       else if (this.$store.state.backPage === 1){
         this.$router.push({ name:"My" })
@@ -220,7 +220,7 @@ export default {
     onDetail(article){
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 3
-      this.$router.push({ name: 'Detail' })
+      this.$router.push({name:'Detail', params: { article_id: this.selectArticle.articleId }})
     },
     onFollow(){
       let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
