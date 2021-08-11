@@ -57,7 +57,7 @@
       <!-- 게시글 검색결과 -->
       <section class="search_article_list" v-if="isShowAuto && isSubmit">
         <div class="search_article_list_tlt">
-          게시글 검색 결과
+          해시태그 검색 결과
           <span class="search_article_list_text">'{{keyword}}' {{articles.length}}건</span>
         </div>
         <ul class="search_articles">
@@ -66,7 +66,7 @@
             :key="idx"
           > <!--:src="article.photosPath"-->
             <div @click="onClickArticle(article)" :data-idx=idx class="search_article">
-              <img class="articleImg" src="@/assets/sample.png" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
+              <img class="articleImg" :src="photos" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
               <div class="search_article_info" :data-idx="article.articleId">
                 <div data-idx="article.articleId" class="search_article_usernickname" >'{{article.nickname}}'</div>
                 <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
@@ -85,6 +85,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   name: "Search",
   data: () => {
@@ -97,6 +98,7 @@ export default {
       users: [],
       articles: [],
       userflag: false,
+      photos: [],
       BASEURL: 'http://localhost:8080',
     }
   },
@@ -112,6 +114,9 @@ export default {
       }
       return sortedList;
     },
+    ...mapState([
+			'userId',
+		]),
   },
   methods: {
     search(){
@@ -162,6 +167,10 @@ export default {
             {
               this.articles = res.data.data;
               for(let i = 0; i<res.data.data.length; i++) {
+                if (this.articles[i].photosPath.includes('#')){
+                  this.articles[i].photosPath = res.data.data.photosPath.split('#')[0]
+                }
+                // 해시태그생성
                 let splitwords = this.articles[i].content.split(' ');
                 let hashwords = [];
                 splitwords.forEach(e => {
@@ -170,9 +179,10 @@ export default {
                   }
                 });
                 this.articles[i].hashtags = hashwords;
+
+
               }
             }
-          console.log(this.articles)
         })
         .catch((e) => {
           console.error(e);
@@ -210,11 +220,16 @@ export default {
       this.$router.push({name:'Detail'});
     },
     moveUser(user){
-      this.$store.state.currentUser = user.userId;
-      localStorage.setItem('currentUser', user.userId)
-      this.$store.state.backPage = 2;
-      this.$store.state.searchflag = true;
-      this.$router.push({name:'Userprofile'})
+      if (user.userId === parseInt(this.userId)){
+        this.$router.push({name:'My'})
+      }
+      else{
+        this.$store.state.currentUser = user.userId;
+        localStorage.setItem('currentUser', user.userId)
+        this.$store.state.backPage = 2;
+        this.$store.state.searchflag = true;
+        this.$router.push({name:'Userprofile'})
+      }
     }
   }
 }
