@@ -17,6 +17,7 @@ import Search from '@/views/home/Search.vue'
 import FindPassword from '@/views/user/FindPassword.vue'
 import ChangeSetting from '@/views/user/ChangeSetting.vue'
 import Editarticle from '@/views/home/Editarticle.vue'
+import EditImage from '@/views/jubging/EditImage.vue'
 
 Vue.use(VueRouter)
 
@@ -91,6 +92,11 @@ const routes = [
     path: '/jubging/article',
     name: 'NewArticle',
     component: NewArticle
+  },
+  {
+    path: '/jubging/article/edit',
+    name: 'EditImage',
+    component: EditImage
   },
   {
     path: '/login',

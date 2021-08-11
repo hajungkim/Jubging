@@ -11,15 +11,13 @@
   justify-content: space-around;
   height: 731px;
   background-color: white;
+  
+  text-align: center;
 }
 #ta {
   border-radius: 20px;
   padding: 20px;
   outline: none;
-}
-#photo {
-  display: flex;
-  flex-wrap: wrap;
 }
 .logo{
   display: block;
@@ -33,14 +31,14 @@
   justify-content: center;
   align-items: center;
 }
-.item {
-  text-align: center;
+.item:nth-child(2) {
+  display: flex;
 }
 .item-grid {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   margin: 10px;
-  line-height: 80px;
+  line-height: 70px;
   border-radius: 20px;
   font-weight: bold;
   font-size: 14px;
