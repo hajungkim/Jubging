@@ -58,13 +58,15 @@
           v-for="(comment,idx) in comments"
           :key="idx"
         >
-          <img class="comment_profile" :src="comment.profilePath">
-          <div>
+          <div style="display:flex;" @click = moveProfile(comment.userId)>
+            <img class="comment_profile" :src="comment.profilePath">
             <div>
-              <span style="font-weight:bold;">{{comment.nickname}}</span>
-              <span class="comment_time">{{comment.time}}</span>
+              <div>
+                <span style="font-weight:bold;">{{comment.nickname}}</span>
+                <span class="comment_time">{{comment.time}}</span>
+              </div>
+              <div class="comment_contents">{{comment.commentContent}}</div>
             </div>
-            <div class="comment_contents">{{comment.commentContent}}</div>
           </div>
           <div class="btn_div" v-if="comment.userId===userId">
             <button @click="commentDelete(comment)" class="comment_delete_button">X</button>
@@ -83,15 +85,13 @@
     </vue-bottom-sheet>
     <vue-bottom-sheet ref="articleOption" max-height="280px" max-width="412px" >
       <div class="option_container">
-        <router-link :to="{name:'Editarticle'}" class="default-link">
-          <div class="bt_common">
-            <font-awesome-icon
-              icon="edit"
-              class="fa-2x update_icon"
-            />
-            <span>게시글 수정하기</span>
-          </div>
-        </router-link>
+        <div class="bt_common" @click="moveEdit(article.articleId)">
+          <font-awesome-icon
+            icon="edit"
+            class="fa-2x update_icon"
+          />
+          <span>게시글 수정하기</span>
+        </div>
         <div class="bt_common" style="margin-top:15px;">
           <font-awesome-icon
             icon="trash"
@@ -271,7 +271,8 @@ export default {
         })
     },
     moveProfile(userId){
-      if(userId === this.userId){
+      console.log(userId,"@@@@@@@")
+      if(userId === parseInt(this.userId)){
         this.$router.push({name:'My'})
       }
       else{
@@ -280,6 +281,9 @@ export default {
         this.$store.state.backPage = 4
         this.$router.push({name:'Userprofile', params: { user_nickname: this.article.nickname }})
       }
+    },
+    moveEdit(articleId){
+      this.$router.push({name:'Editarticle', params: { article_id: articleId }})
     },
     likeToggle(){
       const URL = `${this.BASEURL}/likelog/`
@@ -326,7 +330,6 @@ export default {
       axios(params)
         .then((res) => {
           this.article = res.data.data
-          console.log(this.article,'@@@@@@@@')
           this.date = this.article.createdDate.slice(0,10)
           this.likeCnt = res.data.data.likeCnt
           this.commentCnt = res.data.data.commentCnt

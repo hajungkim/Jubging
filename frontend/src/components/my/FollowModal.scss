@@ -1,18 +1,25 @@
 .modal-card{
-	border-radius: 15px;
-	// margin-top:200px;
+	border-radius: 15px;	
 	width:300px;
 	height:400px;
-  // z-index: 1050;
 }
 .like_time{
 	font-size:10px;
 	margin-top:5px;
 	margin-left:5px;
 }
-.comment_profile{
+.follow_container{
+  padding:0px;
+  margin-top:20px;
+}
+.img_name_contain{
+  display: flex;
+  margin-bottom: 20px;
+}
+.follow_profile{
   height:60px;
   width:60px;
+  border-radius: 50%;
 }
 .close{
 	color: #00bfa5;

@@ -204,9 +204,10 @@ export default {
       })
     },
     onClick(article){
+      console.log(article)
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 1
-      this.$router.push({name:'Detail', params: { article_id: article.article_id }})   
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})   
     }
   },
 }
