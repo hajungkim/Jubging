@@ -61,7 +61,7 @@
     <div class="photo_list">
       <div class="photo-grid">
         <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
-          <img @click="onClick(article)" class="photo-img"
+          <img @click="onDetail(article)" class="photo-img"
           :src="article.photosPath">
         </span>
       </div>
