@@ -63,20 +63,20 @@ public class Mission {
     }
 
     public void updateMission(MissionUpdateRequestDto requestDto) {
-        if (requestDto.isCanCnt()) this.can++;
-        if (requestDto.isPlasticCnt()) this.plastic++;
-        if (requestDto.isBottleCnt()) this.bottle++;
-        if (requestDto.isPaperCnt()) this.paper++;
-        if (requestDto.isStyroformCnt()) this.styroform++;
-        if (requestDto.isMetalCnt()) this.metal++;
-        if (requestDto.isVinylCnt()) this.vinyl++;
-        if (requestDto.isTrashCnt()) this.trash++;
-        if (requestDto.isMountainCnt()) this.mountain++;
-        if (requestDto.isOceanCnt()) this.ocean++;
-        if (requestDto.isRiverCnt()) this.river++;
-        if (requestDto.isArroundCnt()) this.arround++;
+        if (requestDto.isCan()) this.can++;
+        if (requestDto.isPlastic()) this.plastic++;
+        if (requestDto.isBottle()) this.bottle++;
+        if (requestDto.isPaper()) this.paper++;
+        if (requestDto.isStyroform()) this.styroform++;
+        if (requestDto.isMetal()) this.metal++;
+        if (requestDto.isVinyl()) this.vinyl++;
+        if (requestDto.isTrash()) this.trash++;
+        if (requestDto.isMountain()) this.mountain++;
+        if (requestDto.isOcean()) this.ocean++;
+        if (requestDto.isRiver()) this.river++;
+        if (requestDto.isArround()) this.arround++;
         this.jubging++;
-        this.distance += Double.parseDouble(requestDto.getTotalDistance());
+        this.distance += Double.parseDouble(requestDto.getDistance());
     }
 
     public void updateFollowMission(boolean isFollow) {
