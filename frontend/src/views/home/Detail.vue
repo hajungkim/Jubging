@@ -33,7 +33,7 @@
         <div class="content_box">
           {{ content }}
         </div>
-        <LikeuserModal v-if="isModal" @close-modal="isModal=false" :likePeoples="likePeoples">
+        <LikeuserModal v-if="isModal" @close-modal="isModal=false" :selectArticle="selectArticle">
         </LikeuserModal>
         <!--좋아요 댓글-->
         <div class="like_comment_container">
@@ -128,8 +128,8 @@ export default {
       comment: '',
       like: false,
       likeCnt: 0,
-      likePeoples:[],
       commentCnt: 0,
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -160,7 +160,7 @@ export default {
       this.$refs.articleOption.close();
     },
     getComment(){
-      let URL = `http://localhost:8080/comment/${this.selectArticle.articleId}`
+      let URL = `${this.BASEURL}/comment/${this.selectArticle.articleId}`
       let params = {
         method: 'get',
         url: URL,
@@ -179,7 +179,7 @@ export default {
         })
     },
     commentSubmit(){
-      const URL = 'http://localhost:8080/comment/'
+      const URL = `${this.BASEURL}/comment/`
       const data = {
         articleId: this.selectArticle.articleId,
         commentContent: this.comment,
@@ -241,7 +241,7 @@ export default {
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
-      const URL = `http://localhost:8080/article?articleId=${article.articleId}&userId=${article.userId}`
+      const URL = `${this.BASEURL}/article?articleId=${article.articleId}&userId=${article.userId}`
       const data = {
         articleId: article.articleId,
         userId: article.userId
@@ -271,7 +271,7 @@ export default {
       }
     },
     likeToggle(){
-      const URL = `http://localhost:8080/likelog/`
+      const URL = `${this.BASEURL}/likelog/`
       const data = {
         articleId: this.selectArticle.articleId,
         userId: this.userId
@@ -289,9 +289,25 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+      // socket 처리
+      if (!this.like) {
+        if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
+          if (this.selectArticle.userId != this.$store.state.userId) {
+            const socketData = { 
+              userId: this.selectArticle.userId,
+              pubId: this.$store.state.userId,
+              articleId: this.selectArticle.articleId,
+              nickname: this.selectArticle.nickname,
+              profilePath: this.selectArticle.profilePath,
+              category: 'like'
+            };
+            this.$store.state.stompClient.send("/pub/" + this.selectArticle.userId, JSON.stringify(socketData), {});
+          }
+        }
+      }
     },
     getDetail(){
-      const URL = `http://localhost:8080/article/detail/${this.selectArticle.articleId}`
+      const URL = `${this.BASEURL}/article/detail/${this.selectArticle.articleId}`
       const params = {
         method: 'get',
         url: URL,
@@ -315,25 +331,25 @@ export default {
       }
     },
     getLike(){
-      const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.likePeoples = res.data.data
-          this.likePeoples.some(element => {
-            if(element.userId === this.userId){
-              this.like = true
-            }
-            return 0;
-          });
-          
-        })
-        .catch((e) => {
-          console.error(e);
-        })
+    const URL = `${this.BASEURL}/likelog/likelist/${this.selectArticle.articleId}`
+		const params = {
+			method: 'get',
+			url: URL,
+		}
+		axios(params)
+			.then((res) => {
+        this.likePeoples = res.data.data
+				this.likePeoples.some(element => {
+					if(element.userId === parseInt(this.userId)){
+						this.like = true
+					}
+					return 0;
+				});
+				
+			})
+			.catch((e) => {
+				console.error(e);
+			})
     }
   },
 }
