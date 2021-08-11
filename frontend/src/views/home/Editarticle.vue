@@ -15,6 +15,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   data(){
     return{
@@ -22,12 +23,17 @@ export default {
       BASEURL: 'http://localhost:8080',
     }
   },
+  computed:{
+    ...mapState([
+      'selectArticle',
+		]),
+  },
   created(){
-    this.content = this.$store.state.selectArticle.content
+    this.content = this.selectArticle.content
   },
   methods:{
     onClick(){
-      this.$router.push({ name:'Detail' })
+      this.$router.push({name:'Detail', params: { article_id: this.selectArticle.articleId }})
     },
     onEdit(){
       let URL = `${this.BASEURL}/article/`

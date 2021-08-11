@@ -72,12 +72,12 @@ const routes = [
     ],
   },
   {
-    path:'/detail',
+    path:'/article/:article_id',
     name:'Detail',
     component:Detail,
   },
   {
-    path:'/userprofile',
+    path:'/userprofile/:user_nickname',
     name:'Userprofile',
     component:Userprofile,
   },
