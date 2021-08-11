@@ -50,6 +50,9 @@ dependencies {
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
     implementation group: 'org.springframework', name: 'spring-context-support', version: '5.2.6.RELEASE'
 
+    // websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
     implementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.security:spring-security-test'
 }
