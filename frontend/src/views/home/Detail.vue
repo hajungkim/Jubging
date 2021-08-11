@@ -141,6 +141,9 @@ export default {
       'likeflag',
 		]),
   },
+  mounted(){
+    console.log(this.$router,'~~')
+  },
   created(){
     this.getImages()
     this.getComment()

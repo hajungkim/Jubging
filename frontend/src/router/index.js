@@ -72,7 +72,7 @@ const routes = [
     ],
   },
   {
-    path:'/detail',
+    path:'/article/:article_id',
     name:'Detail',
     component:Detail,
   },

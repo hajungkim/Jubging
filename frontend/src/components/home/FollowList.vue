@@ -67,7 +67,7 @@ export default {
   methods:{
     moveDetail(article){
       this.$store.state.selectArticle = article
-      this.$router.push({name:'Detail'})
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     moveProfile(userId){
       this.$store.state.currentUser = userId

@@ -34,7 +34,7 @@
     <div class="badge_box" v-if="ischange">
       <carousel-3d class="badge_carousel"
         :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
-        :display="4" :space="70" :controlsVisible="true" style="padding-left:70px;"
+        :display="4" :space="70" :controlsVisible="true" style="width:412px;"
       >
         <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
@@ -206,7 +206,7 @@ export default {
     onClick(article){
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 1
-      this.$router.push({name:'Detail'})
+      this.$router.push({name:'Detail', params: { article_id: article.article_id }})   
     }
   },
 }
