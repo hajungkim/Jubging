@@ -126,6 +126,7 @@ export default {
       photos: [],
       isModal:false,
       content:'',
+      date:'',
       comments: [],
       comment: '',
       like: false,
@@ -326,6 +327,7 @@ export default {
         .then((res) => {
           this.article = res.data.data
           console.log(this.article,'@@@@@@@@')
+          this.date = this.article.createdDate.slice(0,10)
           this.likeCnt = res.data.data.likeCnt
           this.commentCnt = res.data.data.commentCnt
           this.content = res.data.data.content
@@ -338,26 +340,17 @@ export default {
         })
     },
     getImages(){
-      // if (this.article.photosPath !== null){
-      // this.photos = this.article.photosPath.split('#')
-      // }
-      // else{
-      //   this.photos = []
-      // }
-
       if (this.article.photosPath !== null){
         if (this.article.photosPath.includes('#')){
           this.photos = this.article.photosPath.split('#')
         }
         else{
-          console.log(this.article.photosPath,'@@',this.article.photosPath.split('#'))
-          this.photos = this.article.photosPath
+          this.photos = [this.article.photosPath]
         }
       }
       else{
         this.photos = []
       }
-
     },
     getLike(){
     const URL = `${this.BASEURL}/likelog/likelist/${this.$route.params.article_id}`
