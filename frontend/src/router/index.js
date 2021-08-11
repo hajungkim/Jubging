@@ -124,7 +124,7 @@ const routes = [
     component: ChangeSetting,
   },
   {
-    path: '/editarticle',
+    path: '/editarticle/:article_id',
     name: 'Editarticle',
     component: Editarticle,
   }

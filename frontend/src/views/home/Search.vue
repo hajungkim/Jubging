@@ -217,7 +217,7 @@ export default {
     onClickArticle(article){
       this.$store.state.selectArticle = article;
       this.$store.state.backPage = 2;
-      this.$router.push({name:'Detail'});
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     moveUser(user){
       if (user.userId === parseInt(this.userId)){

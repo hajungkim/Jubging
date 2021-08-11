@@ -4,9 +4,9 @@
 			<div class="modal-card">
 				<div class="modal_top" style="font-size:20px;">{{usernickname}}'s Followings<button class="close" @click="$emit('close-modal')">닫기</button></div>
 					<div>
-						<ul style="padding:0px; margin-top:20px;">
-							<li class="comment_container" v-for="(following,idx) in followings" :key="idx" @click="moveProfile(following)">
-								<img class="comment_profile" :src="following.profilePath">
+						<ul class="follow_container">
+							<li class="img_name_contain" v-for="(following,idx) in followings" :key="idx" @click="moveProfile(following)">
+								<img class="follow_profile" :src="following.profilePath">
 								<div style="display:flex; align-items:center;">
 										<span style="font-weight:bold; font-size:20px; margin-left:5px;">{{following.nickName}}</span>
 								</div>

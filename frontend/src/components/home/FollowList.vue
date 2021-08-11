@@ -8,7 +8,8 @@
           <span style="margin-top:20px; font-weight:bold">{{followarticle.nickname}}</span>
         </div>
         <div class="hashtag_container" @click="moveDetail(followarticle)">
-          <span v-for="(hash,idx) in followarticle.hashlist" :key="idx">#{{hash}}</span>
+          <div v-for="(hash,idx) in followarticle.hashlist" :key="idx" style="font-size:14px;">#{{hash}}</div>
+          <div v-if="hashflag">#해쉬태그가 없어요 ㅠㅠ!</div>
         </div>
         <div class="like_comment_container" @click="moveDetail(followarticle)">
           <div class="lcbox">
@@ -37,6 +38,7 @@ export default {
   },
   data(){
     return {
+      hashflag: false,
       user:{
         profilePath: '',
         follower: 0,
@@ -45,6 +47,9 @@ export default {
     }
   },
   created(){
+    if (this.followarticle.hashlist.length === 0){
+      this.hashflag = true
+    }
     let URL = `${this.BASEURL}/user/${this.followarticle.userId}`
     let params = {
       method: 'get',
