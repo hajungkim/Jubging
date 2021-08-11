@@ -236,6 +236,19 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+      if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
+        if (this.user.userId != this.$store.state.userId) {
+          const socketData = { 
+            userId: this.user.userId,
+            pubId: this.$store.state.userId,
+            articleId: this.user.articleId,
+            nickname: this.user.nickname,
+            profilePath: this.user.profilePath,
+            category: 'follow'
+          };
+          this.$store.state.stompClient.send("/pub/" + this.user.userId, JSON.stringify(socketData), {});
+        }
+      }
     },
     deleteFollow(){
       let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
