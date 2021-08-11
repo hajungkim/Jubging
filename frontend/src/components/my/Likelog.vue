@@ -52,15 +52,15 @@ export default {
     },
     moveDetail(article){
       let URL = `${this.BASEURL}/article/detail/${article.articleId}`
-      let params = {
+      let param = {
         method: 'get',
         url: URL,
       }
-      axios(params)
+      axios(param)
         .then((res) => {
           this.$store.state.selectArticle = res.data.data
           this.$store.state.backPage = 5
-          this.$router.push({name:'Detail'})   
+          this.$router.push({name:'Detail', params: { article_id: res.data.data.article_id }})   
         })
         .catch((e) => {
           console.error(e);

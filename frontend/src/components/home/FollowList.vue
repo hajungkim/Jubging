@@ -67,12 +67,12 @@ export default {
   methods:{
     moveDetail(article){
       this.$store.state.selectArticle = article
-      this.$router.push({name:'Detail'})
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     moveProfile(userId){
       this.$store.state.currentUser = userId
       this.$store.state.backPage = 0
-      this.$router.push({name:'Userprofile'})
+      this.$router.push({name:'Userprofile', params: { user_nickname: this.selectArticle.nickname }})
     }
   }
 }
