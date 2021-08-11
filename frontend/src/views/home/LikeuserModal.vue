@@ -50,7 +50,7 @@ export default {
 		moveProfile(user){
 			this.$store.state.currentUser = user.userId;
 			this.$store.state.backPage = 4;
-			this.$router.push({name:'Userprofile', params: { user_nickname: this.selectArticle.nickname }})
+			this.$router.push({name:'Userprofile', params: { user_nickname: user.nickname }})
 		}
 	}
 }
