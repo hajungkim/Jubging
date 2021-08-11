@@ -214,7 +214,7 @@ export default {
       localStorage.setItem('currentUser', user.userId)
       this.$store.state.backPage = 2;
       this.$store.state.searchflag = true;
-      this.$router.push({name:'Userprofile'})
+      this.$router.push({name:'Userprofile', params: { user_nickname: this.selectArticle.nickname }})
     }
   }
 }
