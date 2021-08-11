@@ -40,6 +40,8 @@ import PhotoList from '@/components/home/PhotoList.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
 import axios from 'axios'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 import { mapState } from 'vuex'
 
@@ -68,6 +70,8 @@ export default {
     this.allArticles()
     this.followArticles()
     this.todayJubging()
+    // socket 연결
+    this.connect()
   },
   methods:{
     followToggle(){
@@ -118,6 +122,26 @@ export default {
           console.error(e);
         })
     },
+    // socket
+    connect() {
+      const serverURL = "http://localhost:8080/socket"
+      let socket = new SockJS(serverURL);
+      this.$store.state.stompClient = Stomp.over(socket);
+      this.$store.state.stompClient.connect(
+        {},
+        frame => {
+          this.connected = true;
+          console.log('소켓 연결 성공', frame);
+          this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
+            console.log('sub 메시지 : ', res.body);
+          });
+        },
+        error => {
+          console.log('소켓 연결 실패', error);
+          this.connected = false;
+        }
+      );        
+    }
   },
 }
 </script>
