@@ -69,7 +69,7 @@ export default {
         this.$router.go(this.$router.currentRoute)
       }
       else{
-        this.$router.push({name:'Userprofile', params: { user_nickname: this.selectArticle.nickname }})
+        this.$router.push({name:'Userprofile', params: { user_nickname: this.usernickname }})
       }
     }
 	}
