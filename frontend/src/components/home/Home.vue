@@ -4,7 +4,8 @@
       <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
-      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 15px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
+      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 0px 0px 13px; transform:scale(1.4);" @click="isModal=true"/>
+      <div class="red_dot"></div>
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
@@ -53,9 +54,10 @@ export default {
   },
   data(){
     return {
-      toggle:true,
-      isModal:false,
-      total:0,
+      toggle: true,
+      isModal: false,
+      total: 0,
+      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -81,7 +83,7 @@ export default {
       this.$router.push({name:'Search'})
     },
     allArticles(){
-      let URL = 'http://localhost:8080/article/list'
+      let URL = `${this.BASEURL}/article/list`
       let params = {
         method: 'get',
         url: URL,
@@ -95,7 +97,7 @@ export default {
         })
     },
     followArticles(){
-    let URL = `http://localhost:8080/follow/findarticle/${this.$store.state.userId}`
+    let URL = `${this.BASEURL}/follow/findarticle/${this.$store.state.userId}`
     let params = {
       method: 'get',
       url: URL,
@@ -109,7 +111,7 @@ export default {
       })
     },
     todayJubging(){
-      let URL = 'http://localhost:8080/jubginglog/total'
+      let URL = `${this.BASEURL}/jubginglog/total`
       let params = {
         method: 'get',
         url: URL,

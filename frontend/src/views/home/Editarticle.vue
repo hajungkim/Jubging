@@ -19,6 +19,7 @@ export default {
   data(){
     return{
       content: '',
+      BASEURL: 'http://localhost:8080',
     }
   },
   created(){
@@ -29,7 +30,7 @@ export default {
       this.$router.push({ name:'Detail' })
     },
     onEdit(){
-      let URL = `http://localhost:8080/article/`
+      let URL = `${this.BASEURL}/article/`
       let data = {
         articleId: this.$store.state.selectArticle.articleId,
         content: this.content
