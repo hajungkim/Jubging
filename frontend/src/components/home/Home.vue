@@ -4,7 +4,8 @@
       <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
-      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 15px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
+      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 0px 0px 13px; transform:scale(1.4);" @click="isModal=true"/>
+      <div class="red_dot"></div>
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>

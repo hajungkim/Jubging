@@ -16,6 +16,17 @@
   border:1px solid;
   width: 160px;
 }
+.red_dot{
+  background-color: red;
+  border-radius: 100%;
+  width:5px;
+  height:5px;
+  border:1px solid red;
+  margin: 0px 14px 17px 0px;
+}
+.fa{
+  // transform: none !important;
+}
 /* 오늘의 줍깅 */
 .today-jubging{
   display:flex;
