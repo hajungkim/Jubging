@@ -28,6 +28,8 @@ export default new Vuex.Store({
     selectArticle: [],
     missions: [],
     rankers: null,
+    badgephotos: [],
+    stompClient: null,
   },
   mutations: {
     // 기타
