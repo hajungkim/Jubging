@@ -1,5 +1,5 @@
 <template>
-  <div style="height:781px">
+  <div>
     <div class="top">
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
@@ -10,49 +10,50 @@
         @click="openOption"/>
     </div>
     <div class="article_content">
-        <!--유저 정보-->
-        <div class="user_info"  @click="moveProfile(selectArticle.userId)">
-          <div class="profile_img">
-            <img class="profile" :src="selectArticle.profilePath"> <!--src="@/assets/defaultuserimg.png"--> 
-          </div>
-          <span style="font-weight:bold; font-size:18px;">{{selectArticle.nickname}}</span>
+      <!--유저 정보-->
+      <div class="user_info"  @click="moveProfile(selectArticle.userId)">
+        <div class="profile_img">
+          <img class="profile" :src="selectArticle.profilePath"> <!--src="@/assets/defaultuserimg.png"--> 
         </div>
-        <!--사진들-->
-        <carousel-3d :width="300" :height="300" bias="right">
-          <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
-            <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
-              <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
-              onRight:(rightIndex>=0)}" :src="photo" @dblclick="likeToggle">
-            </template>
-          </slide>
-        </carousel-3d>
-        <span class="datetext">
-          {{selectArticle.createdDate.slice(0,10)}}
-        </span>
-        <!--게시글 내용-->
-        <div class="content_box">
-          {{ content }}
+        <span style="font-weight:bold; font-size:18px;">{{selectArticle.nickname}}</span>
+      </div>
+      <!--사진들-->
+      <carousel-3d :width="300" :height="300" bias="right">
+        <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
+          <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
+            <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
+            onRight:(rightIndex>=0)}" :src="photo" @dblclick="likeToggle">
+          </template>
+        </slide>
+      </carousel-3d>
+      <span class="datetext">
+        {{selectArticle.createdDate.slice(0,10)}}
+      </span>
+      <!--게시글 내용-->
+      <div class="content_box">
+        {{ content }}
+      </div>
+      <LikeuserModal v-if="isModal" @close-modal="isModal=false" :selectArticle="selectArticle">
+      </LikeuserModal>
+      <!--좋아요 댓글-->
+      <div class="like_comment_container">
+        <div class="lcbox">
+          <span v-if="like">
+            <font-awesome-icon size="lg" @click="likeToggle" :icon="['fas','heart']"/>
+          </span>
+          <span v-else>
+            <font-awesome-icon size="lg" @click="likeToggle" :icon="['far','heart']"/>
+          </span>
+          <span style="margin-left:5px; font-size:18px;" @click="isModal=true">{{likeCnt}}</span>
         </div>
-        <LikeuserModal v-if="isModal" @close-modal="isModal=false" :selectArticle="selectArticle">
-        </LikeuserModal>
-        <!--좋아요 댓글-->
-        <div class="like_comment_container">
-          <div class="lcbox">
-            <span v-if="like">
-              <font-awesome-icon size="lg" @click="likeToggle" :icon="['fas','heart']"/>
-            </span>
-            <span v-else>
-              <font-awesome-icon size="lg" @click="likeToggle" :icon="['far','heart']"/>
-            </span>
-            <span style="margin-left:5px; font-size:18px;" @click="isModal=true">{{likeCnt}}</span>
-          </div>
-          <div class="lcbox" @click="open">
-            <font-awesome-icon size="lg" :icon="['far','comment-dots']"/><span style="margin-left:5px; font-size:18px;">{{commentCnt}}</span>
-          </div>
+        <div class="lcbox" @click="open">
+          <font-awesome-icon size="lg" :icon="['far','comment-dots']"/><span style="margin-left:5px; font-size:18px;">{{commentCnt}}</span>
         </div>
+      </div>
     </div>
-    <vue-bottom-sheet ref="myBottomSheet" max-height="600px" max-width="412px" >
-      <ul style="padding:0px;">
+
+    <vue-bottom-sheet ref="myBottomSheet" max-height="800px" max-width="412px" id="comment_bottom" >
+      <ul style="padding:0px;" id="ul-content">
         <li class="comment_container"
           v-for="(comment,idx) in comments"
           :key="idx"
@@ -174,6 +175,15 @@ export default {
             }
           });
         })
+        .then(() => {
+          if (this.comments.length > 0) {
+            var ul_content = document.querySelector('#ul-content').offsetHeight + 32
+            var max_hight = 800
+            if (ul_content + 40 < max_hight) {
+              document.querySelector('.bottom-sheet__content').style.height=`${ul_content + 40}px`
+            }
+          }
+        })
         .catch((e) => {
           console.error(e);
         })
@@ -190,15 +200,17 @@ export default {
         url: URL,
         data: data
       }
-      axios(params)
-        .then(() => {
-          this.comment = ''
-          this.getComment()
-          this.getDetail()
-        })
-        .catch((e) => {
-          console.error(e);
-        })
+      if (this.comment) {
+        axios(params)
+          .then(() => {
+            this.comment = ''
+            this.getComment()
+            this.getDetail()
+          })
+          .catch((e) => {
+            console.error(e);
+          })
+      }
       // socket 처리
       if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
         if (this.selectArticle.userId != this.$store.state.userId) {
