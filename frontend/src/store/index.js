@@ -15,12 +15,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    currentPage:0,
-    articles:[],
-    followarticles:[],
-    selectArticle:[],
-    backPage:0,
-    currentUser:0,
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
@@ -41,8 +35,9 @@ export default new Vuex.Store({
     jubgingOption: {},
   },
   mutations: {
-    isCurrent(state,page){
-      state.currentPage=page
+    // 기타
+    IS_CURRENT(state, page) {
+      state.currentPage = page
     },
 
     // 홈
@@ -62,11 +57,23 @@ export default new Vuex.Store({
     GET_MISSION(state, missions) {
       state.missions = missions
     },
-    
+  
+    // 줍깅
+    JUBGING_ON(state, data) {
+      state.isJubgingOn = data
+    },
+    SET_JUBGING_INFO(state, data) {
+      state.jubgingInfo = data
+    },
+    SET_JUBGING_OPTION(state, data) {
+      state.jubgingOption = data
+    },
+    // 랭킹
     GET_RANKER(state, rankers) { 
       state.rankers = rankers
     },
-    // 유저 관련
+
+    // 유저
     UPDATE_TOKEN(state, data) {
       state.Token = data.token
       state.userId = data.userId
@@ -79,6 +86,7 @@ export default new Vuex.Store({
       state.userInfo = data
     },
     //마이
+
   },
   actions: {
     // 기타
@@ -92,25 +100,12 @@ export default new Vuex.Store({
     loadArticles(context,data){
       return context.commit('LOAD_ARTICLES', data)
     },
-    loadfollowArticles(state,data){
-      state.followarticles=data;
-    },
-    JUBGING_ON(state, data) {
-      state.isJubgingOn = data
-    },
-    SET_JUBGING_INFO(state, data) {
-      state.jubgingInfo = data
-    },
-    SET_JUBGING_OPTION(state, data) {
-      state.jubgingOption = data
-    }
-  },
-  actions: {
-    isCurrent(context,page){
-      context.commit('isCurrent',page)
+    
+    loadFollowArticles(context,data){
+      return context.commit('LOAD_FOLLOW_ATICLES',data)
     },
 
-    // 미션 관련
+    // 미션
     getMission(context) {
       axios.get(`mission/${this.state.userId}`)
       .then(res => {
@@ -121,6 +116,14 @@ export default new Vuex.Store({
       })
     },
 
+    // 줍깅
+    setJubgingInfo(context, data) {
+      return context.commit("SET_JUBGING_INFO", data)
+    },
+    setJubgingOption(context, data) {
+      return context.commit("SET_JUBGING_OPTION", data)
+    },
+    // 랭킹
     getRanker(context) {
       axios.get('user/score')
       .then(res => {
@@ -183,23 +186,6 @@ export default new Vuex.Store({
         console.error(err)
       })
     },
-
-    loadArticles(context,data){
-      return context.commit('loadArticles',data)
-    },
-    loadFollowArticles(context,data){
-      return context.commit('loadfollowArticles',data)
-    },
-    jubgingOn(context, data) {
-      return context.commit('JUBGING_ON', data)
-    },
-    setJubgingInfo(context, data) {
-      return context.commit("SET_JUBGING_INFO", data)
-    },
-    setJubgingOption(context, data) {
-      return context.commit("SET_JUBGING_OPTION", data)
-    }
-
   },
   modules: {
   }
