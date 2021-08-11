@@ -79,5 +79,5 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import "@/components/home/Followlist.scss";
+@import "@/components/home/FollowList.scss";
 </style>

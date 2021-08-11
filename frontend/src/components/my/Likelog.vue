@@ -71,5 +71,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/components/my/likelog.scss'
+@import '@/components/my/Likelog.scss'
 </style>
