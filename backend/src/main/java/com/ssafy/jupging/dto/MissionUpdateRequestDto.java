@@ -9,21 +9,20 @@ public class MissionUpdateRequestDto {
 
     private Long userId;
 
-    private boolean canCnt;
-    private boolean plasticCnt;
-    private boolean bottleCnt;
-    private boolean paperCnt;
-    private boolean styroformCnt;
-    private boolean metalCnt;
-    private boolean vinylCnt;
-    private boolean trashCnt;
+    private boolean can;
+    private boolean plastic;
+    private boolean bottle;
+    private boolean paper;
+    private boolean styroform;
+    private boolean metal;
+    private boolean vinyl;
+    private boolean trash;
 
-    private boolean mountainCnt;
-    private boolean oceanCnt;
-    private boolean riverCnt;
-    private boolean arroundCnt;
+    private boolean mountain;
+    private boolean ocean;
+    private boolean river;
+    private boolean arround;
 
-    private int jubgingCnt;
-    private String totalDistance;
+    private String distance;
 
 }
