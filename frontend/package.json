@@ -22,11 +22,13 @@
     "node-sass": "^6.0.1",
     "sass": "^1.36.0",
     "sass-loader": "10",
+    "sockjs-client": "^1.5.1",
     "vue": "^2.6.11",
     "vue-carousel-3d": "^1.0.1",
     "vue-router": "^3.2.0",
     "vue-slick-carousel": "^1.0.6",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
