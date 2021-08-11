@@ -199,6 +199,20 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+      // socket 처리
+      if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
+        if (this.selectArticle.userId != this.$store.state.userId) {
+          const socketData = { 
+            userId: this.selectArticle.userId,
+            pubId: this.$store.state.userId,
+            articleId: this.selectArticle.articleId,
+            nickname: this.selectArticle.nickname,
+            profilePath: this.selectArticle.profilePath,
+            category: 'comment'
+          };
+          this.$store.state.stompClient.send("/pub/" + this.selectArticle.userId, JSON.stringify(socketData), {});
+        }
+      }
     },
     commentDelete(comment){
       const URL = `http://localhost:8080/comment/${comment.commentId}?userId=${comment.userId}`
