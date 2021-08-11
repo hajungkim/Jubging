@@ -4,10 +4,8 @@ import com.ssafy.jupging.dto.ArticleSaveRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -37,9 +35,10 @@ public class Article {
 
     public static Article saveArticle(ArticleSaveRequestDto request) {
         Article article = new Article();
-        article.content=request.getContent();
-        article.userId=request.getUserId();
-        article.createdDate=LocalDateTime.now();
+        article.content = request.getContent();
+        article.userId = request.getUserId();
+        article.photosPath = request.getPhotosPath();
+        article.createdDate = LocalDateTime.now();
         return article;
     }
 }
