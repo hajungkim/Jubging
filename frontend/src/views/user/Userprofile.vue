@@ -40,9 +40,9 @@
         </div>
       </div>
     </div>
-    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = currentUser :usernickname = usernickname>
+    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = parseInt(currentUser) :usernickname = usernickname>
       </FollowerModal>
-    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = currentUser :usernickname = usernickname>
+    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = parseInt(currentUser) :usernickname = usernickname>
       </FollowingModal>  
     <!-- 뱃지 리스트 -->
     <div class="badge_box" v-if="ischange && isbadge">
@@ -62,11 +62,14 @@
     </div>
     <!-- 유저 게시글 -->
     <div class="photo_list">
-      <div class="photo-grid">
+      <div v-if="isarticle" class="photo-grid">
         <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
           <img @click="onDetail(article)" class="photo-img"
           :src="article.photosPath">
         </span>
+      </div>
+      <div v-if="!isarticle" class="no_article">
+        게시글이 아직 없어요 ㅜㅠ!
       </div>
     </div>
   </div>
@@ -91,6 +94,7 @@ export default {
         user: [],
         isfollower: false,
         isfollowing: false,
+        isarticle: false,
         articles: [],
         photos: [],
         ischange: false,
@@ -176,7 +180,7 @@ export default {
       })
     },
     getFollow(){
-      let URL = `${this.BASEURL}/follow/findfollow/${this.currentUser}`
+      let URL = `${this.BASEURL}/follow/findfollow/${parseInt(this.currentUser)}`
       let params = {
         method: 'get',
         url: URL,
@@ -184,7 +188,7 @@ export default {
       axios(params)
         .then((res) => {
           res.data.data.some(element => {
-            if (element.followUserId === this.currentUser){
+            if (element.followUserId === parseInt(this.currentUser)){
               this.follow = true
             }
             return 0;
@@ -195,7 +199,7 @@ export default {
         })
     },
     getArticle(){
-      let URL = `${this.BASEURL}/article/list/${this.currentUser}`
+      let URL = `${this.BASEURL}/article/list/${parseInt(this.currentUser)}`
       let params = {
         method: 'get',
         url: URL,
@@ -214,7 +218,7 @@ export default {
         this.$router.push({ name: 'Search' })
       }
       else if (this.$store.state.backPage === 4){
-        this.$router.push({name:'Detail', params: { article_id: this.selectArticle.articleId }})
+        this.$router.push({name:'Detail', params: { article_id: localStorage.getItem('articleId') }})
       }
       else if (this.$store.state.backPage === 1){
         this.$router.push({ name:"My" })
@@ -226,10 +230,10 @@ export default {
     onDetail(article){
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 3
-      this.$router.push({name:'Detail', params: { article_id: this.selectArticle.articleId }})
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     onFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let URL = `${this.BASEURL}/follow?followUserId=${parseInt(this.currentUser)}&userId=${this.userId}`
       let params = {
         method: 'post',
         url: URL,
@@ -257,7 +261,7 @@ export default {
       }
     },
     deleteFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let URL = `${this.BASEURL}/follow?followUserId=${parseInt(this.currentUser)}&userId=${this.userId}`
       let params = {
         method: 'delete',
         url: URL,

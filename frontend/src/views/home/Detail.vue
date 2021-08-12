@@ -67,7 +67,7 @@
               </div>
               <div class="comment_contents">{{comment.commentContent}}</div>
             </div>
-            <button v-if="comment.userId === parseInt(userId)" @click="commentDelete(comment)" class="comment_delete_button">X</button>
+            <button class="comment_delete_button" v-if="comment.userId === parseInt(userId)" @click="commentDelete(comment)">X</button>
           </div>
         </li>
       </ul>
@@ -275,6 +275,7 @@ export default {
       else{
         this.$store.state.currentUser = userId
         localStorage.setItem('currentUser', userId)
+        localStorage.setItem('articleId', this.article.articleId)
         this.$store.state.backPage = 4
         this.$router.push({name:'Userprofile', params: { user_nickname: this.article.nickname }})
       }

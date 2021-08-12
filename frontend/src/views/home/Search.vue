@@ -121,7 +121,7 @@ export default {
     search(){
       const key = String(Date.now());
       if (this.isLatest === false){
-        if(localStorage.length < 8){
+        if(localStorage.length < 9){
           localStorage.setItem(key,this.keyword)
           this.latestList.unshift(key);
         }

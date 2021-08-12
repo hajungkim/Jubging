@@ -23,7 +23,7 @@ import { mapState } from 'vuex'
 export default {
   name:'FollowerModal',
   props:{
-    currentUser: String,
+    currentUser: Number,
     usernickname: String,
   },
   data(){
@@ -63,6 +63,7 @@ export default {
       this.$store.state.currentUser = follower.userId
       localStorage.setItem('currentUser', follower.userId)
 			this.$store.state.backPage = 1
+      console.log(this.$router.go(this.$router.currentRoute))
       if (this.$route.path === '/userprofile'){
         this.$router.go(this.$router.currentRoute)
       }
