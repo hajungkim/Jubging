@@ -6,6 +6,12 @@
 	left: 0;
 	top: 0;
 }
+.modal-card{
+	border-radius: 15px;
+	margin-top:200px;
+	width:300px;
+	height:400px;
+}
 .overlay{
 	opacity: 0.5;
 	background-color: black;
@@ -28,14 +34,28 @@
 	align-items: center;
 	justify-content: space-between;
 }
-.comment_container{
+.close{
+	color: #00bfa5;
+  font-size:16px;
+  margin-right:5px;
+  background-color: white;
+  /* border-radius: 20px; */
+  border-color:#00bfa5;
+  border:2px solid;
+}
+.alarm_container{
   display: flex;
   margin: 0px 10px 10px 5px;
 }
-.comment_profile{
+.alarm_profile{
   width: 40px;
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0px 10px 0px 0px;
 }
+.alarm_time{
+	margin-left: 5px;
+	font-size: 12px;
+	color: grey;
+  }

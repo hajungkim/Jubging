@@ -31,10 +31,10 @@
         </FollowingModal>  
     </div>
     <!-- 뱃지 리스트 -->
-    <div class="badge_box" v-if="ischange">
+    <div class="badge_box" v-if="ischange && isbadge">
       <carousel-3d class="badge_carousel"
         :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
-        :display="4" :space="70" :controlsVisible="true" style="padding-left:70px;"
+        :display="4" :space="70" :controlsVisible="true" style="width:412px;"
       >
         <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
@@ -44,13 +44,19 @@
         </slide>
       </carousel-3d>
     </div>
+    <div v-if="!isbadge" class="nobadge_text">
+      <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
+    </div>
     <!-- 나의 게시글 -->
     <div class="photo_list">
-      <div class="photo-grid">
+      <div v-if="isarticle" class="photo-grid">
         <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
           <img @click="onClick(article)" class="photo-img"
           :src="article.photosPath">
         </span>
+      </div>
+      <div v-if="!isarticle" class="no_article">
+        게시글이 아직 없어요 ㅜㅠ!
       </div>
     </div>
     <!-- 바텀시트 -->
@@ -62,24 +68,18 @@
             <span>회원정보변경</span>
           </div>
         </router-link>
-        <router-link :to="{name:'Logs'}" class="default-link">
-          <div class="bt_common likelog">
+          <div class="bt_common likelog" @click="onLikelog">
             <font-awesome-icon icon="heart" class="fa-2x icon" style="margin-right:15px"/>
             <span>좋아요 로그</span>
           </div>
-        </router-link>
-        <router-link :to="{name:'#'}" class="default-link">
-          <div class="bt_common">
+          <div class="bt_common"  @click="onJublog">
             <font-awesome-icon icon="running" class="fa-2x icon" style="margin-right:19px"/>
             <span>줍깅 로그</span> 
           </div>
-        </router-link>
-        <router-link :to="{name:'#'}" class="default-link">
-          <div class="bt_common">
-            <font-awesome-icon icon="sign-out-alt" class="fa-2x icon" style="margin-right:13px"/>
-            <span>로그아웃</span> 
-          </div>
-        </router-link>
+        <div class="bt_common" @click="onlogout">
+          <font-awesome-icon icon="sign-out-alt" class="fa-2x icon" style="margin-right:13px"/>
+          <span>로그아웃</span> 
+        </div>
       </div>
     </vue-bottom-sheet>
   </div>
@@ -108,6 +108,8 @@ export default {
       isfollower: false,
       isfollowing: false,
       ischange: false,
+      isbadge: true,
+      isarticle: false,
       photos:[],
       BASEURL: 'http://localhost:8080',
       usernickname: '',
@@ -124,6 +126,16 @@ export default {
     this.getArticle()
   },
   methods: {
+    onlogout(){
+      this.$store.dispatch('logout')  
+      this.$router.push({name:"Login"})
+    },
+    onJublog(){
+      this.$router.push({name:'Logs', params: { flag: true }})
+    },
+    onLikelog(){
+      this.$router.push({name:'Logs', params: { flag: false }})
+    },
     open() {
       this.$refs.myBottomSheet.open();
     },
@@ -154,7 +166,9 @@ export default {
       axios(params)
         .then((res) => {
           this.articles = res.data.data
-          this.articles.reverse()
+          if (this.articles !== null){
+            this.articles.reverse()
+          }
         })
         .catch((e) => {
           console.error(e);
@@ -198,15 +212,19 @@ export default {
           }
         }
         this.ischange = true
+        if (this.photos.length === 0){
+          this.isbadge = false;
+        }
         })
       .catch((e) => {
         console.error(e);
       })
     },
     onClick(article){
+      console.log(article)
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 1
-      this.$router.push({name:'Detail'})
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})   
     }
   },
 }

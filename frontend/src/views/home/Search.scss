@@ -106,6 +106,7 @@ input:focus{
 }
 .search_article_list_tlt{
   width: 380px;
+  margin-top:10px;
 }
 .search_articles{
   list-style: none;
@@ -125,7 +126,7 @@ input:focus{
 }
 .search_article img{
   width:50%;
-  margin:0px 10px 0px 10px;
+  margin:10px;
 }
 .search_article_info{
   width: 160px;
@@ -133,6 +134,8 @@ input:focus{
 }
 .search_article_usernickname{
   font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 20px;
 }
 .search_article_hashtags{
   margin-right:5px;

@@ -196,8 +196,11 @@ export default {
 			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
 			return test.test(password);
 		},
-		sendEmail(email) {
-      axios.post(`email/auth/${email}`)
+		sendEmail() {
+			const data = {
+					'email': this.credentials.email
+				}
+      axios.post('/email/auth/', data)
       .then(() => {
         this.certification.isSend = true
       })

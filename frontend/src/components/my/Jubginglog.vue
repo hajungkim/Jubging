@@ -7,7 +7,7 @@
       >
         <img class="jubging_profile" src="@/assets/sample.png">
         <div>
-          <div style="font-weight:bold;">'{{log.createdDate.slice(0,10)}}'</div>
+          <div style="font-weight:bold;">'{{log.date}}'</div>
           <div class="jubging_time">{{log.totalTime}}</div>
           <div class="jubging_distance">{{log.distance}} km</div>
         </div>

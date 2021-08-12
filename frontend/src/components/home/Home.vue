@@ -4,7 +4,10 @@
       <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
-      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 15px 0px 13px; transform:scale(1.5);" @click="isModal=true"/>
+      <div class="alram_container">
+        <font-awesome-icon :icon="['fas','bell']" class="alram_button" @click="isModal=true; isAlram=false"/>
+        <div v-show="isAlram" class="red_dot"></div>
+      </div>
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
@@ -30,6 +33,9 @@
           :followarticle="followarticle"
           v-show="!toggle"
         />
+        <div v-if="isfollow" class="emptyfollow">
+          <div style="color:grey;">다른 유저를 팔로우 해보세요!</div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,6 +46,8 @@ import PhotoList from '@/components/home/PhotoList.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
 import axios from 'axios'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 import { mapState } from 'vuex'
 
@@ -53,6 +61,8 @@ export default {
     return {
       toggle: true,
       isModal: false,
+      isAlram: false,
+      isfollow: false,
       total: 0,
       BASEURL: 'http://localhost:8080',
     }
@@ -69,6 +79,8 @@ export default {
     this.allArticles()
     this.followArticles()
     this.todayJubging()
+    // socket 연결
+    this.connect()
   },
   methods:{
     followToggle(){
@@ -99,6 +111,9 @@ export default {
     }
     axios(params)
       .then((res) => {
+        if (res.data.data === null){
+          this.isfollow = true
+        }
         this.$store.dispatch('loadFollowArticles',res.data.data)    
       })
       .catch((e) => {
@@ -119,6 +134,27 @@ export default {
           console.error(e);
         })
     },
+    // socket
+    connect() {
+      const serverURL = "http://localhost:8080/socket"
+      let socket = new SockJS(serverURL);
+      this.$store.state.stompClient = Stomp.over(socket);
+      this.$store.state.stompClient.connect(
+        {},
+        frame => {
+          this.connected = true;
+          console.log('소켓 연결 성공', frame);
+          this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
+            this.isAlram = true;
+            alert(res.body,'@@@@@@@@@@')
+          });
+        },
+        error => {
+          console.log('소켓 연결 실패', error);
+          this.connected = false;
+        }
+      );        
+    }
   },
 }
 </script>

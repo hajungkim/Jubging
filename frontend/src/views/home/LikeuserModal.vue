@@ -4,12 +4,11 @@
 			<div class="modal-card">
 				<div class="modal_top" style="font-size:20px;">좋아요 누른 줍깅이<button class="close" @click="$emit('close-modal')">닫기</button></div>
 					<div>
-						<ul style="padding:0px; margin-top:20px;">
+						<ul style="padding:0px; margin-top:10px;">
 							<li class="comment_container" v-for="(likePeople,idx) in likePeoples" :key="idx" @click="moveProfile(likePeople)">
 								<img class="comment_profile" :src="likePeople.profilePath">
 								<div style="display:flex; align-items:center;">
-										<span style="font-weight:bold; font-size:15px;">{{likePeople.nickname}}</span>
-										<span class="like_time">{{likePeople.createdDate.slice(0,10)}}</span>
+										<span style="font-weight:bold; font-size:17px; margin-left:10px;">{{likePeople.nickname}}</span>
 								</div>
 							</li>
 						</ul>
@@ -33,7 +32,7 @@ export default {
 		}
   },
 	created(){
-		const URL = `http://localhost:8080/likelog/likelist/${this.selectArticle.articleId}`
+		const URL = `http://localhost:8080/likelog/likelist/${this.$route.params.article_id}`
 		const params = {
 			method: 'get',
 			url: URL,
@@ -48,9 +47,11 @@ export default {
 	},
 	methods:{
 		moveProfile(user){
+			console.log(user.userId)
 			this.$store.state.currentUser = user.userId;
+			console.log(this.$store.state.currentUser)
 			this.$store.state.backPage = 4;
-			this.$router.push({ name:'Userprofile' })
+			this.$router.push({name:'Userprofile', params: { user_nickname: user.nickname }})
 		}
 	}
 }
