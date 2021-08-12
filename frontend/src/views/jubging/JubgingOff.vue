@@ -29,8 +29,8 @@
           <div id="spot">
             <div class="item-grid"  @click="toggleSpot('mountain')" :class="{'item-check': spot.mountain}">산</div>
             <div class="item-grid"  @click="toggleSpot('river')" :class="{'item-check': spot.river}">강</div>
-            <div class="item-grid"  @click="toggleSpot('sea')" :class="{'item-check': spot.sea}">바다</div>
-            <div class="item-grid"  @click="toggleSpot('around')" :class="{'item-check': spot.around}">집주변</div>
+            <div class="item-grid"  @click="toggleSpot('ocean')" :class="{'item-check': spot.ocean}">바다</div>
+            <div class="item-grid"  @click="toggleSpot('arround')" :class="{'item-check': spot.arround}">집주변</div>
           </div>
         </div>
         <div class="item">
@@ -60,9 +60,9 @@ props: {
 data() {
 	return{
     jubgingInfo: this.$store.state.jubgingInfo,
-    spot: {mountain: false, river: false, sea: false, around: false},
-    trash: {general: false, plastic: false, can: false, vinyl: false, 
-            paper: false, bottle: false, styrofoam: false, metal: false},
+    spot: {mountain: false, river: false, ocean: false, arround: false},
+    trash: {trash: false, plastic: false, can: false, vinyl: false, 
+            paper: false, bottle: false, styroform: false, metal: false},
 	}
 },
 computed:{
