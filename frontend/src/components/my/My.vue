@@ -49,11 +49,14 @@
     </div>
     <!-- 나의 게시글 -->
     <div class="photo_list">
-      <div class="photo-grid">
+      <div v-if="isarticle" class="photo-grid">
         <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
           <img @click="onClick(article)" class="photo-img"
           :src="article.photosPath">
         </span>
+      </div>
+      <div v-if="!isarticle" class="no_article">
+        게시글이 아직 없어요 ㅜㅠ!
       </div>
     </div>
     <!-- 바텀시트 -->
@@ -106,6 +109,7 @@ export default {
       isfollowing: false,
       ischange: false,
       isbadge: true,
+      isarticle: false,
       photos:[],
       BASEURL: 'http://localhost:8080',
       usernickname: '',
@@ -162,7 +166,9 @@ export default {
       axios(params)
         .then((res) => {
           this.articles = res.data.data
-          this.articles.reverse()
+          if (this.articles !== null){
+            this.articles.reverse()
+          }
         })
         .catch((e) => {
           console.error(e);

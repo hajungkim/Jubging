@@ -93,6 +93,13 @@ flex-direction: column;
 width: 135px;
 height: 135px;
 }
+.no_article{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 367px;
+  color: gray;
+}
 /* 바텀시트 */
 .bt_common{
 display: flex;
