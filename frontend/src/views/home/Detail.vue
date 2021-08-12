@@ -18,7 +18,7 @@
         <span style="font-weight:bold; font-size:18px;">{{article.nickname}}</span>
       </div>
       <!--사진들-->
-      <carousel-3d :width="300" :height="300" bias="right">
+      <carousel-3d :width="300" :height="300" bias="right" :count="3">
         <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
@@ -92,11 +92,10 @@
           />
           <span>게시글 수정하기</span>
         </div>
-        <div class="bt_common" style="margin-top:15px;">
+        <div class="bt_common" style="margin-top:15px;" @click="onDelete(article)">
           <font-awesome-icon
             icon="trash"
             class="fa-2x delete_button"
-            @click="onDelete(article)"
             style="margin-right:17px"
           />
           <span>게시글 삭제하기</span>
@@ -271,7 +270,6 @@ export default {
         })
     },
     moveProfile(userId){
-      console.log(userId,"@@@@@@@")
       if(userId === parseInt(this.userId)){
         this.$router.push({name:'My'})
       }
@@ -343,16 +341,12 @@ export default {
         })
     },
     getImages(){
-      if (this.article.photosPath !== null){
-        if (this.article.photosPath.includes('#')){
-          this.photos = this.article.photosPath.split('#')
-        }
-        else{
-          this.photos = [this.article.photosPath]
-        }
+      if (this.article.photosPath.includes('#')){
+        this.photos = this.article.photosPath.split('#')
+        this.photos.pop()
       }
       else{
-        this.photos = []
+        this.photos = [this.article.photosPath]
       }
     },
     getLike(){

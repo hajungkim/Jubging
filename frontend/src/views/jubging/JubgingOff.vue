@@ -36,13 +36,13 @@
         <div class="item">
           <div><h3>어떤 쓰레기를 주우셨나요?</h3></div>
           <div id="trash">
-            <div class="item-grid"  @click="toggleTrash('general')" :class="{'item-check': trash.general}">일반</div>
+            <div class="item-grid"  @click="toggleTrash('trash')" :class="{'item-check': trash.trash}">일반</div>
             <div class="item-grid"  @click="toggleTrash('plastic')" :class="{'item-check': trash.plastic}">플라스틱</div>
             <div class="item-grid"  @click="toggleTrash('can')" :class="{'item-check': trash.can}">캔</div>
             <div class="item-grid"  @click="toggleTrash('vinyl')" :class="{'item-check': trash.vinyl}">비닐</div>
             <div class="item-grid"  @click="toggleTrash('paper')" :class="{'item-check': trash.paper}">종이</div>
             <div class="item-grid"  @click="toggleTrash('bottle')" :class="{'item-check': trash.bottle}">병</div>
-            <div class="item-grid"  @click="toggleTrash('styrofoam')" :class="{'item-check': trash.styrofoam}">스티로폼</div>
+            <div class="item-grid"  @click="toggleTrash('styroform')" :class="{'item-check': trash.styroform}">스티로폼</div>
             <div class="item-grid"  @click="toggleTrash('metal')" :class="{'item-check': trash.metal}">고철</div>
           </div>
         </div>

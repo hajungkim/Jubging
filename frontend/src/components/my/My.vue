@@ -31,7 +31,7 @@
         </FollowingModal>  
     </div>
     <!-- 뱃지 리스트 -->
-    <div class="badge_box" v-if="ischange">
+    <div class="badge_box" v-if="ischange && isbadge">
       <carousel-3d class="badge_carousel"
         :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
         :display="4" :space="70" :controlsVisible="true" style="width:412px;"
@@ -43,6 +43,9 @@
           </template>
         </slide>
       </carousel-3d>
+    </div>
+    <div v-if="!isbadge" class="nobadge_text">
+      <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
     </div>
     <!-- 나의 게시글 -->
     <div class="photo_list">
@@ -108,6 +111,7 @@ export default {
       isfollower: false,
       isfollowing: false,
       ischange: false,
+      isbadge: true,
       photos:[],
       BASEURL: 'http://localhost:8080',
       usernickname: '',
@@ -198,6 +202,9 @@ export default {
           }
         }
         this.ischange = true
+        if (this.photos.length === 0){
+          this.isbadge = false;
+        }
         })
       .catch((e) => {
         console.error(e);
