@@ -34,7 +34,6 @@
           v-show="!toggle"
         />
         <div v-if="isfollow" class="emptyfollow">
-          <img src="@/assets/sample.png" alt="">
           <div style="color:grey;">다른 유저를 팔로우 해보세요!</div>
         </div>
       </div>
