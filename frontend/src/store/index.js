@@ -21,7 +21,6 @@ export default new Vuex.Store({
     currentUser: 0,
     currentPage: 0,  
     backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
-    sendImg: '',
     searchflag: false,
     likeflag: false,
     articles: [],
@@ -39,9 +38,6 @@ export default new Vuex.Store({
     // 기타
     IS_CURRENT(state, page) {
       state.currentPage = page
-    },
-    SEND_IMG(state, sendImg) {
-      state.sendImg = sendImg
     },
 
     // 홈
@@ -99,9 +95,6 @@ export default new Vuex.Store({
     },
     isSelectArticle(context,article){
       context.commit('ISSELECTARTICLE', article)
-    },
-    sendImg(context, sendImg) {
-      context.commit('SEND_IMG', sendImg)
     },
     // 홈
     loadArticles(context,data){
