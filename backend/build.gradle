@@ -63,7 +63,7 @@ dependencies {
     //email
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
-    // websocket
+    //websocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
