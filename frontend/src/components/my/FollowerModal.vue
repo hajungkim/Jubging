@@ -4,9 +4,9 @@
 			<div class="modal-card">
 				<div class="modal_top" style="font-size:20px;">{{usernickname}}'s Followers<button class="close" @click="$emit('close-modal')">닫기</button></div>
 					<div>
-						<ul style="padding:0px; margin-top:20px;">
-							<li class="comment_container" v-for="(follower,idx) in followers" :key="idx" @click="moveProfile(follower)">
-								<img class="comment_profile" :src="follower.profilePath">
+						<ul class="follow_container">
+							<li class="img_name_contain" v-for="(follower,idx) in followers" :key="idx" @click="moveProfile(follower)">
+								<img class="follow_profile" :src="follower.profilePath">
 								<div style="display:flex; align-items:center;">
 										<span style="font-weight:bold; font-size:20px; margin-left:5px;">{{follower.nickName}}</span>
 								</div>
@@ -23,7 +23,7 @@ import { mapState } from 'vuex'
 export default {
   name:'FollowerModal',
   props:{
-    currentUser: String,
+    currentUser: Number,
     usernickname: String,
   },
   data(){
@@ -63,11 +63,12 @@ export default {
       this.$store.state.currentUser = follower.userId
       localStorage.setItem('currentUser', follower.userId)
 			this.$store.state.backPage = 1
+      console.log(this.$router.go(this.$router.currentRoute))
       if (this.$route.path === '/userprofile'){
         this.$router.go(this.$router.currentRoute)
       }
       else{
-        this.$router.push({name:'Userprofile'})
+        this.$router.push({name:'Userprofile', params: { user_nickname: this.follower.nickName }})
       }
     }
 	}

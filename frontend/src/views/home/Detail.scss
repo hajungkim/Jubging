@@ -6,111 +6,112 @@
   height: 50px;
 }
 .back_icon{
-margin-left:15px;
-cursor: pointer;
+  margin-left:15px;
+  cursor: pointer;
 }
 .logo{
-margin-left: 130px;
-transform: scale(1.5);
+  margin-left: 130px;
+  transform: scale(1.5);
 }
 .option_button{
-margin-left:120px;
-transform: scale(1.5);
+  margin-left:120px;
+  transform: scale(1.5);
 }
 /* 유저정보 및 게시글 */
 .article_content{
-display:flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+  padding: 10px 0px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  height: 731px;
 }
 .user_info{
-cursor: pointer;
-display: flex;
-align-items: center;
-margin: 3.5vh 10px 2vh 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .profile_img{
-width: 50px;
-height: 50px;
-border-radius: 70%;
-overflow: hidden;
-margin-right:10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 70%;
+  overflow: hidden;
+  margin-right:10px;
 }
 .profile{
-width: 100%;
-height: 100%;
-object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .article_img{
-width: 300px;
-height: 300px;
+  width: 300px;
+  height: 300px;
 }
 .datetext{
   font-size:14px;
   color: gray;
 }
 .content_box{
-display:flex;
-align-items: center;
-justify-content: center;
-margin-top:0.3vh;
-width: 340px;
-height: 190px;
-overflow:auto;
-font-weight: bold;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0px 35px 0px;
+  width: 340px;
+  font-weight: bold;
 }
 /* 좋아요 댓글 */
 .like_comment_container{
-display: flex;
+  display: flex;
 }
 .lcbox{
-display: flex;
-align-items: center;
-padding: 20px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
 }
 /* 댓글 바텀시트 */
 .comment_container{
-display: flex;
-margin:0px 10px 10px 10px;
-align-items: center;
+  display: flex;
+  margin: 0px 25px 15px 25px;
 }
 .input_container{
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
+  width:412px;
 }
 .comment_input{
-width:330px;
-height:30px;
-background-color: gainsboro;
-border:0px;
-border-radius: 15px 15px 15px 15px;
-padding:10px;
-margin-bottom:10px;
+  width:330px;
+  height:30px;
+  background-color: gainsboro;
+  border:0px;
+  border-radius: 15px 15px 15px 15px;
+  padding:10px;
+  margin-bottom:10px;
 }
 input:focus{
   outline:none;
 }
 .comment_icon{
-cursor: pointer;
-transform: scale(1.5);
-margin : 7px 0px 0px 10px;
+  cursor: pointer;
+  transform: scale(1.5);
+  margin : 7px 0px 0px 10px;
 }
 .comment_profile{
-width: 40px;
-height: 40px;
-border-radius: 50%;
-overflow: hidden;
-margin:5px 10px 0px 0px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin:5px 10px 0px 0px;
 }
 .comment_time{
   margin-left: 5px;
   font-size: 13px;
 }
 .comment_contents{
-width: 270px;
-font-size:15px;
-word-break:break-all;
+  width: 312px;
+  font-size:15px;
+  word-break:break-all;
 }
 .comment_delete_button{
   color: $primary;
@@ -118,13 +119,15 @@ word-break:break-all;
   border-color:$primary;
   border-radius: 20%;
   border:2px solid;
+  height:30px;
+  margin-left:-25px;
 }
 .btn_div{
-margin-left:20px;
+  margin-right:20px;
 }
 .default-link{
-color:black;
-text-decoration:none;
+  color:black;
+  text-decoration:none;
 }
 .option_container{
   display:flex;

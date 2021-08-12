@@ -17,6 +17,7 @@ import Search from '@/views/home/Search.vue'
 import FindPassword from '@/views/user/FindPassword.vue'
 import ChangeSetting from '@/views/user/ChangeSetting.vue'
 import Editarticle from '@/views/home/Editarticle.vue'
+import EditImage from '@/views/jubging/EditImage.vue'
 
 Vue.use(VueRouter)
 
@@ -65,31 +66,37 @@ const routes = [
         component:My,
       },
       {
-        path:'Logs',
+        path:'/Logs/:flag',
         name:'Logs',
         component:Logs,
       },
     ],
   },
   {
-    path:'/detail',
+    path:'/article/:article_id',
     name:'Detail',
     component:Detail,
   },
   {
-    path:'/userprofile',
+    path:'/userprofile/:user_nickname',
     name:'Userprofile',
     component:Userprofile,
   },
   {
     path: '/jubging/register',
     name: 'Register',
-    component: JubgingOff
+    component: JubgingOff,
+    props: true
   },
   {
     path: '/jubging/article',
     name: 'NewArticle',
     component: NewArticle
+  },
+  {
+    path: '/jubging/article/edit',
+    name: 'EditImage',
+    component: EditImage
   },
   {
     path: '/login',
@@ -117,10 +124,10 @@ const routes = [
     component: ChangeSetting,
   },
   {
-    path: '/editarticle',
+    path: '/editarticle/:article_id',
     name: 'Editarticle',
     component: Editarticle,
-  }
+  },
 ]
 
 const router = new VueRouter({
