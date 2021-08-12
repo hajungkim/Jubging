@@ -9,7 +9,6 @@
 								<img class="comment_profile" :src="likePeople.profilePath">
 								<div style="display:flex; align-items:center;">
 										<span style="font-weight:bold; font-size:17px; margin-left:10px;">{{likePeople.nickname}}</span>
-										<span class="like_time">{{likePeople.createdDate.slice(0,10)}}</span>
 								</div>
 							</li>
 						</ul>

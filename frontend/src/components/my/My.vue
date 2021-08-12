@@ -65,24 +65,18 @@
             <span>회원정보변경</span>
           </div>
         </router-link>
-        <router-link :to="{name:'Logs'}" class="default-link">
-          <div class="bt_common likelog">
+          <div class="bt_common likelog" @click="onLikelog">
             <font-awesome-icon icon="heart" class="fa-2x icon" style="margin-right:15px"/>
             <span>좋아요 로그</span>
           </div>
-        </router-link>
-        <router-link :to="{name:'#'}" class="default-link">
-          <div class="bt_common">
+          <div class="bt_common"  @click="onJublog">
             <font-awesome-icon icon="running" class="fa-2x icon" style="margin-right:19px"/>
             <span>줍깅 로그</span> 
           </div>
-        </router-link>
-        <router-link :to="{name:'#'}" class="default-link">
-          <div class="bt_common">
-            <font-awesome-icon icon="sign-out-alt" class="fa-2x icon" style="margin-right:13px"/>
-            <span>로그아웃</span> 
-          </div>
-        </router-link>
+        <div class="bt_common" @click="onlogout">
+          <font-awesome-icon icon="sign-out-alt" class="fa-2x icon" style="margin-right:13px"/>
+          <span>로그아웃</span> 
+        </div>
       </div>
     </vue-bottom-sheet>
   </div>
@@ -128,6 +122,16 @@ export default {
     this.getArticle()
   },
   methods: {
+    onlogout(){
+      this.$store.dispatch('logout')  
+      this.$router.push({name:"Login"})
+    },
+    onJublog(){
+      this.$router.push({name:'Logs', params: { flag: true }})
+    },
+    onLikelog(){
+      this.$router.push({name:'Logs', params: { flag: false }})
+    },
     open() {
       this.$refs.myBottomSheet.open();
     },
