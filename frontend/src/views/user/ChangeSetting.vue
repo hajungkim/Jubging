@@ -167,6 +167,7 @@ export default {
           profileImage.setAttribute("src", event.target.result);
         }
         reader.readAsDataURL(event.target.files[0]);
+        this.$router.push({ name: 'crop' })
       }
     },
     changeSettingAndPic() {
