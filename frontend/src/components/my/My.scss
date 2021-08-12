@@ -57,7 +57,18 @@ height: 60px;
 .badge_carousel{
 margin: 0;
 }
-
+.nobadge_text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5vh;
+  margin-bottom:1.5vh;
+  width: 412px;
+  height: 62px;
+}
+.nobadgeimg{
+  width:390PX;
+}
 /* 피드 부분 */
 .photo_list{
 overflow: auto;
@@ -71,6 +82,13 @@ width: 412px;
 .photo-img {
 width: 135px;
 height: 135px;
+}
+.no_article{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 367px;
+  color: gray;
 }
 /* 바텀시트 */
 .bt_common{

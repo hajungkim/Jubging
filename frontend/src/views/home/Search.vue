@@ -54,10 +54,10 @@
           </li>
         </ul>
       </section>
-      <!-- 게시글 검색결과 -->
+      <!-- 해시태그 검색결과 -->
       <section class="search_article_list" v-if="isShowAuto && isSubmit">
         <div class="search_article_list_tlt">
-          게시글 검색 결과
+          해시태그 검색 결과
           <span class="search_article_list_text">'{{keyword}}' {{articles.length}}건</span>
         </div>
         <ul class="search_articles">
@@ -66,11 +66,11 @@
             :key="idx"
           > <!--:src="article.photosPath"-->
             <div @click="onClickArticle(article)" :data-idx=idx class="search_article">
-              <img class="articleImg" src="@/assets/sample.png" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
+              <img class="search_article img" :src="article.photosPath" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
               <div class="search_article_info" :data-idx="article.articleId">
                 <div data-idx="article.articleId" class="search_article_usernickname" >'{{article.nickname}}'</div>
                 <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
-                <div>
+                <div style="margin-top:20px;">
                   <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px; margin-right:10px;">{{article.likeCnt}}</span>
                   <font-awesome-icon :icon="['far','comment-dots']" style="margin-left:10px;"/><span style="margin-left:5px;">{{article.commentCnt}}</span>
                 </div>
@@ -85,6 +85,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   name: "Search",
   data: () => {
@@ -112,12 +113,15 @@ export default {
       }
       return sortedList;
     },
+    ...mapState([
+			'userId',
+		]),
   },
   methods: {
     search(){
       const key = String(Date.now());
       if (this.isLatest === false){
-        if(localStorage.length < 8){
+        if(localStorage.length < 9){
           localStorage.setItem(key,this.keyword)
           this.latestList.unshift(key);
         }
@@ -162,6 +166,10 @@ export default {
             {
               this.articles = res.data.data;
               for(let i = 0; i<res.data.data.length; i++) {
+                if (this.articles[i].photosPath.includes('#')){
+                  this.articles[i].photosPath = this.articles[i].photosPath.split('#')[0]
+                }
+                // 해시태그생성
                 let splitwords = this.articles[i].content.split(' ');
                 let hashwords = [];
                 splitwords.forEach(e => {
@@ -172,7 +180,6 @@ export default {
                 this.articles[i].hashtags = hashwords;
               }
             }
-          console.log(this.articles)
         })
         .catch((e) => {
           console.error(e);
@@ -207,14 +214,19 @@ export default {
     onClickArticle(article){
       this.$store.state.selectArticle = article;
       this.$store.state.backPage = 2;
-      this.$router.push({name:'Detail'});
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     moveUser(user){
-      this.$store.state.currentUser = user.userId;
-      localStorage.setItem('currentUser', user.userId)
-      this.$store.state.backPage = 2;
-      this.$store.state.searchflag = true;
-      this.$router.push({name:'Userprofile'})
+      if (user.userId === parseInt(this.userId)){
+        this.$router.push({name:'My'})
+      }
+      else{
+        this.$store.state.currentUser = user.userId;
+        localStorage.setItem('currentUser', user.userId)
+        this.$store.state.backPage = 2;
+        this.$store.state.searchflag = true;
+        this.$router.push({name:'Userprofile', params: { user_nickname: user.nickname }})
+      }
     }
   }
 }

@@ -4,8 +4,10 @@
       <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
-      <font-awesome-icon :icon="['fas','bell']" style="margin: 3px 0px 0px 13px; transform:scale(1.4);" @click="isModal=true"/>
-      <div class="red_dot"></div>
+      <div class="alram_container">
+        <font-awesome-icon :icon="['fas','bell']" class="alram_button" @click="isModal=true; isAlram=false"/>
+        <div v-show="isAlram" class="red_dot"></div>
+      </div>
         <label class="switch">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
@@ -31,6 +33,9 @@
           :followarticle="followarticle"
           v-show="!toggle"
         />
+        <div v-if="isfollow" class="emptyfollow">
+          <div style="color:grey;">다른 유저를 팔로우 해보세요!</div>
+        </div>
       </div>
     </div>
   </div>
@@ -56,6 +61,8 @@ export default {
     return {
       toggle: true,
       isModal: false,
+      isAlram: false,
+      isfollow: false,
       total: 0,
       BASEURL: 'http://localhost:8080',
     }
@@ -104,6 +111,9 @@ export default {
     }
     axios(params)
       .then((res) => {
+        if (res.data.data === null){
+          this.isfollow = true
+        }
         this.$store.dispatch('loadFollowArticles',res.data.data)    
       })
       .catch((e) => {
@@ -135,7 +145,8 @@ export default {
           this.connected = true;
           console.log('소켓 연결 성공', frame);
           this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
-            console.log('sub 메시지 : ', res.body);
+            this.isAlram = true;
+            alert(res.body,'@@@@@@@@@@')
           });
         },
         error => {
