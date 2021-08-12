@@ -29,7 +29,8 @@
            <input class="item-grid" type="file" id="input-image"  @change="readImage" ref="photos" multiple :disabled="photoCnt>=3"/>
         </div>
       </div>
-      <button class="btn-next" @click="sendData">올리기 ></button>
+      <button v-if="isbutton" class="btn-next" @click="sendData">올리기 ></button>
+      <button v-if="!isbutton" class="btn-next" disabled="true">사진을 등록해주세요</button>
     </div>
   </div>
 </template>
@@ -49,6 +50,8 @@ data() {
     content: '',
     photos: [],
     files: [],
+    photosPath: '',
+    isbutton: false,
 	}
 },
 computed:{
@@ -76,26 +79,26 @@ methods: {
       }]
       num = i
     }
+    this.isbutton = true
     this.photoCnt = this.photoCnt + num + i
   },
   photoDeleteButton(e) {
     var name = e.target.getAttribute('name')
     this.photos = this.photos.filter(data => data.number !== Number(name))
   },
-  sendData() {
-    var photosPath = ''
+  async sendData() {
     for (let i=0; i<this.files.length; i++) {
       let form = new FormData()
       form.append('file', this.files[i])
-      axios.post('/images', form, { header: { 'Content-Type': 'multipart/form-data' } })
+      await axios.post('/images', form, { header: { 'Content-Type': 'multipart/form-data' } })
       .then(res => {
-        photosPath = photosPath + res.data.data + '#'
+        this.photosPath = this.photosPath.concat(res.data.data + '#')
       })
       .catch((err)=>{
         console.error(err)
       })
     }
-    this.sendServer(photosPath)
+    this.sendServer(this.photosPath)
     this.sendOption()
   },
   sendServer(photoPath) {
@@ -105,16 +108,19 @@ methods: {
       userId: this.userId,
     }
     axios.post('/article', data)
-      .then(() => {
+      .then((res) => {
+        console.log(res.data)
       })
       .catch((err)=>{
         console.error(err)
       })
   },
-  sendOption(){        
-    var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': this.jubgingInfo.distance.toStirng(),'userId': parseInt(this.userId)}          
+  sendOption(){
+    // this.jubgingInfo.distance.toStirng()        
+    var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
     axios.put('/mission', data)
-      .then(() => {
+      .then((res) => {
+        console.log(res.data)
       })
       .catch((err)=>{
         console.error(err)

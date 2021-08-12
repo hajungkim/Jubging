@@ -54,7 +54,7 @@
           </li>
         </ul>
       </section>
-      <!-- 게시글 검색결과 -->
+      <!-- 해시태그 검색결과 -->
       <section class="search_article_list" v-if="isShowAuto && isSubmit">
         <div class="search_article_list_tlt">
           해시태그 검색 결과
@@ -66,11 +66,11 @@
             :key="idx"
           > <!--:src="article.photosPath"-->
             <div @click="onClickArticle(article)" :data-idx=idx class="search_article">
-              <img class="articleImg" :src="photos" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
+              <img class="search_article img" :src="article.photosPath" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
               <div class="search_article_info" :data-idx="article.articleId">
                 <div data-idx="article.articleId" class="search_article_usernickname" >'{{article.nickname}}'</div>
                 <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
-                <div>
+                <div style="margin-top:20px;">
                   <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px; margin-right:10px;">{{article.likeCnt}}</span>
                   <font-awesome-icon :icon="['far','comment-dots']" style="margin-left:10px;"/><span style="margin-left:5px;">{{article.commentCnt}}</span>
                 </div>
@@ -98,7 +98,6 @@ export default {
       users: [],
       articles: [],
       userflag: false,
-      photos: [],
       BASEURL: 'http://localhost:8080',
     }
   },
@@ -168,7 +167,7 @@ export default {
               this.articles = res.data.data;
               for(let i = 0; i<res.data.data.length; i++) {
                 if (this.articles[i].photosPath.includes('#')){
-                  this.articles[i].photosPath = res.data.data.photosPath.split('#')[0]
+                  this.articles[i].photosPath = this.articles[i].photosPath.split('#')[0]
                 }
                 // 해시태그생성
                 let splitwords = this.articles[i].content.split(' ');
@@ -179,8 +178,6 @@ export default {
                   }
                 });
                 this.articles[i].hashtags = hashwords;
-
-
               }
             }
         })
