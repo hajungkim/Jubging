@@ -20,6 +20,7 @@ public class ArticleResponseDto {
     private String photosPath;
     private int likeCnt;
     private LocalDateTime createdDate;
+    private String date;
     private Long userId;
 
     private int commentCnt;
@@ -35,8 +36,10 @@ public class ArticleResponseDto {
         this.content=article.getContent();
         this.photosPath=article.getPhotosPath();
         this.likeCnt=article.getLikeCnt();
-        this.createdDate= article.getCreatedDate();
         this.userId=article.getUserId();
+        this.createdDate = article.getCreatedDate();
+        String[] date = article.getCreatedDate().toString().split("T");
+        this.date = date[0];
     }
 
 }
