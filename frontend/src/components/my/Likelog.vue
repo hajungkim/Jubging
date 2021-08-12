@@ -9,7 +9,7 @@
         <img class="like_profile" :src="log.profilePath">
         <div>
           <div><span style="font-weight:bold;">'{{log.nickname}}' </span> 님의 게시글을 좋아요 했습니다.</div>
-          <span class="like_date">{{log.createdDate.slice(0,10)}}</span>
+          <span class="like_date">{{log.date}}</span>
         </div>
       </li>
     </ul>
@@ -60,7 +60,7 @@ export default {
         .then((res) => {
           this.$store.state.selectArticle = res.data.data
           this.$store.state.backPage = 5
-          this.$router.push({name:'Detail', params: { article_id: res.data.data.article_id }})   
+          this.$router.push({name:'Detail', params: { article_id: res.data.data.articleId }})   
         })
         .catch((e) => {
           console.error(e);

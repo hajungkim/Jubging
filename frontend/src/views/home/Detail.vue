@@ -18,7 +18,7 @@
         <span style="font-weight:bold; font-size:18px;">{{article.nickname}}</span>
       </div>
       <!--사진들-->
-      <carousel-3d :width="300" :height="300" bias="right" :count="3">
+      <carousel-3d v-if="ischange" :width="300" :height="300" bias="right" :count="3">
         <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
@@ -27,7 +27,7 @@
         </slide>
       </carousel-3d>
       <span class="datetext">
-        {{article.createdDate.slice(0,10)}}
+        {{article.date}}
       </span>
       <!--게시글 내용-->
       <div class="content_box">
@@ -67,9 +67,7 @@
               </div>
               <div class="comment_contents">{{comment.commentContent}}</div>
             </div>
-          </div>
-          <div class="btn_div" v-if="comment.userId===userId">
-            <button @click="commentDelete(comment)" class="comment_delete_button">X</button>
+            <button v-if="comment.userId === parseInt(userId)" @click="commentDelete(comment)" class="comment_delete_button">X</button>
           </div>
         </li>
       </ul>
@@ -124,6 +122,7 @@ export default {
       article:[],
       photos: [],
       isModal:false,
+      ischange: false,
       content:'',
       date:'',
       comments: [],
@@ -166,7 +165,7 @@ export default {
       }
       axios(params)
         .then((res) => { 
-          this.comments = res.data.data  
+          this.comments = res.data.data
           this.comments.forEach(element => {          
             if (element.profilePath === null) {
               element.profilePath = require("@/assets/user_default.png")
@@ -328,10 +327,10 @@ export default {
       axios(params)
         .then((res) => {
           this.article = res.data.data
-          this.date = this.article.createdDate.slice(0,10)
           this.likeCnt = res.data.data.likeCnt
           this.commentCnt = res.data.data.commentCnt
           this.content = res.data.data.content
+          this.ischange = true
           this.getLike()
           this.getImages()
           this.getComment()

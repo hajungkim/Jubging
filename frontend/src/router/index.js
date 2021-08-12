@@ -66,7 +66,7 @@ const routes = [
         component:My,
       },
       {
-        path:'Logs',
+        path:'/Logs/:flag',
         name:'Logs',
         component:Logs,
       },
