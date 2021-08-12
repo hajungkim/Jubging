@@ -127,7 +127,7 @@ const routes = [
     path: '/editarticle/:article_id',
     name: 'Editarticle',
     component: Editarticle,
-  }
+  },
 ]
 
 const router = new VueRouter({
