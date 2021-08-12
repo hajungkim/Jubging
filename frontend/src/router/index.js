@@ -18,6 +18,7 @@ import FindPassword from '@/views/user/FindPassword.vue'
 import ChangeSetting from '@/views/user/ChangeSetting.vue'
 import Editarticle from '@/views/home/Editarticle.vue'
 import EditImage from '@/views/jubging/EditImage.vue'
+import Crop from '@/views/Crop.vue'
 
 Vue.use(VueRouter)
 
@@ -127,6 +128,11 @@ const routes = [
     path: '/editarticle/:article_id',
     name: 'Editarticle',
     component: Editarticle,
+  },
+  {
+    path: '/crop',
+    name: 'crop',
+    component: Crop,
   }
 ]
 
