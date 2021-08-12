@@ -11,17 +11,19 @@
   height: 100%;
   background-color: white;
 }
+.logo{
+  display: block;
+  margin:0px auto;
+  width: 100px;
+  transform:scale(1.5);
+}
 .to-center {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.goback {
-  position: absolute;
-  left: 0;
-}
-.btn {
+.btn-jubging {
   padding: 20px;
   margin: 10px 30px;
   border-radius: 30px;

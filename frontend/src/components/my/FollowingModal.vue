@@ -4,9 +4,9 @@
 			<div class="modal-card">
 				<div class="modal_top" style="font-size:20px;">{{usernickname}}'s Followings<button class="close" @click="$emit('close-modal')">닫기</button></div>
 					<div>
-						<ul style="padding:0px; margin-top:20px;">
-							<li class="comment_container" v-for="(following,idx) in followings" :key="idx" @click="moveProfile(following)">
-								<img class="comment_profile" :src="following.profilePath">
+						<ul class="follow_container">
+							<li class="img_name_contain" v-for="(following,idx) in followings" :key="idx" > <!--@click="moveProfile(following)"-->
+								<img class="follow_profile" :src="following.profilePath">
 								<div style="display:flex; align-items:center;">
 										<span style="font-weight:bold; font-size:20px; margin-left:5px;">{{following.nickName}}</span>
 								</div>
@@ -50,28 +50,27 @@ export default {
       }
       axios(params)
         .then((res) => {
-          console.log(res.data.data)
           this.followings=res.data.data
         })
         .catch((e) => {
           console.error(e);
         })
     },
-    moveProfile(following){
-      if(following.followUserId === this.userId){
-        this.$router.push({name:'My'})
-        return
-      }
-      this.$store.state.currentUser = following.userId
-      localStorage.setItem('currentUser', following.userId)
-			this.$store.state.backPage = 1
-      if (this.$route.path === '/userprofile'){
-        this.$router.go(this.$router.currentRoute)
-      }
-      else{
-        this.$router.push({name:'Userprofile'})
-      }
-    }
+    // moveProfile(following){
+    //   if(following.followUserId === this.userId){
+    //     this.$router.push({name:'My'})
+    //     return
+    //   }
+    //   this.$store.state.currentUser = following.userId
+    //   localStorage.setItem('currentUser', following.userId)
+		// 	this.$store.state.backPage = 1
+    //   if (this.$route.path === '/userprofile'){
+    //     this.$router.go(this.$router.currentRoute)
+    //   }
+    //   else{
+    //     this.$router.push({name:'Userprofile', params: { user_nickname: following.nickName }})
+    //   }
+    // }
 	}
 }
 </script>

@@ -34,17 +34,6 @@
   }
 }
 
-.profile-img {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  border-radius: 50%;
-  img {
-    width: auto;
-    height: 100%;
-  }
-}
-
 .form-group {
    display: flex;
    flex-direction: column;
@@ -74,4 +63,29 @@
   .form-error {
     padding-left: 10px;
   }
+}
+
+.label {
+  cursor: pointer;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+}
+
+.img-container {
+  img {
+    max-width: 100%;
+  }
+  button {
+    margin: 10px 0px 0px 6px;
+  }
+}
+
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
 }

@@ -40,15 +40,15 @@
         </div>
       </div>
     </div>
-    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = currentUser :usernickname = usernickname>
+    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = parseInt(currentUser) :usernickname = usernickname>
       </FollowerModal>
-    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = currentUser :usernickname = usernickname>
+    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = parseInt(currentUser) :usernickname = usernickname>
       </FollowingModal>  
     <!-- 뱃지 리스트 -->
-    <div class="badge_box" v-if="ischange">
+    <div class="badge_box" v-if="ischange && isbadge">
       <carousel-3d class="badge_carousel"
         :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
-        :display="4" :space="70" :controlsVisible="true" style="padding-left:70px;"
+        :display="4" :space="70" :controlsVisible="true" style="width:412px;"
       >
         <slide v-for="(photo,i) in photos" :index="i" :key="i">
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
@@ -57,13 +57,19 @@
         </slide>
       </carousel-3d>
     </div>
+    <div v-if="!isbadge" class="nobadge_text">
+      <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
+    </div>
     <!-- 유저 게시글 -->
     <div class="photo_list">
-      <div class="photo-grid">
+      <div v-if="isarticle" class="photo-grid">
         <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
-          <img @click="onClick(article)" class="photo-img"
+          <img @click="onDetail(article)" class="photo-img"
           :src="article.photosPath">
         </span>
+      </div>
+      <div v-if="!isarticle" class="no_article">
+        게시글이 아직 없어요 ㅜㅠ!
       </div>
     </div>
   </div>
@@ -88,16 +94,17 @@ export default {
         user: [],
         isfollower: false,
         isfollowing: false,
+        isarticle: false,
         articles: [],
         photos: [],
         ischange: false,
         follow: false,
         BASEURL: 'http://localhost:8080',
         usernickname: '',
+        isbadge: true,
     }
   },
   created(){
-    this.$store.state.currentUser = localStorage.getItem('currentUser')
     this.getInfo()
     this.getFollow()
     this.getBadge()
@@ -107,6 +114,7 @@ export default {
     ...mapState([
       'currentUser',
 			'userId',
+      'selectArticle',
 		]),
   },
   methods: {
@@ -163,13 +171,16 @@ export default {
           }
         }
         this.ischange = true
+        if (this.photos.length === 0){
+          this.isbadge = false;
+        }
         })
       .catch((e) => {
         console.error(e);
       })
     },
     getFollow(){
-      let URL = `${this.BASEURL}/follow/findfollow/${this.currentUser}`
+      let URL = `${this.BASEURL}/follow/findfollow/${parseInt(this.currentUser)}`
       let params = {
         method: 'get',
         url: URL,
@@ -177,7 +188,7 @@ export default {
       axios(params)
         .then((res) => {
           res.data.data.some(element => {
-            if (element.followUserId === this.currentUser){
+            if (element.followUserId === parseInt(this.currentUser)){
               this.follow = true
             }
             return 0;
@@ -188,7 +199,7 @@ export default {
         })
     },
     getArticle(){
-      let URL = `${this.BASEURL}/article/list/${this.currentUser}`
+      let URL = `${this.BASEURL}/article/list/${parseInt(this.currentUser)}`
       let params = {
         method: 'get',
         url: URL,
@@ -207,8 +218,7 @@ export default {
         this.$router.push({ name: 'Search' })
       }
       else if (this.$store.state.backPage === 4){
-        // this.$store.state.backPage = 3
-        this.$router.push({ name:"Detail"})
+        this.$router.push({name:'Detail', params: { article_id: localStorage.getItem('articleId') }})
       }
       else if (this.$store.state.backPage === 1){
         this.$router.push({ name:"My" })
@@ -220,10 +230,10 @@ export default {
     onDetail(article){
       this.$store.state.selectArticle = article
       this.$store.state.backPage = 3
-      this.$router.push({ name: 'Detail' })
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     onFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let URL = `${this.BASEURL}/follow?followUserId=${parseInt(this.currentUser)}&userId=${this.userId}`
       let params = {
         method: 'post',
         url: URL,
@@ -236,9 +246,22 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+      if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
+        if (this.user.userId != this.$store.state.userId) {
+          const socketData = { 
+            userId: this.user.userId,
+            pubId: this.$store.state.userId,
+            articleId: this.user.articleId,
+            nickname: this.user.nickname,
+            profilePath: this.user.profilePath,
+            category: 'follow'
+          };
+          this.$store.state.stompClient.send("/pub/" + this.user.userId, JSON.stringify(socketData), {});
+        }
+      }
     },
     deleteFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${this.currentUser}&userId=${this.userId}`
+      let URL = `${this.BASEURL}/follow?followUserId=${parseInt(this.currentUser)}&userId=${this.userId}`
       let params = {
         method: 'delete',
         url: URL,

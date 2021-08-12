@@ -3,12 +3,14 @@ package com.ssafy.jupging.service;
 import com.ssafy.jupging.domain.entity.Authorization;
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.domain.repository.AuthorizationRepository;
+import com.ssafy.jupging.domain.repository.UserRepository;
 import com.ssafy.jupging.dto.AuthorizationRequestDto;
 import com.ssafy.jupging.handler.EmailHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Random;
 
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class EmailService {
 
     private final JavaMailSenderImpl mailSender;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     private final AuthorizationRepository authorizationRepository;
 
@@ -140,5 +143,10 @@ public class EmailService {
 
     public String checkAuthKey(String email) {
         return authorizationRepository.findByEmail(email).getAuthKey();
+    }
+
+    @Transactional
+    public User findUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 }
