@@ -16,10 +16,11 @@ public class Map {
 
     private String name;
 
-    private int count;
+    private String count;
 
     public void updateMap() {
-        this.count++;
+        int intCount = Integer.parseInt(this.count);
+        this.count = Integer.toString(++intCount);
     }
 
 }
