@@ -113,7 +113,6 @@ export default {
   },
   computed:{
     ...mapState([
-      'currentUser',
 			'userId',
       'selectArticle',
 
@@ -172,19 +171,17 @@ export default {
       })
     },
     getFollow(){
-      console.log(this.$route.params.user_id)
-      let URL = `${this.BASEURL}/follow/findfollow/${this.$route.params.user_id}`
+      let URL = `${this.BASEURL}/follow/findfollower/${this.$route.params.user_id}`
       let params = {
         method: 'get',
         url: URL,
       }
       axios(params)
         .then((res) => {
-          res.data.data.some(element => {
-            if (element.followUserId === this.$route.params.user_id){
+          res.data.data.some(e => {
+            if (e.userId*1 === this.userId*1){
               this.follow = true
             }
-            return 0;
           });
         })
         .catch(() => {

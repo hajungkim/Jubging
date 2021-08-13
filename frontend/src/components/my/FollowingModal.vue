@@ -33,7 +33,6 @@ export default {
   },
   created(){
     this.getFollowing(this.userId)
-    console.log(this.userFollowings)
   },
 	methods:{
     ...mapActions([
@@ -44,9 +43,9 @@ export default {
         this.$router.push({name:'My'})
       } else {
         this.$store.state.backPage = 1
-        this.$router.push({name:'Userprofile', params: { user_id: followingUserId }})
+        this.$router.push(`/userprofile/${followingUserId}`)
       }
-    }
+    },
 	}
 }
 </script>
