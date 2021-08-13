@@ -31,12 +31,12 @@
 
 				<div class="form-mb">
 					<p class="from-item-text">인증 번호</p>
-					<input class="form-input" type="text" id="certificationNumber" v-model="certificationNumber" placeholder="certificationNumber">
-					<div v-if="certification.isSend" class="form-check">
+					<input class="form-input" type="text" id="certificationNumber" v-model="certificationNumber" placeholder="certificationNumber" :disabled="!certification.isSend">
+					<div v-if="certification.isSend && !certificationNumber" class="form-check">
 						<font-awesome-icon icon="check-circle"/>
 						<span> 이메일로 인증 번호를 전송했습니다.</span>
 					</div>
-					<div v-if="certificationNumber" class="form-check form-error" id="check-certificationNumber">
+					<div v-if="certification.isSend && certificationNumber" class="form-check form-error" id="check-certificationNumber">
 						<font-awesome-icon icon="check-circle"/>
 						<span> {{ certification.text }}</span>
 					</div>
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 
-				<button class="btn-user-mgt" @click="signup(credentials)" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">Signup</button>
+				<button class="btn-user-mgt from-btn-mt" @click="signup(credentials)" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">Signup</button>
 			</div>
 		</div>
   </div>

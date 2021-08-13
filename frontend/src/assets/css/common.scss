@@ -31,6 +31,10 @@ svg {
   background-color: transparent !important; 
 }
 
+input:disabled {
+  background-color: #ccc;
+}
+
 .text-error {
   color: $Error;
 }
