@@ -119,22 +119,6 @@ export default {
   },
   methods: {
     search(){
-<<<<<<< HEAD
-      const key = String(Date.now());
-      if (this.isLatest === false){
-        if(localStorage.length < 9){
-          localStorage.setItem(key,this.keyword)
-          this.latestList.unshift(key);
-        }
-        else{
-          const delKey = this.latestList.pop()
-          localStorage.removeItem(delKey);
-          localStorage.setItem(key,this.keyword)
-          this.latestList.unshift(key);
-        }
-      }
-      HTTP.get(`user/search/${this.keyword}`)
-=======
       // const key = String(Date.now());
       // if (this.isLatest === false){
       //   if(localStorage.length < 9){
@@ -148,13 +132,7 @@ export default {
       //     this.latestList.unshift(key);
       //   }
       // }
-      let URL = `${this.BASEURL}/user/search/${this.keyword}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
->>>>>>> feature/canvas/fe
+      HTTP.get(`user/search/${this.keyword}`)
         .then((res) => {
             this.users = res.data.data
             if(this.users !== null){
