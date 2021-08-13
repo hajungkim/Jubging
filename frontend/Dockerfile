@@ -2,20 +2,17 @@
 FROM node:12.2.0-alpine
 
 # set working directory
-WORKDIR ~/S05P13B207/frontend
+WORKDIR /frontend
 
-# add `/app/node_modules/.bin` to $PATH
-#ENV PATH /app/node_modules/.bin:$PATH
+COPY package*.json ./
 
-# install and cache app dependencies
-COPY package.json .
-
-ADD . .
 RUN npm install
-
+COPY . .
 RUN npm run build
+
+COPY /frontend/dist /var/www/html/frontend
 
 EXPOSE 3000
 
 # start app
-CMD ["npm", "run", "serve"]
+CMD ["nginx", "-g", "daemon off;"]
