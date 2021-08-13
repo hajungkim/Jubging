@@ -19,7 +19,7 @@ public class AlarmController {
 
     private final AlarmService alarmService;
 
-    @ApiOperation(value = "유저의 알람목록리스트", notes = "성공 시 댓글 리스트 반환 / 없으면 null 반환", response = ControllerResponse.class)
+    @ApiOperation(value = "유저의 알람목록 리스트", notes = "성공 시 알람리스트 반환 / 없으면 null 반환", response = ControllerResponse.class)
     @GetMapping("/{userId}")
     public ControllerResponse findAllAlarm(@PathVariable("userId") Long userId) {
         ControllerResponse response = null;
