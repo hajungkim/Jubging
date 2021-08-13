@@ -33,6 +33,7 @@ export default new Vuex.Store({
     isJubgingOn: false,
     jubgingInfo: {},
     jubgingOption: {},
+    address: "",
   },
   mutations: {
     // 기타
@@ -67,6 +68,9 @@ export default new Vuex.Store({
     },
     SET_JUBGING_OPTION(state, data) {
       state.jubgingOption = data
+    },
+    SET_ADDRESS(state, data) {
+      state.address = data
     },
     // 랭킹
     GET_RANKER(state, rankers) { 
@@ -120,8 +124,14 @@ export default new Vuex.Store({
     setJubgingInfo(context, data) {
       return context.commit("SET_JUBGING_INFO", data)
     },
+    jubgingOn(context, data) {
+      return context.commit("JUBGING_ON", data)
+    },
     setJubgingOption(context, data) {
       return context.commit("SET_JUBGING_OPTION", data)
+    },
+    setAddress(context, data) {
+      return context.commit("SET_ADDRESS", data)
     },
     // 랭킹
     getRanker(context) {

@@ -46,7 +46,7 @@
             <div class="item-grid"  @click="toggleTrash('metal')" :class="{'item-check': trash.metal}">고철</div>
           </div>
         </div>
-        <button class="btn-next" @click="goNewArticle()">글 쓰기 ></button>
+        <button class="btn-next" @click="goNewArticle()">{{ address }} ></button>
       </div>
   </div>
 </template>
@@ -59,7 +59,8 @@ props: {
 },
 data() {
 	return{
-    jubgingInfo: this.$store.state.jubgingInfo,
+    address: "",
+    jubgingInfo: {},
     spot: {mountain: false, river: false, sea: false, around: false},
     trash: {general: false, plastic: false, can: false, vinyl: false, 
             paper: false, bottle: false, styrofoam: false, metal: false},
@@ -72,6 +73,8 @@ watch:{
 created() {
 },
 mounted() {
+  this.address =  this.$store.state.address
+  this.jubgingInfo = this.$store.state.jubgingInfo
 },
 methods:{
   toggleSpot(here) {
