@@ -1,3 +1,5 @@
+@import "@/assets/css/common.scss";
+
 .modal-card{
 	border-radius: 15px;	
 	width:300px;
@@ -17,16 +19,12 @@
   margin-bottom: 20px;
 }
 .follow_profile{
-  height:60px;
-  width:60px;
+  height: 45px;
+  width: 45px;
   border-radius: 50%;
 }
 .close{
-	color: #00bfa5;
-  font-size:16px;
-  margin-right:5px;
-  background-color: white;
-  /* border-radius: 20px; */
-  border-color:#00bfa5;
-  border:2px solid;
+	color: $primary;
+  margin-right: 5px;
+  border: 2px solid $primary;
 }

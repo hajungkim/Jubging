@@ -51,7 +51,7 @@ export default {
 			this.$store.state.currentUser = user.userId;
 			console.log(this.$store.state.currentUser)
 			this.$store.state.backPage = 4;
-			this.$router.push({name:'Userprofile', params: { user_nickname: user.nickname }})
+			this.$router.push({name:'Userprofile', params: { user_id: user.userId }})
 		}
 	}
 }
