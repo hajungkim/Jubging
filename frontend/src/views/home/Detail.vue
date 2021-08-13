@@ -164,11 +164,6 @@ export default {
       HTTP.get(`comment/${this.$route.params.article_id}`)
         .then((res) => { 
           this.comments = res.data.data
-          this.comments.forEach(element => {          
-            if (element.profilePath === null) {
-              element.profilePath = require("@/assets/user_default.png")
-            }
-          });
         })
         .then(() => {
           if (this.comments.length > 0) {

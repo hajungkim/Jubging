@@ -89,6 +89,7 @@ export default {
 				password: '',
 				passwordConfirmation: '',
 				nickname: '',
+				profilePath: 'https://jubging-image.s3.ap-northeast-2.amazonaws.com/static/6b3424d5-d209-4cc6-9778-1ed48a0e56fbuser_default.png',
 			},
 			error: {
 				email: false,
