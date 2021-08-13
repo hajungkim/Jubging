@@ -67,6 +67,7 @@ input:focus{
   position: relative;
   display:flex;
   flex-direction: column;
+  margin-top:20px;
 }
 .search_user_list_tlt{
   width:380px;
@@ -126,7 +127,7 @@ input:focus{
 }
 .search_article img{
   width:50%;
-  margin:0px 10px 0px 10px;
+  margin:10px;
 }
 .search_article_info{
   width: 160px;
@@ -134,6 +135,8 @@ input:focus{
 }
 .search_article_usernickname{
   font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 20px;
 }
 .search_article_hashtags{
   margin-right:5px;

@@ -28,6 +28,12 @@ export default {
 		}
 	},
 	created() {
+		if (this.$route.params.flag === true){
+			this.flag = true
+		}
+		else{
+			this.flag = false
+		}
 		this.$store.dispatch('getMission')
 	},
 	methods: {

@@ -2,6 +2,7 @@ package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.AuthorizationRequestDto;
+import com.ssafy.jupging.dto.EmailSendRequestDto;
 import com.ssafy.jupging.service.EmailService;
 import com.ssafy.jupging.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -18,16 +19,16 @@ public class EmailController {
     private final EmailService emailService;
 
     @ApiOperation(value = "이메일 인증번호 전송", notes = "이메일 전송 성공시 '전송 성공' 반환 / 실패 시 에러메시지", response = ControllerResponse.class)
-    @PostMapping("/auth/{email}")
-    public ControllerResponse sendAuthEmail(@PathVariable String email){
+    @PostMapping("/auth")
+    public ControllerResponse sendAuthEmail(@RequestBody EmailSendRequestDto emailSendRequestDto){
         ControllerResponse response = null;
 
-        if (!userService.checkEmail(email)) {
+        if (!userService.checkEmail(emailSendRequestDto.getEmail())) {
             return new ControllerResponse("fail", "이미 존재하는 이메일");
         }
 
         try {
-            emailService.sendAuthEmail(email);
+            emailService.sendAuthEmail(emailSendRequestDto.getEmail());
             response = new ControllerResponse("success", "전송 성공");
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -59,11 +60,11 @@ public class EmailController {
     }
 
     @ApiOperation(value = "임시 비밀번호 발급", notes = "임시비밀번호 발급 및 이메일 전송 성공시 '전송 성공' 반환 / 실패 시 에러메시지", response = ControllerResponse.class)
-    @PutMapping("/changepw/{userId}")
-    public ControllerResponse sendTempPwEmail(@PathVariable Long userId){
+    @PutMapping("/changepw")
+    public ControllerResponse sendTempPwEmail(@RequestBody EmailSendRequestDto emailSendRequestDto){
         ControllerResponse response = null;
 
-        User user = userService.findUser(userId);
+        User user = emailService.findUserByEmail(emailSendRequestDto.getEmail());
 
         try{
             emailService.sendTempPwEmail(user);

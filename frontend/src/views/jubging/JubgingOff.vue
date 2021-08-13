@@ -29,20 +29,20 @@
           <div id="spot">
             <div class="item-grid"  @click="toggleSpot('mountain')" :class="{'item-check': spot.mountain}">산</div>
             <div class="item-grid"  @click="toggleSpot('river')" :class="{'item-check': spot.river}">강</div>
-            <div class="item-grid"  @click="toggleSpot('sea')" :class="{'item-check': spot.sea}">바다</div>
-            <div class="item-grid"  @click="toggleSpot('around')" :class="{'item-check': spot.around}">집주변</div>
+            <div class="item-grid"  @click="toggleSpot('ocean')" :class="{'item-check': spot.ocean}">바다</div>
+            <div class="item-grid"  @click="toggleSpot('arround')" :class="{'item-check': spot.arround}">집주변</div>
           </div>
         </div>
         <div class="item">
           <div><h3>어떤 쓰레기를 주우셨나요?</h3></div>
           <div id="trash">
-            <div class="item-grid"  @click="toggleTrash('general')" :class="{'item-check': trash.general}">일반</div>
+            <div class="item-grid"  @click="toggleTrash('trash')" :class="{'item-check': trash.trash}">일반</div>
             <div class="item-grid"  @click="toggleTrash('plastic')" :class="{'item-check': trash.plastic}">플라스틱</div>
             <div class="item-grid"  @click="toggleTrash('can')" :class="{'item-check': trash.can}">캔</div>
             <div class="item-grid"  @click="toggleTrash('vinyl')" :class="{'item-check': trash.vinyl}">비닐</div>
             <div class="item-grid"  @click="toggleTrash('paper')" :class="{'item-check': trash.paper}">종이</div>
             <div class="item-grid"  @click="toggleTrash('bottle')" :class="{'item-check': trash.bottle}">병</div>
-            <div class="item-grid"  @click="toggleTrash('styrofoam')" :class="{'item-check': trash.styrofoam}">스티로폼</div>
+            <div class="item-grid"  @click="toggleTrash('styroform')" :class="{'item-check': trash.styroform}">스티로폼</div>
             <div class="item-grid"  @click="toggleTrash('metal')" :class="{'item-check': trash.metal}">고철</div>
           </div>
         </div>
@@ -59,11 +59,10 @@ props: {
 },
 data() {
 	return{
-    address: "",
-    jubgingInfo: {},
-    spot: {mountain: false, river: false, sea: false, around: false},
-    trash: {general: false, plastic: false, can: false, vinyl: false, 
-            paper: false, bottle: false, styrofoam: false, metal: false},
+    jubgingInfo: this.$store.state.jubgingInfo,
+    spot: {mountain: false, river: false, ocean: false, arround: false},
+    trash: {trash: false, plastic: false, can: false, vinyl: false, 
+            paper: false, bottle: false, styroform: false, metal: false},
 	}
 },
 computed:{

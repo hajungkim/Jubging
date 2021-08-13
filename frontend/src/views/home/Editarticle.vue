@@ -14,35 +14,43 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
+import { mapState } from 'vuex'
+
 export default {
+  name: 'Editarticle',
   data(){
     return{
       content: '',
-      BASEURL: 'http://localhost:8080',
     }
   },
+  computed:{
+    ...mapState([
+      'selectArticle',
+		]),
+  },
   created(){
-    this.content = this.$store.state.selectArticle.content
+    HTTP.get(`article/detail/${this.$route.params.article_id}`)
+      .then((res) => {
+        this.content=res.data.data.content
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    this.content = this.selectArticle.content
   },
   methods:{
     onClick(){
-      this.$router.push({ name:'Detail' })
+      this.$router.push({name:'Detail', params: { article_id: this.$route.params.article_id }})
     },
     onEdit(){
-      let URL = `${this.BASEURL}/article/`
       let data = {
-        articleId: this.$store.state.selectArticle.articleId,
+        articleId: this.$route.params.article_id,
         content: this.content
       }
-      let params = {
-        method: 'put',
-        url: URL,
-        data: data,
-      }
-      axios(params)
+      HTTP.put('article/', data)
         .then(() => {
-          this.$router.push({name:'Detail'})
+          this.$router.push({name:'Detail', params: { article_id: this.$route.params.article_id }})
         })
         .catch((e) => {
           console.error(e);

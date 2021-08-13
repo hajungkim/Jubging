@@ -6,6 +6,12 @@
 	left: 0;
 	top: 0;
 }
+.modal-card{
+	border-radius: 15px;
+	margin-top:200px;
+	width:300px;
+	height:400px;
+}
 .overlay{
 	opacity: 0.5;
 	background-color: black;
@@ -27,6 +33,15 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+.close{
+	color: #00bfa5;
+  font-size:16px;
+  margin-right:5px;
+  background-color: white;
+  /* border-radius: 20px; */
+  border-color:#00bfa5;
+  border:2px solid;
 }
 .alarm_container{
   display: flex;

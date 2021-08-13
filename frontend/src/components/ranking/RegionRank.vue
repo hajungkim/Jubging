@@ -7,26 +7,12 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 
 <script>
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common';
 
 export default {
   name: 'RegionRank',
   data() {
     return {
-      regionScore: [
-        {
-          code: '00',
-          region: '전국',
-          score: '51141463',
-        },
-        {
-          code: '11',
-          region: '서울',
-          score: '51141463',
-        },
-      ]
     }
   },
   mounted() {
@@ -46,7 +32,7 @@ export default {
         .projection(projection);
 
     var quantize = d3.scale.quantize()
-        .domain([0, 1000])
+        .domain([0, 1])
         .range(d3.range(9).map(function(i) { return "p" + i; }));
 
     var popByName = d3.map();
@@ -61,33 +47,14 @@ export default {
   
 
     function data_request(callback) {
-      axios.get(`article/list`)
+      HTTP.get(`/map`)
       .then(res => {
-        const data = [
-          {
-            name: '서울특별시',
-            jubgingCnt: '2231422'
-          },
-          {
-            name: '종로구',
-            jubgingCnt: '160070'
-          },
-          {
-            name: '제주시',
-            jubgingCnt: '22314333'
-          },
-          {
-            name: '합천군',
-            jubgingCnt: '22333314'
-          },
-        ]
-        // return res.data.data
-        return data
+        return res.data.data
       })
       .then(datas => {
-        // console.log(datas)
+        console.log(datas)
         datas.forEach((data) => {
-          popByName.set(data.name, +data.jubgingCnt)
+          popByName.set(data.code, +data.count)
         })
         callback()
       })
@@ -97,7 +64,7 @@ export default {
       var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
 
       features.forEach(function(d) {
-        d.properties.jubgingCnt = popByName.get(d.properties.name);
+        d.properties.jubgingCnt = popByName.get(d.properties.code);
         d.properties.density = d.properties.jubgingCnt / path.area(d);
         d.properties.quantized = quantize(d.properties.density);
       });
@@ -109,10 +76,9 @@ export default {
         .attr("d", path)
         .attr("id", function(d) { return d.properties.name; })
         .append("title")
-        .text(function(d) { 
-          // console.log(d.properties.code, d.properties.name)
-          return d.properties.name + ": " + d.properties.jubgingCnt/10000 + "줍깅" 
-          });
+        .text(function(d) {
+          return d.properties.name + " " + d.properties.jubgingCnt + "줍깅" 
+        });
     }
   }
 }

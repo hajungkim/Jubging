@@ -78,8 +78,7 @@
 <script>
 import { mapActions } from 'vuex'
 import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common'
 
 export default {
 	name: 'SignUp',
@@ -90,6 +89,7 @@ export default {
 				password: '',
 				passwordConfirmation: '',
 				nickname: '',
+				profilePath: 'https://jubging-image.s3.ap-northeast-2.amazonaws.com/static/6b3424d5-d209-4cc6-9778-1ed48a0e56fbuser_default.png',
 			},
 			error: {
 				email: false,
@@ -144,7 +144,7 @@ export default {
         this.error.passwordConfirmation = false
       }
 
-      axios.all([axios.post('user/emailck', this.credentials), axios.post('user/nicknameck', this.credentials)])
+      axios.all([HTTP.post('user/emailck', this.credentials), HTTP.post('user/nicknameck', this.credentials)])
       .then(axios.spread((res1, res2) => {
         this.unique.email = res1.data.data
         if (!this.error.email) {
@@ -196,8 +196,11 @@ export default {
 			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
 			return test.test(password);
 		},
-		sendEmail(email) {
-      axios.post(`email/auth/${email}`)
+		sendEmail() {
+			const data = {
+					'email': this.credentials.email
+				}
+      HTTP.post('/email/auth/', data)
       .then(() => {
         this.certification.isSend = true
       })
@@ -211,7 +214,7 @@ export default {
 					'authKey': this.certificationNumber,
 					'email': this.credentials.email
 				}
-				axios.post('/email/authcheck/', data)
+				HTTP.post('/email/authcheck/', data)
 				.then(res => {
 					if (res.data.data === '인증 성공') {
 						this.certification.isCertificate = true
