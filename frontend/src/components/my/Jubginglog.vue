@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import { mapState } from 'vuex'
+
 export default {
   name: 'Jubginglog',
   data(){
     return{
       jubginglogs: [],
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -37,12 +37,7 @@ export default {
   },
   methods:{
     getJunbginglogs(){
-      const URL = `${this.BASEURL}/jubginglog/${this.userId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`jubginglog/${this.userId}`)
         .then((res) => {
           this.jubginglogs = res.data.data
         })

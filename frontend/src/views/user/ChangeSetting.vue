@@ -61,11 +61,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import axios from 'axios'
 import ModalView from '@/views/ModalView.vue'
 import Cropper from 'cropperjs';
+import { HTTP } from '@/util/http-common';
 
-axios.defaults.baseURL = 'http://localhost:8080/'
 
 export default {
   name: 'ChangeSetting',
@@ -135,7 +134,7 @@ export default {
         this.error.passwordConfirmation = false
       }
 
-      axios.post('user/nicknameck', this.credentials)
+      HTTP.post('user/nicknameck', this.credentials)
       .then(res => {
         if (this.credentials.nickname === this.userInfo.nickname) {
           this.unique.nickname = true
@@ -191,7 +190,7 @@ export default {
           var form = new FormData();
           form.append('file', blob, 'profile.png');
           
-          axios.post('/images', form, { 
+          HTTP.post('/images', form, { 
             header: { 
               'processData' : false,
               'Content-Type' : false,

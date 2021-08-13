@@ -104,11 +104,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
-import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
-import LikeuserModal from '@/views/home/LikeuserModal.vue';
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet"
+import LikeuserModal from '@/views/home/LikeuserModal.vue'
 import { mapState } from 'vuex'
+
 export default {
   name:'Detail',
   components:{
@@ -160,12 +161,7 @@ export default {
       this.$refs.articleOption.close();
     },
     getComment(){
-      let URL = `${this.BASEURL}/comment/${this.$route.params.article_id}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`comment/${this.$route.params.article_id}`)
         .then((res) => { 
           this.comments = res.data.data
           this.comments.forEach(element => {          
@@ -188,19 +184,13 @@ export default {
         })
     },
     commentSubmit(){
-      const URL = `${this.BASEURL}/comment/`
       const data = {
         articleId: this.$route.params.article_id,
         commentContent: this.comment,
         userId: this.userId,
       }
-      const params = {
-        method: 'post',
-        url: URL,
-        data: data
-      }
       if (this.comment) {
-        axios(params)
+        HTTP.post(`comment/`, data)
           .then(() => {
             this.comment = ''
             this.getComment()
@@ -227,17 +217,11 @@ export default {
       }
     },
     commentDelete(comment){
-      const URL = `http://localhost:8080/comment/${comment.commentId}?userId=${comment.userId}`
       const data = {
         comment_id: comment.commentId,
         userId: comment.userId
       }
-      const params = {
-        method: 'delete',
-        url: URL,
-        data: data
-      }
-      axios(params)
+      HTTP.delete(`comment/${comment.commentId}?userId=${comment.userId}`, data)
         .then(() => {
           this.getComment()
         })
@@ -253,17 +237,11 @@ export default {
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
-      const URL = `${this.BASEURL}/article?articleId=${this.$route.params.article_id}&userId=${article.userId}`
       const data = {
         articleId: this.$route.params.article_id,
         userId: article.userId
       }
-      const params = {
-        method: 'delete',
-        url: URL,
-        data: data
-      }
-      axios(params)
+      HTTP.delete(`article?articleId=${this.$route.params.article_id}&userId=${article.userId}`, data)
         .then(() => {
           this.$router.push({name:'My'})
         })
@@ -287,17 +265,11 @@ export default {
       this.$router.push({name:'Editarticle', params: { article_id: articleId }})
     },
     likeToggle(){
-      const URL = `${this.BASEURL}/likelog/`
       const data = {
         articleId: this.$route.params.article_id,
         userId: this.userId
       }
-      const params = {
-        method: 'post',
-        url: URL,
-        data: data
-      }
-      axios(params)
+      HTTP.post(`likelog/`, data)
         .then(() => {
           this.like = !this.like
           this.getDetail()
@@ -337,12 +309,7 @@ export default {
         })
     },
     getDetail(){
-      const URL = `${this.BASEURL}/article/detail/${this.$route.params.article_id}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`article/detail/${this.$route.params.article_id}`)
         .then((res) => {
           this.article = res.data.data
           this.likeCnt = res.data.data.likeCnt
@@ -367,12 +334,7 @@ export default {
       }
     },
     getLike(){
-    const URL = `${this.BASEURL}/likelog/likelist/${this.$route.params.article_id}`
-		const params = {
-			method: 'get',
-			url: URL,
-		}
-		axios(params)
+      HTTP.get(`likelog/likelist/${this.$route.params.article_id}`)
 			.then((res) => {
         this.likePeoples = res.data.data
 				this.likePeoples.some(element => {
