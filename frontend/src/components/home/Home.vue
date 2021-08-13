@@ -45,7 +45,7 @@
 import PhotoList from '@/components/home/PhotoList.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 
@@ -64,7 +64,6 @@ export default {
       isAlram: false,
       isfollow: false,
       total: 0,
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -90,12 +89,7 @@ export default {
       this.$router.push({name:'Search'})
     },
     allArticles(){
-      let URL = `${this.BASEURL}/article/list`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`article/list`)
         .then((res) => {
           this.$store.dispatch('loadArticles',res.data.data)           
         })
@@ -104,12 +98,7 @@ export default {
         })
     },
     followArticles(){
-    let URL = `${this.BASEURL}/follow/findarticle/${this.$store.state.userId}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+      HTTP.get(`follow/findarticle/${this.$store.state.userId}`)
       .then((res) => {
         if (res.data.data === null){
           this.isfollow = true
@@ -121,12 +110,7 @@ export default {
       })
     },
     todayJubging(){
-      let URL = `${this.BASEURL}/jubginglog/total`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`jubginglog/total`)
         .then((res) => {
           this.total = res.data.data
         })

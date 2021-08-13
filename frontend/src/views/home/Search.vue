@@ -84,8 +84,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
+import { HTTP } from '@/util/http-common'
+
 export default {
   name: "Search",
   data: () => {
@@ -98,7 +99,6 @@ export default {
       users: [],
       articles: [],
       userflag: false,
-      BASEURL: 'http://localhost:8080',
     }
   },
   craeted(){
@@ -132,12 +132,7 @@ export default {
           this.latestList.unshift(key);
         }
       }
-      let URL = `${this.BASEURL}/user/search/${this.keyword}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`user/search/${this.keyword}`)
         .then((res) => {
             this.users = res.data.data
             if(this.users !== null){
@@ -153,11 +148,7 @@ export default {
       document.querySelector('.input_style').blur();
     },
     articleSearch(){
-      let param = {
-        method: 'get',
-        url: `${this.BASEURL}/hashtag/articlelist/${this.keyword}`,
-      }
-      axios(param)
+      HTTP.get(`hashtag/articlelist/${this.keyword}`)
         .then((res) => {
           if(res.data.data === null) {
             this.articles = [];
@@ -225,7 +216,7 @@ export default {
         localStorage.setItem('currentUser', user.userId)
         this.$store.state.backPage = 2;
         this.$store.state.searchflag = true;
-        this.$router.push({name:'Userprofile', params: { user_nickname: user.nickname }})
+        this.$router.push({name:'Userprofile', params: { user_id: user.userId }})
       }
     }
   }

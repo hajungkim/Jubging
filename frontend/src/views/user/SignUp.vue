@@ -78,8 +78,7 @@
 <script>
 import { mapActions } from 'vuex'
 import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common'
 
 export default {
 	name: 'SignUp',
@@ -144,7 +143,7 @@ export default {
         this.error.passwordConfirmation = false
       }
 
-      axios.all([axios.post('user/emailck', this.credentials), axios.post('user/nicknameck', this.credentials)])
+      axios.all([HTTP.post('user/emailck', this.credentials), HTTP.post('user/nicknameck', this.credentials)])
       .then(axios.spread((res1, res2) => {
         this.unique.email = res1.data.data
         if (!this.error.email) {
@@ -200,7 +199,7 @@ export default {
 			const data = {
 					'email': this.credentials.email
 				}
-      axios.post('/email/auth/', data)
+      HTTP.post('/email/auth/', data)
       .then(() => {
         this.certification.isSend = true
       })
@@ -214,7 +213,7 @@ export default {
 					'authKey': this.certificationNumber,
 					'email': this.credentials.email
 				}
-				axios.post('/email/authcheck/', data)
+				HTTP.post('/email/authcheck/', data)
 				.then(res => {
 					if (res.data.data === '인증 성공') {
 						this.certification.isCertificate = true

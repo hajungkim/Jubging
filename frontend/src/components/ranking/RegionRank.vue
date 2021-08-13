@@ -7,9 +7,7 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 
 <script>
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common';
 
 export default {
   name: 'RegionRank',
@@ -61,33 +59,14 @@ export default {
   
 
     function data_request(callback) {
-      axios.get(`article/list`)
+      HTTP.get(`/map`)
       .then(res => {
-        const data = [
-          {
-            name: '서울특별시',
-            jubgingCnt: '2231422'
-          },
-          {
-            name: '종로구',
-            jubgingCnt: '160070'
-          },
-          {
-            name: '제주시',
-            jubgingCnt: '22314333'
-          },
-          {
-            name: '합천군',
-            jubgingCnt: '22333314'
-          },
-        ]
-        // return res.data.data
-        return data
+        return res.data.data
       })
       .then(datas => {
-        // console.log(datas)
+        console.log(datas)
         datas.forEach((data) => {
-          popByName.set(data.name, +data.jubgingCnt)
+          popByName.set(data.name, +data.count)
         })
         callback()
       })
