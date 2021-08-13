@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import { mapActions, mapState } from 'vuex'
 import FollowerModal from "@/components/my/FollowerModal.vue"
@@ -126,12 +126,7 @@ export default {
       'getUserInfo', 'getArticle'
     ]),
     getBadge(){
-    let URL = `${this.BASEURL}/mission/${this.$route.params.user_id}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+    HTTP.get(`mission/${this.$route.params.user_id}`)
       .then((res) => {
         for(const key in res.data.data)
         {
@@ -172,12 +167,7 @@ export default {
       })
     },
     getFollow(){
-      let URL = `${this.BASEURL}/follow/findfollower/${this.$route.params.user_id}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`follow/findfollower/${this.$route.params.user_id}`)
         .then((res) => {
           res.data.data.some(e => {
             if (e.userId*1 === this.userId*1){
@@ -209,12 +199,7 @@ export default {
       this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     onFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`
-      let params = {
-        method: 'post',
-        url: URL,
-      }
-      axios(params)
+      HTTP.post(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
         .then(() => {
           this.follow = true
           this.getUserInfo(this.$route.params.user_id)
@@ -252,12 +237,7 @@ export default {
         })
     },
     deleteFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`
-      let params = {
-        method: 'delete',
-        url: URL,
-      }
-      axios(params)
+      HTTP.delete(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
         .then(() => {
           this.follow = false
           this.getUserInfo(this.$route.params.user_id)
