@@ -17,16 +17,23 @@
           rows="14"
         ></textarea>
       </div>
+
       <div class="item">
-        <div v-for="(photo, i) in photos" :key="i" class="photo-grid">
-          <div class="item-grid">
-            <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">x</div>
-            <img :src="photo.preview" alt="">
+        <div v-for="(photo, i) in photos" :key="i" class="photo-grid" style="margin-left:4px;">
+          <div class="item-grid" >
+            <img id="preview" :src="photo.preview" alt="" style="width:70px; height:70px;">
           </div>
+          <div class="file-close-button" @click="photoDeleteButton" :name="photo.number" style="margin-left:-30px; margin-bottom:-10px;">-</div>
         </div>
+        <ModalView v-show="isModalViewed" @close-modal="modalOff">
+          <div class="img-container">
+            <img id="image" src="@/assets/user_default.png" alt="Picture">
+            <button type="button" id="button" @click="crop" class="btn">Crop</button>
+          </div>
+        </ModalView>
         <div class="item-grid">
-           <label for="input-image">{{ photoCnt }}/3</label>
-           <input class="item-grid" type="file" id="input-image"  @change="readImage" ref="photos" multiple :disabled="photoCnt>=3"/>
+           <label for="input-image">{{ num }}/3</label>
+           <input class="item-grid" type="file" id="input-image"  @change="readImage" ref="photos" multiple :disabled="num>=3"/>
         </div>
       </div>
       <button v-if="isbutton" class="btn-next" @click="sendData">올리기 ></button>
@@ -37,10 +44,15 @@
 
 <script>
 import axios from 'axios'
+import ModalView from '@/views/ModalView.vue'
 import { mapState } from 'vuex'
+import Cropper from 'cropperjs';
+
 axios.defaults.baseURL = 'http://localhost:8080/'
 export default {
+name: 'NewArticle',
 components:{
+  ModalView,
 },
 props: {
 },
@@ -49,9 +61,14 @@ data() {
     photoCnt: 0,
     content: '',
     photos: [],
-    files: [],
     photosPath: '',
+    files: [],
     isbutton: false,
+    isModalViewed: false,
+    cropper: null,
+    croppedCanvas: '',
+    canvasList: [],
+    num: 0,
 	}
 },
 computed:{
@@ -62,49 +79,110 @@ computed:{
   ]),
 },
 watch:{
+  photosPathh(){
+    console.log(this.photosPath)
+  }
 },
 created() {
 },
 mounted() {
 },
 methods: {
-  readImage() {
-    var num = -1
-    for(var i=0; i<this.$refs.photos.files.length; i++) {
-      this.files = [...this.files, this.$refs.photos.files[i]]
-      this.photos = [...this.photos, {
-        file: this.$refs.photos.files[i],
-        preview: URL.createObjectURL(this.$refs.photos.files[i]),
-        number: i
-      }]
-      num = i
+  readImage(event) {
+    var image = document.getElementById('image');
+    var input = document.getElementById('input-image');
+    var files = event.target.files;
+    if (files && files.length > 0) {
+      var file = files[0];
+      if (URL) {
+        input.value = '';
+        image.src = URL.createObjectURL(file);
+        this.modalOn()
+      } else if (FileReader) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          input.value = '';
+          image.src = event.target.result;
+          this.modalOn()
+        };
+        reader.readAsDataURL(file);
+      }
     }
-    this.isbutton = true
-    this.photoCnt = this.photoCnt + num + i
   },
   photoDeleteButton(e) {
     var name = e.target.getAttribute('name')
+    if (this.canvasList.length === 1){
+      this.canvasList.pop()
+    } 
+    else{
+      this.canvasList.splice(name-1,1)
+    }
+    console.log(this.canvasList)
+    if (this.canvasList.length === 0){
+      this.isbutton = false
+    }
+    this.num = this.num - 1
     this.photos = this.photos.filter(data => data.number !== Number(name))
   },
+
+  modalOn() {
+  this.isModalViewed = true
+  var image = document.getElementById('image');
+  this.cropper = new Cropper(image, {
+    aspectRatio: 1,
+    viewMode: 1,
+  });
+  },
+
+  modalOff() {
+  this.isModalViewed = false
+  this.cropper.destroy();
+  this.cropper = null;
+  },
+
+  crop() {
+  this.croppedCanvas = this.cropper.getCroppedCanvas({
+    width: 300,
+    height: 300,
+  });
+  this.photos = [...this.photos, {
+      preview: this.croppedCanvas.toDataURL(),
+      number: this.num + 1
+    }]
+  this.canvasList.push(this.croppedCanvas)
+  this.isbutton = true
+  this.num = this.num + 1
+
+  this.modalOff()
+  },
   async sendData() {
-    for (let i=0; i<this.files.length; i++) {
-      let form = new FormData()
-      form.append('file', this.files[i])
-      await axios.post('/images', form, { header: { 'Content-Type': 'multipart/form-data' } })
-      .then(res => {
-        this.photosPath = this.photosPath.concat(res.data.data + '#')
+    var photosPath = ''
+    var j = 0
+    var L = this.canvasList.length;
+    var self = this
+    for (let i=0; i<this.canvasList.length; i++){
+      this.canvasList[i].toBlob(function (blob) {
+      var form = new FormData();
+      form.append('file', blob, i+".png");
+      axios.post('/images', form)
+        .then(res => {
+          photosPath = photosPath + res.data.data + '#'
+          j = j + 1
+          if (j == L){
+            self.sendServer(photosPath)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
       })
-      .catch((err)=>{
-        console.error(err)
-      })
-    }
-    this.sendServer(this.photosPath)
+    }     
     this.sendOption()
   },
-  sendServer(photoPath) {
+  sendServer(photosPath) {
     var data = {
       content: this.content,
-      photosPath: photoPath,
+      photosPath: photosPath,
       userId: this.userId,
     }
     axios.post('/article', data)
@@ -116,7 +194,7 @@ methods: {
       })
   },
   sendOption(){
-    // this.jubgingInfo.distance.toStirng()        
+    // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
     var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
     axios.put('/mission', data)
       .then((res) => {

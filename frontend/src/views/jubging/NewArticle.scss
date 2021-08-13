@@ -84,18 +84,34 @@
   display: flex;
 }
 .file-close-button {
-  position: absolute;
+  // position: absolute;
   /* align-items: center; */
-  line-height: 18px;
-  z-index: 99;
-  font-size: 18px;
-  right: 5px;
-  top: 10px;
-  color: #fff;
+  margin-top:5px;
+  line-height: 15px;
+  // z-index: 99;
+  font-size: 30px;
+  border: 3px solid black;
+  border-radius: 50%;
+  color: black;
   font-weight: bold;
-  background-color: #666666;
+  // background-color: #666666;
   width: 20px;
   height: 20px;
   text-align: center;
   cursor: pointer;
+}
+
+
+// 모달
+.img-container {
+  img {
+    max-width: 100%;
+  }
+  button {
+    margin: 10px 0px 0px 6px;
+  }
+}
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
 }
