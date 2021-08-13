@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
 import axios from 'axios'
+import { HTTP } from '@/util/http-common';
 
-axios.defaults.baseURL = 'http://localhost:8080/'
+// axios.defaults.baseURL = 'http://localhost:8080/'
 
 axios.interceptors.request.use(config => {
   const Token = localStorage.getItem('token')
@@ -125,7 +126,7 @@ export default new Vuex.Store({
 
     // 미션
     getMission(context) {
-      axios.get(`mission/${this.state.userId}`)
+      HTTP.get(`mission/${this.state.userId}`)
       .then(res => {
         context.commit('GET_MISSION', res.data.data)
       })
@@ -143,7 +144,7 @@ export default new Vuex.Store({
     },
     // 랭킹
     getRanker(context) {
-      axios.get('user/score')
+      HTTP.get('user/score')
       .then(res => {
         context.commit('GET_RANKER', res.data.data)
       })
@@ -153,7 +154,7 @@ export default new Vuex.Store({
     },
     // 마이
     getArticle(context, userId) {
-      axios.get(`article/list/${userId}`)
+      HTTP.get(`article/list/${userId}`)
       .then(res => {
         context.commit('GET_ARTICLE', res.data.data)
       })
@@ -162,7 +163,7 @@ export default new Vuex.Store({
       })
     },
     getFollower(context, userId){
-      axios.get(`follow/findfollower/${userId}`)
+      HTTP.get(`follow/findfollower/${userId}`)
       .then((res) => {
         context.commit('GET_FOLLOWER', res.data.data)
       })
@@ -171,7 +172,7 @@ export default new Vuex.Store({
       })
     },
     getFollowing(context, userId){
-      axios.get(`follow/findfollow/${userId}`)
+      HTTP.get(`follow/findfollow/${userId}`)
       .then((res) => {
         context.commit('GET_FOLLOWING', res.data.data)
       })
@@ -185,7 +186,7 @@ export default new Vuex.Store({
 
     // 유저
     login(context, credentials) {
-      axios.post('user/login', credentials)
+      HTTP.post('user/login', credentials)
       .then(res => {
         if (res.data.data) {
           localStorage.setItem('token', res.data.data.token)
@@ -206,7 +207,7 @@ export default new Vuex.Store({
       context.commit('DELETE_TOKEN')
     },
     signup(context, credentials) {
-      axios.post('user/join/', credentials)
+      HTTP.post('user/join/', credentials)
       .then(() => {
         context.dispatch('login', credentials)
         alert('회원가입이 완료되었습니다.')
@@ -216,7 +217,7 @@ export default new Vuex.Store({
       })
     },
     getUserInfo(context, userId) {
-      axios.get(`user/${userId}`)
+      HTTP.get(`user/${userId}`)
       .then(res => {
         context.commit('GET_USER_INFO', res.data.data)
       })
@@ -225,7 +226,7 @@ export default new Vuex.Store({
       })
     },
     changeSetting(context, credentials) {
-      axios.put(`user/${context.state.userId}`, credentials)
+      HTTP.put(`user/${context.state.userId}`, credentials)
       .then(() => {
         context.dispatch('getUserInfo')
         alert('회원 정보가 수정되었습니다.')
