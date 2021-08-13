@@ -245,7 +245,7 @@ export default {
     onClick(){
       if(this.$store.state.backPage === 1)this.$router.push({name:'My'})
       else if(this.$store.state.backPage === 2) this.$router.push({name:'Search'})
-      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile', params: { user_nickname: this.article.nickname }})
+      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile', params: { user_id: this.article.userId }})
       else if(this.$store.state.backPage === 5) this.$router.push({name:'Logs'})
       else this.$router.push({name:'Home'})
     },
@@ -277,7 +277,7 @@ export default {
         localStorage.setItem('currentUser', userId)
         localStorage.setItem('articleId', this.article.articleId)
         this.$store.state.backPage = 4
-        this.$router.push({name:'Userprofile', params: { user_nickname: this.article.nickname }})
+        this.$router.push({name:'Userprofile', params: { user_id: userId }})
       }
     },
     moveEdit(articleId){

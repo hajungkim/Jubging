@@ -77,8 +77,8 @@ export default {
     moveProfile(userId){
       this.$store.state.currentUser = userId
       this.$store.state.backPage = 0
-      console.log(this.followarticle.nickname)
-      this.$router.push({name:'Userprofile', params: { user_nickname: this.followarticle.nickname }})
+      console.log(this.followarticle.userId)
+      this.$router.push({name:'Userprofile', params: { user_id: this.followarticle.userId }})
     }
   }
 }
