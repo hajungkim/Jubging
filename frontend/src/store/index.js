@@ -18,6 +18,9 @@ export default new Vuex.Store({
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
+    userArticles: [],
+    userFollowers: [],
+    userFollowings: [],
     currentUser: 0,
     currentPage: 0,  
     backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
@@ -73,6 +76,23 @@ export default new Vuex.Store({
       state.rankers = rankers
     },
 
+    //마이
+    GET_ARTICLE(state, userArticles) {
+      state.userArticles = userArticles
+      if (state.userArticles){
+        state.userArticles.reverse()
+      }
+    },
+    GET_FOLLOWER(state, userFollowers) {
+      state.userFollowers = userFollowers
+    },
+    GET_FOLLOWING(state, userFollowings) {
+      state.userFollowings = userFollowings
+    },
+    CHANGE_CURRENT_USER(state, currentUser) {
+      state.currentUser = currentUser
+    },
+
     // 유저
     UPDATE_TOKEN(state, data) {
       state.Token = data.token
@@ -85,8 +105,6 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
-    //마이
-
   },
   actions: {
     // 기타
@@ -134,6 +152,36 @@ export default new Vuex.Store({
       })
     },
     // 마이
+    getArticle(context, userId) {
+      axios.get(`article/list/${userId}`)
+      .then(res => {
+        context.commit('GET_ARTICLE', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    getFollower(context, userId){
+      axios.get(`follow/findfollower/${userId}`)
+      .then((res) => {
+        context.commit('GET_FOLLOWER', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    getFollowing(context, userId){
+      axios.get(`follow/findfollow/${userId}`)
+      .then((res) => {
+        context.commit('GET_FOLLOWING', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    changeCurrentUser(context, userId) {
+      context.commit('CHANGE_CURRENT_USER', userId)
+    },
 
     // 유저
     login(context, credentials) {
@@ -167,8 +215,8 @@ export default new Vuex.Store({
         console.error(err)
       })
     },
-    getUserInfo(context) {
-      axios.get(`user/${context.state.userId}`)
+    getUserInfo(context, userId) {
+      axios.get(`user/${userId}`)
       .then(res => {
         context.commit('GET_USER_INFO', res.data.data)
       })

@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'userInfo', 'sendImg'
+      'userInfo', 'sendImg', 'userId'
     ])
   },
   watch: {
@@ -116,7 +116,7 @@ export default {
     }
    },
   created() {
-    this.getUserInfo()
+    this.getUserInfo(this.userId)
   },
   methods:{
     ...mapActions([

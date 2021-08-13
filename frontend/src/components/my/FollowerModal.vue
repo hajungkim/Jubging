@@ -2,13 +2,13 @@
   <div class="modal" style="z-index:1050;">
 		<div class="overlay" @click="$emit('close-modal')"></div>
 			<div class="modal-card">
-				<div class="modal_top" style="font-size:20px;">{{usernickname}}'s Followers<button class="close" @click="$emit('close-modal')">닫기</button></div>
+				<div class="modal_top" style="font-size:20px; font-weight:bold;">팔로워<button class="close" @click="$emit('close-modal')">X</button></div>
 					<div>
 						<ul class="follow_container">
-							<li class="img_name_contain" v-for="(follower,idx) in followers" :key="idx" @click="moveProfile(follower)">
+							<li class="img_name_contain" v-for="(follower, idx) in userFollowers" :key="idx" @click="moveProfile(follower.userId)">
 								<img class="follow_profile" :src="follower.profilePath">
 								<div style="display:flex; align-items:center;">
-										<span style="font-weight:bold; font-size:20px; margin-left:5px;">{{follower.nickName}}</span>
+										<span style="margin-left:5px;">{{follower.nickName}}</span>
 								</div>
 							</li>
 						</ul>
@@ -18,57 +18,32 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+
 export default {
   name:'FollowerModal',
   props:{
-    currentUser: Number,
-    usernickname: String,
-  },
-  data(){
-    return{
-      followers:[],
-      BASEURL: 'http://localhost:8080',
-    }
+    userId: Number,
   },
   computed:{
 		...mapState([
-			'userId'
+			'userFollowers'
 		]),
   },
   created(){
-    this.getFollower()
+    this.getFollower(this.userId)
+    console.log(this.userFollowers)
   },
 	methods:{
-    getFollower(){
-      let URL = `${this.BASEURL}/follow/findfollower/${parseInt(this.currentUser)}`
-      let params={
-        method:'get',
-        url:URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.followers=res.data.data
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-    },
-    moveProfile(follower){      
-      if(follower.followerUserId == this.userId){
+    ...mapActions([
+      'getFollower'
+    ]),
+    moveProfile(followerUserId){
+      if (followerUserId*1 === this.$store.state.userId*1) {
         this.$router.push({name:'My'})
-        return
-      }
-      this.$store.state.currentUser = follower.userId
-      localStorage.setItem('currentUser', follower.userId)
-			this.$store.state.backPage = 1
-      console.log(this.$router.go(this.$router.currentRoute))
-      if (this.$route.path === '/userprofile'){
-        this.$router.go(this.$router.currentRoute)
-      }
-      else{
-        this.$router.push({name:'Userprofile', params: { user_nickname: this.follower.nickName }})
+      } else {
+        this.$store.state.backPage = 1
+        this.$router.push({name:'Userprofile', params: { user_id: followerUserId }})
       }
     }
 	}
