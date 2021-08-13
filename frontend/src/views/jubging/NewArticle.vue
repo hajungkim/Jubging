@@ -82,6 +82,8 @@ methods: {
       axios.post('/image', form, { header: { 'Content-Type': 'multipart/form-data' } })
       .then(res => {
         console.log(res)
+        // 주소 받아서 article을 서버로 보내고(이미지주소, 유저아이디, 내용)
+        // store에서 장소랑 쓰레기종류 데이터 갖고와서 서버로 보내고
       })
     }
   }

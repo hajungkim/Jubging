@@ -11,10 +11,10 @@
       </div>
   </div>
 </template>
- 
+
+
 <script>
 export default {
-
 name: "Jubging",
 components:{
 },
@@ -33,16 +33,21 @@ computed:{
 watch:{
 },
 created() {
-  window.onJubging = this.onJubging
-  window.finishJubging = this.finishJubging
+  window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
+  window.finishJubging = this.finishJubging  // 줍깅이 끝났을 때 호출
 },
 mounted() {
+  this.msg = "mounted"
 	console.log("mounted")
   if (this.$store.state.isJubgingOn) {
     this.msg = "줍깅 중.."
   } else {
     this.msg = "줍깅 시작"
   }
+  const script = document.createElement('script');
+  script.onload = () => kakao.maps.load(); // script가 로드 되면 그때서야 카카오맵을 로드함, 이거를 안해주면 안됨
+  script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${this.myKey}&libraries=services`;
+  document.head.appendChild(script);
 },
 methods:{
 	startJubging() {
@@ -59,12 +64,25 @@ methods:{
     }
     this.$store.dispatch('jubgingOn', isJubgingOn)
   },
-  finishJubging(time, dist) {
-    this.msg = "줍깅 시작"
-    this.$store.dispatch('jubgingOn', false)
-    this.$store.dispatch('setJubgingInfo', {time, dist})
-    this.$router.push({name:'Register'})
-  }
+
+  finishJubging(startLatitude, startLongitude, time, dist) {
+
+    var geocoder = new kakao.maps.services.Geocoder();
+    geocoder.coord2RegionCode(startLongitude, startLatitude, (result, status) => {
+      
+      let address = "None"
+      if (status == kakao.maps.services.Status.OK) {
+        address = result[0].address_name
+      }
+      this.$store.dispatch('setAddress', address)  // 시작 주소 입력
+
+      this.msg = "줍깅 시작"
+      this.$store.dispatch('jubgingOn', false)
+      this.$store.dispatch('setJubgingInfo', {time, dist})
+      this.$router.push({name:'Register'})
+    }); 
+
+  },
 },
 }
 </script>
