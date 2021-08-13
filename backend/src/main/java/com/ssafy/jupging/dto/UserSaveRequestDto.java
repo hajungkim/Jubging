@@ -13,5 +13,6 @@ public class UserSaveRequestDto {
     private String email;
     private String nickname;
     private String password;
+    private String profilePath;
 
 }
