@@ -19,11 +19,11 @@
       </div>
 
       <div class="item">
-        <div v-for="(photo, i) in photos" :key="i" class="photo-grid">
-          <div class="item-grid">
-            <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">x</div>
-            <img id="preview" :src="photo.preview" alt="">
+        <div v-for="(photo, i) in photos" :key="i" class="photo-grid" style="margin-left:4px;">
+          <div class="item-grid" >
+            <img id="preview" :src="photo.preview" alt="" style="width:70px; height:70px;">
           </div>
+          <div class="file-close-button" @click="photoDeleteButton" :name="photo.number" style="margin-left:-30px; margin-bottom:-10px;">-</div>
         </div>
         <ModalView v-show="isModalViewed" @close-modal="modalOff">
           <div class="img-container">
@@ -47,6 +47,7 @@ import axios from 'axios'
 import ModalView from '@/views/ModalView.vue'
 import { mapState } from 'vuex'
 import Cropper from 'cropperjs';
+
 axios.defaults.baseURL = 'http://localhost:8080/'
 export default {
 name: 'NewArticle',
@@ -60,8 +61,8 @@ data() {
     photoCnt: 0,
     content: '',
     photos: [],
-    files: [],
     photosPath: '',
+    files: [],
     isbutton: false,
     isModalViewed: false,
     cropper: null,
@@ -78,6 +79,9 @@ computed:{
   ]),
 },
 watch:{
+  photosPathh(){
+    console.log(this.photosPath)
+  }
 },
 created() {
 },
@@ -90,7 +94,6 @@ methods: {
     var files = event.target.files;
     if (files && files.length > 0) {
       var file = files[0];
-
       if (URL) {
         input.value = '';
         image.src = URL.createObjectURL(file);
@@ -105,25 +108,20 @@ methods: {
         reader.readAsDataURL(file);
       }
     }
-
-    // var num = -1
-    // for(var i=0; i<this.$refs.photos.files.length; i++) {
-    //   this.files = [...this.files, this.$refs.photos.files[i]]
-    //   this.photos = [...this.photos, {
-    //     file: this.$refs.photos.files[i],
-    //     preview: URL.createObjectURL(this.$refs.photos.files[i]),
-    //     number: i
-    //   }]
-    //   num = i
-    // }
-    // this.isbutton = true
-    // this.photoCnt = this.photoCnt + num + i
-    
   },
   photoDeleteButton(e) {
     var name = e.target.getAttribute('name')
+    if (this.canvasList.length === 1){
+      this.canvasList.pop()
+    } 
+    else{
+      this.canvasList.splice(name-1,1)
+    }
+    console.log(this.canvasList)
+    if (this.canvasList.length === 0){
+      this.isbutton = false
+    }
     this.num = this.num - 1
-    this.canvasList.pop()
     this.photos = this.photos.filter(data => data.number !== Number(name))
   },
 
@@ -138,69 +136,53 @@ methods: {
 
   modalOff() {
   this.isModalViewed = false
-
   this.cropper.destroy();
   this.cropper = null;
   },
 
   crop() {
   this.croppedCanvas = this.cropper.getCroppedCanvas({
-    width: 70,
-    height: 70,
+    width: 300,
+    height: 300,
   });
   this.photos = [...this.photos, {
       preview: this.croppedCanvas.toDataURL(),
       number: this.num + 1
     }]
-  // this.files = [...this.files, this.croppedCanvas.toDataURL()]
   this.canvasList.push(this.croppedCanvas)
   this.isbutton = true
   this.num = this.num + 1
-  // preview.src = this.croppedCanvas.toDataURL();   //원래 프리뷰 URL.createObjectURL(this.$refs.photos.files[i])
 
   this.modalOff()
   },
-
   async sendData() {
+    var photosPath = ''
+    var j = 0
+    var L = this.canvasList.length;
+    var self = this
     for (let i=0; i<this.canvasList.length; i++){
-        this.canvasList[i].toBlob(function (blob) {
-        console.log(blob,'블롭')
-        var form = new FormData();
-        form.append('file', blob, 'article.png');
-        axios.post('/images', form, { header: {'processData' : false, 'Content-Type' : 'multipart/form-data',} })
+      this.canvasList[i].toBlob(function (blob) {
+      var form = new FormData();
+      form.append('file', blob, i+".png");
+      axios.post('/images', form)
         .then(res => {
-          console.log(res,'!!!!!!!!!!!!!!!!')
-          this.photosPath = this.photosPath.concat(res.data.data + '#')
+          photosPath = photosPath + res.data.data + '#'
+          j = j + 1
+          if (j == L){
+            self.sendServer(photosPath)
+          }
         })
         .catch(err => {
           console.log(err)
         })
       })
-    }
-    console.log(this.photosPath,'photosPath')
-    this.sendServer()
-    this.sendOption()
-
-    for (let i=0; i<this.files.length; i++) {
-      let form = new FormData()
-      form.append('file', this.files[i])
-      await axios.post('/images', form, { header: { 'Content-Type': 'multipart/form-data' } })
-      .then(res => {
-        this.photosPath = this.photosPath.concat(res.data.data + '#')
-        console.log(this.photosPath,'@@@@@@@')
-      })
-      .catch((err)=>{
-        console.error(err)
-      })
-    }
-    this.sendServer(this.photosPath)
+    }     
     this.sendOption()
   },
-  sendServer() {
-    console.log(this.photosPath,'서버에보내는경로')
+  sendServer(photosPath) {
     var data = {
       content: this.content,
-      photosPath: this.photosPath,
+      photosPath: photosPath,
       userId: this.userId,
     }
     axios.post('/article', data)
@@ -212,15 +194,15 @@ methods: {
       })
   },
   sendOption(){
-    // this.jubgingInfo.distance.toStirng()        
-  //   var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
-  //   axios.put('/mission', data)
-  //     .then((res) => {
-  //       console.log(res.data)
-  //     })
-  //     .catch((err)=>{
-  //       console.error(err)
-  //     })
+    // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
+    var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
+    axios.put('/mission', data)
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err)=>{
+        console.error(err)
+      })
   },
 },
 }

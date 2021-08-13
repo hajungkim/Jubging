@@ -20,7 +20,7 @@
         </button>
       </form>
       <!-- 최근 검색어 -->
-      <section class="search_latest" v-if="isShowAuto && isSubmit">
+      <!-- <section class="search_latest" v-if="isShowAuto && isSubmit">
         <div class="search_latest_tlt">
           <span>최근 검색어</span>
         </div>
@@ -33,7 +33,7 @@
             <button class="lastkeyword"><span @click="onClickLatest" style="margin-left:5px;">{{item.value}}</span>&nbsp; <span @click="onDeleteItem(item)" style="margin-right:5px;">X</span></button>
           </li>
         </ul>
-      </section>
+      </section> -->
       <!-- 유저검색결과 -->
       <section class="search_user_list" v-if="isShowAuto&&isSubmit">
         <div class="search_user_list_tlt">
@@ -105,33 +105,33 @@ export default {
     this.$store.state.searchflag = false;
   },
   computed: {
-    keywordLatest(){
-      let sortedList = this.latestList.slice(0,);
-      sortedList.sort((a,b) => b*1-a*1)
-      for(let i=0; i<sortedList.length; i++){
-        sortedList[i] = {key:sortedList[i],value:localStorage.getItem(sortedList[i])}
-      }
-      return sortedList;
-    },
+    // keywordLatest(){
+    //   let sortedList = this.latestList.slice(0,);
+    //   sortedList.sort((a,b) => b*1-a*1)
+    //   for(let i=0; i<sortedList.length; i++){
+    //     sortedList[i] = {key:sortedList[i],value:localStorage.getItem(sortedList[i])}
+    //   }
+    //   return sortedList;
+    // },
     ...mapState([
 			'userId',
 		]),
   },
   methods: {
     search(){
-      const key = String(Date.now());
-      if (this.isLatest === false){
-        if(localStorage.length < 9){
-          localStorage.setItem(key,this.keyword)
-          this.latestList.unshift(key);
-        }
-        else{
-          const delKey = this.latestList.pop()
-          localStorage.removeItem(delKey);
-          localStorage.setItem(key,this.keyword)
-          this.latestList.unshift(key);
-        }
-      }
+      // const key = String(Date.now());
+      // if (this.isLatest === false){
+      //   if(localStorage.length < 9){
+      //     localStorage.setItem(key,this.keyword)
+      //     this.latestList.unshift(key);
+      //   }
+      //   else{
+      //     const delKey = this.latestList.pop()
+      //     localStorage.removeItem(delKey);
+      //     localStorage.setItem(key,this.keyword)
+      //     this.latestList.unshift(key);
+      //   }
+      // }
       let URL = `${this.BASEURL}/user/search/${this.keyword}`
       let params = {
         method: 'get',
@@ -205,12 +205,12 @@ export default {
       this.search(); 
       this.articleSearch();
     },
-    onClickLatest(e){
-      this.isLatest = true;
-      this.keyword = e.target.innerText;
-      this.search();
-      this.articleSearch();
-    },
+    // onClickLatest(e){
+    //   this.isLatest = true;
+    //   this.keyword = e.target.innerText;
+    //   this.search();
+    //   this.articleSearch();
+    // },
     onClickArticle(article){
       this.$store.state.selectArticle = article;
       this.$store.state.backPage = 2;
