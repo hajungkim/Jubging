@@ -10,40 +10,37 @@
         <font-awesome-icon class="btnstyle" :icon="['far','star']" @click="onFollow()"/>
       </span>
     </div>
+
     <!-- 유저 정보 -->
     <div class="my_info">
       <div class="profile_img">
-        <img class="profile" :src="user.profilePath">
+        <img class="profile" :src="userInfo.profilePath">
       </div>
       <div>
-        <!-- <span v-if="follow" class="followbtn">
-          <font-awesome-icon class="btnstyle" :icon="['fas','star']" @click="deleteFollow()"/>
-        </span>
-        <span v-else class="followbtn">
-          <font-awesome-icon class="btnstyle" :icon="['far','star']" @click="onFollow()"/>
-        </span> -->
-        <span>{{user.nickname}}</span>
+        <span>{{userInfo.nickname}}</span>
       </div>
+      
       <!--게시글 팔로워 팔로잉-->
       <div class="user_active_cnt">
         <div class="lcbox" >
           <span>게시물</span>
-          <span style="text-align:center">{{user.articleCount}}</span>
+          <span style="text-align:center">{{userInfo.articleCount}}</span>
         </div>
         <div class="lcbox" @click="isfollower=true">
           <span>팔로워</span>
-          <span style="text-align:center">{{user.follower}}</span>
+          <span style="text-align:center">{{userInfo.follower}}</span>
         </div>
         <div class="lcbox" @click="isfollowing=true">
           <span>팔로잉</span>
-          <span style="text-align:center">{{user.following}}</span>
+          <span style="text-align:center">{{userInfo.following}}</span>
         </div>
       </div>
     </div>
-    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :currentUser = parseInt(currentUser) :usernickname = usernickname>
+    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :userId="profileUserId*1">
       </FollowerModal>
-    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :currentUser = parseInt(currentUser) :usernickname = usernickname>
-      </FollowingModal>  
+    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :userId="profileUserId*1">
+      </FollowingModal> 
+
     <!-- 뱃지 리스트 -->
     <div class="badge_box" v-if="ischange && isbadge">
       <carousel-3d class="badge_carousel"
@@ -60,6 +57,7 @@
     <div v-if="!isbadge" class="nobadge_text">
       <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
     </div>
+
     <!-- 유저 게시글 -->
     <div class="photo_list">
       <div v-if="isarticle" class="photo-grid">
@@ -76,11 +74,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import FollowerModal from "@/components/my/FollowerModal.vue"
 import FollowingModal from "@/components/my/FollowingModal.vue"
+
 export default {
   name:'Userprofile',
   components:{
@@ -90,56 +89,44 @@ export default {
     FollowingModal,
   },
   data() {
-      return {
-        user: [],
-        isfollower: false,
-        isfollowing: false,
-        isarticle: false,
-        articles: [],
-        photos: [],
-        ischange: false,
-        follow: false,
-        BASEURL: 'http://localhost:8080',
-        usernickname: '',
-        isbadge: true,
+    return {
+      pubUser: [],
+      isfollower: false,
+      isfollowing: false,
+      isarticle: false,
+      articles: [],
+      photos: [],
+      ischange: false,
+      follow: false,
+      BASEURL: 'http://localhost:8080',
+      usernickname: '',
+      isbadge: true,
+      profileUserId : '',
     }
   },
   created(){
-    this.getInfo()
+    this.profileUserId = this.$route.params.user_id
+    this.getUserInfo(this.$route.params.user_id)
     this.getFollow()
     this.getBadge()
-    this.getArticle()
+    this.getArticle(this.$route.params.user_id)
+    this.getUser()
   },
   computed:{
     ...mapState([
-      'currentUser',
 			'userId',
       'selectArticle',
+
+      'userInfo',
+      'userArticles'
 		]),
   },
   methods: {
-    getInfo(){
-      let URL = `${this.BASEURL}/user/${parseInt(this.currentUser)}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.user = res.data.data
-          this.usernickname = res.data.data.nickname
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-    },
+    ...mapActions([
+      'getUserInfo', 'getArticle'
+    ]),
     getBadge(){
-    let URL = `${this.BASEURL}/mission/${parseInt(this.currentUser)}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+    HTTP.get(`mission/${this.$route.params.user_id}`)
       .then((res) => {
         for(const key in res.data.data)
         {
@@ -180,37 +167,16 @@ export default {
       })
     },
     getFollow(){
-      let URL = `${this.BASEURL}/follow/findfollow/${parseInt(this.currentUser)}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`follow/findfollower/${this.$route.params.user_id}`)
         .then((res) => {
-          res.data.data.some(element => {
-            if (element.followUserId === parseInt(this.currentUser)){
+          res.data.data.some(e => {
+            if (e.userId*1 === this.userId*1){
               this.follow = true
             }
-            return 0;
           });
         })
         .catch(() => {
           this.follow = false
-        })
-    },
-    getArticle(){
-      let URL = `${this.BASEURL}/article/list/${parseInt(this.currentUser)}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
-        .then((res) => {
-          this.articles = res.data.data
-          this.articles.reverse()
-        })
-        .catch((e) => {
-          console.error(e);
         })
     },
     onClick(){
@@ -233,43 +199,48 @@ export default {
       this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     onFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${parseInt(this.currentUser)}&userId=${this.userId}`
-      let params = {
-        method: 'post',
-        url: URL,
-      }
-      axios(params)
+      HTTP.post(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
         .then(() => {
           this.follow = true
-          this.getInfo()
+          this.getUserInfo(this.$route.params.user_id)
         })
         .catch((e) => {
           console.error(e);
         })
+      // socket 처리
       if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-        if (this.user.userId != this.$store.state.userId) {
+        if (this.userInfo.userId != this.pubUser.userId) {
           const socketData = { 
-            userId: this.user.userId,
-            pubId: this.$store.state.userId,
-            articleId: this.user.articleId,
-            nickname: this.user.nickname,
-            profilePath: this.user.profilePath,
+            userId: this.userInfo.userId,
+            pubId: this.pubUser.userId,
+            articleId: null,
+            nickname: this.pubUser.nickname,
+            profilePath: this.pubUser.profilePath,
             category: 'follow'
           };
-          this.$store.state.stompClient.send("/pub/" + this.user.userId, JSON.stringify(socketData), {});
+          this.$store.state.stompClient.send("/pub/" + this.userInfo.userId, JSON.stringify(socketData), {});
         }
       }
     },
-    deleteFollow(){
-      let URL = `${this.BASEURL}/follow?followUserId=${parseInt(this.currentUser)}&userId=${this.userId}`
-      let params = {
-        method: 'delete',
+    getUser(){
+      const URL = `${this.BASEURL}/user/${this.$store.state.userId}`
+      const params = {
+        method: 'get',
         url: URL,
       }
       axios(params)
+        .then((res) => {
+          this.pubUser = res.data.data
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    deleteFollow(){
+      HTTP.delete(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
         .then(() => {
           this.follow = false
-          this.getInfo()
+          this.getUserInfo(this.$route.params.user_id)
         })
         .catch((e) => {
           console.error(e);

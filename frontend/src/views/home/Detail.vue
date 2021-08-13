@@ -104,11 +104,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import {Carousel3d,Slide} from 'vue-carousel-3d'
-import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
-import LikeuserModal from '@/views/home/LikeuserModal.vue';
+import VueBottomSheet from "@webzlodimir/vue-bottom-sheet"
+import LikeuserModal from '@/views/home/LikeuserModal.vue'
 import { mapState } from 'vuex'
+
 export default {
   name:'Detail',
   components:{
@@ -119,6 +120,7 @@ export default {
   },
   data(){
     return{
+      pubUser:[],
       article:[],
       photos: [],
       isModal:false,
@@ -143,6 +145,7 @@ export default {
   },
   created(){
     this.getDetail()
+    this.getUser()
   },
   methods: {
     open(){
@@ -158,12 +161,7 @@ export default {
       this.$refs.articleOption.close();
     },
     getComment(){
-      let URL = `${this.BASEURL}/comment/${this.$route.params.article_id}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`comment/${this.$route.params.article_id}`)
         .then((res) => { 
           this.comments = res.data.data
           this.comments.forEach(element => {          
@@ -186,19 +184,13 @@ export default {
         })
     },
     commentSubmit(){
-      const URL = `${this.BASEURL}/comment/`
       const data = {
         articleId: this.$route.params.article_id,
         commentContent: this.comment,
         userId: this.userId,
       }
-      const params = {
-        method: 'post',
-        url: URL,
-        data: data
-      }
       if (this.comment) {
-        axios(params)
+        HTTP.post(`comment/`, data)
           .then(() => {
             this.comment = ''
             this.getComment()
@@ -210,13 +202,14 @@ export default {
       }
       // socket 처리
       if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-        if (this.article.userId != this.$store.state.userId) {
-          const socketData = { 
+        if (this.article.userId != this.pubUser.userId) {
+          console.log(this.user);
+          const socketData = {
             userId: this.article.userId,
-            pubId: this.$store.state.userId,
+            pubId: this.pubUser.userId,
             articleId: this.$route.params.article_id,
-            nickname: this.article.nickname,
-            profilePath: this.article.profilePath,
+            nickname: this.pubUser.nickname,
+            profilePath: this.pubUser.profilePath,
             category: 'comment'
           };
           this.$store.state.stompClient.send("/pub/" + this.article.userId, JSON.stringify(socketData), {});
@@ -224,17 +217,11 @@ export default {
       }
     },
     commentDelete(comment){
-      const URL = `http://localhost:8080/comment/${comment.commentId}?userId=${comment.userId}`
       const data = {
         comment_id: comment.commentId,
         userId: comment.userId
       }
-      const params = {
-        method: 'delete',
-        url: URL,
-        data: data
-      }
-      axios(params)
+      HTTP.delete(`comment/${comment.commentId}?userId=${comment.userId}`, data)
         .then(() => {
           this.getComment()
         })
@@ -245,22 +232,16 @@ export default {
     onClick(){
       if(this.$store.state.backPage === 1)this.$router.push({name:'My'})
       else if(this.$store.state.backPage === 2) this.$router.push({name:'Search'})
-      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile', params: { user_nickname: this.article.nickname }})
+      else if(this.$store.state.backPage === 3) this.$router.push({name:'Userprofile', params: { user_id: this.article.userId }})
       else if(this.$store.state.backPage === 5) this.$router.push({name:'Logs'})
       else this.$router.push({name:'Home'})
     },
     onDelete(article){
-      const URL = `${this.BASEURL}/article?articleId=${this.$route.params.article_id}&userId=${article.userId}`
       const data = {
         articleId: this.$route.params.article_id,
         userId: article.userId
       }
-      const params = {
-        method: 'delete',
-        url: URL,
-        data: data
-      }
-      axios(params)
+      HTTP.delete(`article?articleId=${this.$route.params.article_id}&userId=${article.userId}`, data)
         .then(() => {
           this.$router.push({name:'My'})
         })
@@ -277,24 +258,18 @@ export default {
         localStorage.setItem('currentUser', userId)
         localStorage.setItem('articleId', this.article.articleId)
         this.$store.state.backPage = 4
-        this.$router.push({name:'Userprofile', params: { user_nickname: this.article.nickname }})
+        this.$router.push({name:'Userprofile', params: { user_id: userId }})
       }
     },
     moveEdit(articleId){
       this.$router.push({name:'Editarticle', params: { article_id: articleId }})
     },
     likeToggle(){
-      const URL = `${this.BASEURL}/likelog/`
       const data = {
         articleId: this.$route.params.article_id,
         userId: this.userId
       }
-      const params = {
-        method: 'post',
-        url: URL,
-        data: data
-      }
-      axios(params)
+      HTTP.post(`likelog/`, data)
         .then(() => {
           this.like = !this.like
           this.getDetail()
@@ -305,13 +280,13 @@ export default {
       // socket 처리
       if (!this.like) {
         if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-          if (this.article.userId != this.$store.state.userId) {
+          if (this.article.userId != this.pubUser.userId) {
             const socketData = { 
               userId: this.article.userId,
-              pubId: this.$store.state.userId,
+              pubId: this.pubUser.userId,
               articleId: this.$route.params.article_id,
-              nickname: this.article.nickname,
-              profilePath: this.article.profilePath,
+              nickname: this.pubUser.nickname,
+              profilePath: this.pubUser.profilePath,
               category: 'like'
             };
             this.$store.state.stompClient.send("/pub/" + this.article.userId, JSON.stringify(socketData), {});
@@ -319,13 +294,22 @@ export default {
         }
       }
     },
-    getDetail(){
-      const URL = `${this.BASEURL}/article/detail/${this.$route.params.article_id}`
+    getUser(){
+      const URL = `${this.BASEURL}/user/${this.$store.state.userId}`
       const params = {
         method: 'get',
         url: URL,
       }
       axios(params)
+        .then((res) => {
+          this.pubUser = res.data.data
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
+    getDetail(){
+      HTTP.get(`article/detail/${this.$route.params.article_id}`)
         .then((res) => {
           this.article = res.data.data
           this.likeCnt = res.data.data.likeCnt
@@ -350,12 +334,7 @@ export default {
       }
     },
     getLike(){
-    const URL = `${this.BASEURL}/likelog/likelist/${this.$route.params.article_id}`
-		const params = {
-			method: 'get',
-			url: URL,
-		}
-		axios(params)
+      HTTP.get(`likelog/likelist/${this.$route.params.article_id}`)
 			.then((res) => {
         this.likePeoples = res.data.data
 				this.likePeoples.some(element => {
