@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = { "http://localhost:3007" }, maxAge = 6000)
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/email")
@@ -23,7 +23,6 @@ public class EmailController {
     public ControllerResponse sendAuthEmail(@RequestBody EmailSendRequestDto emailSendRequestDto){
         ControllerResponse response = null;
 
-        System.out.println(emailSendRequestDto.getEmail());
         if (!userService.checkEmail(emailSendRequestDto.getEmail())) {
             return new ControllerResponse("fail", "이미 존재하는 이메일");
         }
