@@ -7,9 +7,7 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 
 <script>
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common';
 
 export default {
   name: 'RegionRank',
@@ -61,7 +59,7 @@ export default {
   
 
     function data_request(callback) {
-      axios.get(`/map`)
+      HTTP.get(`/map`)
       .then(res => {
         return res.data.data
       })

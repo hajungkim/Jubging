@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
+
 export default {
   name:'LikeuserModal',
 	data(){
@@ -32,12 +33,7 @@ export default {
 		}
   },
 	created(){
-		const URL = `http://localhost:8080/likelog/likelist/${this.$route.params.article_id}`
-		const params = {
-			method: 'get',
-			url: URL,
-		}
-		axios(params)
+		HTTP.get(`likelog/likelist/${this.$route.params.article_id}`)
 			.then((res) => {
 				this.likePeoples = res.data.data				
 			})
@@ -47,9 +43,7 @@ export default {
 	},
 	methods:{
 		moveProfile(user){
-			console.log(user.userId)
 			this.$store.state.currentUser = user.userId;
-			console.log(this.$store.state.currentUser)
 			this.$store.state.backPage = 4;
 			this.$router.push({name:'Userprofile', params: { user_id: user.userId }})
 		}
