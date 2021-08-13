@@ -119,6 +119,7 @@ export default {
   },
   data(){
     return{
+      pubUser:[],
       article:[],
       photos: [],
       isModal:false,
@@ -143,6 +144,7 @@ export default {
   },
   created(){
     this.getDetail()
+    this.getUser()
   },
   methods: {
     open(){
@@ -210,13 +212,14 @@ export default {
       }
       // socket 처리
       if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-        if (this.article.userId != this.$store.state.userId) {
-          const socketData = { 
+        if (this.article.userId != this.pubUser.userId) {
+          console.log(this.user);
+          const socketData = {
             userId: this.article.userId,
-            pubId: this.$store.state.userId,
+            pubId: this.pubUser.userId,
             articleId: this.$route.params.article_id,
-            nickname: this.article.nickname,
-            profilePath: this.article.profilePath,
+            nickname: this.pubUser.nickname,
+            profilePath: this.pubUser.profilePath,
             category: 'comment'
           };
           this.$store.state.stompClient.send("/pub/" + this.article.userId, JSON.stringify(socketData), {});
@@ -305,19 +308,33 @@ export default {
       // socket 처리
       if (!this.like) {
         if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-          if (this.article.userId != this.$store.state.userId) {
+          if (this.article.userId != this.pubUser.userId) {
             const socketData = { 
               userId: this.article.userId,
-              pubId: this.$store.state.userId,
+              pubId: this.pubUser.userId,
               articleId: this.$route.params.article_id,
-              nickname: this.article.nickname,
-              profilePath: this.article.profilePath,
+              nickname: this.pubUser.nickname,
+              profilePath: this.pubUser.profilePath,
               category: 'like'
             };
             this.$store.state.stompClient.send("/pub/" + this.article.userId, JSON.stringify(socketData), {});
           }
         }
       }
+    },
+    getUser(){
+      const URL = `${this.BASEURL}/user/${this.$store.state.userId}`
+      const params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          this.pubUser = res.data.data
+        })
+        .catch((e) => {
+          console.error(e);
+        })
     },
     getDetail(){
       const URL = `${this.BASEURL}/article/detail/${this.$route.params.article_id}`
