@@ -295,12 +295,7 @@ export default {
       }
     },
     getUser(){
-      const URL = `${this.BASEURL}/user/${this.$store.state.userId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`user/${this.$store.state.userId}`)
         .then((res) => {
           this.pubUser = res.data.data
         })
