@@ -60,13 +60,13 @@
 
     <!-- 유저 게시글 -->
     <div class="photo_list">
-      <div v-if="isarticle" class="photo-grid">
-        <span v-for="(article,idx) in articles" :key="idx" style="height:135px; border:1px solid white;">
+      <div v-if="userArticles" class="photo-grid">
+        <span v-for="(article, idx) in userArticles" :key="idx" style="height:135px; border:1px solid white;">
           <img @click="onDetail(article)" class="photo-img"
           :src="article.photosPath">
         </span>
       </div>
-      <div v-if="!isarticle" class="no_article">
+      <div v-else class="no_article">
         게시글이 아직 없어요 ㅜㅠ!
       </div>
     </div>
@@ -93,13 +93,9 @@ export default {
       pubUser: [],
       isfollower: false,
       isfollowing: false,
-      isarticle: false,
-      articles: [],
       photos: [],
       ischange: false,
       follow: false,
-      BASEURL: 'http://localhost:8080',
-      usernickname: '',
       isbadge: true,
       profileUserId : '',
     }
