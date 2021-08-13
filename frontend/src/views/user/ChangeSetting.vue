@@ -189,12 +189,8 @@ export default {
         this.croppedCanvas.toBlob(function (blob) {
           var form = new FormData();
           form.append('file', blob, 'profile.png');
-<<<<<<< HEAD
           
           HTTP.post('/images', form, { 
-=======
-          axios.post('/images', form, { 
->>>>>>> feature/canvas/fe
             header: { 
               'processData' : false,
               'Content-Type' : false,
