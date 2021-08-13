@@ -71,9 +71,17 @@ export default {
     findPassword() {
       HTTP.post('user/emailck', this.credentials)
         .then(res => {
-          if (res.data.data == '전송 성공') {
-            alert('해당 이메일로 임시 비밀번호를 발급했습니다.')
-            this.$router.push({ name: 'Login' })
+          if (!res.data.data) {
+            HTTP.put('email/changepw', this.credentials)
+            .then(() => {
+              alert('해당 이메일로 임시 비밀번호를 발급했습니다.')
+            })
+            .then(() => {
+              this.$router.push({ name: 'Login' })
+            })
+            .catch(err => {
+              console.error(err)
+            })
           } else { 
             alert('존재하지 않는 이메일 입니다.')
           }
