@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import { mapState } from 'vuex'
+
 export default {
   name: 'Editarticle',
   data(){
     return{
       content: '',
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -30,12 +30,7 @@ export default {
 		]),
   },
   created(){
-    let URL = `${this.BASEURL}/article/detail/${this.$route.params.article_id}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+    HTTP.get(`article/detail/${this.$route.params.article_id}`)
       .then((res) => {
         this.content=res.data.data.content
       })
@@ -49,17 +44,11 @@ export default {
       this.$router.push({name:'Detail', params: { article_id: this.$route.params.article_id }})
     },
     onEdit(){
-      let URL = `${this.BASEURL}/article/`
       let data = {
         articleId: this.$route.params.article_id,
         content: this.content
       }
-      let params = {
-        method: 'put',
-        url: URL,
-        data: data,
-      }
-      axios(params)
+      HTTP.put('article/', data)
         .then(() => {
           this.$router.push({name:'Detail', params: { article_id: this.$route.params.article_id }})
         })

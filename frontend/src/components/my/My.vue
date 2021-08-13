@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common';
 import {Carousel3d,Slide} from 'vue-carousel-3d'
 import  VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import FollowerModal from "@/components/my/FollowerModal.vue"
@@ -112,7 +112,6 @@ export default {
       ischange: false,
       isbadge: true,
       photos:[],
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -146,12 +145,7 @@ export default {
       this.$refs.myBottomSheet.close();
     },
     getBadge(){
-    let URL = `${this.BASEURL}/mission/${this.userId}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+      HTTP.get(`mission/${this.userId}`)
       .then((res) => {
         for(const key in res.data.data)
         {

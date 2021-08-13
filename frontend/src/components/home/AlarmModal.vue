@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
+
 export default {
 	data(){
 		return {
@@ -42,12 +43,7 @@ export default {
 	},
 	methods:{
 		getAlarm(){
-			let URL = `http://localhost:8080/alarm/${this.$store.state.userId}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`alarm/${this.$store.state.userId}`)
         .then((res) => {
           this.alarmList = res.data.data  
           this.alarmList.forEach(element => {          
@@ -64,7 +60,7 @@ export default {
 			this.$router.push({name:'Detail', params: { article_id: alarm.articleId }})   
 		},
 		onUserprofile(alarm){
-			this.$router.push({name:'Userprofile', params: { user_nickname: alarm.nickname }})
+			this.$router.push({name:'Userprofile', params: { user_id: alarm.nickname }})
 		}
 	}
 };

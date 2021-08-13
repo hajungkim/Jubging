@@ -28,7 +28,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
+
 export default {
   name:'FollowList',
   props:{
@@ -43,19 +44,13 @@ export default {
         profilePath: '',
         follower: 0,
       },
-      BASEURL: 'http://localhost:8080'
     }
   },
   created(){
     if (this.followarticle.hashlist.length === 0){
       this.hashflag = true
     }
-    let URL = `${this.BASEURL}/user/${this.followarticle.userId}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+    HTTP.get(`user/${this.followarticle.userId}`)
       .then((res) => {
         if (res.data.data.profilePath == null) {
           this.user.profilePath = require("@/assets/user_default.png")
