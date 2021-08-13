@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import { mapState } from 'vuex'
+
 export default {
   name: 'Likelog',
   data(){
     return{
       likelogs: [],
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -37,12 +37,7 @@ export default {
   },
   methods:{
     getLikelogs(){
-      const URL = `${this.BASEURL}/likelog/${this.userId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`likelog/${this.userId}`)
         .then((res) => {
           this.likelogs = res.data.data
         })
@@ -51,12 +46,7 @@ export default {
         })
     },
     moveDetail(article){
-      let URL = `${this.BASEURL}/article/detail/${article.articleId}`
-      let param = {
-        method: 'get',
-        url: URL,
-      }
-      axios(param)
+      HTTP.get(`article/detail/${article.articleId}`)
         .then((res) => {
           this.$store.state.selectArticle = res.data.data
           this.$store.state.backPage = 5
