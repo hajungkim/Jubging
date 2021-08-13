@@ -99,3 +99,18 @@
   text-align: center;
   cursor: pointer;
 }
+
+
+// 모달
+.img-container {
+  img {
+    max-width: 100%;
+  }
+  button {
+    margin: 10px 0px 0px 6px;
+  }
+}
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+}

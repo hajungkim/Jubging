@@ -190,7 +190,6 @@ export default {
         this.croppedCanvas.toBlob(function (blob) {
           var form = new FormData();
           form.append('file', blob, 'profile.png');
-          
           axios.post('/images', form, { 
             header: { 
               'processData' : false,
@@ -198,6 +197,7 @@ export default {
               },
           })
           .then(res => {
+            console.log(res.data.data)
             self.credentials.profilePath = res.data.data
           })
           .then(() => {
