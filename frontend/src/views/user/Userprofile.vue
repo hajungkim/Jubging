@@ -90,7 +90,7 @@ export default {
   },
   data() {
     return {
-      user: [],
+      pubUser: [],
       isfollower: false,
       isfollowing: false,
       isarticle: false,
@@ -110,6 +110,7 @@ export default {
     this.getFollow()
     this.getBadge()
     this.getArticle(this.$route.params.user_id)
+    this.getUser()
   },
   computed:{
     ...mapState([
@@ -221,19 +222,34 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+      // socket 처리
       if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-        if (this.userInfo.userId != this.$store.state.userId) {
+        if (this.userInfo.userId != this.pubUser.userId) {
           const socketData = { 
             userId: this.userInfo.userId,
-            pubId: this.$store.state.userId,
-            articleId: this.userInfo.articleId,
-            nickname: this.userInfo.nickname,
-            profilePath: this.userInfo.profilePath,
+            pubId: this.pubUser.userId,
+            articleId: null,
+            nickname: this.pubUser.nickname,
+            profilePath: this.pubUser.profilePath,
             category: 'follow'
           };
           this.$store.state.stompClient.send("/pub/" + this.userInfo.userId, JSON.stringify(socketData), {});
         }
       }
+    },
+    getUser(){
+      const URL = `${this.BASEURL}/user/${this.$store.state.userId}`
+      const params = {
+        method: 'get',
+        url: URL,
+      }
+      axios(params)
+        .then((res) => {
+          this.pubUser = res.data.data
+        })
+        .catch((e) => {
+          console.error(e);
+        })
     },
     deleteFollow(){
       let URL = `${this.BASEURL}/follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`
