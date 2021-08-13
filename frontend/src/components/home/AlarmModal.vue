@@ -45,12 +45,7 @@ export default {
 		getAlarm(){
       HTTP.get(`alarm/${this.$store.state.userId}`)
         .then((res) => {
-          this.alarmList = res.data.data  
-          this.alarmList.forEach(element => {          
-            if (element.profilePath === null) {
-              element.profilePath = require("@/assets/user_default.png")
-            }
-          });
+          this.alarmList = res.data.data
         })
         .catch((e) => {
           console.error(e);

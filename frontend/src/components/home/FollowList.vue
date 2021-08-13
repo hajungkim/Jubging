@@ -52,12 +52,7 @@ export default {
     }
     HTTP.get(`user/${this.followarticle.userId}`)
       .then((res) => {
-        if (res.data.data.profilePath == null) {
-          this.user.profilePath = require("@/assets/user_default.png")
-        }
-        else{
-          this.user.profilePath = res.data.data.profilePath
-        }
+        this.user.profilePath = res.data.data.profilePath
         this.user.follower = res.data.data.follower          
       })
       .catch((e) => {
