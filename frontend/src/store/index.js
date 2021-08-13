@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
 import axios from 'axios'
+import { HTTP } from '@/util/http-common';
 
-axios.defaults.baseURL = 'http://localhost:8080/'
+// axios.defaults.baseURL = 'http://localhost:8080/'
 
 axios.interceptors.request.use(config => {
   const Token = localStorage.getItem('token')
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     Token: localStorage.getItem('token') || '',
     userId: localStorage.getItem('userId') || '',
     userInfo: [],
+    userArticles: [],
+    userFollowers: [],
+    userFollowings: [],
     currentUser: 0,
     currentPage: 0,  
     backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
@@ -77,6 +81,23 @@ export default new Vuex.Store({
       state.rankers = rankers
     },
 
+    //마이
+    GET_ARTICLE(state, userArticles) {
+      state.userArticles = userArticles
+      if (state.userArticles){
+        state.userArticles.reverse()
+      }
+    },
+    GET_FOLLOWER(state, userFollowers) {
+      state.userFollowers = userFollowers
+    },
+    GET_FOLLOWING(state, userFollowings) {
+      state.userFollowings = userFollowings
+    },
+    CHANGE_CURRENT_USER(state, currentUser) {
+      state.currentUser = currentUser
+    },
+
     // 유저
     UPDATE_TOKEN(state, data) {
       state.Token = data.token
@@ -89,8 +110,6 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
-    //마이
-
   },
   actions: {
     // 기타
@@ -111,7 +130,7 @@ export default new Vuex.Store({
 
     // 미션
     getMission(context) {
-      axios.get(`mission/${this.state.userId}`)
+      HTTP.get(`mission/${this.state.userId}`)
       .then(res => {
         context.commit('GET_MISSION', res.data.data)
       })
@@ -135,7 +154,7 @@ export default new Vuex.Store({
     },
     // 랭킹
     getRanker(context) {
-      axios.get('user/score')
+      HTTP.get('user/score')
       .then(res => {
         context.commit('GET_RANKER', res.data.data)
       })
@@ -144,10 +163,40 @@ export default new Vuex.Store({
       })
     },
     // 마이
+    getArticle(context, userId) {
+      HTTP.get(`article/list/${userId}`)
+      .then(res => {
+        context.commit('GET_ARTICLE', res.data.data)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
+    getFollower(context, userId){
+      HTTP.get(`follow/findfollower/${userId}`)
+      .then((res) => {
+        context.commit('GET_FOLLOWER', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    getFollowing(context, userId){
+      HTTP.get(`follow/findfollow/${userId}`)
+      .then((res) => {
+        context.commit('GET_FOLLOWING', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    changeCurrentUser(context, userId) {
+      context.commit('CHANGE_CURRENT_USER', userId)
+    },
 
     // 유저
     login(context, credentials) {
-      axios.post('user/login', credentials)
+      HTTP.post('user/login', credentials)
       .then(res => {
         if (res.data.data) {
           localStorage.setItem('token', res.data.data.token)
@@ -168,7 +217,7 @@ export default new Vuex.Store({
       context.commit('DELETE_TOKEN')
     },
     signup(context, credentials) {
-      axios.post('user/join/', credentials)
+      HTTP.post('user/join/', credentials)
       .then(() => {
         context.dispatch('login', credentials)
         alert('회원가입이 완료되었습니다.')
@@ -177,8 +226,8 @@ export default new Vuex.Store({
         console.error(err)
       })
     },
-    getUserInfo(context) {
-      axios.get(`user/${context.state.userId}`)
+    getUserInfo(context, userId) {
+      HTTP.get(`user/${userId}`)
       .then(res => {
         context.commit('GET_USER_INFO', res.data.data)
       })
@@ -187,7 +236,7 @@ export default new Vuex.Store({
       })
     },
     changeSetting(context, credentials) {
-      axios.put(`user/${context.state.userId}`, credentials)
+      HTTP.put(`user/${context.state.userId}`, credentials)
       .then(() => {
         context.dispatch('getUserInfo')
         alert('회원 정보가 수정되었습니다.')

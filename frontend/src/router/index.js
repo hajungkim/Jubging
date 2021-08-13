@@ -66,19 +66,19 @@ const routes = [
         component:My,
       },
       {
-        path:'Logs',
+        path:'/Logs/:flag',
         name:'Logs',
         component:Logs,
       },
     ],
   },
   {
-    path:'/detail',
+    path:'/article/:article_id',
     name:'Detail',
     component:Detail,
   },
   {
-    path:'/userprofile',
+    path:'/userprofile/:user_id',
     name:'Userprofile',
     component:Userprofile,
   },
@@ -124,10 +124,10 @@ const routes = [
     component: ChangeSetting,
   },
   {
-    path: '/editarticle',
+    path: '/editarticle/:article_id',
     name: 'Editarticle',
     component: Editarticle,
-  }
+  },
 ]
 
 const router = new VueRouter({

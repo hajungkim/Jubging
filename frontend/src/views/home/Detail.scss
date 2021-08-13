@@ -78,6 +78,7 @@
 .input_container{
   display: flex;
   justify-content: center;
+  width:412px;
 }
 .comment_input{
   width:330px;
@@ -118,9 +119,11 @@ input:focus{
   border-color:$primary;
   border-radius: 20%;
   border:2px solid;
+  height:30px;
+  margin-left:-25px;
 }
 .btn_div{
-  margin-left:20px;
+  margin-right:20px;
 }
 .default-link{
   color:black;

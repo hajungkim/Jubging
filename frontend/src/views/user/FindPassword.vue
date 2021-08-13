@@ -27,9 +27,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common'
 
 export default {
   name: 'FindPassword',
@@ -71,7 +69,7 @@ export default {
       return test.test(email);
     },
     findPassword() {
-      axios.post('user/emailck', this.credentials)
+      HTTP.post('user/emailck', this.credentials)
         .then(res => {
           if (res.data.data == '전송 성공') {
             alert('해당 이메일로 임시 비밀번호를 발급했습니다.')

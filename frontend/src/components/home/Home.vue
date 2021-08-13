@@ -34,7 +34,6 @@
           v-show="!toggle"
         />
         <div v-if="isfollow" class="emptyfollow">
-          <img src="@/assets/sample.png" alt="">
           <div style="color:grey;">다른 유저를 팔로우 해보세요!</div>
         </div>
       </div>
@@ -46,9 +45,9 @@
 import PhotoList from '@/components/home/PhotoList.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
-import axios from 'axios'
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
+import { HTTP } from '@/util/http-common'
+// import Stomp from 'webstomp-client'
+// import SockJS from 'sockjs-client'
 
 import { mapState } from 'vuex'
 
@@ -65,7 +64,6 @@ export default {
       isAlram: false,
       isfollow: false,
       total: 0,
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
@@ -81,7 +79,7 @@ export default {
     this.followArticles()
     this.todayJubging()
     // socket 연결
-    this.connect()
+    // this.connect()
   },
   methods:{
     followToggle(){
@@ -91,12 +89,7 @@ export default {
       this.$router.push({name:'Search'})
     },
     allArticles(){
-      let URL = `${this.BASEURL}/article/list`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`article/list`)
         .then((res) => {
           this.$store.dispatch('loadArticles',res.data.data)           
         })
@@ -105,12 +98,7 @@ export default {
         })
     },
     followArticles(){
-    let URL = `${this.BASEURL}/follow/findarticle/${this.$store.state.userId}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+      HTTP.get(`follow/findarticle/${this.$store.state.userId}`)
       .then((res) => {
         if (res.data.data === null){
           this.isfollow = true
@@ -122,12 +110,7 @@ export default {
       })
     },
     todayJubging(){
-      let URL = `${this.BASEURL}/jubginglog/total`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`jubginglog/total`)
         .then((res) => {
           this.total = res.data.data
         })
@@ -136,26 +119,26 @@ export default {
         })
     },
     // socket
-    connect() {
-      const serverURL = "http://localhost:8080/socket"
-      let socket = new SockJS(serverURL);
-      this.$store.state.stompClient = Stomp.over(socket);
-      this.$store.state.stompClient.connect(
-        {},
-        frame => {
-          this.connected = true;
-          console.log('소켓 연결 성공', frame);
-          this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
-            this.isAlram = true;
-            alert(res.body,'@@@@@@@@@@')
-          });
-        },
-        error => {
-          console.log('소켓 연결 실패', error);
-          this.connected = false;
-        }
-      );        
-    }
+    // connect() {
+    //   const serverURL = "http://localhost:8080/socket"
+    //   let socket = new SockJS(serverURL);
+    //   this.$store.state.stompClient = Stomp.over(socket);
+    //   this.$store.state.stompClient.connect(
+    //     {},
+    //     frame => {
+    //       this.connected = true;
+    //       console.log('소켓 연결 성공', frame);
+    //       this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
+    //         this.isAlram = true;
+    //         alert(res.body,'@@@@@@@@@@')
+    //       });
+    //     },
+    //     error => {
+    //       console.log('소켓 연결 실패', error);
+    //       this.connected = false;
+    //     }
+    //   );        
+    // }
   },
 }
 </script>

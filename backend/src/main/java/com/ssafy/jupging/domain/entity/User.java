@@ -43,6 +43,7 @@ public class User {
         result.email = requestDto.getEmail();
         result.nickname = requestDto.getNickname();
         result.password = requestDto.getPassword();
+        result.profilePath = requestDto.getProfilePath();
         result.createdDate = LocalDateTime.now();
         return result;
     }
