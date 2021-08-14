@@ -5,7 +5,7 @@ COPY package*.json ./
 
 RUN npm install
 COPY ./ .
-RUN sudo npm run build
+RUN npm run build
 
 #RUN npm run-script build
 
