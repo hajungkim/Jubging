@@ -13,18 +13,6 @@ export default {
   name: 'RegionRank',
   data() {
     return {
-      regionScore: [
-        {
-          code: '00',
-          region: '전국',
-          score: '51141463',
-        },
-        {
-          code: '11',
-          region: '서울',
-          score: '51141463',
-        },
-      ]
     }
   },
   mounted() {
@@ -44,7 +32,7 @@ export default {
         .projection(projection);
 
     var quantize = d3.scale.quantize()
-        .domain([0, 1000])
+        .domain([0, 1])
         .range(d3.range(9).map(function(i) { return "p" + i; }));
 
     var popByName = d3.map();
@@ -66,7 +54,7 @@ export default {
       .then(datas => {
         console.log(datas)
         datas.forEach((data) => {
-          popByName.set(data.name, +data.count)
+          popByName.set(data.code, +data.count)
         })
         callback()
       })
@@ -76,7 +64,7 @@ export default {
       var features = topojson.feature(data, data.objects["municipalities-geo"]).features;
 
       features.forEach(function(d) {
-        d.properties.jubgingCnt = popByName.get(d.properties.name);
+        d.properties.jubgingCnt = popByName.get(d.properties.code);
         d.properties.density = d.properties.jubgingCnt / path.area(d);
         d.properties.quantized = quantize(d.properties.density);
       });
@@ -88,10 +76,9 @@ export default {
         .attr("d", path)
         .attr("id", function(d) { return d.properties.name; })
         .append("title")
-        .text(function(d) { 
-          // console.log(d.properties.code, d.properties.name)
-          return d.properties.name + ": " + d.properties.jubgingCnt/10000 + "줍깅" 
-          });
+        .text(function(d) {
+          return d.properties.name + " " + d.properties.jubgingCnt + "줍깅" 
+        });
     }
   }
 }

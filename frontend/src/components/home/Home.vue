@@ -4,11 +4,11 @@
       <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
-      <div class="alram_container">
+      <div class="alram_container" v-if="Token">
         <font-awesome-icon :icon="['fas','bell']" class="alram_button" @click="isModal=true; isAlram=false"/>
         <div v-show="isAlram" class="red_dot"></div>
       </div>
-        <label class="switch">
+        <label class="switch" v-if="Token">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
         </label>
@@ -68,15 +68,17 @@ export default {
   },
   computed:{
     ...mapState([
+      'Token',
       'articles',
       'followarticles',
     ]),
   },
   created(){
-    console.log("현재 로그인 유저",this.$store.state.userId)
     this.$store.state.backPage = 0
     this.allArticles()
-    this.followArticles()
+    if (this.Token) {
+      this.followArticles()
+    }
     this.todayJubging()
     // socket 연결
     this.connect()
