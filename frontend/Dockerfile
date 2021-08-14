@@ -8,7 +8,6 @@ COPY . .
 RUN npm run build
 
 RUN npm run-script build
-RUN ls
 
 EXPOSE 3000
 
