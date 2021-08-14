@@ -9,8 +9,9 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
+RUN npm run serve
 
-COPY /frontend/dist /var/www/html/frontend
+COPY /var/lib/jenkins/workspace/Jubging-deploy/frontend/dist /var/www/html/frontend
 
 EXPOSE 3000
 
