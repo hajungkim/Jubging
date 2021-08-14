@@ -7,6 +7,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+RUN npm run-script build
+
 EXPOSE 3000
 
 CMD ["npm", "run", "serve;"]
