@@ -73,11 +73,18 @@
       </ul>
       <div class="input_container">
         <input
+          v-if="Token"
           type="text"
           class="comment_input"
           v-model="comment"
           @keyup.enter="commentSubmit"
           placeholder="댓글을 입력하세요.">
+        <input
+          v-else
+          type="text"
+          class="comment_input"
+          placeholder="로그인하고 댓글을 작성해보세요."
+          disabled>
         <font-awesome-icon @click="commentSubmit" :icon="['fas','comment']" class="comment_icon"/>
       </div>
     </vue-bottom-sheet>
@@ -141,11 +148,14 @@ export default {
 			'userId',
       'userInfo',
       'likeflag',
+      'Token',
 		]),
   },
   created(){
     this.getDetail()
-    this.getUser()
+    if (this.Token) {
+      this.getUser()
+    }
   },
   methods: {
     open(){
@@ -260,6 +270,9 @@ export default {
       this.$router.push({name:'Editarticle', params: { article_id: articleId }})
     },
     likeToggle(){
+      if (!this.Token) {
+        return
+      }
       const data = {
         articleId: this.$route.params.article_id,
         userId: this.userId

@@ -27,13 +27,13 @@
 		</div>
   </div>
 
-	<div class="social-group">
+	<!-- <div class="social-group">
 		<div class="social"></div>
 		<div class="social"></div>
 		<div class="social"></div>
-	</div>
+	</div> -->
 	<button @click="logout">logout 임시버튼</button>
-	<span>로그인 없이 둘러보기</span>
+	<span class="no-login" @click="noLogin">로그인 없이 둘러보기 ></span>
 </div>
 </template>
 
@@ -96,6 +96,9 @@ export default {
 		validPassword(password) {
 			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
 			return test.test(password);
+		},
+		noLogin() {
+			this.$router.push({ name: 'Home' })
 		}
 	},
 }
