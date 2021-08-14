@@ -47,7 +47,8 @@
         </carousel-3d>
       </div>
       <div v-if="!isbadge" class="nobadge_text">
-        <img src="@/assets/test1.png" class="nobadgeimg">
+        <span class="nobadge">Do Jubging! Take Badges!</span>
+        <!-- <img src="@/assets/test3.png" class="nobadgeimg"> -->
       </div>
       <!-- 나의 게시글 -->
       <div class="photo_list">
@@ -57,7 +58,7 @@
           </span>
         </div>
         <div v-if="!userArticles" class="no_article">
-          게시글이 아직 없어요 ㅜㅠ!
+          <div>게시글이 없습니다</div>
         </div>
       </div>
     </div>

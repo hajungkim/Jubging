@@ -40,7 +40,8 @@
           v-show="!toggle"
         />
         <div v-if="isfollow" class="emptyfollow">
-          <div style="color:grey;">다른 유저를 팔로우 해보세요!</div>
+          <img src="@/assets/iconlogo4.png" style="opacity:0.2; width:260px;">
+          <div style="color:lightgrey">다른 유저를 팔로우 해보세요!</div>
         </div>
       </div>
     </div>
@@ -65,7 +66,6 @@ export default {
   },
   data(){
     return {
-      cnt: 0,
       toggle: true,
       isModal: false,
       isAlram: false,
@@ -127,15 +127,6 @@ export default {
         .catch((e) => {
           console.error(e);
         })
-    },
-    jubgingUser(){
-      HTTP.get(`user/cnt`)
-      .then((res) => {
-        this.cnt = res.data.data
-      })
-      .catch((e) => {
-        console.error(e);
-      })
     },
     // socket
     connect() {

@@ -1,9 +1,7 @@
 <template>
   <div style="height:781px; overflow: auto;">
     <div class="top">
-      <router-link :to="{name:'Home'}" class="default-link">
-        <font-awesome-icon icon="angle-left" class="fa-2x back_icon"/>
-      </router-link>
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="moveHome"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
     </div>
     <div class="search_main">
@@ -68,7 +66,10 @@
             <div @click="onClickArticle(article)" :data-idx=idx class="search_article">
               <img class="search_article img" :src="article.photosPath" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
               <div class="search_article_info" :data-idx="article.articleId">
-                <div data-idx="article.articleId" class="search_article_usernickname" >'{{article.nickname}}'</div>
+                <div style="display:flex; align-items:center;">
+                  <img :src="article.profilePath" style="width:50px; height:50px; border-radius:50%;">
+                  <div data-idx="article.articleId" class="search_article_usernickname" style="margin-bottom: 3px;">{{article.nickname}}</div>
+                </div>
                 <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
                 <div style="margin-top:20px;">
                   <font-awesome-icon :icon="['far','heart']"/><span style="margin-left:5px; margin-right:10px;">{{article.likeCnt}}</span>
@@ -118,6 +119,9 @@ export default {
 		]),
   },
   methods: {
+    moveHome(){
+      this.$router.push({name:"Home"})
+    },
     search(){
       // const key = String(Date.now());
       // if (this.isLatest === false){

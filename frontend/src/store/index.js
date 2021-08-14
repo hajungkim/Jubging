@@ -41,8 +41,6 @@ export default new Vuex.Store({
     },
     jubgingOption: {},
     address: "",
-
-    filterUrl: '',
   },
   mutations: {
     // 기타
