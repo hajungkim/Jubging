@@ -42,7 +42,7 @@ export default {
         this.$router.push({name:'My'})
       } else {
         this.$store.state.backPage = 1
-        this.$router.push(`/userprofile/${followingUserId}`)
+        this.$router.push({name:'Userprofile', params: { user_id: followingUserId }})
       }
     },
 	}

@@ -4,11 +4,11 @@
       <img src="@/assets/logo/textlogo.png" alt="logo" class="text_logo">
       <div class="search_alarm_follow">
       <font-awesome-icon icon="search" style="transform:scale(1.4); margin:3px 5px 0px 0px;" @click="toSearch"/>
-      <div class="alram_container">
+      <div class="alram_container" v-if="Token">
         <font-awesome-icon :icon="['fas','bell']" class="alram_button" @click="isModal=true; isAlram=false"/>
         <div v-show="isAlram" class="red_dot"></div>
       </div>
-        <label class="switch">
+        <label class="switch" v-if="Token">
           <input type="checkbox" @click="followToggle()">
           <span class="slider round"></span>
         </label>
@@ -46,8 +46,8 @@ import PhotoList from '@/components/home/PhotoList.vue'
 import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
 import { HTTP } from '@/util/http-common'
-// import Stomp from 'webstomp-client'
-// import SockJS from 'sockjs-client'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 import { mapState } from 'vuex'
 
@@ -68,18 +68,20 @@ export default {
   },
   computed:{
     ...mapState([
+      'Token',
       'articles',
       'followarticles',
     ]),
   },
   created(){
-    console.log("현재 로그인 유저",this.$store.state.userId)
     this.$store.state.backPage = 0
     this.allArticles()
-    this.followArticles()
+    if (this.Token) {
+      this.followArticles()
+    }
     this.todayJubging()
     // socket 연결
-    // this.connect()
+    this.connect()
   },
   methods:{
     followToggle(){
@@ -119,26 +121,26 @@ export default {
         })
     },
     // socket
-    // connect() {
-    //   const serverURL = "http://localhost:8080/socket"
-    //   let socket = new SockJS(serverURL);
-    //   this.$store.state.stompClient = Stomp.over(socket);
-    //   this.$store.state.stompClient.connect(
-    //     {},
-    //     frame => {
-    //       this.connected = true;
-    //       console.log('소켓 연결 성공', frame);
-    //       this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
-    //         this.isAlram = true;
-    //         alert(res.body,'@@@@@@@@@@')
-    //       });
-    //     },
-    //     error => {
-    //       console.log('소켓 연결 실패', error);
-    //       this.connected = false;
-    //     }
-    //   );        
-    // }
+    connect() {
+      const serverURL = "http://localhost:8080/socket"
+      let socket = new SockJS(serverURL);
+      this.$store.state.stompClient = Stomp.over(socket);
+      this.$store.state.stompClient.connect(
+        {},
+        frame => {
+          this.connected = true;
+          console.log('소켓 연결 성공', frame);
+          this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
+            this.isAlram = true;
+            alert(res.body,'@@@@@@@@@@')
+          });
+        },
+        error => {
+          console.log('소켓 연결 실패', error);
+          this.connected = false;
+        }
+      );        
+    }
   },
 }
 </script>
