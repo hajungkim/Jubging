@@ -10,7 +10,6 @@ RUN npm run build
 RUN npm run-script build
 
 #RUN mkdir /app
-COPY build/dist /var/www/html
 
 EXPOSE 3000
 
