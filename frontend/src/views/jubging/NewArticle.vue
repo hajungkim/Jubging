@@ -44,17 +44,15 @@
            <input class="item-grid" type="file" id="input-image" @change="readImage" ref="photos" multiple :disabled="num>=3"/>
         </div>
       </div>
-      <button v-if="isbutton && !iscontent" class="btn-next" @click="sendData">올리기 ></button>
-      <button v-if="!isbutton" class="btn-next" disabled="true">사진을 등록해주세요</button>
-      <button v-if="iscontent && isbutton" class="btn-next" disabled="true">내용을 200자 미만으로 작성해주세요</button>
+      <button v-if="isbutton && !iscontent" class="btn" @click="sendData">올리기 ></button>
+      <button v-if="!isbutton" class="btn" disabled="true">사진을 등록해주세요</button>
+      <button v-if="iscontent && isbutton" class="btn" disabled="true">내용을 200자 미만으로 작성해주세요</button>
     </div>
-    <!-- <Editfilter v-show="editflag" :cropImg="cropImg" :editflag="editflag" v-on:send="getch"></Editfilter> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-// import Editfilter from '@/views/jubging/Editfilter.vue'
 import ModalView from '@/views/ModalView.vue'
 import { mapState } from 'vuex'
 import Cropper from 'cropperjs';
@@ -64,7 +62,6 @@ export default {
 name: 'NewArticle',
 components:{
   ModalView,
-  // Editfilter,
 },
 props: {
 },
@@ -82,11 +79,6 @@ data() {
     croppedCanvas: '',
     canvasList: [],
     num: 0,
-
-    noshow: false,
-    editflag: false,
-    cropImg: '',
-    filterImg:[],
 	}
 },
 computed:{
@@ -94,7 +86,6 @@ computed:{
 			'userId',
       'jubgingOption',
       'jubgingInfo',
-      'filterUrl'
   ]),
 },
 watch:{
@@ -115,9 +106,6 @@ methods: {
     else{
       this.iscontent = false
     }
-  },
-  getch(){
-    console.log('@@')
   },
   readImage(event) {
     var image = document.getElementById('image');
@@ -142,7 +130,6 @@ methods: {
   },
   photoDeleteButton(e) {
     var name = e.target.getAttribute('name')
-    console.log(this.$store.state.E)
     if (this.canvasList.length === 1){
       this.canvasList.pop()
     } 
@@ -187,11 +174,8 @@ methods: {
   this.num = this.num + 1
   this.modalOff()
   // 추가 부분
-  this.cropImg = this.croppedCanvas.toDataURL()
-  this.editflag = true;
   },
   async sendData() {
-    console.log(this.filterUrl,"@~@~")
     var photosPath = ''
     var j = 0
     var L = this.canvasList.length;

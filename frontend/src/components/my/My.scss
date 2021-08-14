@@ -72,8 +72,12 @@ margin: 0;
   width: 412px;
   height: 62px;
 }
+.nobadge{
+  font-size:20px;
+  color:gray;
+}
 .nobadgeimg{
-  width:390PX;
+  width:340PX;
 }
 /* 피드 부분 */
 .photo_list{
@@ -90,7 +94,8 @@ width: 135px;
 height: 135px;
 }
 .no_article{
-  display:flex;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 367px;
