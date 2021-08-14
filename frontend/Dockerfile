@@ -10,6 +10,7 @@ RUN npm run build
 RUN npm run-script build
 
 RUN cd
+RUN ls
 RUN cd /var/www/html
 RUN sudo rm -rf dist
 RUN sudo mv dist /var/www/html
