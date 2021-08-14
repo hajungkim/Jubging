@@ -69,10 +69,17 @@
       color: $white;
       font-size: 12px;
     }
+    button:disabled {
+      background-color: $gray;
+    }
   }
   
   .form-mb {
     margin-bottom: 14px;
+  }
+
+  .from-btn-mt {
+    margin-top: 16px;
   }
   
   .form-check {
