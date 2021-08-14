@@ -7,8 +7,11 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-RUN npm run-script build
-RUN ls
+RUN npm run build
+RUN vue-cli-service build
+
+#RUN npm run-script build
+#RUN ls
 
 EXPOSE 3000
 
