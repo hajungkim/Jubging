@@ -10,10 +10,6 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-RUN npm run serve
-
-COPY /app/dist /var/www/html/
-
 EXPOSE 3000
 
-CMD ["nnpmginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
