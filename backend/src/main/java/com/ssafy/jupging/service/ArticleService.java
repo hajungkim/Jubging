@@ -56,5 +56,9 @@ public class ArticleService {
     public List<Article> findByOrderByCreatedDateDesc() {
         return articleRepository.findByOrderByCreatedDateDesc();
     }
+
+    public int countByUserId(Long userId) {
+        return articleRepository.countByUserId(userId);
+    }
 }
 
