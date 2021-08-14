@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div id="header">
-      <div class="to-center">
-        <img class="logo" src="@/assets/logo/textlogo.png" alt="줍깅 로고">
-      </div>
+    <div class="top">
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
     </div>
+
     <div id="body">
       <div class="item">
         <div><h3>줍깅 후기 작성하기</h3></div>
@@ -21,12 +21,12 @@
         </form>
       </div>
 
-      <div class="item">
-        <div v-for="(photo, i) in photos" :key="i" class="photo-grid" style="margin-left:4px;">
+      <div class="item-photo">
+        <div v-for="(photo, i) in photos" :key="i" class="photo-grid">
           <div class="item-grid" >
-            <img id="preview" :src="photo.preview" alt="" style="width:70px; height:70px;">
+            <img id="preview" :src="photo.preview" alt="">
           </div>
-          <div class="file-close-button" @click="photoDeleteButton" :name="photo.number" style="margin-left:-30px; margin-bottom:-10px;">-</div>
+          <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">-</div>
         </div>
         <ModalView v-show="isModalViewed" @close-modal="modalOff">
           <div class="img-container">
@@ -34,9 +34,14 @@
             <button type="button" id="button" @click="crop" class="btn">Crop</button>
           </div>
         </ModalView>
-        <div class="item-grid">
-           <label for="input-image">{{ num }}/3</label>
-           <input class="item-grid" type="file" id="input-image"  @change="readImage" ref="photos" multiple :disabled="num>=3"/>
+        <div class="item-grid" v-if="num<3">
+          <label for="input-image">
+            <div class="input-text">
+              <font-awesome-icon icon="camera" class="m-0 icon"/>
+              <p class="m-0">{{ num }}/3</p>
+            </div>
+          </label>
+           <input class="item-grid" type="file" id="input-image" @change="readImage" ref="photos" multiple :disabled="num>=3"/>
         </div>
       </div>
       <button v-if="isbutton && !iscontent" class="btn-next" @click="sendData">올리기 ></button>
@@ -142,7 +147,7 @@ methods: {
       this.canvasList.pop()
     } 
     else{
-      this.canvasList.splice(name-1,1)
+      this.canvasList.splice(name-1, 1)
     }
     if (this.canvasList.length === 0){
       this.isbutton = false
@@ -150,7 +155,9 @@ methods: {
     this.num = this.num - 1
     this.photos = this.photos.filter(data => data.number !== Number(name))
   },
-
+  back() {
+    this.$router.push({name: 'Register'})
+  },
   modalOn() {
   this.isModalViewed = true
   var image = document.getElementById('image');
