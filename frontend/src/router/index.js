@@ -11,6 +11,7 @@ import Jubging from '@/components/jubging/Jubging.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Editarticle from '@/views/home/Editarticle.vue'
+import Editfilter from '@/views/jubging/Editfilter.vue'
 
 import Mission from '@/components/mission/Mission.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
@@ -158,6 +159,11 @@ const routes = [
     component: FindPassword,
     beforeEnter: requireNoAuth()
   },
+  {
+    path:'/editfilter',
+    name:'Editfilter',
+    component: Editfilter,
+  }
 ]
 
 const router = new VueRouter({

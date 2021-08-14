@@ -55,7 +55,7 @@
       </carousel-3d>
     </div>
     <div v-if="!isbadge" class="nobadge_text">
-      <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
+      <img src="@/assets/test1.png" class="nobadgeimg">
     </div>
 
     <!-- 유저 게시글 -->
