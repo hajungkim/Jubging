@@ -77,4 +77,8 @@ public class User {
     public void changePassword(String tempKey){
         this.password=tempKey;
     }
+
+    public void saveArticleCnt(int articleCnt) {
+        this.articleCount=articleCnt;
+    }
 }
