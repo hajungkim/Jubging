@@ -18,7 +18,13 @@
     </AlarmModal>
     <div class="photo_list">
       <div class="photo-grid" v-show="this.toggle">
-        <div class="today-jubging" v-show="this.toggle">오늘의 줍깅 : {{this.total}}</div>
+        <div class="today-jubging" v-show="this.toggle" style="height:70px;">
+          <img src="@/assets/today_jubging.png" alt="" style="width:40px; height:40px;">
+          <span style="margin-left:5px;">오늘의 줍깅</span>
+        </div>
+        <div style="display:flex; justify-content:center;">
+        <h2 style="margin-top:-10px;">{{this.total}}</h2> 
+        </div>
         <PhotoList
           v-for="(article,idx) in articles"
           :key="idx"
@@ -59,6 +65,7 @@ export default {
   },
   data(){
     return {
+      cnt: 0,
       toggle: true,
       isModal: false,
       isAlram: false,
@@ -80,6 +87,7 @@ export default {
       this.followArticles()
     }
     this.todayJubging()
+    this.jubgingUser()
     // socket 연결
     this.connect()
   },
@@ -120,9 +128,19 @@ export default {
           console.error(e);
         })
     },
+    jubgingUser(){
+      HTTP.get(`user/cnt`)
+      .then((res) => {
+        this.cnt = res.data.data
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
     // socket
     connect() {
-      const serverURL = "http://localhost:8080/socket"
+      //const serverURL = "http://localhost:8080/socket"
+      const serverURL = "https://i5b207.p.ssafy.io/api/socket"
       let socket = new SockJS(serverURL);
       this.$store.state.stompClient = Stomp.over(socket);
       this.$store.state.stompClient.connect(
