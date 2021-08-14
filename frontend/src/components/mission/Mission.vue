@@ -15,6 +15,7 @@
 <script>
 import MissionActive from '@/components/mission/MissionActive.vue'
 import MissionJubging from '@/components/mission/MissionJubging.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'Mission',
@@ -27,8 +28,15 @@ export default {
 			flag: true
 		}
 	},
+	computed: {
+		...mapState([
+			'Token',
+		])
+	},
 	created() {
-		this.$store.dispatch('getMission')
+		if (this.Token) {
+			this.$store.dispatch('getMission')
+		}
 	},
 	methods: {
 		changeComponent(bool) {

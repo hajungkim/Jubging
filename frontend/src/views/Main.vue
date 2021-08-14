@@ -39,8 +39,10 @@ export default {
   methods:{
     onClick(link){
       this.$store.dispatch('isCurrent', link)
-      document.querySelector('.router-link-active').classList.remove('item-active')
-      document.querySelector(`#item-active-${link}`).classList.add('item-active')
+      if (this.$route.name !== 'Login') {
+        document.querySelector('.router-link-active').classList.remove('item-active')
+        document.querySelector(`#item-active-${link}`).classList.add('item-active')
+      }
     },
   },
   mounted(){
