@@ -8,14 +8,17 @@
     <div id="body">
       <div class="item">
         <div><h3>줍깅 후기 작성하기</h3></div>
-        <textarea
-          v-model="content"
-          name="text" 
-          placeholder="본문에 #을 이용하여 태그를 사용해보세요"
-          id="ta" 
-          cols="33" 
-          rows="14"
-        ></textarea>
+        <form name="insertFrm">
+          <textarea
+            v-model="content"
+            name="text" 
+            placeholder="본문에 #을 이용하여 태그를 사용해보세요"
+            id="ta" 
+            cols="33" 
+            rows="14"
+            v-on:input="content_typing"
+          ></textarea>
+        </form>
       </div>
 
       <div class="item">
@@ -36,14 +39,17 @@
            <input class="item-grid" type="file" id="input-image"  @change="readImage" ref="photos" multiple :disabled="num>=3"/>
         </div>
       </div>
-      <button v-if="isbutton" class="btn-next" @click="sendData">올리기 ></button>
+      <button v-if="isbutton && !iscontent" class="btn-next" @click="sendData">올리기 ></button>
       <button v-if="!isbutton" class="btn-next" disabled="true">사진을 등록해주세요</button>
+      <button v-if="iscontent && isbutton" class="btn-next" disabled="true">내용을 200자 미만으로 작성해주세요</button>
     </div>
+    <!-- <Editfilter v-show="editflag" :cropImg="cropImg" :editflag="editflag" v-on:send="getch"></Editfilter> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+// import Editfilter from '@/views/jubging/Editfilter.vue'
 import ModalView from '@/views/ModalView.vue'
 import { mapState } from 'vuex'
 import Cropper from 'cropperjs';
@@ -53,6 +59,7 @@ export default {
 name: 'NewArticle',
 components:{
   ModalView,
+  // Editfilter,
 },
 props: {
 },
@@ -64,11 +71,17 @@ data() {
     photosPath: '',
     files: [],
     isbutton: false,
+    iscontent: false,
     isModalViewed: false,
     cropper: null,
     croppedCanvas: '',
     canvasList: [],
     num: 0,
+
+    noshow: false,
+    editflag: false,
+    cropImg: '',
+    filterImg:[],
 	}
 },
 computed:{
@@ -76,18 +89,31 @@ computed:{
 			'userId',
       'jubgingOption',
       'jubgingInfo',
+      'filterUrl'
   ]),
 },
 watch:{
-  photosPathh(){
-    console.log(this.photosPath)
-  }
 },
 created() {
 },
 mounted() {
 },
 methods: {
+  content_typing(e){
+    this.max_length(e,200);
+  },
+  max_length(e,len){
+    var val = e.target.value;
+    if(val.length > len){
+      this.iscontent = true
+    }
+    else{
+      this.iscontent = false
+    }
+  },
+  getch(){
+    console.log('@@')
+  },
   readImage(event) {
     var image = document.getElementById('image');
     var input = document.getElementById('input-image');
@@ -111,13 +137,13 @@ methods: {
   },
   photoDeleteButton(e) {
     var name = e.target.getAttribute('name')
+    console.log(this.$store.state.E)
     if (this.canvasList.length === 1){
       this.canvasList.pop()
     } 
     else{
       this.canvasList.splice(name-1,1)
     }
-    console.log(this.canvasList)
     if (this.canvasList.length === 0){
       this.isbutton = false
     }
@@ -152,10 +178,13 @@ methods: {
   this.canvasList.push(this.croppedCanvas)
   this.isbutton = true
   this.num = this.num + 1
-
   this.modalOff()
+  // 추가 부분
+  this.cropImg = this.croppedCanvas.toDataURL()
+  this.editflag = true;
   },
   async sendData() {
+    console.log(this.filterUrl,"@~@~")
     var photosPath = ''
     var j = 0
     var L = this.canvasList.length;

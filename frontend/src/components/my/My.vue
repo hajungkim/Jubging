@@ -47,7 +47,7 @@
         </carousel-3d>
       </div>
       <div v-if="!isbadge" class="nobadge_text">
-        <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
+        <img src="@/assets/test1.png" class="nobadgeimg">
       </div>
       <!-- 나의 게시글 -->
       <div class="photo_list">
@@ -66,20 +66,20 @@
       <div>
         <router-link :to="{name:'ChangeSetting'}" class="default-link">
           <div class="bt_common">
-            <font-awesome-icon icon="user" class="fa-2x icon" style="margin-right:17px"/>
+            <font-awesome-icon icon="user" class="icon" style="margin-right:17px"/>
             <span>회원정보변경</span>
           </div>
         </router-link>
           <div class="bt_common likelog" @click="onLikelog">
-            <font-awesome-icon icon="heart" class="fa-2x icon" style="margin-right:15px"/>
+            <font-awesome-icon icon="heart" class="icon" style="margin-right:16px"/>
             <span>좋아요 로그</span>
           </div>
           <div class="bt_common"  @click="onJublog">
-            <font-awesome-icon icon="running" class="fa-2x icon" style="margin-right:19px"/>
+            <font-awesome-icon icon="running" class="icon" style="margin-right:19px"/>
             <span>줍깅 로그</span> 
           </div>
         <div class="bt_common" @click="onlogout">
-          <font-awesome-icon icon="sign-out-alt" class="fa-2x icon" style="margin-right:13px"/>
+          <font-awesome-icon icon="sign-out-alt" class="icon" style="margin-right:15px"/>
           <span>로그아웃</span> 
         </div>
       </div>
