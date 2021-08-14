@@ -104,10 +104,14 @@ align-items: center;
 height: 60px;
 }
 .likelog{
-margin-left:38px;
+  margin-left:38px;
 }
 .icon{
-margin-right:10px;
+  font-size:25px;
+  margin-right:10px;
+}
+.bt_common > span{
+  font-size:18px;
 }
 /* 라우터 링크 색 변경x */
 .default-link{
