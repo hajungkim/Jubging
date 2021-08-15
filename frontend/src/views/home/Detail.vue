@@ -53,14 +53,14 @@
       </div>
     </div>
 
-    <vue-bottom-sheet ref="myBottomSheet" max-height="800px" max-width="412px" id="comment_bottom" >
+    <vue-bottom-sheet ref="myBottomSheet" max-height="681px" max-width="412px" id="comment_bottom" >
       <ul style="padding:0px;" id="ul-content">
         <li class="comment_container"
           v-for="(comment,idx) in comments"
           :key="idx"
         >
-          <div style="display:flex;" @click = moveProfile(comment.userId)>
-            <img class="comment_profile" :src="comment.profilePath">
+          <div style="display:flex;">
+            <img class="comment_profile" :src="comment.profilePath"  @click = moveProfile(comment.userId)>
             <div>
               <div>
                 <span style="font-weight:bold;">{{comment.nickname}}</span>
@@ -230,6 +230,7 @@ export default {
       HTTP.delete(`comment/${comment.commentId}?userId=${comment.userId}`, data)
         .then(() => {
           this.getComment()
+          this.getDetail()
         })
         .catch((e) => {
           console.error(e);

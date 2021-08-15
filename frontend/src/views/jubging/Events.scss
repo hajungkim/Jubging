@@ -1,0 +1,30 @@
+.top{
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.back_icon{
+  margin-left:16px;
+  cursor: pointer;
+}
+.logo{
+  margin-left: 124px;
+  transform: scale(1.5);
+}
+.event_lists{
+  list-style:none;
+  font-size:16px;
+  padding-left:30px;
+  margin-top: 10px;
+}
+.event_list{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 355px;
+  height:49px;
+  border-bottom: 1px solid lightgrey;
+}
+.right{
+  color: silver;
+}

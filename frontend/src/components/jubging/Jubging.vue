@@ -1,15 +1,14 @@
 <template>
   <div>
-      <div id="header">
-          <div class="to-center">
-            <img class="logo" src="@/assets/logo/textlogo.png" alt="줍깅 로고">
-          </div>
-      </div>
-      <div id="body">
-        <img height="550px" src="" alt="줍깅 설명">
-        <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
-        <button class="btn btn-jubging">{{msg}}</button>
-      </div>
+    <div class="top">
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
+      <font-awesome-icon :icon="['far','calendar-alt']" class="events" @click="open"/>
+    </div>
+    <div id="body">
+      <img height="550px" src="" alt="줍깅 설명">
+      <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
+      <button @click="startJubging()" class="btn btn-jubging">{{msg}}</button>
+    </div>
   </div>
 </template>
 
@@ -51,6 +50,9 @@ mounted() {
   document.head.appendChild(script);
 },
 methods:{
+  open(){
+    this.$router.push({name:'Events'})
+  },
 	startJubging() {
     if (this.$store.state.isJubgingOn) {
       window.Android.startJubgingActivity()
@@ -66,22 +68,16 @@ methods:{
     this.$store.dispatch('jubgingOn', isJubgingOn)
   },
 
-  finishJubging(startLatitude, startLongitude, time, dist) {
+  finishJubging(address, time, dist) {
 
-    var geocoder = new kakao.maps.services.Geocoder();
-    geocoder.coord2RegionCode(startLongitude, startLatitude, (result, status) => {
-      
-      let address = "None"
-      if (status == kakao.maps.services.Status.OK) {
-        address = result[0].address_name
-      }
-      this.$store.dispatch('setAddress', address)  // 시작 주소 입력
 
-      this.msg = "줍깅 시작"
-      this.$store.dispatch('jubgingOn', false)
-      this.$store.dispatch('setJubgingInfo', {time, dist})
-      this.$router.push({name:'Register'})
-    }); 
+    this.msg = "줍깅 시작"
+    this.$store.dispatch('jubgingOn', false)
+
+    
+    this.$store.dispatch('setAddress', address)  // 시작 주소 입력
+    this.$store.dispatch('setJubgingInfo', {time, dist})
+    this.$router.push({name:'Register'})
 
   },
 },
