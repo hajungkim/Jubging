@@ -155,8 +155,8 @@ export default {
     },
     // socket
     connect() {
-      const serverURL = "http://localhost:8080/socket"
-      // const serverURL = "https://i5b207.p.ssafy.io/api/socket"
+      // const serverURL = "http://localhost:8080/socket"
+      const serverURL = "https://i5b207.p.ssafy.io/api/socket"
       let socket = new SockJS(serverURL);
       this.$store.state.stompClient = Stomp.over(socket);
       this.$store.state.stompClient.connect(
