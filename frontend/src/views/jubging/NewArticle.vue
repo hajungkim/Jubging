@@ -8,17 +8,14 @@
     <div id="body">
       <div class="item-text">
         <h3>줍깅 후기 작성하기</h3>
-        <form name="insertFrm">
           <textarea
             v-model="content"
             name="text" 
             placeholder="본문에 #을 이용하여 태그를 사용해보세요"
-            id="ta" 
-            cols="41" 
+            id="ta"
             rows="13"
             v-on:input="content_typing"
           ></textarea>
-        </form>
       </div>
 
       <div class="item-photo">
@@ -28,7 +25,7 @@
           </div>
           <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">-</div>
         </div>
-        <ModalView v-show="isModalViewed" @close-modal="modalOff">
+        <ModalView v-show="isModalViewed" @close-modal="modalOff" :modalTitle="'줍깅 사진 편집'">
           <div class="img-container">
             <img id="image" src="@/assets/user_default.png" alt="Picture">
             <button type="button" id="button" @click="crop" class="btn">Crop</button>
@@ -52,18 +49,15 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common';
 import ModalView from '@/views/ModalView.vue'
 import { mapState } from 'vuex'
 import Cropper from 'cropperjs';
 
-axios.defaults.baseURL = 'http://localhost:8080/'
 export default {
 name: 'NewArticle',
 components:{
   ModalView,
-},
-props: {
 },
 data() {
 	return{
@@ -79,6 +73,7 @@ data() {
     croppedCanvas: '',
     canvasList: [],
     num: 0,
+    article_id: 0,
 	}
 },
 computed:{
@@ -184,7 +179,7 @@ methods: {
       this.canvasList[i].toBlob(function (blob) {
       var form = new FormData();
       form.append('file', blob, i+".png");
-      axios.post('/images', form)
+      HTTP.post('/images', form)
         .then(res => {
           photosPath = photosPath + res.data.data + '#'
           j = j + 1
@@ -197,7 +192,6 @@ methods: {
         })
       })
     }     
-    this.sendOption()
   },
   sendServer(photosPath) {
     var data = {
@@ -205,9 +199,11 @@ methods: {
       photosPath: photosPath,
       userId: this.userId,
     }
-    axios.post('/article', data)
+    HTTP.post('/article', data)
       .then((res) => {
         console.log(res.data)
+        this.article_id = res.data.article_id
+        this.sendOption()
       })
       .catch((err)=>{
         console.error(err)
@@ -216,9 +212,10 @@ methods: {
   sendOption(){
     // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
     var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
-    axios.put('/mission', data)
+    HTTP.put('/mission', data)
       .then((res) => {
         console.log(res.data)
+        this.$router.push({name:'Detail', params: { article_id: this.article_id }})
       })
       .catch((err)=>{
         console.error(err)

@@ -1,20 +1,29 @@
 <template>
-  <div class="modal" style="z-index:1050;">
-		<div class="overlay" @click="$emit('close-modal')"></div>
+  <div class="modal" style="z-index: 1000;">
+    <div class="overlay" @click="$emit('close-modal')"></div>
 			<div class="modal-card">
-				<div class="modal_top" style="font-size:20px; font-weight:bold;">팔로잉<button class="close" @click="$emit('close-modal')">X</button></div>
-					<div>
-						<ul class="follow_container">
-							<li class="img_name_contain" v-for="(following, idx) in userFollowings" :key="idx" @click="moveProfile(following.userId)">
-								<img class="follow_profile" :src="following.profilePath">
-								<div style="display:flex; align-items:center;">
-										<span style="margin-left:5px;">{{following.nickName}}</span>
-								</div>
-							</li>
-						</ul>
-					</div>
-			</div>
-	</div>
+        <div class="modal-header">
+          <span>팔로잉</span>
+          <font-awesome-icon class="icon" icon="times" @click="$emit('close-modal')"/>
+        </div>
+        <div class="modal-content">
+          <ul class="follow_container">
+            <li class="img_name_contain" v-for="(following, idx) in userFollowings" :key="idx" @click="moveProfile(following.userId)">
+              <img class="follow_profile_img" :src="following.profilePath">
+              <div class="follow_profile">
+                <div class="follow-text-group">
+                  <span>{{following.nickName}}</span>
+                  <span class="follow-text">나를 팔로우합니다.</span>
+                </div>
+                <button>언팔로우</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+  </div>
 </template>
 
 <script>

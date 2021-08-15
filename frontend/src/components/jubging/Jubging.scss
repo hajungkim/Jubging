@@ -1,13 +1,25 @@
-
-#header {
-  position: relative;
-  width: 100%;
+.top{
+  display: flex;
+  align-items: center;
   height: 50px;
-  background-color: white;
+  .events{
+    margin-right: 10px;
+    font-size: 22.5px;
+  }
+  .logo{
+    display: block;
+    margin:0px auto;
+    width: 100px;
+    transform:scale(1.5);
+    padding-left:20px;
+  }
 }
+
 #body {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   height: 681px;
   background-color: white;
 }
@@ -22,7 +34,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.btn-jubging {
-
 }
