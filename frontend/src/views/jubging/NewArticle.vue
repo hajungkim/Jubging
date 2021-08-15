@@ -52,12 +52,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common';
 import ModalView from '@/views/ModalView.vue'
 import { mapState } from 'vuex'
 import Cropper from 'cropperjs';
 
-axios.defaults.baseURL = 'http://localhost:8080/'
 export default {
 name: 'NewArticle',
 components:{
@@ -182,7 +181,7 @@ methods: {
       this.canvasList[i].toBlob(function (blob) {
       var form = new FormData();
       form.append('file', blob, i+".png");
-      axios.post('/images', form)
+      HTTP.post('/images', form)
         .then(res => {
           photosPath = photosPath + res.data.data + '#'
           j = j + 1
@@ -203,7 +202,7 @@ methods: {
       photosPath: photosPath,
       userId: this.userId,
     }
-    axios.post('/article', data)
+    HTTP.post('/article', data)
       .then((res) => {
         console.log(res.data)
       })
@@ -214,7 +213,7 @@ methods: {
   sendOption(){
     // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
     var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
-    axios.put('/mission', data)
+    HTTP.put('/mission', data)
       .then((res) => {
         console.log(res.data)
       })
