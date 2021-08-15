@@ -4,7 +4,7 @@
 			<div class="mission-description" :style="{ backgroundImage: 'url(' + badge.bg_image + ')'}">
 				<h2 class="title">{{ badge.name }}</h2>
 				<span class="sub">{{ badge.description }}</span>
-				<span class="sub">{{ badge.currentCnt }}</span>
+				<span class="sub">{{ badge.current }}</span>
 			</div>
 			<div class="badges">
 				<div class="badge-group">
@@ -35,7 +35,7 @@ export default {
 				{
 					name: '좋아요 뱃지',
 					description: '좋아요를 눌러 뱃지를 획득하세요!',
-					currentCnt: '',
+					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
@@ -46,7 +46,7 @@ export default {
 				{
 					name: '댓글 뱃지',
 					description: '댓글을 작성하여 뱃지를 획득하세요!',
-					currentCnt: '',
+					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
@@ -57,7 +57,7 @@ export default {
 				{
 					name: '팔로우 뱃지',
 					description: '팔로우하여 뱃지를 획득하세요!',
-					currentCnt: '',
+					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
@@ -68,7 +68,7 @@ export default {
 				{
 					name: '줍깅 횟수 뱃지',
 					description: '줍깅을 실천하고 뱃지를 획득하세요!',
-					currentCnt: '',
+					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
@@ -86,10 +86,10 @@ export default {
 	},
 	watch: {
 		missions() {
-			this.badges[0].currentCnt = this.missions.likeCnt
-			this.badges[1].currentCnt = this.missions.commentCnt
-			this.badges[2].currentCnt = this.missions.followCnt
-			this.badges[3].currentCnt = this.missions.jubgingCnt
+			this.badges[0].current = this.missions.like
+			this.badges[1].current = this.missions.comment
+			this.badges[2].current = this.missions.follow
+			this.badges[3].current = this.missions.jubging
 		}
 	},
 }

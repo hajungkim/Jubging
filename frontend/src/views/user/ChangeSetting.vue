@@ -22,10 +22,6 @@
       <div class="form-group">
         <div class="form-mb">
           <input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email" disabled=true>
-          <div class="form-check" id="check-email" v-if="!error.email">
-            <font-awesome-icon icon="check-circle"/>
-            <span id="check-email-text"> 이메일은 변경할 수 없습니다.</span>
-          </div>
         </div>
 
         <div class="form-mb">
