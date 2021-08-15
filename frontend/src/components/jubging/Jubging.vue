@@ -65,22 +65,16 @@ methods:{
     this.$store.dispatch('jubgingOn', isJubgingOn)
   },
 
-  finishJubging(startLatitude, startLongitude, time, dist) {
+  finishJubging(address, time, dist) {
 
-    var geocoder = new kakao.maps.services.Geocoder();
-    geocoder.coord2RegionCode(startLongitude, startLatitude, (result, status) => {
-      
-      let address = "None"
-      if (status == kakao.maps.services.Status.OK) {
-        address = result[0].address_name
-      }
-      this.$store.dispatch('setAddress', address)  // 시작 주소 입력
 
-      this.msg = "줍깅 시작"
-      this.$store.dispatch('jubgingOn', false)
-      this.$store.dispatch('setJubgingInfo', {time, dist})
-      this.$router.push({name:'Register'})
-    }); 
+    this.msg = "줍깅 시작"
+    this.$store.dispatch('jubgingOn', false)
+
+    
+    this.$store.dispatch('setAddress', address)  // 시작 주소 입력
+    this.$store.dispatch('setJubgingInfo', {time, dist})
+    this.$router.push({name:'Register'})
 
   },
 },
