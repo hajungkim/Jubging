@@ -3,6 +3,7 @@ package com.ssafy.jupging.controller;
 import com.ssafy.jupging.domain.entity.Mission;
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.*;
+import com.ssafy.jupging.service.ArticleService;
 import com.ssafy.jupging.service.JwtService;
 import com.ssafy.jupging.service.MissionService;
 import com.ssafy.jupging.service.UserService;
@@ -25,6 +26,8 @@ public class UserController {
     private final UserService userService;
 
     private final MissionService missionService;
+
+    private final ArticleService articleService;
 
     @ApiOperation(value = "로그인", notes = "로그인 성공 시 (token, userId) 반환 / 회원정보가 없을 경우 false 반환", response = ControllerResponse.class)
     @PostMapping("/login")
@@ -111,6 +114,8 @@ public class UserController {
 
         try {
             User result = userService.findUser(userId);
+            int articleCnt = articleService.countByUserId(userId);
+            result.saveArticleCnt(articleCnt);
             response = new ControllerResponse("success", result);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -199,5 +204,4 @@ public class UserController {
 
         return response;
     }
-
 }
