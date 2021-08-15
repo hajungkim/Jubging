@@ -1,20 +1,26 @@
 <template>
-  <div class="modal" style="z-index:1050;">
-		<div class="overlay" @click="$emit('close-modal')"></div>
+  <div class="modal" style="z-index: 1000;">
+    <div class="overlay" @click="$emit('close-modal')"></div>
 			<div class="modal-card">
-				<div class="modal_top" style="font-size:20px; font-weight:bold;">팔로워<button class="close" @click="$emit('close-modal')">X</button></div>
-					<div>
-						<ul class="follow_container">
-							<li class="img_name_contain" v-for="(follower, idx) in userFollowers" :key="idx" @click="moveProfile(follower.userId)">
-								<img class="follow_profile" :src="follower.profilePath">
-								<div style="display:flex; align-items:center;">
-										<span style="margin-left:5px;">{{follower.nickName}}</span>
-								</div>
-							</li>
-						</ul>
-					</div>
-			</div>
-	</div>
+        <div class="modal-header">
+          <span>팔로워</span>
+          <font-awesome-icon class="icon" icon="times" @click="$emit('close-modal')"/>
+        </div>
+        <div class="modal-content">
+          <ul class="follow_container">
+            <li class="img_name_contain" v-for="(follower, idx) in userFollowers" :key="idx" @click="moveProfile(follower.userId)">
+              <img class="follow_profile_img" :src="follower.profilePath">
+              <div class="follow_profile">
+                <span>{{follower.nickName}}</span>
+                <button>팔로우</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+  </div>
 </template>
 
 <script>
