@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <vue-bottom-sheet ref="myBottomSheet" max-height="800px" max-width="412px" id="comment_bottom" >
+    <vue-bottom-sheet ref="myBottomSheet" max-height="681px" max-width="412px" id="comment_bottom" >
       <ul style="padding:0px;" id="ul-content">
         <li class="comment_container"
           v-for="(comment,idx) in comments"
@@ -230,6 +230,7 @@ export default {
       HTTP.delete(`comment/${comment.commentId}?userId=${comment.userId}`, data)
         .then(() => {
           this.getComment()
+          this.getDetail()
         })
         .catch((e) => {
           console.error(e);

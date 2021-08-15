@@ -9,7 +9,6 @@
         </div>
         <div class="hashtag_container" @click="moveDetail(followarticle)">
           <div v-for="(hash,idx) in followarticle.hashlist" :key="idx" style="font-size:14px;">#{{hash}}</div>
-          <div v-if="hashflag">#해쉬태그가 없어요 ㅠㅠ!</div>
         </div>
         <div class="like_comment_container" @click="moveDetail(followarticle)">
           <div class="lcbox">
@@ -47,9 +46,6 @@ export default {
     }
   },
   created(){
-    if (this.followarticle.hashlist.length === 0){
-      this.hashflag = true
-    }
     HTTP.get(`user/${this.followarticle.userId}`)
       .then((res) => {
         this.user.profilePath = res.data.data.profilePath
