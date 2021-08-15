@@ -127,7 +127,7 @@ export default {
 					bronze: 3,
 					silver: 10,
 					gold: 20,
-					bg_image: 'totalDistance.jpg',
+					bg_image: 'vinyl.jpg',
 					bronze_image: 'http://placehold.it/185x185',
 					silver_image: 'http://placehold.it/185x185',
 				},
