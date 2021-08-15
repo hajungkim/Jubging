@@ -57,26 +57,24 @@ flex-direction: column;
 .badge_box{
   margin-top: 1.5vh;
   margin-bottom: 1.5vh;
-  z-index:0;
 }
 .badge_img{
   height: 60px;
 }
 .badge_carousel{
   margin: 0;
-  // z-index:0;
 }
 .nobadge_text{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1.5vh;
-  margin-bottom:1.5vh;
+  margin-top: -55px;
+  margin-bottom: 28px;
   width: 412px;
-  height: 62px;
 }
-.nobadgeimg{
-  width:390PX;
+.nobadge{
+  font-size:20px;
+  color:gray;
 }
 /* 피드 부분 */
 .photo_list{
