@@ -28,7 +28,7 @@
   }
 
   .form-mb {
-    margin-bottom: 14px;
+    margin-bottom: 20px;
   }
 
   .form-text-align {
@@ -49,6 +49,12 @@
   .form-error {
     padding-left: 10px;
   }
+}
+
+.no-login {
+  margin-top: 160px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .social-group {

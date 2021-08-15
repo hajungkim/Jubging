@@ -18,7 +18,7 @@
         <span style="font-weight:bold; font-size:18px;">{{article.nickname}}</span>
       </div>
       <!--사진들-->
-      <carousel-3d v-if="ischange" :width="300" :height="300" bias="right" :count="3">
+      <carousel-3d v-if="ischange" :width="300" :height="300" bias="right" :count="3" :border="0 " style="margin:0px;">
         <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
@@ -27,7 +27,8 @@
         </slide>
       </carousel-3d>
       <span class="datetext">
-        {{article.date}}
+        {{article.date.slice(0,4)}}.{{article.date.slice(5,7)}}.{{article.date.slice(8,10)}}
+        <!-- {{article.date}} -->
       </span>
       <!--게시글 내용-->
       <div class="content_box">
@@ -52,14 +53,14 @@
       </div>
     </div>
 
-    <vue-bottom-sheet ref="myBottomSheet" max-height="800px" max-width="412px" id="comment_bottom" >
+    <vue-bottom-sheet ref="myBottomSheet" max-height="681px" max-width="412px" id="comment_bottom" >
       <ul style="padding:0px;" id="ul-content">
         <li class="comment_container"
           v-for="(comment,idx) in comments"
           :key="idx"
         >
-          <div style="display:flex;" @click = moveProfile(comment.userId)>
-            <img class="comment_profile" :src="comment.profilePath">
+          <div style="display:flex;">
+            <img class="comment_profile" :src="comment.profilePath"  @click = moveProfile(comment.userId)>
             <div>
               <div>
                 <span style="font-weight:bold;">{{comment.nickname}}</span>
@@ -73,11 +74,18 @@
       </ul>
       <div class="input_container">
         <input
+          v-if="Token"
           type="text"
           class="comment_input"
           v-model="comment"
           @keyup.enter="commentSubmit"
           placeholder="댓글을 입력하세요.">
+        <input
+          v-else
+          type="text"
+          class="comment_input"
+          placeholder="로그인하고 댓글을 작성해보세요."
+          disabled>
         <font-awesome-icon @click="commentSubmit" :icon="['fas','comment']" class="comment_icon"/>
       </div>
     </vue-bottom-sheet>
@@ -86,17 +94,17 @@
         <div class="bt_common" @click="moveEdit(article.articleId)">
           <font-awesome-icon
             icon="edit"
-            class="fa-2x update_icon"
+            class="update_icon"
           />
-          <span>게시글 수정하기</span>
+          <span style="font-size:17px;">게시글 수정하기</span>
         </div>
         <div class="bt_common" style="margin-top:15px;" @click="onDelete(article)">
           <font-awesome-icon
             icon="trash"
-            class="fa-2x delete_button"
-            style="margin-right:17px"
+            class="delete_button"
+            style="margin-right:14px"
           />
-          <span>게시글 삭제하기</span>
+          <span style="font-size:17px;">게시글 삭제하기</span>
         </div>
       </div>
     </vue-bottom-sheet>
@@ -141,11 +149,14 @@ export default {
 			'userId',
       'userInfo',
       'likeflag',
+      'Token',
 		]),
   },
   created(){
     this.getDetail()
-    this.getUser()
+    if (this.Token) {
+      this.getUser()
+    }
   },
   methods: {
     open(){
@@ -219,6 +230,7 @@ export default {
       HTTP.delete(`comment/${comment.commentId}?userId=${comment.userId}`, data)
         .then(() => {
           this.getComment()
+          this.getDetail()
         })
         .catch((e) => {
           console.error(e);
@@ -260,6 +272,9 @@ export default {
       this.$router.push({name:'Editarticle', params: { article_id: articleId }})
     },
     likeToggle(){
+      if (!this.Token) {
+        return
+      }
       const data = {
         articleId: this.$route.params.article_id,
         userId: this.userId

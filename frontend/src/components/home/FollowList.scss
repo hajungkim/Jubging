@@ -1,11 +1,15 @@
 .follow_container{
   display:flex;
-  margin: 20px 0px 10px 16px;
+  margin: 10px 8px 0px 8px;
+  border:1px solid silver;
+  border-radius: 20px;
+  padding:10px;
   /* justify-content: space-around;*/
 }
 .photo-img{
   width: 185px;
   height: 185px;
+  border-radius: 10px;
 }
 .follow_profile{
   width: 60px;

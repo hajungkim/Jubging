@@ -77,11 +77,16 @@
 }
 
 .img-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   img {
     max-width: 100%;
+    max-height: 450px;
   }
   button {
-    margin: 10px 0px 0px 6px;
+    margin-top: 20px;
   }
 }
 
