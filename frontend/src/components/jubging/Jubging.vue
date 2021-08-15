@@ -69,10 +69,11 @@ methods:{
   },
 
   finishJubging(jubgingInfo) {
-    var info = jubgingInfo.split("/")
-
     this.msg = "줍깅 시작"
     this.$store.dispatch('jubgingOn', false)
+    
+    var info = jubgingInfo.split("/")
+
 
     var time = info[1]
     var dist = info[2]
