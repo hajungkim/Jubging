@@ -215,7 +215,8 @@ methods: {
     HTTP.put('/mission', data)
       .then((res) => {
         console.log(res.data)
-        this.$router.push({name:'Detail', params: { article_id: this.article_id }})
+        // this.$router.push({name:'Detail', params: { article_id: this.article_id }})
+        this.$router.push({ name: 'Home' })
       })
       .catch((err)=>{
         console.error(err)
