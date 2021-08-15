@@ -7,14 +7,14 @@ import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
-  faTrophy, faShoePrints, faHome, faUser, faMedal, faCamera,
+  faTrophy, faShoePrints, faHome, faUser, faMedal, faCamera, faTimes,
   faAngleLeft, faSearch, faRunning, faSignOutAlt, faComment, faUsers, faBell,
   faHeart as fasHeart, faCheckCircle, faTrash, faBars,faEllipsisH, faEdit, faStar
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart , faCommentDots, faStar as farStar, faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
-  faTrophy, faShoePrints, faHome, faUser, faMedal, faCamera,
+  faTrophy, faShoePrints, faHome, faUser, faMedal, faCamera, faTimes,
   faAngleLeft, faSearch, faRunning, faSignOutAlt, faComment, faUsers, faBell,
   fasHeart, faCheckCircle, faTrash, faBars, faEllipsisH, faEdit, faStar, farStar
 )
