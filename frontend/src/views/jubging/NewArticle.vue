@@ -8,7 +8,6 @@
     <div id="body">
       <div class="item-text">
         <h3>줍깅 후기 작성하기</h3>
-        <form name="insertFrm">
           <textarea
             v-model="content"
             name="text" 
@@ -18,7 +17,6 @@
             rows="13"
             v-on:input="content_typing"
           ></textarea>
-        </form>
       </div>
 
       <div class="item-photo">
@@ -28,7 +26,7 @@
           </div>
           <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">-</div>
         </div>
-        <ModalView v-show="isModalViewed" @close-modal="modalOff">
+        <ModalView v-show="isModalViewed" @close-modal="modalOff" :modalTitle="'줍깅 사진 편집'">
           <div class="img-container">
             <img id="image" src="@/assets/user_default.png" alt="Picture">
             <button type="button" id="button" @click="crop" class="btn">Crop</button>
@@ -62,8 +60,6 @@ export default {
 name: 'NewArticle',
 components:{
   ModalView,
-},
-props: {
 },
 data() {
 	return{
