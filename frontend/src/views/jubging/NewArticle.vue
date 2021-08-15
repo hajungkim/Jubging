@@ -6,16 +6,16 @@
     </div>
 
     <div id="body">
-      <div class="item">
-        <div><h3>줍깅 후기 작성하기</h3></div>
+      <div class="item-text">
+        <h3>줍깅 후기 작성하기</h3>
         <form name="insertFrm">
           <textarea
             v-model="content"
             name="text" 
             placeholder="본문에 #을 이용하여 태그를 사용해보세요"
             id="ta" 
-            cols="33" 
-            rows="14"
+            cols="41" 
+            rows="13"
             v-on:input="content_typing"
           ></textarea>
         </form>
