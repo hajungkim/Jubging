@@ -48,7 +48,6 @@
       </div>
       <div v-if="!isbadge" class="nobadge_text">
         <span class="nobadge">Do Jubging! Take Badges!</span>
-        <!-- <img src="@/assets/test3.png" class="nobadgeimg"> -->
       </div>
       <!-- 나의 게시글 -->
       <div class="photo_list">
