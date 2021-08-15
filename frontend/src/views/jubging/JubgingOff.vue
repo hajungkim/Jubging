@@ -8,17 +8,15 @@
         <div id="info">
           <div>
             <div>
-              <span class="bolder">{{ this.jubgingInfo.dist }}</span><span> km</span>
+              <span class="bolder">{{ this.jubgingInfo.time }}</span>
             </div>
-            <div><b>운동 거리</b></div>
+            <div><b>시간</b></div>
           </div>
           <div>
             <div>
-              <span class="bolder">0</span><span>h </span>
-              <span class="bolder">0</span><span>m </span>
-              <span class="bolder">{{ this.jubgingInfo.time }}</span><span>s </span>
+              <span class="bolder">{{ this.jubgingInfo.dist }}</span><span> km</span>
             </div>
-            <div><b>시간</b></div>
+            <div><b>운동 거리</b></div>
           </div>
         </div>
       </div>
@@ -83,7 +81,6 @@ watch:{
 created() {
 },
 mounted() {
-  this.address =  this.$store.state.address
   this.jubgingInfo = this.$store.state.jubgingInfo
 },
 methods:{
