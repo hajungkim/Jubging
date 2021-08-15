@@ -7,7 +7,7 @@
     <div id="body">
       <img height="550px" src="" alt="줍깅 설명">
       <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
-      <button @click="startJubging()" class="btn btn-jubging">{{msg}}</button>
+      <button @click="startJubging()" class="btn">{{msg}}</button>
     </div>
   </div>
 </template>
