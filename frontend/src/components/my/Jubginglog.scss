@@ -1,12 +1,25 @@
 .jubging_container{
   display: flex;
-  margin:0px 10px 10px 10px;
+  margin:0px 10px 10px 0px;
   align-items: center;
 }
-.jubging_profile{
-  width: 200px;
-  height: 200px;
-  border-radius: 20%;
-  overflow: hidden;
-  margin:5px 10px 0px 0px;
+.content_box{
+  width:378px;
+  border:1px solid lightgrey;
+  border-radius:10px;
+  padding-top:10px;
+}
+.info{
+  width: 380px;
+  display:flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+.time_dist_text{
+  font-size:14px;
+  margin-left:10px;
+  color:grey;
+}
+.time_dist{
+  font-size:30px;
 }
