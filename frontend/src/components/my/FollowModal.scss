@@ -33,6 +33,15 @@
   }
 }
 
+.follow-text-group { 
+  display: flex;
+  flex-direction: column;
+  .follow-text {
+    color: rgb(161, 161, 161);
+    font-size: 12px;
+  }
+}
+
 // 모달
 .modal,
 .overlay {
@@ -48,6 +57,7 @@
   padding: 20px;
 }
 .modal-card {
+  border-radius: 15px;
   position: relative;
   max-width: 372px;
   margin: auto;

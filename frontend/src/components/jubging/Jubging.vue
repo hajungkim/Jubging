@@ -7,7 +7,7 @@
     <div id="body">
       <img height="550px" src="" alt="줍깅 설명">
       <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
-      <button @click="startJubging()" class="btn btn-jubging">{{msg}}</button>
+      <button @click="startJubging()" class="btn">{{msg}}</button>
     </div>
   </div>
 </template>
@@ -68,14 +68,17 @@ methods:{
     this.$store.dispatch('jubgingOn', isJubgingOn)
   },
 
-  finishJubging(address, time, dist) {
-
-
+  finishJubging(jubgingInfo) {
     this.msg = "줍깅 시작"
     this.$store.dispatch('jubgingOn', false)
-
     
-    this.$store.dispatch('setAddress', address)  // 시작 주소 입력
+    var info = jubgingInfo.split("/")
+
+
+    var time = info[1]
+    var dist = info[2]
+    
+    this.$store.dispatch('setAddress', info[0])  // 시작 주소 입력
     this.$store.dispatch('setJubgingInfo', {time, dist})
     this.$router.push({name:'Register'})
 
