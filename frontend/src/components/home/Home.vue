@@ -87,7 +87,7 @@ export default {
       this.followArticles()
     }
     this.todayJubging()
-    this.jubgingUser()
+    //this.jubgingUser()
     // socket 연결
     this.connect()
   },
