@@ -42,6 +42,7 @@ export default {
   padding: 20px;
 }
 .modal-card {
+  border-radius: 15px;
   position: relative;
   max-width: 372px;
   margin: auto;
