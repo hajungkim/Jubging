@@ -11,8 +11,11 @@
             <li class="img_name_contain" v-for="(follower, idx) in userFollowers" :key="idx" @click="moveProfile(follower.userId)">
               <img class="follow_profile_img" :src="follower.profilePath">
               <div class="follow_profile">
-                <span>{{follower.nickName}}</span>
-                <button>팔로우</button>
+                <div class="follow-text-group">
+                  <span>{{follower.nickName}}</span>
+                  <span class="follow-text">나를 팔로우합니다.</span>
+                </div>
+                <button>언팔로우</button>
               </div>
             </li>
           </ul>
