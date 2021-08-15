@@ -59,8 +59,8 @@
           v-for="(comment,idx) in comments"
           :key="idx"
         >
-          <div style="display:flex;" @click = moveProfile(comment.userId)>
-            <img class="comment_profile" :src="comment.profilePath">
+          <div style="display:flex;">
+            <img class="comment_profile" :src="comment.profilePath"  @click = moveProfile(comment.userId)>
             <div>
               <div>
                 <span style="font-weight:bold;">{{comment.nickname}}</span>

@@ -17,21 +17,6 @@
           <font-awesome-icon icon="search" style="transform:scale(1.4);"/>
         </button>
       </form>
-      <!-- 최근 검색어 -->
-      <!-- <section class="search_latest" v-if="isShowAuto && isSubmit">
-        <div class="search_latest_tlt">
-          <span>최근 검색어</span>
-        </div>
-        <ul class="search_latest_list">
-          <li
-            class="search_latest_item"
-            v-for="(item,idx) in keywordLatest"
-            :key="idx"
-          >
-            <button class="lastkeyword"><span @click="onClickLatest" style="margin-left:5px;">{{item.value}}</span>&nbsp; <span @click="onDeleteItem(item)" style="margin-right:5px;">X</span></button>
-          </li>
-        </ul>
-      </section> -->
       <!-- 유저검색결과 -->
       <section class="search_user_list" v-if="isShowAuto&&isSubmit">
         <div class="search_user_list_tlt">
@@ -66,8 +51,8 @@
             <div @click="onClickArticle(article)" :data-idx=idx class="search_article">
               <img class="search_article img" :src="article.photosPath" :data-idx="article.articleId"> <!-- 이미지 경로 #으로? -->
               <div class="search_article_info" :data-idx="article.articleId">
-                <div style="display:flex; align-items:center;">
-                  <img :src="article.profilePath" style="width:50px; height:50px; border-radius:50%;">
+                <div style="display:flex; align-items:center; justify-content: center;">
+                  <img :src="article.profilePath" style="width:50px; height:50px; border-radius:50%; margin-left:-15px;">
                   <div data-idx="article.articleId" class="search_article_usernickname" style="margin-bottom: 3px;">{{article.nickname}}</div>
                 </div>
                 <span class="search_article_hashtags" v-for="(hash,idxx) in article.hashtags" :key="idxx">{{hash}}</span>
@@ -106,14 +91,6 @@ export default {
     this.$store.state.searchflag = false;
   },
   computed: {
-    // keywordLatest(){
-    //   let sortedList = this.latestList.slice(0,);
-    //   sortedList.sort((a,b) => b*1-a*1)
-    //   for(let i=0; i<sortedList.length; i++){
-    //     sortedList[i] = {key:sortedList[i],value:localStorage.getItem(sortedList[i])}
-    //   }
-    //   return sortedList;
-    // },
     ...mapState([
 			'userId',
 		]),
@@ -123,19 +100,6 @@ export default {
       this.$router.push({name:"Home"})
     },
     search(){
-      // const key = String(Date.now());
-      // if (this.isLatest === false){
-      //   if(localStorage.length < 9){
-      //     localStorage.setItem(key,this.keyword)
-      //     this.latestList.unshift(key);
-      //   }
-      //   else{
-      //     const delKey = this.latestList.pop()
-      //     localStorage.removeItem(delKey);
-      //     localStorage.setItem(key,this.keyword)
-      //     this.latestList.unshift(key);
-      //   }
-      // }
       HTTP.get(`user/search/${this.keyword}`)
         .then((res) => {
             this.users = res.data.data
@@ -200,12 +164,6 @@ export default {
       this.search(); 
       this.articleSearch();
     },
-    // onClickLatest(e){
-    //   this.isLatest = true;
-    //   this.keyword = e.target.innerText;
-    //   this.search();
-    //   this.articleSearch();
-    // },
     onClickArticle(article){
       this.$store.state.selectArticle = article;
       this.$store.state.backPage = 2;

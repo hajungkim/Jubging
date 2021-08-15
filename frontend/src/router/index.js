@@ -11,6 +11,8 @@ import Jubging from '@/components/jubging/Jubging.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
 import Editarticle from '@/views/home/Editarticle.vue'
+import Events from '@/views/jubging/Events.vue'
+import EventPoster from '@/views/jubging/EventPoster.vue'
 
 import Mission from '@/components/mission/Mission.vue'
 import Ranking from '@/components/ranking/Ranking.vue'
@@ -87,6 +89,12 @@ const routes = [
         component:Logs,
         beforeEnter: requireAuth()
       },
+      {
+        path: '/jubging/events',
+        name: 'Events',
+        component: Events,
+        beforeEnter: requireAuth()
+      },
     ],
   },
   {
@@ -157,6 +165,11 @@ const routes = [
     name: 'FindPassword',
     component: FindPassword,
     beforeEnter: requireNoAuth()
+  },
+  {
+    path:'/jubging/events/:eventId',
+    name:'EventPoster',
+    component:EventPoster,
   },
 ]
 
