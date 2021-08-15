@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
+@font-face {
+  font-family: 'InfinitySans-RegularA1';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 $primary: #00bfa5;
 $secondary: blue;
@@ -9,7 +14,7 @@ $Error: #9c0000;
 $dark: black;
 $darkgray: gray;
 $gray: gray;
-$graylight: gray;
+$graylight: #aaa;
 $white: white;
 
 $app-width: 412px;
@@ -20,7 +25,7 @@ $app-side-margin: 16px;
 ////////////////////////////////////////////////////////////
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'InfinitySans-RegularA1';
   -ms-overflow-style: none; 
 } 
 ::-webkit-scrollbar { 
@@ -29,6 +34,10 @@ body {
 
 svg {
   background-color: transparent !important; 
+}
+
+input:disabled {
+  background-color: #ccc;
 }
 
 .text-error {
@@ -52,8 +61,8 @@ svg {
 .btn {
   color: $primary;
   background-color: $white;
-  width : 360px;
-  height: 40px;
+  width : 330px;
+  height: 45px;
   border-radius: 20px;
   border: 2px solid $primary;
   font-weight: bold;

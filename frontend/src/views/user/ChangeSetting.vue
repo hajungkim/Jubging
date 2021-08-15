@@ -5,7 +5,7 @@
       <h4 class="m-0 logo">회원 정보 수정</h4>
     </div>
 
-  <ModalView v-show="isModalViewed" @close-modal="modalOff">
+  <ModalView v-show="isModalViewed" @close-modal="modalOff" :modalTitle="'프로필 사진 편집'">
     <div class="img-container">
       <img id="image" src="@/assets/user_default.png" alt="Picture">
       <button type="button" id="button" @click="crop" class="btn">Crop</button>
@@ -22,10 +22,6 @@
       <div class="form-group">
         <div class="form-mb">
           <input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email" disabled=true>
-          <div class="form-check" id="check-email" v-if="!error.email">
-            <font-awesome-icon icon="check-circle"/>
-            <span id="check-email-text"> 이메일은 변경할 수 없습니다.</span>
-          </div>
         </div>
 
         <div class="form-mb">

@@ -55,7 +55,7 @@
       </carousel-3d>
     </div>
     <div v-if="!isbadge" class="nobadge_text">
-      <img src="@/assets/nobadgeimg.png" class="nobadgeimg">
+      <img src="@/assets/test2.png" class="nobadgeimg">
     </div>
 
     <!-- 유저 게시글 -->
@@ -114,7 +114,8 @@ export default {
       'selectArticle',
 
       'userInfo',
-      'userArticles'
+      'userArticles',
+      'Token',
 		]),
   },
   methods: {
@@ -195,26 +196,28 @@ export default {
       this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     onFollow(){
-      HTTP.post(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
-        .then(() => {
-          this.follow = true
-          this.getUserInfo(this.$route.params.user_id)
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-      // socket 처리
-      if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
-        if (this.userInfo.userId != this.pubUser.userId) {
-          const socketData = { 
-            userId: this.userInfo.userId,
-            pubId: this.pubUser.userId,
-            articleId: null,
-            nickname: this.pubUser.nickname,
-            profilePath: this.pubUser.profilePath,
-            category: 'follow'
-          };
-          this.$store.state.stompClient.send("/pub/" + this.userInfo.userId, JSON.stringify(socketData), {});
+      if (this.Token) {
+        HTTP.post(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
+          .then(() => {
+            this.follow = true
+            this.getUserInfo(this.$route.params.user_id)
+          })
+          .catch((e) => {
+            console.error(e);
+          })
+        // socket 처리
+        if (this.$store.state.stompClient && this.$store.state.stompClient.connected) {
+          if (this.userInfo.userId != this.pubUser.userId) {
+            const socketData = { 
+              userId: this.userInfo.userId,
+              pubId: this.pubUser.userId,
+              articleId: null,
+              nickname: this.pubUser.nickname,
+              profilePath: this.pubUser.profilePath,
+              category: 'follow'
+            };
+            this.$store.state.stompClient.send("/pub/" + this.userInfo.userId, JSON.stringify(socketData), {});
+          }
         }
       }
     },
@@ -228,7 +231,8 @@ export default {
         })
     },
     deleteFollow(){
-      HTTP.delete(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
+      if (this.Token) {
+        HTTP.delete(`follow?followUserId=${this.$route.params.user_id}&userId=${this.userId}`)
         .then(() => {
           this.follow = false
           this.getUserInfo(this.$route.params.user_id)
@@ -236,6 +240,7 @@ export default {
         .catch((e) => {
           console.error(e);
         })
+      }
     },
   },
 }
