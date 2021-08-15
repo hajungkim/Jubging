@@ -1,5 +1,5 @@
 <template>
-  <div style="height:720px;"> <!-- style="position:absolute; top:0;" -->
+  <div style="height:720px;">
     <div class="top">
       <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="onClick"/>
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">

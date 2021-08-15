@@ -63,7 +63,7 @@
       </div>
     </div>
     <!-- 바텀시트 -->
-    <vue-bottom-sheet ref="myBottomSheet" max-height="370px" max-width="412px">
+    <vue-bottom-sheet ref="myBottomSheet" max-height="400px" max-width="412px">
       <div>
         <router-link :to="{name:'ChangeSetting'}" class="default-link">
           <div class="bt_common">
