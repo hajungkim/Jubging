@@ -35,7 +35,7 @@ public class MissionSuccess {
         if (requestDto.isDistanceBronze()) this.distanceBronze = 1;
         if (requestDto.isDistanceSilver()) this.distanceSilver = 1;
         if (requestDto.isDistanceGold()) this.distanceGold = 1;
-        if (requestDto.isPlasticBronze()) this.canBronze = 1;
+        if (requestDto.isPlasticBronze()) this.plasticBronze = 1;
         if (requestDto.isPlasticSilver()) this.plasticSilver = 1;
         if (requestDto.isPlasticGold()) this.plasticGold = 1;
         if (requestDto.isCanBronze()) this.canBronze = 1;
