@@ -1,6 +1,7 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.JubgingLog;
+import com.ssafy.jupging.dto.JubgingLogResponseDto;
 import com.ssafy.jupging.dto.JubgingLogSaveRequestDto;
 import com.ssafy.jupging.service.JubgingLogService;
 import com.ssafy.jupging.service.UserService;
@@ -51,7 +52,7 @@ public class JubgingLogController {
     public ControllerResponse findUserJubgingLog(@PathVariable("id") Long userId) {
         ControllerResponse response = null;
         try {
-            List<JubgingLog> list = jubgingLogService.findUserJubgingLog(userId);
+            List<JubgingLogResponseDto> list = jubgingLogService.findUserJubgingLog(userId);
             if (list.isEmpty()) {
                 response = new ControllerResponse("success", null);
             } else {
