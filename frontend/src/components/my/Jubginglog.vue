@@ -5,12 +5,22 @@
         v-for="(log,idx) in jubginglogs"
         :key="idx"
       >
-        <img class="jubging_profile" src="@/assets/sample.png">
-        <div>
-          <div style="font-weight:bold;">'{{log.date}}'</div>
-          <div class="jubging_time">{{log.totalTime}}</div>
-          <div class="jubging_distance">{{log.distance}} km</div>
+      <div class="content_box">
+        <div class="info">
+          <div>
+            <div class="time_dist_text">운동 시간</div>
+            <div class="time_dist">{{log.totalTime}}</div>
+          </div>
+          <div>
+            <div class="time_dist_text">운동 거리</div>
+            <div class="time_dist">{{log.distance}} km</div>
+          </div>
         </div>
+        <div class="info">
+          <div>2021년 08월 15일</div>
+          <div>서울시 용산구</div>
+        </div>
+      </div>
       </li>
     </ul>
   </div>
