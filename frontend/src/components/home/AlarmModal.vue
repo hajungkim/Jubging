@@ -55,7 +55,7 @@ export default {
 			this.$router.push({name:'Detail', params: { article_id: alarm.articleId }})   
 		},
 		onUserprofile(alarm){
-			this.$router.push({name:'Userprofile', params: { user_id: alarm.nickname }})
+			this.$router.push({name:'Userprofile', params: { user_id: alarm.pubId }})
 		}
 	}
 };
