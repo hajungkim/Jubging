@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&display=swap');
+@font-face {
+  font-family: 'InfinitySans-RegularA1';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 $primary: #00bfa5;
 $secondary: blue;
@@ -20,7 +25,7 @@ $app-side-margin: 16px;
 ////////////////////////////////////////////////////////////
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'InfinitySans-RegularA1';
   -ms-overflow-style: none; 
 } 
 ::-webkit-scrollbar { 
