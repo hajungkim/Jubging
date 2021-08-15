@@ -41,6 +41,7 @@ export default new Vuex.Store({
     },
     jubgingOption: {},
     address: "",
+    event: {},
   },
   mutations: {
     // 기타
@@ -78,6 +79,9 @@ export default new Vuex.Store({
     },
     SET_ADDRESS(state, data) {
       state.address = data
+    },
+    ISSELECTEVENT(state, data) {
+      state.event = data
     },
     // 랭킹
     GET_RANKER(state, rankers) { 
@@ -121,6 +125,9 @@ export default new Vuex.Store({
     },
     isSelectArticle(context,article){
       context.commit('ISSELECTARTICLE', article)
+    },
+    isSelectEvent(context,event){
+      context.commit('ISSELECTEVENT', event)
     },
     // 홈
     loadArticles(context,data){
