@@ -28,7 +28,7 @@
           </div>
           <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">-</div>
         </div>
-        <ModalView v-show="isModalViewed" @close-modal="modalOff">
+        <ModalView v-show="isModalViewed" @close-modal="modalOff" :modalTitle="'줍깅 사진 편집'">
           <div class="img-container">
             <img id="image" src="@/assets/user_default.png" alt="Picture">
             <button type="button" id="button" @click="crop" class="btn">Crop</button>
@@ -62,8 +62,6 @@ export default {
 name: 'NewArticle',
 components:{
   ModalView,
-},
-props: {
 },
 data() {
 	return{
