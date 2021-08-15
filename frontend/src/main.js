@@ -21,7 +21,6 @@ library.add(
 library.add( farHeart, faCommentDots )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 Vue.use(VueBottomSheet);
 Vue.use(Carousel3d)
 Vue.config.productionTip = false

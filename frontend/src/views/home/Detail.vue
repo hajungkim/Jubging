@@ -18,7 +18,7 @@
         <span style="font-weight:bold; font-size:18px;">{{article.nickname}}</span>
       </div>
       <!--사진들-->
-      <carousel-3d v-if="ischange" :width="300" :height="300" bias="right" :count="3">
+      <carousel-3d v-if="ischange" :width="300" :height="300" bias="right" :count="3" :border="0 " style="margin:0px;">
         <slide v-for="(photo,i) in photos" :index="i" :key="i"> <!-- photos 대신 article.photosPath 다른컴포넌트는 [0]만! -->
           <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
             <img class="article_img" :data-index="index" :class="{current: isCurrent, onLeft:(leftIndex>=0),
@@ -27,7 +27,8 @@
         </slide>
       </carousel-3d>
       <span class="datetext">
-        {{article.date}}
+        {{article.date.slice(0,4)}}.{{article.date.slice(5,7)}}.{{article.date.slice(8,10)}}
+        <!-- {{article.date}} -->
       </span>
       <!--게시글 내용-->
       <div class="content_box">
@@ -93,17 +94,17 @@
         <div class="bt_common" @click="moveEdit(article.articleId)">
           <font-awesome-icon
             icon="edit"
-            class="fa-2x update_icon"
+            class="update_icon"
           />
-          <span>게시글 수정하기</span>
+          <span style="font-size:17px;">게시글 수정하기</span>
         </div>
         <div class="bt_common" style="margin-top:15px;" @click="onDelete(article)">
           <font-awesome-icon
             icon="trash"
-            class="fa-2x delete_button"
-            style="margin-right:17px"
+            class="delete_button"
+            style="margin-right:14px"
           />
-          <span>게시글 삭제하기</span>
+          <span style="font-size:17px;">게시글 삭제하기</span>
         </div>
       </div>
     </vue-bottom-sheet>

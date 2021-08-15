@@ -6,16 +6,19 @@
     </div>
 
     <div id="body">
-      <div class="item-text">
-        <h3>줍깅 후기 작성하기</h3>
-        <textarea
-          v-model="content"
-          name="text" 
-          placeholder="본문에 #을 이용하여 태그를 사용해보세요"
-          id="ta" 
-          cols="36" 
-          rows="13"
-        ></textarea>
+      <div class="item">
+        <div><h3>줍깅 후기 작성하기</h3></div>
+        <form name="insertFrm">
+          <textarea
+            v-model="content"
+            name="text" 
+            placeholder="본문에 #을 이용하여 태그를 사용해보세요"
+            id="ta" 
+            cols="33" 
+            rows="14"
+            v-on:input="content_typing"
+          ></textarea>
+        </form>
       </div>
 
       <div class="item-photo">
@@ -41,8 +44,9 @@
            <input class="item-grid" type="file" id="input-image" @change="readImage" ref="photos" multiple :disabled="num>=3"/>
         </div>
       </div>
-      <button v-if="isbutton" class="btn" @click="sendData">올리기 ></button>
-      <button v-else class="btn-disable" disabled="true">사진을 등록해주세요</button>
+      <button v-if="isbutton && !iscontent" class="btn" @click="sendData">올리기 ></button>
+      <button v-if="!isbutton" class="btn" disabled="true">사진을 등록해주세요</button>
+      <button v-if="iscontent && isbutton" class="btn" disabled="true">내용을 200자 미만으로 작성해주세요</button>
     </div>
   </div>
 </template>
@@ -69,6 +73,7 @@ data() {
     photosPath: '',
     files: [],
     isbutton: false,
+    iscontent: false,
     isModalViewed: false,
     cropper: null,
     croppedCanvas: '',
@@ -84,15 +89,24 @@ computed:{
   ]),
 },
 watch:{
-  photosPathh(){
-    console.log(this.photosPath)
-  }
 },
 created() {
 },
 mounted() {
 },
 methods: {
+  content_typing(e){
+    this.max_length(e,200);
+  },
+  max_length(e,len){
+    var val = e.target.value;
+    if(val.length > len){
+      this.iscontent = true
+    }
+    else{
+      this.iscontent = false
+    }
+  },
   readImage(event) {
     var image = document.getElementById('image');
     var input = document.getElementById('input-image');
@@ -158,8 +172,8 @@ methods: {
   this.canvasList.push(this.croppedCanvas)
   this.isbutton = true
   this.num = this.num + 1
-
   this.modalOff()
+  // 추가 부분
   },
   async sendData() {
     var photosPath = ''
