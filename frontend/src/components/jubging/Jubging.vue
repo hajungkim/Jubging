@@ -33,8 +33,8 @@ computed:{
 watch:{
 },
 created() {
-  window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
   window.finishJubging = this.finishJubging  // 줍깅이 끝났을 때 호출
+  window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
 },
 mounted() {
   this.msg = "mounted"
@@ -69,11 +69,11 @@ methods:{
   },
 
   finishJubging(jubgingInfo) {
-    this.msg = "줍깅 시작"
-    this.$store.dispatch('jubgingOn', false)
-    
+
     var info = jubgingInfo.split("/")
 
+    this.msg = "줍깅 시작"
+    this.$store.dispatch('jubgingOn', false)
 
     var time = info[1]
     var dist = info[2]
