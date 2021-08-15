@@ -1,15 +1,14 @@
 <template>
   <div>
-      <div id="header">
-          <div class="to-center">
-            <img class="logo" src="@/assets/logo/textlogo.png" alt="줍깅 로고">
-          </div>
-      </div>
-      <div id="body">
-        <img height="550px" src="" alt="줍깅 설명">
-        <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
-        <button class="btn btn-jubging">{{msg}}</button>
-      </div>
+    <div class="top">
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
+      <font-awesome-icon :icon="['far','calendar-alt']" class="events" @click="open"/>
+    </div>
+    <div id="body">
+      <img height="550px" src="" alt="줍깅 설명">
+      <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
+      <button class="btn btn-jubging">{{msg}}</button>
+    </div>
   </div>
 </template>
 
@@ -51,6 +50,9 @@ mounted() {
   document.head.appendChild(script);
 },
 methods:{
+  open(){
+    this.$router.push({name:'Events'})
+  },
 	startJubging() {
     if (this.$store.state.isJubgingOn) {
       window.Android.startJubgingActivity()
