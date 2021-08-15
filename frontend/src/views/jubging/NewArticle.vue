@@ -8,7 +8,6 @@
     <div id="body">
       <div class="item-text">
         <h3>줍깅 후기 작성하기</h3>
-        <form name="insertFrm">
           <textarea
             v-model="content"
             name="text" 
@@ -18,7 +17,6 @@
             rows="13"
             v-on:input="content_typing"
           ></textarea>
-        </form>
       </div>
 
       <div class="item-photo">
