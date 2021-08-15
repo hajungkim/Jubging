@@ -18,6 +18,7 @@ public class MissionService {
 
     @Transactional
     public void saveInit(Mission mission) {
+
         missionRepository.save(mission);
     }
 
