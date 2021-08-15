@@ -133,3 +133,24 @@ input:checked +.slider:before{
   justify-content: center;
   align-items: center;
 }
+
+.notification-container {
+  display: flex;
+  justify-content: center;
+}
+
+.notification {
+  background: rgba(248, 244, 10, 0.226);
+  border-radius: 10px;
+  padding: 5px 30px;
+  position: absolute;
+  bottom: 50px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}

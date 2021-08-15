@@ -44,6 +44,13 @@
           <div style="color:lightgrey">다른 유저를 팔로우 해보세요!</div>
         </div>
       </div>
+      <div class="notification-container">
+        <transition name="fade">
+          <div class="notification" v-for="(value,idx) in successList" :key="idx" v-show="this.isNotice">
+            <p>✨ {{value}} 미션 달성!</p>
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -71,6 +78,22 @@ export default {
       isAlram: false,
       isfollow: false,
       total: 0,
+      mission: [],
+      missionSuccess: [],
+      isNotice: false,
+      successList: [],
+      isSuccess: {
+        userId: this.$store.state.userId,
+        distanceBronze: false,
+        distanceSilver: false,
+        distanceGold: false,
+        plasticBronze: false,
+        plasticSilver: false,
+        plasticGold: false,
+        canBronze: false,
+        canSilver: false,
+        canGold: false
+      }
     }
   },
   computed:{
@@ -90,6 +113,7 @@ export default {
     //this.jubgingUser()
     // socket 연결
     this.connect()
+    this.showNotification()
   },
   methods:{
     followToggle(){
@@ -130,8 +154,8 @@ export default {
     },
     // socket
     connect() {
-      //const serverURL = "http://localhost:8080/socket"
-      const serverURL = "https://i5b207.p.ssafy.io/api/socket"
+      const serverURL = "http://localhost:8080/socket"
+      // const serverURL = "https://i5b207.p.ssafy.io/api/socket"
       let socket = new SockJS(serverURL);
       this.$store.state.stompClient = Stomp.over(socket);
       this.$store.state.stompClient.connect(
@@ -149,6 +173,65 @@ export default {
           this.connected = false;
         }
       );        
+    },
+    showNotification() {
+      HTTP.get(`mission/${this.$store.state.userId}`)
+      .then((res) => {
+        this.mission = res.data.data
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      HTTP.get(`missionsuccess/${this.$store.state.userId}`)
+      .then((res) => {
+        this.missionSuccess = res.data.data
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      console.log(this.mission)
+      if (this.mission.distance >= 10 && this.missionSuccess.distanceBronze === 0) {
+        this.successList.push("거리 동뱃지")
+        this.isSuccess.distanceBronze = true;
+      } else if (this.mission.distance >= 50 && this.missionSuccess.distanceSilver === 0) {
+        this.successList.push("거리 은뱃지")
+        this.isSuccess.distanceSilver = true;
+      } else if (this.mission.distance >= 100 && this.missionSuccess.distanceSilver === 0) {
+        this.successList.push("거리 금뱃지")
+        this.isSuccess.distanceGold = true;
+      }
+      if (this.mission.plastic >= 3 && this.missionSuccess.plasticBronze === 0) {
+        this.successList.push("플라스틱 동뱃지")
+        this.isSuccess.plasticBronze = 1;
+      } else if (this.mission.plastic >= 10 && this.missionSuccess.plasticSilver === 0) {
+        this.successList.push("플라스틱 은뱃지")
+        this.isSuccess.plasticSilver = 1;
+      } else if (this.mission.plastic >= 20 && this.missionSuccess.plasticGold === 0) {
+        this.successList.push("플라스틱 금뱃지")
+        this.isSuccess.plasticGold = 1;
+      }
+      if (this.mission.can >= 3 && this.missionSuccess.canBronze === 0) {
+        this.successList.push("캔 동뱃지")
+        this.isSuccess.canBronze = 1;
+      } else if (this.mission.can >= 10 && this.missionSuccess.canSilver === 0) {
+        this.successList.push("캔 은뱃지")
+        this.isSuccess.canSilver = 1;
+      } else if (this.mission.can >= 20 && this.missionSuccess.canGold === 0) {
+        this.successList.push("캔 금뱃지")
+        this.isSuccess.canGold = 1;
+      }
+
+      this.isNotice = true
+      setTimeout(() => {
+        this.isNotice = false
+      }, 1000)
+
+      HTTP.put(`missionsuccess`, this.isSuccess)
+      .then(() => {
+      })
+      .catch((e) => {
+        console.error(e);
+      })
     }
   },
 }
