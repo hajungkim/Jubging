@@ -69,15 +69,16 @@ methods:{
   },
 
   finishJubging(jubgingInfo) {
-
     var info = jubgingInfo.split("/")
 
     this.msg = "줍깅 시작"
     this.$store.dispatch('jubgingOn', false)
 
+    var time = info[1]
+    var dist = info[2]
     
     this.$store.dispatch('setAddress', info[0])  // 시작 주소 입력
-    this.$store.dispatch('setJubgingInfo', {time: info[1], dist: info[2]})
+    this.$store.dispatch('setJubgingInfo', {time, dist})
     this.$router.push({name:'Register'})
 
   },
