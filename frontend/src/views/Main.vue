@@ -36,6 +36,15 @@
 <script>
 export default {
   name:'Main',
+
+  created() {
+    window.isJubging = this.isJubging
+  },
+  mounted(){
+    document.querySelector('.router-link-active').classList.add('item-active')
+    window.isJubging = this.isJubging
+  },
+
   methods:{
     isJubging() {
       this.$store.dispatch('jubgingOn', true)
@@ -47,12 +56,6 @@ export default {
         document.querySelector(`#item-active-${link}`).classList.add('item-active')
       }
     },
-  },
-  created() {
-    window.isJubging = this.isJubging
-  },
-  mounted(){
-    document.querySelector('.router-link-active').classList.add('item-active')
   },
 }
 </script>
