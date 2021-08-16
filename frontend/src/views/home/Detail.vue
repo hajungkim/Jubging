@@ -181,9 +181,7 @@ export default {
             var ul_content = document.querySelector('#ul-content').offsetHeight + 32
             var max_hight = 640
             if (ul_content + 40 < max_hight) {
-              console.log(ul_content)
               document.querySelector('.bottom-sheet__content').style.height=`${ul_content + 40}px`
-              // console.log(document.querySelector('.bottom-sheet__content').style.height)
             } 
           }
         })
