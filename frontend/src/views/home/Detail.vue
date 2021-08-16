@@ -27,7 +27,7 @@
         </slide>
       </carousel-3d>
       <span class="datetext">
-        {{article.date.slice(0,4)}}.{{article.date.slice(5,7)}}.{{article.date.slice(8,10)}}
+        {{ article.date }}
         <!-- {{article.date}} -->
       </span>
       <!--게시글 내용-->

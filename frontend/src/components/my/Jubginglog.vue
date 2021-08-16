@@ -17,8 +17,8 @@
           </div>
         </div>
         <div class="info">
-          <div>2021년 08월 15일</div>
-          <div>서울시 용산구</div>
+          <div>{{log.createdDate}}</div>
+          <div>{{log.address}}</div>
         </div>
       </div>
       </li>
