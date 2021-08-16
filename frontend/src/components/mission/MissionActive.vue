@@ -1,22 +1,22 @@
 <template>
   <div class="mission-component-wrap">
 		<div v-for="badge in badges" :key="badge.id" class="mission-card ">
-			<div class="mission-description" :style="{ backgroundImage: 'url(' + require(`../../assets/bg/${badge.bg_image}`) + ')'}">
+			<div class="mission-description" :style="{ backgroundImage: 'url(' + require(`@/assets/bg/${badge.bg_image}`) + ')'}">
 				<h2 class="title">{{ badge.name }}</h2>
 				<span class="sub">{{ badge.description }}</span>
 				<span class="sub">{{ badge.current }}</span>
 			</div>
 			<div class="badges">
 				<div class="badge-group">
-					<div class="badge"></div>
+					<img class="badge" :src="require(`@/assets/badge/${badge.imgFolder_name}/bronze.jpg`)" alt="">
 					<span>{{ badge.bronze }}</span>
 				</div>
 				<div class="badge-group">
-					<div class="badge"></div>
+					<img class="badge" :src="require(`@/assets/badge/${badge.imgFolder_name}/silver.jpg`)" alt="">
 					<span>{{ badge.silver }}</span>
 				</div>
 				<div class="badge-group">
-					<div class="badge"></div>
+					<img class="badge" :src="require(`@/assets/badge/${badge.imgFolder_name}/gold.jpg`)" alt="">
 					<span>{{ badge.gold }}</span>
 				</div>
 			</div>
@@ -34,47 +34,43 @@ export default {
 			badges: [
 				{
 					name: '좋아요 뱃지',
+					imgFolder_name: 'like',
 					description: '좋아요를 눌러 뱃지를 획득하세요!',
 					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
 					bg_image: 'like.jpg',
-					bronze_image: 'http://placehold.it/185x185',
-					silver_image: 'http://placehold.it/185x185',
 				},
 				{
 					name: '댓글 뱃지',
+					imgFolder_name: 'comment',
 					description: '댓글을 작성하여 뱃지를 획득하세요!',
 					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
 					bg_image: 'comments.jpg',
-					bronze_image: 'http://placehold.it/170x170',
-					silver_image: 'http://placehold.it/170x170',
 				},
 				{
 					name: '팔로우 뱃지',
+					imgFolder_name: 'follow',
 					description: '팔로우하여 뱃지를 획득하세요!',
 					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
 					bg_image: 'follow.jpg',
-					bronze_image: 'http://placehold.it/170x170',
-					silver_image: 'http://placehold.it/170x170',
 				},
 				{
 					name: '줍깅 횟수 뱃지',
+					imgFolder_name: 'jubging',
 					description: '줍깅을 실천하고 뱃지를 획득하세요!',
 					current: '',
 					bronze: 10,
 					silver: 50,
 					gold: 100,
 					bg_image: 'jubging.jpg',
-					bronze_image: 'http://placehold.it/170x170',
-					silver_image: 'http://placehold.it/170x170',
 				},
 			]
 		}
