@@ -35,7 +35,7 @@ watch:{
 created() {
   window.finishJubging = this.finishJubging  // 줍깅이 끝났을 때 호출
   window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
-  window.isJubging = this.isJubging
+
 },
 mounted() {
   this.msg = "mounted"
@@ -50,10 +50,7 @@ methods:{
   open(){
     this.$router.push({name:'Events'})
   },
-  isJubging() {
-    this.$store.dispatch('jubgingOn', true)
-    this.msg = "줍깅 중.."
-  },
+
 	startJubging() {
     if (this.$store.state.isJubgingOn) {
       window.Android.startJubgingActivity()
