@@ -86,8 +86,9 @@
   height:30px;
   background-color: gainsboro;
   border:0px;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
   padding:10px;
+  padding-left: 20px;
   margin-bottom:10px;
 }
 input:focus{
@@ -103,7 +104,7 @@ input:focus{
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  margin:5px 10px 0px 0px;
+  margin: 5px 10px 0px 0px;
 }
 .comment_time{
   margin-left: 5px;
@@ -116,12 +117,9 @@ input:focus{
 }
 .comment_delete_button{
   color: $primary;
-  background-color: white;
-  border-color:$primary;
-  border-radius: 20%;
-  border:2px solid;
-  height:30px;
   margin-left:-25px;
+  cursor: pointer;
+  font-size: 20px;
 }
 .btn_div{
   margin-right:20px;
