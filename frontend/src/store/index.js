@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import router from '../router'
 import axios from 'axios'
 import { HTTP } from '@/util/http-common';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 // axios.defaults.baseURL = 'http://localhost:8080/'
 
@@ -22,6 +24,8 @@ export default new Vuex.Store({
     userArticles: [],
     userFollowers: [],
     userFollowings: [],
+    profileUserFollowers: [],
+    profileUserFollowings: [],
     currentUser: 0,
     currentPage: 0,  
     backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
@@ -98,6 +102,12 @@ export default new Vuex.Store({
     GET_FOLLOWING(state, userFollowings) {
       state.userFollowings = userFollowings
     },
+    GET_PROFILE_FOLLOWER(state, profileUserFollowers) {
+      state.profileUserFollowers = profileUserFollowers
+    },
+    GET_PROFILE_FOLLOWING(state, profileUserFollowings) {
+      state.profileUserFollowings = profileUserFollowings
+    },
     CHANGE_CURRENT_USER(state, currentUser) {
       state.currentUser = currentUser
     },
@@ -114,6 +124,9 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
+    SET_SOCKET(state, data) {
+      state.stompClient = data
+    }
   },
   actions: {
     // 기타
@@ -197,6 +210,24 @@ export default new Vuex.Store({
         console.error(e);
       })
     },
+    getProfileFollower(context, userId){
+      HTTP.get(`follow/findfollower/${userId}`)
+      .then((res) => {
+        context.commit('GET_PROFILE_FOLLOWER', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    getProfileFollowing(context, userId){
+      HTTP.get(`follow/findfollow/${userId}`)
+      .then((res) => {
+        context.commit('GET_PROFILE_FOLLOWING', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
     changeCurrentUser(context, userId) {
       context.commit('CHANGE_CURRENT_USER', userId)
     },
@@ -210,6 +241,27 @@ export default new Vuex.Store({
           localStorage.setItem('userId', res.data.data.userId)
           context.commit('UPDATE_TOKEN', res.data.data)
           router.push({ name: 'Home' })
+
+          // const serverURL = "http://localhost:8080/socket"
+          const serverURL = "https://i5b207.p.ssafy.io/api/socket"
+          let socket = new SockJS(serverURL);
+          let stompClient = Stomp.over(socket);
+          context.commit('SET_SOCKET', stompClient)
+          stompClient.connect(
+            {},
+            frame => {
+              this.connected = true;
+              console.log('소켓 연결 성공', frame);
+              stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
+                this.isAlram = true;
+                alert(res.body,'@@@@@@@@@@')
+              });
+            },
+            error => {
+              console.log('소켓 연결 실패', error);
+              this.connected = false;
+            }
+          );   
         } else {
           alert('이메일 혹은 비밀번호가 틀렸습니다.')
         }

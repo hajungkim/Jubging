@@ -61,8 +61,6 @@ import FollowList from '@/components/home/FollowList.vue'
 import AlarmModal from '@/components/home/AlarmModal.vue'
 import axios from 'axios'
 import { HTTP } from '@/util/http-common'
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
 
 import { mapState } from 'vuex'
 
@@ -112,9 +110,6 @@ export default {
       this.followArticles()
     }
     this.todayJubging()
-    //this.jubgingUser()
-    // socket 연결
-    this.connect()
     this.showNotification()
   },
   methods:{
@@ -153,28 +148,6 @@ export default {
         .catch((e) => {
           console.error(e);
         })
-    },
-    // socket
-    connect() {
-      // const serverURL = "http://localhost:8080/socket"
-      const serverURL = "https://i5b207.p.ssafy.io/api/socket"
-      let socket = new SockJS(serverURL);
-      this.$store.state.stompClient = Stomp.over(socket);
-      this.$store.state.stompClient.connect(
-        {},
-        frame => {
-          this.connected = true;
-          console.log('소켓 연결 성공', frame);
-          this.$store.state.stompClient.subscribe("/sub/" + this.$store.state.userId, res => {
-            this.isAlram = true;
-            alert(res.body,'@@@@@@@@@@')
-          });
-        },
-        error => {
-          console.log('소켓 연결 실패', error);
-          this.connected = false;
-        }
-      );        
     },
     showNotification() {
       var self = this
