@@ -36,9 +36,9 @@
         </div>
       </div>
     </div>
-    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :userId="profileUserId*1">
+    <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :profileUserId="profileUserId*1">
       </FollowerModal>
-    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :userId="profileUserId*1">
+    <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :profileUserId="profileUserId*1">
       </FollowingModal> 
 
     <!-- 뱃지 리스트 -->

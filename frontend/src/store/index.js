@@ -22,6 +22,8 @@ export default new Vuex.Store({
     userArticles: [],
     userFollowers: [],
     userFollowings: [],
+    profileUserFollowers: [],
+    profileUserFollowings: [],
     currentUser: 0,
     currentPage: 0,  
     backPage: 0,  //0:home 1:my 2:search 3:userprofile 4:detail 5:logs
@@ -97,6 +99,12 @@ export default new Vuex.Store({
     },
     GET_FOLLOWING(state, userFollowings) {
       state.userFollowings = userFollowings
+    },
+    GET_PROFILE_FOLLOWER(state, profileUserFollowers) {
+      state.profileUserFollowers = profileUserFollowers
+    },
+    GET_PROFILE_FOLLOWING(state, profileUserFollowings) {
+      state.profileUserFollowings = profileUserFollowings
     },
     CHANGE_CURRENT_USER(state, currentUser) {
       state.currentUser = currentUser
@@ -192,6 +200,24 @@ export default new Vuex.Store({
       HTTP.get(`follow/findfollow/${userId}`)
       .then((res) => {
         context.commit('GET_FOLLOWING', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    getProfileFollower(context, userId){
+      HTTP.get(`follow/findfollower/${userId}`)
+      .then((res) => {
+        context.commit('GET_PROFILE_FOLLOWER', res.data.data)
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    },
+    getProfileFollowing(context, userId){
+      HTTP.get(`follow/findfollow/${userId}`)
+      .then((res) => {
+        context.commit('GET_PROFILE_FOLLOWING', res.data.data)
       })
       .catch((e) => {
         console.error(e);

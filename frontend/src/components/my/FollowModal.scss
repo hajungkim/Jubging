@@ -1,5 +1,7 @@
 @import "@/assets/css/common.scss";
-
+li {
+  list-style:none;
+}
 .like_time {
 	font-size: 10px;
 	margin-top: 5px;
@@ -24,9 +26,16 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  button {
+  .follow-btn {
     color: $primary;
     background-color: white;
+    border-radius: 12px;
+    padding: 3px 12px;
+    border: 2px solid $primary; 
+  }
+  .following-btn {
+    color: white;
+    background-color: $primary;
     border-radius: 12px;
     padding: 3px 12px;
     border: 2px solid $primary; 
