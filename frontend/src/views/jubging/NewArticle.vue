@@ -157,8 +157,8 @@ methods: {
 
   crop() {
   this.croppedCanvas = this.cropper.getCroppedCanvas({
-    width: 300,
-    height: 300,
+    width: 1000,
+    height: 1000,
   });
   this.photos = [...this.photos, {
       preview: this.croppedCanvas.toDataURL(),
