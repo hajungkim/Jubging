@@ -249,6 +249,7 @@ export default new Vuex.Store({
               console.log('소켓 연결 성공', frame);
               this.$store.state.stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
                 this.isAlram = true;
+                alert(res.body,'@@@@@@@@@@')
               });
             },
             error => {
