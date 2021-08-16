@@ -1,13 +1,13 @@
 <template>
 	<div class="modal">
 		<div class="overlay" @click="$emit('close-modal')"></div>
-			<div class="modal-card">
-				<div class="modal-header">
-        <span>알람창</span>
-        <font-awesome-icon class="icon" icon="times" @click="$emit('close-modal')"/>
-      </div>
+		<div class="modal-card">
+			<div class="modal-header">
+				<span>알람창</span>
+				<font-awesome-icon class="icon" icon="times" @click="$emit('close-modal')"/>
+			</div>
 			<div class="modal-content">
-        <ul style="padding: 0px; margin: 0px">
+				<ul style="padding: 0px; margin: 0px">
 					<li class="alarm_container" v-for="(alarm,idx) in alarmList" :key="idx">
 						<img class="alarm_profile" :src="alarm.profilePath">
 						<div v-if="alarm.category === 'comment'" class="alarm-nickname" @click="onDetail(alarm)">
@@ -35,10 +35,10 @@
 						</div>
 					</li>
 				</ul>
-      </div>
-      <div class="modal-footer">
-      </div>
 			</div>
+			<div class="modal-footer">
+			</div>
+		</div>
 	</div>
 </template>
 
