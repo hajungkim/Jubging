@@ -37,6 +37,9 @@
 export default {
   name:'Main',
   methods:{
+    isJubging() {
+      this.$store.dispatch('jubgingOn', true)
+    },
     onClick(link){
       this.$store.dispatch('isCurrent', link)
       if (this.$route.name !== 'Login') {
@@ -45,9 +48,12 @@ export default {
       }
     },
   },
+  created() {
+    window.isJubging = this.isJubging
+  },
   mounted(){
     document.querySelector('.router-link-active').classList.add('item-active')
-  }
+  },
 }
 </script>
 
