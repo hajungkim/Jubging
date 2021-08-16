@@ -79,11 +79,18 @@ watch:{
   }
 },
 created() {
+  window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
 },
 mounted() {
   this.jubgingInfo = this.$store.state.jubgingInfo
 },
 methods:{
+  onJubging(isJubgingOn) {
+    if (isJubgingOn) {
+      this.msg = "줍깅 중.."
+    }
+    this.$store.dispatch('jubgingOn', isJubgingOn)
+  },
   toggleSpot(here) {
     this.spot[here] = !this.spot[here]
     for (var where in this.spot) {
