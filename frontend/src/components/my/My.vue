@@ -33,12 +33,12 @@
           </FollowingModal>  
       </div>
       <!-- 뱃지 리스트 -->
-      <div class="badge_box">
+      <div class="badge_box" v-if="ischange && isbadge">
         <carousel-3d class="badge_carousel"
-          :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false"
+          :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false" :border="0"
           :display="4" :space="70" :controlsVisible="true" style="width:412px;"
         >
-          <div v-if="ischange && isbadge">
+          <div>
             <slide v-for="(photo,i) in photos" :index="i" :key="i">
               <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
                 <img class="badge_img" :src="photo.url" :data-index="index"
@@ -48,8 +48,15 @@
           </div>
         </carousel-3d>
       </div>
-      <div v-if="!isbadge" class="nobadge_text">
-        <span class="nobadge">Do Jubging! Take Badges!</span>
+      <div class="badge_box" v-else>
+        <carousel-3d class="badge_carousel"
+          :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false" :border="0"
+          :display="4" :space="70" :controlsVisible="true" style="width:412px;"
+        >
+        </carousel-3d>
+        <div class="nobadge_text">
+          <span class="nobadge">Do Jubging! Take Badges!</span>
+        </div>
       </div>
       <!-- 나의 게시글 -->
       <div class="photo_list">
