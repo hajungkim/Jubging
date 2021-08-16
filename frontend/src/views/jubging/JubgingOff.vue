@@ -49,6 +49,7 @@
 
 <script>
 import { HTTP } from '@/util/http-common';
+import { mapState } from 'vuex'
 export default {
 components:{
 },
