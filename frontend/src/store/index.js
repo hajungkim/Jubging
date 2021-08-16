@@ -124,6 +124,9 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
+    SET_SOCKET(state, data) {
+      state.stompClient = data
+    }
   },
   actions: {
     // 기타
@@ -239,15 +242,17 @@ export default new Vuex.Store({
           context.commit('UPDATE_TOKEN', res.data.data)
           router.push({ name: 'Home' })
 
+          // const serverURL = "http://localhost:8080/socket"
           const serverURL = "https://i5b207.p.ssafy.io/api/socket"
           let socket = new SockJS(serverURL);
-          this.$store.state.stompClient = Stomp.over(socket);
-          this.$store.state.stompClient.connect(
+          let stompClient = Stomp.over(socket);
+          context.commit('SET_SOCKET', stompClient)
+          stompClient.connect(
             {},
             frame => {
               this.connected = true;
               console.log('소켓 연결 성공', frame);
-              this.$store.state.stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
+              stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
                 this.isAlram = true;
                 alert(res.body,'@@@@@@@@@@')
               });
