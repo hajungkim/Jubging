@@ -23,7 +23,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @Column(nullable = false)
     private Long articleId;
@@ -39,7 +39,7 @@ public class Comment {
         comment.articleId=request.getArticleId();
         comment.userId=request.getUserId();
         comment.commentContent=request.getCommentContent();
-        comment.createdDate=LocalDateTime.now();
+        comment.createdDate= new Date();
         return comment;
     }
 }
