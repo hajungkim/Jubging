@@ -39,7 +39,7 @@ public class ArticleResponseDto {
         this.likeCnt=article.getLikeCnt();
         this.userId=article.getUserId();
         this.createdDate = article.getCreatedDate();
-        String[] temp = article.getCreatedDate().toString().split("T");
+        String[] temp = article.getCreatedDate().toString().split(" ");
         String[] date = temp[0].split("-");
         this.date = date[0] + "." + date[1] + "." + date[2];
     }
