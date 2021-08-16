@@ -16,5 +16,6 @@ public class JubgingLogResponseDto {
     private String totalTime;
     private LocalDateTime createdDate;
     private String date;
+    private String address;
 
 }
