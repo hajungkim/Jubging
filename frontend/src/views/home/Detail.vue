@@ -68,7 +68,8 @@
               </div>
               <div class="comment_contents">{{comment.commentContent}}</div>
             </div>
-            <button class="comment_delete_button" v-if="comment.userId === parseInt(userId)" @click="commentDelete(comment)">X</button>
+            <font-awesome-icon class="comment_delete_button" icon="times" 
+             v-if="comment.userId === parseInt(userId)" @click="commentDelete(comment)"/>
           </div>
         </li>
       </ul>
@@ -84,7 +85,7 @@
           v-else
           type="text"
           class="comment_input"
-          placeholder="로그인하고 댓글을 작성해보세요."
+          placeholder="로그인 후 댓글을 작성하세요."
           disabled>
         <font-awesome-icon @click="commentSubmit" :icon="['fas','comment']" class="comment_icon"/>
       </div>
