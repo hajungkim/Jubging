@@ -35,6 +35,7 @@ watch:{
 created() {
   window.finishJubging = this.finishJubging  // 줍깅이 끝났을 때 호출
   window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
+  window.isJubging = this.isJubging
 },
 mounted() {
   this.msg = "mounted"
@@ -44,14 +45,14 @@ mounted() {
   } else {
     this.msg = "줍깅 시작"
   }
-  const script = document.createElement('script');
-  script.onload = () => kakao.maps.load(); // script가 로드 되면 그때서야 카카오맵을 로드함, 이거를 안해주면 안됨
-  script.src = `http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${this.myKey}&libraries=services`;
-  document.head.appendChild(script);
 },
 methods:{
   open(){
     this.$router.push({name:'Events'})
+  },
+  isJubging() {
+    this.$store.dispatch('jubgingOn', true)
+    this.msg = "줍깅 중.."
   },
 	startJubging() {
     if (this.$store.state.isJubgingOn) {
