@@ -2,7 +2,7 @@
   <div>
     <div class="top">
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
-      <font-awesome-icon :icon="['far','calendar-alt']" class="events" @click="open"/>
+      <font-awesome-icon :icon="['fas','bullhorn']" class="events" @click="open"/>
     </div>
     <div id="body">
       <img height="550px" src="" alt="줍깅 설명">
