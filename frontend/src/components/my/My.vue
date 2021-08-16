@@ -33,30 +33,28 @@
           </FollowingModal>  
       </div>
       <!-- 뱃지 리스트 -->
-      <div class="badge_box" v-if="ischange && isbadge">
+      <div class="badge_box" v-if="ischange && !isbadge">
         <carousel-3d class="badge_carousel"
           :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false" :border="0"
-          :display="4" :space="70" :controlsVisible="true" style="width:412px;"
+          :display="5" :space="70" :controlsVisible="true" style="width:412px;"
         >
-          <div>
-            <slide v-for="(photo,i) in photos" :index="i" :key="i">
-              <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
-                <img class="badge_img" :src="photo.url" :data-index="index"
-                :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" >
-              </template>
-            </slide>
-          </div>
-        </carousel-3d>
+          <slide v-for="(photo,i) in photos" :index="i" :key="i">
+            <template slot-scope="{index,isCurrent,leftIndex,rightIndex}">
+              <img class="badge_img" :src="photo.url" :data-index="index"
+              :class="{current: isCurrent, onLeft:(leftIndex>=0), onRight:(rightIndex>=0)}" >
+            </template>
+          </slide>
+          </carousel-3d>
       </div>
-      <div class="badge_box" v-else>
+      <div class="badge_box" v-if="isbadge">
         <carousel-3d class="badge_carousel"
           :disable3d="true" :width="60" :height="60" dir="ltr" :startIndex="0" :clickable="false" :border="0"
           :display="4" :space="70" :controlsVisible="true" style="width:412px;"
         >
         </carousel-3d>
-        <div class="nobadge_text">
-          <span class="nobadge">Do Jubging! Take Badges!</span>
-        </div>
+          <div class="nobadge_text">
+            <span class="nobadge">Do Jubging! Take Badges!</span>
+          </div>
       </div>
       <!-- 나의 게시글 -->
       <div class="photo_list">
@@ -119,7 +117,7 @@ export default {
       isfollower: false,
       isfollowing: false,
       ischange: false,
-      isbadge: true,
+      isbadge: false,
       photos:[],
     }
   },
@@ -158,36 +156,38 @@ export default {
       .then((res) => {
         for(const key in res.data.data)
         {
+          console.log(key,'키')
           if (key === 'bottle' || key === 'can' || key === 'metal' ||
               key === 'paper' ||  key === 'plastic' || key === 'styroform' ||
               key === 'trash' || key === 'vinyl' || key === 'jubging' ||
               key === 'arround' || key === 'mountain' || key === 'ocean' || key === 'river'){
             if (res.data.data[key] >= 3 && res.data.data[key] < 10){
-              this.photos.push({url: require(`@/assets/badge/${key}/bronze.png`)})
+              this.photos.push({url: require(`@/assets/badge/${key}/bronze.jpg`)})
             }
             else if (res.data.data[key] >= 10 && res.data.data[key] < 20){
-              this.photos.push({url: require(`@/assets/badge/${key}/silver.png`)})
+              this.photos.push({url: require(`@/assets/badge/${key}/silver.jpg`)})
             }
             else if (res.data.data[key] >= 20){
-                this.photos.push({url: require(`@/assets/badge/${key}/gold.png`)})
+                this.photos.push({url: require(`@/assets/badge/${key}/gold.jpg`)})
             }
           }
           // 여기부터 댓글,좋아요,팔로우,거리
           else if (key === 'comment' || key === 'like' || key === 'follow' || key === 'distance'){
             if (res.data.data[key] >= 10 && res.data.data[key] < 50){
-                this.photos.push({url: require(`@/assets/badge/${key}/bronze.png`)})
+                this.photos.push({url: require(`@/assets/badge/${key}/bronze.jpg`)})
             }
             else if (res.data.data[key] >=50 && res.data.data[key]<100){
-                this.photos.push({url: require(`@/assets/badge/${key}/silver.png`)})
+                this.photos.push({url: require(`@/assets/badge/${key}/silver.jpg`)})
             }
             else if (res.data.data[key] >= 100){
-                this.photos.push({url: require(`@/assets/badge/${key}/gold.png`)})
+                this.photos.push({url: require(`@/assets/badge/${key}/gold.jpg`)})
             }
           }
         }
+        console.log(this.photos,'@@@@')
         this.ischange = true
         if (this.photos.length === 0){
-          this.isbadge = false;
+          this.isbadge = true;
         }
         })
       .catch((e) => {
