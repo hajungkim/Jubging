@@ -34,7 +34,6 @@ watch:{
 },
 created() {
   window.finishJubging = this.finishJubging  // 줍깅이 끝났을 때 호출
-  window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
 
 },
 mounted() {
@@ -59,12 +58,7 @@ methods:{
       window.Android.startCameraActivity()
     }
 	},
-  onJubging(isJubgingOn) {
-    if (isJubgingOn) {
-      this.msg = "줍깅 중.."
-    }
-    this.$store.dispatch('jubgingOn', isJubgingOn)
-  },
+
 
   finishJubging(jubgingInfo) {
 
