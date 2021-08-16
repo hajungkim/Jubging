@@ -1,12 +1,10 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Mission;
+import com.ssafy.jupging.domain.entity.MissionSuccess;
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.*;
-import com.ssafy.jupging.service.ArticleService;
-import com.ssafy.jupging.service.JwtService;
-import com.ssafy.jupging.service.MissionService;
-import com.ssafy.jupging.service.UserService;
+import com.ssafy.jupging.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +24,8 @@ public class UserController {
     private final UserService userService;
 
     private final MissionService missionService;
+
+    private final MissionSuccessService missionSuccessService;
 
     private final ArticleService articleService;
 
@@ -93,6 +93,9 @@ public class UserController {
                 Mission mission = new Mission();
                 mission = mission.saveInit(user.getUserId());
                 missionService.saveInit(mission);
+                MissionSuccess missionSuccess = new MissionSuccess();
+                missionSuccess = missionSuccess.saveInit(user.getUserId());
+                missionSuccessService.saveInit(missionSuccess);
 
                 response = new ControllerResponse("success", true);
 
