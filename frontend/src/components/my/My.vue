@@ -27,9 +27,9 @@
             <span style="text-align:center">{{userInfo.following}}</span>
           </div>
         </div>
-        <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :userId="userId*1">
+        <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :profileUserId="userId*1">
           </FollowerModal> 
-        <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :userId="userId*1">
+        <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :profileUserId="userId*1">
           </FollowingModal>  
       </div>
       <!-- 뱃지 리스트 -->
