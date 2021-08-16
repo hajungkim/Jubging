@@ -179,10 +179,10 @@ export default {
         .then(() => {
           if (this.comments.length > 0) {
             var ul_content = document.querySelector('#ul-content').offsetHeight + 32
-            var max_hight = 800
+            var max_hight = 640
             if (ul_content + 40 < max_hight) {
               document.querySelector('.bottom-sheet__content').style.height=`${ul_content + 40}px`
-            }
+            } 
           }
         })
         .catch((e) => {
