@@ -105,6 +105,8 @@ export default {
     ]),
   },
   created(){
+    window.isJubging = this.isJubging
+
     this.$store.state.backPage = 0
     this.allArticles()
     if (this.Token) {
@@ -117,6 +119,9 @@ export default {
     this.showNotification()
   },
   methods:{
+    isJubging() {
+      this.$store.dispatch('jubgingOn', true)
+    },
     followToggle(){
       this.toggle = !this.toggle
     },
