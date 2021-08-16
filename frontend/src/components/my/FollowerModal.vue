@@ -81,7 +81,7 @@ export default {
     deleteFollow(targetId){
       HTTP.delete(`follow?followUserId=${targetId}&userId=${this.userId}`)
         .then(() => {
-          this.getFollowing(this.profileUserId)
+          this.getFollowing(this.userId)
         })
         .catch((e) => {
           console.error(e);
@@ -90,7 +90,7 @@ export default {
     onFollow(targetId){
       HTTP.post(`follow?followUserId=${targetId}&userId=${this.userId}`)
         .then(() => {
-          this.getFollowing(this.profileUserId)
+          this.getFollowing(this.userId)
         })
         .catch((e) => {
           console.error(e);
