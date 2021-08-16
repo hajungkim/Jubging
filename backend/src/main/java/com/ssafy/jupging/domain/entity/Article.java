@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -28,7 +29,7 @@ public class Article {
     private int likeCnt;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @Column(nullable = false)
     private Long userId;
@@ -38,7 +39,7 @@ public class Article {
         article.content = request.getContent();
         article.userId = request.getUserId();
         article.photosPath = request.getPhotosPath();
-        article.createdDate = LocalDateTime.now();
+        article.createdDate = new Date();
         return article;
     }
 }
