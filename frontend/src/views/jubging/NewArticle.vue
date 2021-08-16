@@ -157,8 +157,8 @@ methods: {
 
   crop() {
   this.croppedCanvas = this.cropper.getCroppedCanvas({
-    width: 300,
-    height: 300,
+    width: 1000,
+    height: 1000,
   });
   this.photos = [...this.photos, {
       preview: this.croppedCanvas.toDataURL(),
@@ -211,7 +211,7 @@ methods: {
   },
   sendOption(){
     // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
-    var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': "2.2",'userId': parseInt(this.userId)}          
+    var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': this.$store.state.jubgingInfo.dist,'userId': parseInt(this.userId)}          
     HTTP.put('/mission', data)
       .then((res) => {
         console.log(res.data)

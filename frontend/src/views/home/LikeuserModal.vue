@@ -1,19 +1,24 @@
 <template>
-  <div class="modal">
+	<div class="modal">
 		<div class="overlay" @click="$emit('close-modal')"></div>
-			<div class="modal-card">
-				<div class="modal_top" style="font-size:20px;">좋아요 누른 줍깅이<button class="close" @click="$emit('close-modal')">닫기</button></div>
-					<div>
-						<ul style="padding:0px; margin-top:10px;">
-							<li class="comment_container" v-for="(likePeople,idx) in likePeoples" :key="idx" @click="moveProfile(likePeople)">
-								<img class="comment_profile" :src="likePeople.profilePath">
-								<div style="display:flex; align-items:center;">
-										<span style="font-weight:bold; font-size:17px; margin-left:10px;">{{likePeople.nickname}}</span>
-								</div>
-							</li>
-						</ul>
-					</div>
+		<div class="modal-card">
+			<div class="modal-header">
+				<span>좋아요 누른 줍깅이</span>
+				<font-awesome-icon class="icon" icon="times" @click="$emit('close-modal')"/>
 			</div>
+			<div class="modal-content">
+
+				<ul>
+					<li class="comment_container" v-for="(likePeople,idx) in likePeoples" :key="idx" @click="moveProfile(likePeople)">
+						<img class="comment_profile" :src="likePeople.profilePath">
+						<span>{{likePeople.nickname}}</span>
+					</li>
+				</ul>
+
+			</div>
+			<div class="modal-footer">
+			</div>
+		</div>
 	</div>
 </template>
 

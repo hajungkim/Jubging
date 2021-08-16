@@ -33,7 +33,7 @@ export default {
 
     // 0 60, 120, 180, 270, 360, 450, 540
     var quantize = d3.scale.quantize()
-        .domain([0, 540])
+        .domain([0, 100])
         .range(d3.range(9).map(function(i) { return "p" + i; }));
 
     var popByName = d3.map();
@@ -84,7 +84,7 @@ export default {
 <style> 
   svg .municipality { fill: red; }
   svg .municipality:hover { stroke: #333; }
-  svg .municipality.p0 { fill: rgb(198,219,239); }
+  svg .municipality.p0 { fill: rgb(241, 244, 247); }
   svg .municipality.p1 { fill: rgb(222,235,247); }
   svg .municipality.p2 { fill: rgb(198,219,239); }
   svg .municipality.p3 { fill: rgb(158,202,225); }
