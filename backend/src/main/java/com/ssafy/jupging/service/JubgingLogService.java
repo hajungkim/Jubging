@@ -36,7 +36,7 @@ public class JubgingLogService {
             String[] temp2 = temp[0].split("-");
             String date = temp2[0] + "년 " + temp2[1] + "월 " + temp2[2] + "일";
             JubgingLogResponseDto responseDto
-                    = new JubgingLogResponseDto(j.getUserId(), j.getDistance(), j.getTotalTime(), j.getCreatedDate(), date);
+                    = new JubgingLogResponseDto(j.getUserId(), j.getDistance(), j.getTotalTime(), j.getCreatedDate(), date, j.getAddress());
             result.add(responseDto);
         }
         return result;
