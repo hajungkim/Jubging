@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import router from '../router'
 import axios from 'axios'
 import { HTTP } from '@/util/http-common';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 // axios.defaults.baseURL = 'http://localhost:8080/'
 
@@ -236,6 +238,24 @@ export default new Vuex.Store({
           localStorage.setItem('userId', res.data.data.userId)
           context.commit('UPDATE_TOKEN', res.data.data)
           router.push({ name: 'Home' })
+
+          const serverURL = "https://i5b207.p.ssafy.io/api/socket"
+          let socket = new SockJS(serverURL);
+          this.$store.state.stompClient = Stomp.over(socket);
+          this.$store.state.stompClient.connect(
+            {},
+            frame => {
+              this.connected = true;
+              console.log('소켓 연결 성공', frame);
+              this.$store.state.stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
+                this.isAlram = true;
+              });
+            },
+            error => {
+              console.log('소켓 연결 실패', error);
+              this.connected = false;
+            }
+          );   
         } else {
           alert('이메일 혹은 비밀번호가 틀렸습니다.')
         }
