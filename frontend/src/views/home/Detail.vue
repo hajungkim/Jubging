@@ -140,7 +140,6 @@ export default {
       like: false,
       likeCnt: 0,
       commentCnt: 0,
-      BASEURL: 'http://localhost:8080',
     }
   },
   computed:{
