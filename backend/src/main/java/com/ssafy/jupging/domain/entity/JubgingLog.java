@@ -28,12 +28,18 @@ public class JubgingLog {
 
     private LocalDateTime createdDate;
 
+    private String address;
+
     public JubgingLog saveJubgingLog(JubgingLogSaveRequestDto requestDto) {
         JubgingLog result = new JubgingLog();
         result.totalTime = requestDto.getTotalTime();
         result.distance = requestDto.getDistance();
         result.userId = requestDto.getUserId();
         result.createdDate = LocalDateTime.now();
+        String[] addArr = requestDto.getAddress().split(" ");
+        String add1 = addArr[0];
+        String add2 = addArr[1];
+        result.address = add1 + " " + add2;
         return result;
     }
 }
