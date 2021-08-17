@@ -51,10 +51,22 @@ export default new Vuex.Store({
     },
 
     // 홈
-    LOAD_ARTICLES(state,data) {
-      state.articles = data;
+    LOAD_ARTICLES(state, data) {
+      let half = parseInt(data.length / 2)
+      let articles = new Array(data.length)
+      let k
+      for (let i=0; i<data.length; i++) {
+        k = parseInt(i/2)
+        if (i % 2) {
+          articles[k] = data[i]
+        } else {
+          articles[k+half] = data[i]
+        }
+      }
+      // state.articles = data;
+      state.articles = articles;
     },
-    LOAD_FOLLOW_ATICLES(state,data) {
+    LOAD_FOLLOW_ATICLES(state, data) {
       state.followarticles = data;
     },
     ISSELECTARTICLE(state,data){
