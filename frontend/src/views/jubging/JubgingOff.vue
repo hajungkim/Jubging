@@ -66,6 +66,7 @@ data() {
 },
 computed:{
   ...mapState([
+      'address',
 			'userId',
       'jubgingOption',
       'jubgingInfo',
@@ -97,7 +98,7 @@ created() {
       console.error(err)
     })
 
-  HTTP.post('/jubginglog', {"distance": this.jubgingInfo.dist, "totalTime": this.jubgingInfo.time, "userId": this.userId})
+  HTTP.post('/jubginglog', {"address": this.address, "distance": this.jubgingInfo.dist, "totalTime": this.jubgingInfo.time, "userId": this.userId})
     .then((res) => {
       console.log(res.data)
     })
