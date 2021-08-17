@@ -105,12 +105,10 @@ export default {
 					a = (badge.current - badge.bronze)
 					b = (badge.silver - badge.bronze)
 					k = 85 + parseInt((a/b) * 55)
-					console.log(k)
 				} else if (badge.current < badge.gold) {
 					a = (badge.current - badge.silver)
 					b = (badge.gold - badge.silver)
 					k = 208 + parseInt((a/b) * 55)
-					console.log(k)
 				} else {
 					k = 340
 				}
