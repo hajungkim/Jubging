@@ -82,6 +82,7 @@ export default {
       HTTP.delete(`follow?followUserId=${targetId}&userId=${this.userId}`)
         .then(() => {
           this.getFollowing(this.userId)
+          this.$emit('update-follow')
         })
         .catch((e) => {
           console.error(e);
@@ -91,6 +92,7 @@ export default {
       HTTP.post(`follow?followUserId=${targetId}&userId=${this.userId}`)
         .then(() => {
           this.getFollowing(this.userId)
+          this.$emit('update-follow')
         })
         .catch((e) => {
           console.error(e);
