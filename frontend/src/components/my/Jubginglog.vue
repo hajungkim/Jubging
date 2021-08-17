@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="info">
-          <div>{{log.createdDate}}</div>
+          <div>{{log.date}}</div>
           <div>{{log.address}}</div>
         </div>
       </div>
