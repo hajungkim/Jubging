@@ -16,9 +16,13 @@
             <div class="time_dist">{{log.distance}} km</div>
           </div>
         </div>
-        <div class="info">
-          <div>{{log.date}}</div>
-          <div>{{log.address}}</div>
+        <div class="date_address">
+          <div>
+            <span style="margin-left:35px;">{{log.date}}</span>
+          </div>
+          <div>
+            <span style="margin-right:10px;">{{log.address}}</span>
+          </div>
         </div>
       </div>
       </li>
