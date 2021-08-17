@@ -90,7 +90,7 @@ created() {
   
   this.$store.dispatch('jubgingOn', false)
 
-  HTTP.post('/map', this.$store.state.address)
+  HTTP.post('/map', this.address)
     .then((res) => {
       console.log(res.data)
     })
@@ -98,7 +98,7 @@ created() {
       console.error(err)
     })
 
-  HTTP.post('/jubginglog', {"address": this.address, "distance": this.jubgingInfo.dist, "totalTime": this.jubgingInfo.time, "userId": this.userId})
+  HTTP.post('/jubginglog', {address: this.address, distance: this.jubgingInfo.dist, totalTime: this.jubgingInfo.time, userId: this.userId})
     .then((res) => {
       console.log(res.data)
     })
