@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <div class="top">
-      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
-      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
-    </div>
+<div>
+  <div class="top">
+    <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
+    <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+  </div>
 
+  <div  class="body-content">
     <div id="body">
       <div class="item-text">
         <h3>줍깅 후기 작성하기</h3>
@@ -23,12 +24,14 @@
           <div class="item-grid" >
             <img id="preview" :src="photo.preview" alt="">
           </div>
-          <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">-</div>
+          <div class="file-close-button" @click="photoDeleteButton" :name="photo.number">
+            <font-awesome-icon icon="times" />
+          </div>
         </div>
         <ModalView v-show="isModalViewed" @close-modal="modalOff" :modalTitle="'줍깅 사진 편집'">
           <div class="img-container">
             <img id="image" src="@/assets/user_default.png" alt="Picture">
-            <button type="button" id="button" @click="crop" class="btn">Crop</button>
+            <button id="button" @click="crop" class="btn">Crop</button>
           </div>
         </ModalView>
         <div class="item-grid" v-if="num<3">
@@ -41,11 +44,12 @@
            <input class="item-grid" type="file" id="input-image" @change="readImage" ref="photos" multiple :disabled="num>=3"/>
         </div>
       </div>
-      <button v-if="isbutton && !iscontent" class="btn" @click="sendData">올리기 ></button>
-      <button v-if="!isbutton" class="btn" disabled="true">사진을 등록해주세요</button>
-      <button v-if="iscontent && isbutton" class="btn" disabled="true">내용을 200자 미만으로 작성해주세요</button>
+      <button v-if="isbutton && !iscontent" class="btn body-button" @click="sendData">올리기 ></button>
+      <button v-if="!isbutton" class="btn-disable body-button" disabled="true">사진을 등록해주세요.</button>
+      <button v-if="iscontent && isbutton" class="btn-disable body-button" disabled="true">내용을 200자 미만으로 작성해주세요.</button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -201,7 +205,6 @@ methods: {
     }
     HTTP.post('/article', data)
       .then((res) => {
-        console.log(res.data)
         this.article_id = res.data.article_id
         this.sendOption()
       })
@@ -213,8 +216,7 @@ methods: {
     // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
     var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,'distance': this.$store.state.jubgingInfo.dist,'userId': parseInt(this.userId)}          
     HTTP.put('/mission', data)
-      .then((res) => {
-        console.log(res.data)
+      .then(() => {
         // this.$router.push({name:'Detail', params: { article_id: this.article_id }})
         this.$router.push({ name: 'Home' })
       })

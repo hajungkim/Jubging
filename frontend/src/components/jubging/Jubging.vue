@@ -39,7 +39,6 @@ created() {
 },
 mounted() {
   this.msg = "mounted"
-	console.log("mounted")
   if (this.$store.state.isJubgingOn) {
     this.msg = "줍깅 중.."
   } else {
