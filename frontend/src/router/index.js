@@ -31,7 +31,7 @@ const requireAuth = () => (to, from, next) => {
   if (store.state.Token) {
     if (!from.name && (to.name === 'Register' || to.name === 'NewArticle')) {
       console.log('url 접근 금지')
-      return next('/jubging')
+      // return next('/jubging')
     }
     return next();
   }
