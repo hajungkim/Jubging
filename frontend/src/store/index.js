@@ -51,10 +51,22 @@ export default new Vuex.Store({
     },
 
     // 홈
-    LOAD_ARTICLES(state,data) {
-      state.articles = data;
+    LOAD_ARTICLES(state, data) {
+      let half = parseInt(data.length / 2)
+      let articles = new Array(data.length)
+      let k
+      for (let i=0; i<data.length; i++) {
+        k = parseInt(i/2)
+        if (i % 2) {
+          articles[k] = data[i]
+        } else {
+          articles[k+half] = data[i]
+        }
+      }
+      // state.articles = data;
+      state.articles = articles;
     },
-    LOAD_FOLLOW_ATICLES(state,data) {
+    LOAD_FOLLOW_ATICLES(state, data) {
       state.followarticles = data;
     },
     ISSELECTARTICLE(state,data){
@@ -124,6 +136,9 @@ export default new Vuex.Store({
     GET_USER_INFO(state, data) {
       state.userInfo = data
     },
+    SET_SOCKET(state, data) {
+      state.stompClient = data
+    }
   },
   actions: {
     // 기타
@@ -239,15 +254,17 @@ export default new Vuex.Store({
           context.commit('UPDATE_TOKEN', res.data.data)
           router.push({ name: 'Home' })
 
+          // const serverURL = "http://localhost:8080/socket"
           const serverURL = "https://i5b207.p.ssafy.io/api/socket"
           let socket = new SockJS(serverURL);
-          this.$store.state.stompClient = Stomp.over(socket);
-          this.$store.state.stompClient.connect(
+          let stompClient = Stomp.over(socket);
+          context.commit('SET_SOCKET', stompClient)
+          stompClient.connect(
             {},
             frame => {
               this.connected = true;
               console.log('소켓 연결 성공', frame);
-              this.$store.state.stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
+              stompClient.subscribe("/sub/" + localStorage.getItem('userId'), res => {
                 this.isAlram = true;
                 alert(res.body,'@@@@@@@@@@')
               });
