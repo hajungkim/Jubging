@@ -160,9 +160,14 @@ methods: {
   },
 
   crop() {
+  let imageWidth = document.getElementById('image').width
+  let imageHeight = document.getElementById('image').height
+  let minValue = Math.min(imageWidth, imageHeight, 1000)
+  let targetValue = Math.max(minValue, 300)
+
   this.croppedCanvas = this.cropper.getCroppedCanvas({
-    width: 1000,
-    height: 1000,
+    width: targetValue,
+    height: targetValue,
   });
   this.photos = [...this.photos, {
       preview: this.croppedCanvas.toDataURL(),
