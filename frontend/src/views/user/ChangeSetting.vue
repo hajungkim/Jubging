@@ -254,8 +254,8 @@ export default {
 
       if (this.cropper) {
           this.croppedCanvas = this.cropper.getCroppedCanvas({
-          width: 150,
-          height: 150,
+          width: 300,
+          height: 300,
         });
         avatar.src = this.croppedCanvas.toDataURL();
       }
