@@ -14,7 +14,6 @@
             name="text" 
             placeholder="본문에 #을 이용하여 태그를 사용해보세요"
             id="ta"
-            rows="13"
             v-on:input="content_typing"
           ></textarea>
       </div>
