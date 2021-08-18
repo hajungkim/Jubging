@@ -27,7 +27,7 @@
         </slide>
       </carousel-3d>
       <span class="datetext">
-        {{article.date.slice(0,4)}}.{{article.date.slice(5,7)}}.{{article.date.slice(8,10)}}
+        {{ article.date }}
         <!-- {{article.date}} -->
       </span>
       <!--게시글 내용-->
@@ -53,8 +53,8 @@
       </div>
     </div>
 
-    <vue-bottom-sheet ref="myBottomSheet" max-height="681px" max-width="412px" id="comment_bottom" >
-      <ul style="padding:0px;" id="ul-content">
+    <vue-bottom-sheet ref="myBottomSheet" max-height="681px" max-width="412px" id="comment_bottom">
+      <ul style="padding: 0px; margin-bottom:50px " id="ul-content">
         <li class="comment_container"
           v-for="(comment,idx) in comments"
           :key="idx"
@@ -179,9 +179,11 @@ export default {
         .then(() => {
           if (this.comments.length > 0) {
             var ul_content = document.querySelector('#ul-content').offsetHeight + 32
-            var max_hight = 800
+            var max_hight = 640
             if (ul_content + 40 < max_hight) {
               document.querySelector('.bottom-sheet__content').style.height=`${ul_content + 40}px`
+            } else {
+              document.querySelector('.bottom-sheet__content').style.height=`681px`
             }
           }
         })

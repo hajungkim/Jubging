@@ -27,9 +27,9 @@
             <span style="text-align:center">{{userInfo.following}}</span>
           </div>
         </div>
-        <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :profileUserId="userId*1">
+        <FollowerModal v-if="isfollower" @close-modal="isfollower=false" :profileUserId="userId*1" @update-follow="getUserInfo(userId)">
           </FollowerModal> 
-        <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :profileUserId="userId*1">
+        <FollowingModal v-if="isfollowing" @close-modal="isfollowing=false" :profileUserId="userId*1" @update-follow="getUserInfo(userId)">
           </FollowingModal>  
       </div>
       <!-- 뱃지 리스트 -->
@@ -156,7 +156,6 @@ export default {
       .then((res) => {
         for(const key in res.data.data)
         {
-          console.log(key,'키')
           if (key === 'bottle' || key === 'can' || key === 'metal' ||
               key === 'paper' ||  key === 'plastic' || key === 'styroform' ||
               key === 'trash' || key === 'vinyl' || key === 'jubging' ||
@@ -184,7 +183,6 @@ export default {
             }
           }
         }
-        console.log(this.photos,'@@@@')
         this.ischange = true
         if (this.photos.length === 0){
           this.isbadge = true;

@@ -25,13 +25,15 @@
  width: 200px;
 }
 .hashtag_container{
-  width: 200px;
-  height: 50px;
-  margin:10px 16px 10px 10px;
+  width: 180px;
+  height: 55px;
+  margin: 13px 10px 5px 10px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   word-break:break-all;
+  overflow:hidden;
 }
 .like_comment_container{
   display: flex;
@@ -41,5 +43,5 @@
 .lcbox{
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 8px;
 }

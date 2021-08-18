@@ -2,22 +2,26 @@
 
 #body {
   display: flex;
-  height: 731px;
-  margin: 0 16px;
+  margin: 0px 16px;
   height: auto;
   flex-direction: column;
   background-color: white;
   text-align: center;
-  button {
-    margin: 0 auto;
+  .body-button {
+    margin: 0px auto;
     margin-bottom: 15px;
   }
+}
+.body-content {
+  height: 731px;
+  background-color: white;
 }
 #ta {
   border-radius: 12px;
   padding: 20px;
   outline: none;
   width: 82%;
+  height: 290px;
 }
 .top{
   display: flex;
@@ -38,7 +42,7 @@
 }
 .item-photo {
   display: flex;
-  margin-bottom: 73px;
+  margin-bottom: 91px;
 }
 .item-grid {
   width: 100px;
@@ -82,18 +86,17 @@
   margin-left: 6px;
 }
 .file-close-button {
-  // position: absolute;
-  // align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: -30px; 
   margin-bottom: -10px;
   margin-top: 5px;
   line-height: 15px;
-  // z-index: 99;
-  font-size: 20px;
+  font-size: 16px;
   border: 2px solid black;
   border-radius: 50%;
   color: black;
-  font-weight: 500;
   background-color: white;
   width: 20px;
   height: 20px;

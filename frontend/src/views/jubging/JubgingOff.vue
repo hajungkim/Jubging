@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import { HTTP } from '@/util/http-common';
+import { mapState } from 'vuex'
 export default {
 components:{
 },
@@ -63,6 +65,12 @@ data() {
 	}
 },
 computed:{
+  ...mapState([
+      'address',
+			'userId',
+      'jubgingOption',
+      'jubgingInfo',
+  ]),
 },
 watch:{
   spot: {
@@ -79,7 +87,24 @@ watch:{
   }
 },
 created() {
+  
   this.$store.dispatch('jubgingOn', false)
+
+  HTTP.post('/map', this.address)
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.error(err)
+    })
+
+  HTTP.post('/jubginglog', {address: this.address, distance: this.jubgingInfo.dist, totalTime: this.jubgingInfo.time, userId: this.userId})
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      console.error(err)
+    })
 },
 mounted() {
   this.jubgingInfo = this.$store.state.jubgingInfo

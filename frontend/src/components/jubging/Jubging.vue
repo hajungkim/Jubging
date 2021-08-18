@@ -2,12 +2,14 @@
   <div>
     <div class="top">
       <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
-      <font-awesome-icon :icon="['far','calendar-alt']" class="events" @click="open"/>
+      <font-awesome-icon :icon="['fas','bullhorn']" class="events" @click="open"/>
     </div>
     <div id="body">
-      <img height="550px" src="" alt="줍깅 설명">
-      <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
-      <button @click="startJubging()" class="btn">{{msg}}</button>
+      <div class="body-content">
+        <img width="400px" src="@/assets/jubging_bg.png" alt="줍깅 설명">
+        <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
+        <button @click="startJubging()" class="btn">{{msg}}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -39,7 +41,6 @@ created() {
 },
 mounted() {
   this.msg = "mounted"
-	console.log("mounted")
   if (this.$store.state.isJubgingOn) {
     this.msg = "줍깅 중.."
   } else {
