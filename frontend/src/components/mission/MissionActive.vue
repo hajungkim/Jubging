@@ -90,10 +90,10 @@ export default {
 	},
 	watch: {
 		missions() {
-			this.badges[0].current = this.missions.like
-			this.badges[1].current = this.missions.comment
-			this.badges[2].current = this.missions.follow
-			this.badges[3].current = this.missions.jubging
+			this.badges[0].current = parseInt(this.missions.like)
+			this.badges[1].current = parseInt(this.missions.comment)
+			this.badges[2].current = parseInt(this.missions.follow)
+			this.badges[3].current = parseInt(this.missions.jubging)
 
 			let elem
 			let k, a, b
