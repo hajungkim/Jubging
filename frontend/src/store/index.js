@@ -39,7 +39,7 @@ export default new Vuex.Store({
     badgephotos: [],
     stompClient: null,
     isJubgingOn: false,
-    jubgingInfo: {},
+    jubgingInfo: {tiem: "0:00:00", dist: "0.00"},
     jubgingOption: {},
     address: "",
     event: {},
