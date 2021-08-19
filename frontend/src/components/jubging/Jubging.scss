@@ -17,12 +17,17 @@
 }
 
 #body {
+  height: 671px;
+  background-color: white;
+}
+
+.body-content { 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
-  height: auto;
-  background-color: white;
+  button {
+    margin-top: 50px;
+  }
 }
 .logo{
   display: block;
