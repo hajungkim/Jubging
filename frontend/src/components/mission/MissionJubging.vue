@@ -179,19 +179,19 @@ export default {
 	},
 	watch: {
 		missions() {
-			this.badges[0].current = this.missions.distance
-			this.badges[1].current = this.missions.trash
-			this.badges[2].current = this.missions.metal
-			this.badges[3].current = this.missions.bottle
-			this.badges[4].current = this.missions.can
-			this.badges[5].current = this.missions.paper
-			this.badges[6].current = this.missions.plastic
-			this.badges[7].current = this.missions.styroform
-			this.badges[8].current = this.missions.vinyl
-			this.badges[9].current = this.missions.arround
-			this.badges[10].current = this.missions.mountain
-			this.badges[11].current = this.missions.ocean
-			this.badges[12].current = this.missions.river
+			this.badges[0].current = parseInt(this.missions.distance)
+			this.badges[1].current = parseInt(this.missions.trash)
+			this.badges[2].current = parseInt(this.missions.metal)
+			this.badges[3].current = parseInt(this.missions.bottle)
+			this.badges[4].current = parseInt(this.missions.can)
+			this.badges[5].current = parseInt(this.missions.paper)
+			this.badges[6].current = parseInt(this.missions.plastic)
+			this.badges[7].current = parseInt(this.missions.styroform)
+			this.badges[8].current = parseInt(this.missions.vinyl)
+			this.badges[9].current = parseInt(this.missions.arround)
+			this.badges[10].current = parseInt(this.missions.mountain)
+			this.badges[11].current = parseInt(this.missions.ocean)
+			this.badges[12].current = parseInt(this.missions.river)
 
 			let elem
 			let k, a, b
