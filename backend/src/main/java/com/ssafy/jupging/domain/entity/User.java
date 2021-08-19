@@ -43,6 +43,7 @@ public class User {
         result.email = requestDto.getEmail();
         result.nickname = requestDto.getNickname();
         result.password = requestDto.getPassword();
+        result.profilePath = requestDto.getProfilePath();
         result.createdDate = LocalDateTime.now();
         return result;
     }
@@ -50,6 +51,7 @@ public class User {
     public void updateUser(UserUpdateRequestDto requestDto) {
         this.password = requestDto.getPassword();
         this.nickname = requestDto.getNickname();
+        this.profilePath = requestDto.getProfilePath();
     }
 
     public void updateFollower(boolean isFollower) {
@@ -74,5 +76,9 @@ public class User {
 
     public void changePassword(String tempKey){
         this.password=tempKey;
+    }
+
+    public void saveArticleCnt(int articleCnt) {
+        this.articleCount=articleCnt;
     }
 }

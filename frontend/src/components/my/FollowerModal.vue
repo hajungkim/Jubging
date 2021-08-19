@@ -1,61 +1,103 @@
 <template>
-  <div class="modal">
-		<div class="overlay" @click="$emit('close-modal')"></div>
+  <div class="modal" style="z-index: 1000;">
+    <div class="overlay" @click="$emit('close-modal')"></div>
 			<div class="modal-card">
-				<div class="modal_top" style="font-size:20px;">나의 팔로워들<button class="close" @click="$emit('close-modal')">닫기</button></div>
-					<div>
-						<ul style="padding:0px; margin-top:20px;">
-							<li class="comment_container" v-for="(follwer,idx) in followers" :key="idx" @click="moveProfile(follwer)">
-								<img class="comment_profile" :src="follwer.profilePath">
-								<div style="display:flex; align-items:center;">
-										<span style="font-weight:bold; font-size:20px; margin-left:5px;">{{follwer.nickName}}</span>
-								</div>
-							</li>
-						</ul>
-					</div>
-			</div>
-	</div>
+        <div class="modal-header">
+          <span>팔로워</span>
+          <font-awesome-icon class="icon" icon="times" @click="$emit('close-modal')"/>
+        </div>
+        <div class="modal-content">
+          <ul class="follow_container">
+            <li class="img_name_contain" v-for="(follower, idx) in profileUserFollowers" :key="idx">
+              <img class="follow_profile_img" :src="follower.profilePath" @click="moveProfile(follower.userId)">
+              <div class="follow_profile">
+                <div class="follow-text-group">
+                  <span>{{follower.nickName}}</span>
+                  <span class="follow-text" v-if="(userId*1 === follower.userId*1) || !checkFollwer(follower.userId)"> </span>
+                  <span class="follow-text" v-else>나를 팔로우합니다.</span>
+                </div>
+                <div v-if="userId*1 !== follower.userId*1">
+                  <button class="following-btn" v-if="checkFollowing(follower.userId)" @click="deleteFollow(follower.userId)">언팔로우</button>
+                  <button class="follow-btn" v-else @click="onFollow(follower.userId)">팔로우</button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import { HTTP } from '@/util/http-common'
+
 export default {
   name:'FollowerModal',
-  data(){
-    return{
-      followers:[],
-    }
+  props:{
+    profileUserId: Number,
   },
   computed:{
 		...mapState([
-			'userId'
+			'userFollowers', 'userFollowings', 'userId',
+      'profileUserFollowers', 'profileUserFollowings'
 		]),
   },
   created(){
-    this.getFollower()
+    this.getFollower(this.userId)
+    this.getFollowing(this.userId)
+    this.getProfileFollower(this.profileUserId)
+    this.getProfileFollowing(this.profileUserId)
   },
 	methods:{
-    getFollower(){
-      let URL = `http://localhost:8080/follow/findfollower/${this.userId}`
-      let params={
-        method:'get',
-        url:URL,
+    ...mapActions([
+      'getFollower', 'getFollowing',
+      'getProfileFollower', 'getProfileFollowing'
+    ]),
+    moveProfile(followerUserId){
+      if (followerUserId*1 === this.userId*1) {
+        this.$router.push({name:'My'})
+      } else {
+        this.$store.state.backPage = 1
+        this.$router.push({name:'Userprofile', params: { user_id: followerUserId }})
       }
-      axios(params)
-        .then((res) => {
-          this.followers=res.data.data
-          console.log(this.followers,"사진?")
+    },
+    checkFollowing(targetId) {
+      if (this.userFollowings) {
+        return this.userFollowings.some(userInfo => {
+          return userInfo.userId === targetId
+        })
+      }
+    },
+    checkFollwer(targetId) {
+      if (this.userFollowers) {
+        return this.userFollowers.some(userInfo => {
+          return userInfo.userId === targetId
+        })
+      }
+    },
+    deleteFollow(targetId){
+      HTTP.delete(`follow?followUserId=${targetId}&userId=${this.userId}`)
+        .then(() => {
+          this.getFollowing(this.userId)
+          this.$emit('update-follow')
         })
         .catch((e) => {
           console.error(e);
         })
     },
-    moveProfile(follower){
-      this.$store.state.currentUser = follower.followerUserId
-			this.$store.state.backPage = 1
-			this.$router.push({name:'Userprofile'})
-    }
+    onFollow(targetId){
+      HTTP.post(`follow?followUserId=${targetId}&userId=${this.userId}`)
+        .then(() => {
+          this.getFollowing(this.userId)
+          this.$emit('update-follow')
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+    },
 	}
 }
 </script>

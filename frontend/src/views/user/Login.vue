@@ -4,25 +4,31 @@
 	<img class="logo" src="@/assets/logo/iconlogo.png" alt="">
 
   <div class="form-group">
-		<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-		<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
-		<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
-		<div v-if="error.password" class="text-error form-error">{{error.password}}</div>
+		<div class="form-mb">
+			<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+			<div v-if="error.email" class="text-error form-error">
+				<font-awesome-icon icon="check-circle"/>
+				<span> {{ error.email }}</span>
+			</div>
+		</div>
+		<div class="form-mb">
+			<input class="form-input" type="password" id="password" v-model="credentials.password" placeholder="password">
+			<div v-if="error.password" class="text-error form-error">
+				<font-awesome-icon icon="check-circle"/>
+				<span> {{ error.password }}</span>
+			</div>
+		</div>
 
-		<button class="form-btn" @click="login(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">Login</button>
+		<button class="btn-user-mgt" @click="login(credentials)" :disabled="!isSubmit" :class="{ 'btn-user-mgt-disable' : !isSubmit }">Login</button>
 
 		<div class="form-text-align">
 			<router-link :to="{ name: 'SignUp' }" class="text-decoration-none"><span class="form-text-small">Sign Up</span></router-link>
 			<router-link :to="{ name: 'FindPassword' }" class="text-decoration-none"><span class="form-text-small">Forgot your password?</span></router-link>
 		</div>
   </div>
-
-	<div class="social-group">
-		<div class="social"></div>
-		<div class="social"></div>
-		<div class="social"></div>
-	</div>
-	<button @click="logout">logout 임시버튼</button>
+	
+	<!-- <button @click="logout">logout 임시버튼</button> -->
+	<span class="no-login" @click="noLogin">로그인 없이 둘러보기 ></span>
 </div>
 </template>
 
@@ -85,6 +91,9 @@ export default {
 		validPassword(password) {
 			var test = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z]).*$/;
 			return test.test(password);
+		},
+		noLogin() {
+			this.$router.push({ name: 'Home' })
 		}
 	},
 }

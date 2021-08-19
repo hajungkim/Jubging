@@ -9,7 +9,7 @@
         <img class="like_profile" :src="log.profilePath">
         <div>
           <div><span style="font-weight:bold;">'{{log.nickname}}' </span> 님의 게시글을 좋아요 했습니다.</div>
-          <span class="like_date">{{log.createdDate.slice(0,10)}}</span>
+          <span class="like_date">{{log.date}}</span>
         </div>
       </li>
     </ul>
@@ -17,8 +17,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import { mapState } from 'vuex'
+
 export default {
   name: 'Likelog',
   data(){
@@ -36,12 +37,7 @@ export default {
   },
   methods:{
     getLikelogs(){
-      const URL = `http://localhost:8080/likelog/${this.userId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`likelog/${this.userId}`)
         .then((res) => {
           this.likelogs = res.data.data
         })
@@ -50,16 +46,11 @@ export default {
         })
     },
     moveDetail(article){
-      let URL = `http://localhost:8080/article/detail/${article.articleId}`
-      let params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`article/detail/${article.articleId}`)
         .then((res) => {
           this.$store.state.selectArticle = res.data.data
           this.$store.state.backPage = 5
-          this.$router.push({name:'Detail'})   
+          this.$router.push({name:'Detail', params: { article_id: res.data.data.articleId }})   
         })
         .catch((e) => {
           console.error(e);
@@ -70,5 +61,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/components/my/likelog.scss'
+@import '@/components/my/Likelog.scss'
 </style>

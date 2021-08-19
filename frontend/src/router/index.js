@@ -1,38 +1,59 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store/index.js'
+
 import Main from '@/views/Main.vue'
-import Detail from '@/views/home/Detail.vue'
 import Home from '@/components/home/Home.vue'
-import Mission from '@/components/mission/Mission.vue'
+import Detail from '@/views/home/Detail.vue'
+import Search from '@/views/home/Search.vue'
+
 import Jubging from '@/components/jubging/Jubging.vue'
-import Ranking from '@/components/ranking/Ranking.vue'
-import My from '@/components/my/My.vue'
-import Userprofile from '@/views/user/Userprofile.vue'
-import Logs from '@/components/my/Logs.vue'
 import JubgingOff from '@/views/jubging/JubgingOff.vue'
 import NewArticle from '@/views/jubging/NewArticle.vue'
+import Editarticle from '@/views/home/Editarticle.vue'
+import Events from '@/views/jubging/Events.vue'
+import EventPoster from '@/views/jubging/EventPoster.vue'
+
+import Mission from '@/components/mission/Mission.vue'
+import Ranking from '@/components/ranking/Ranking.vue'
+
+import Logs from '@/components/my/Logs.vue'
+import My from '@/components/my/My.vue'
+import Userprofile from '@/views/user/Userprofile.vue'
 import Login from '@/views/user/Login.vue'
 import SignUp from '@/views/user/SignUp.vue'
-import Search from '@/views/home/Search.vue'
 import FindPassword from '@/views/user/FindPassword.vue'
 import ChangeSetting from '@/views/user/ChangeSetting.vue'
-import Editarticle from '@/views/home/Editarticle.vue'
 
 Vue.use(VueRouter)
+
+const requireAuth = () => (to, from, next) => {
+  if (store.state.Token) {
+    if (!from.name && (to.name === 'Register' || to.name === 'NewArticle')) {
+      console.log('url 접근 금지')
+      // return next('/jubging')
+    }
+    return next();
+  }
+  next('/login');
+  alert('로그인이 필요합니다.')
+};
+
+const requireNoAuth = () => (to, from, next) => {
+  if (!store.state.Token) {
+    return next();
+  }
+  next('/home');
+};
 
 const routes = [
   {
     path: '*',
-    redirect: '/404'
-  },
-  {
-    path: '/404',
-    name: 'PageNotFound',
-    // component: 
+    redirect: '/'
   },
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/login',
   },
   {
     path:'/main',
@@ -53,6 +74,7 @@ const routes = [
         path:'/jubging',
         name:'Jubging',
         component:Jubging,
+        beforeEnter: requireAuth()
       },
       {
         path:'/ranking',
@@ -63,43 +85,21 @@ const routes = [
         path:'/my',
         name:'My',
         component:My,
+        beforeEnter: requireAuth()
       },
       {
-        path:'Logs',
+        path:'/Logs/:flag',
         name:'Logs',
         component:Logs,
+        beforeEnter: requireAuth()
+      },
+      {
+        path: '/jubging/events',
+        name: 'Events',
+        component: Events,
+        beforeEnter: requireAuth()
       },
     ],
-  },
-  {
-    path:'/detail',
-    name:'Detail',
-    component:Detail,
-  },
-  {
-    path:'/userprofile',
-    name:'Userprofile',
-    component:Userprofile,
-  },
-  {
-    path: '/jubging/register',
-    name: 'Register',
-    component: JubgingOff
-  },
-  {
-    path: '/jubging/article',
-    name: 'NewArticle',
-    component: NewArticle
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/signup',
-    name: 'SignUp',
-    component: SignUp
   },
   {
     path: '/search',
@@ -107,20 +107,74 @@ const routes = [
     component: Search
   },
   {
+    path:'/article/:article_id',
+    name:'Detail',
+    component:Detail,
+  },
+  {
+    path: '/article/:article_id/edit',
+    name: 'Editarticle',
+    component: Editarticle,
+    beforeEnter: requireAuth()
+  },
+  {
+    path:'/userprofile/:user_id',
+    name:'Userprofile',
+    component:Userprofile,
+  },
+  {
+    path: '/my/changesetting',
+    name: 'ChangeSetting',
+    component: ChangeSetting,
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/jubging/article',
+    component: {
+      template: `
+        <div>
+          <router-view></router-view>
+        </div>
+      `
+    },
+    children: [
+      {
+        path: 'register',
+        name: 'Register',
+        component: JubgingOff,
+        props: true
+      },
+      {
+        path: '',
+        name: 'NewArticle',
+        component: NewArticle
+      },
+    ],
+    beforeEnter: requireAuth()
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    beforeEnter: requireNoAuth()
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp,
+    beforeEnter: requireNoAuth()
+  },
+  {
     path: '/findpassword',
     name: 'FindPassword',
     component: FindPassword,
+    beforeEnter: requireNoAuth()
   },
   {
-    path: '/changesetting',
-    name: 'ChangeSetting',
-    component: ChangeSetting,
+    path:'/jubging/events/:eventId',
+    name:'EventPoster',
+    component:EventPoster,
   },
-  {
-    path: '/editarticle',
-    name: 'Editarticle',
-    component: Editarticle,
-  }
 ]
 
 const router = new VueRouter({

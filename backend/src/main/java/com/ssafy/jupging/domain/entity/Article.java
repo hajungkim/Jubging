@@ -4,11 +4,10 @@ import com.ssafy.jupging.dto.ArticleSaveRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,16 +29,17 @@ public class Article {
     private int likeCnt;
 
     @Column(nullable = false)
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @Column(nullable = false)
     private Long userId;
 
     public static Article saveArticle(ArticleSaveRequestDto request) {
         Article article = new Article();
-        article.content=request.getContent();
-        article.userId=request.getUserId();
-        article.createdDate=LocalDateTime.now();
+        article.content = request.getContent();
+        article.userId = request.getUserId();
+        article.photosPath = request.getPhotosPath();
+        article.createdDate = new Date();
         return article;
     }
 }

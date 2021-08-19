@@ -94,9 +94,9 @@ public class CommentController {
         public static final int MONTH = 12;
     }
 
-    public String commentTimeFormat(LocalDateTime createdDate){
+    public String commentTimeFormat(Date createdDate){
         long curTime = System.currentTimeMillis();
-        long regTime = java.sql.Timestamp.valueOf(createdDate).getTime();
+        long regTime = createdDate.getTime();
         long diff = (curTime - regTime) / 1000;
 
         String msg = "";

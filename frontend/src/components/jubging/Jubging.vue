@@ -1,23 +1,23 @@
 <template>
   <div>
-      <div id="header">
-          <div class="goback to-center">
-            <img src="" alt="뒤로가기">
-          </div>
-          <div class="to-center">
-            <img src="" alt="줍깅 로고">
-          </div>
+    <div class="top">
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo">
+      <font-awesome-icon :icon="['fas','bullhorn']" class="events" @click="open"/>
+    </div>
+    <div id="body">
+      <div class="body-content">
+        <img width="400px" src="@/assets/jubging_bg.png" alt="줍깅 설명">
+        <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
+        <button @click="startJubging()" class="btn">{{msg}}</button>
       </div>
-      <div id="body">
-        <img height="550px" src="" alt="줍깅 설명">
-        <button @click="startJubging()" class="btn">줍깅 시작</button>
-      </div>
+    </div>
   </div>
 </template>
 
+
+
 <script>
 export default {
-
 name: "Jubging",
 components:{
 },
@@ -25,10 +25,10 @@ props: {
 },
 data() {
 	return{
-        btnMessage: this.$store.state.jubgingMessage,
-        myKey: "8774c36051efa950c0ca483b2578a15c",
-        latitude: 0.0,
-        longitude: 0.0,
+    msg: "줍깅 시작",
+		myKey: "8774c36051efa950c0ca483b2578a15c",
+		latitude: 0.0,
+		longitude: 0.0,
 	}
 },
 computed:{
@@ -36,14 +36,55 @@ computed:{
 watch:{
 },
 created() {
+  window.finishJubging = this.finishJubging  // 줍깅이 끝났을 때 호출
+  window.onJubging = this.onJubging  // 줍깅을 하고있는지 아닌지
+
 },
 mounted() {
-    console.log("mounted")
+  this.msg = "mounted"
+  if (this.$store.state.isJubgingOn) {
+    this.msg = "줍깅 중.."
+  } else {
+    this.msg = "줍깅 시작"
+  }
 },
 methods:{
-    startJubging() {
-        window.Android.startJubging()
-    },
+  open(){
+    this.$router.push({name:'Events'})
+  },
+
+	startJubging() {
+    if (this.$store.state.isJubgingOn) {
+      window.Android.startJubgingActivity()
+    }
+    else {
+      window.Android.startCameraActivity()
+    }
+	},
+  onJubging(isJubgingOn) {
+    if (isJubgingOn) {
+      this.msg = "줍깅 중.."
+    } else {
+      this.msg = "줍깅 시작"
+    }
+    this.$store.dispatch('jubgingOn', isJubgingOn)
+  },
+
+  finishJubging(jubgingInfo) {
+
+    var info = jubgingInfo.split("/")
+
+    this.msg = "줍깅 시작"
+    this.$store.dispatch('jubgingOn', false)
+
+    var time = info[1]
+    var dist = info[2]
+    
+    this.$store.dispatch('setAddress', info[0])  // 시작 주소 입력
+    this.$store.dispatch('setJubgingInfo', {time, dist})
+    this.$router.push({name:'Register'})
+
+  },
 },
 }
 </script>

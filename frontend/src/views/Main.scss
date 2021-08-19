@@ -155,7 +155,7 @@
 
   a {
     text-decoration: none;
-    color: $gray;
+    color: rgb(168, 168, 168);
   }
 
   .item {
@@ -169,7 +169,7 @@
     }
   }
 
-  .active {
+  .item-active {
     color: $primary;
   }
 }

@@ -1,11 +1,10 @@
 package com.ssafy.jupging.controller;
 
 import com.ssafy.jupging.domain.entity.Mission;
+import com.ssafy.jupging.domain.entity.MissionSuccess;
 import com.ssafy.jupging.domain.entity.User;
 import com.ssafy.jupging.dto.*;
-import com.ssafy.jupging.service.JwtService;
-import com.ssafy.jupging.service.MissionService;
-import com.ssafy.jupging.service.UserService;
+import com.ssafy.jupging.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +24,10 @@ public class UserController {
     private final UserService userService;
 
     private final MissionService missionService;
+
+    private final MissionSuccessService missionSuccessService;
+
+    private final ArticleService articleService;
 
     @ApiOperation(value = "로그인", notes = "로그인 성공 시 (token, userId) 반환 / 회원정보가 없을 경우 false 반환", response = ControllerResponse.class)
     @PostMapping("/login")
@@ -90,6 +93,9 @@ public class UserController {
                 Mission mission = new Mission();
                 mission = mission.saveInit(user.getUserId());
                 missionService.saveInit(mission);
+                MissionSuccess missionSuccess = new MissionSuccess();
+                missionSuccess = missionSuccess.saveInit(user.getUserId());
+                missionSuccessService.saveInit(missionSuccess);
 
                 response = new ControllerResponse("success", true);
 
@@ -111,6 +117,8 @@ public class UserController {
 
         try {
             User result = userService.findUser(userId);
+            int articleCnt = articleService.countByUserId(userId);
+            result.saveArticleCnt(articleCnt);
             response = new ControllerResponse("success", result);
         } catch (Exception e) {
             response = new ControllerResponse("fail", e.getMessage());
@@ -119,7 +127,7 @@ public class UserController {
         return response;
     }
 
-    @ApiOperation(value = "유저 정보 수정", notes = "수정 성공 시 '회원 수정 성공' 반환 / 실패 시 에러메세지", response = ControllerResponse.class)
+    @ApiOperation(value = "유저 정보 수정", notes = "수정 성공 시 '회원 수정 성공' 반환 / 실패 시 에러메세지 / 이미지변경 시 userController에서 url받고 저장", response = ControllerResponse.class)
     @PutMapping("/{id}")
     public ControllerResponse updateUser(@PathVariable("id") Long userId, @RequestBody UserUpdateRequestDto requestDto) {
         ControllerResponse response = null;
@@ -199,5 +207,4 @@ public class UserController {
 
         return response;
     }
-
 }
