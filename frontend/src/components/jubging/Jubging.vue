@@ -5,11 +5,9 @@
       <font-awesome-icon :icon="['fas','bullhorn']" class="events" @click="open"/>
     </div>
     <div id="body">
-      <div class="body-content">
-        <img width="400px" src="@/assets/jubging_bg.png" alt="줍깅 설명">
-        <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
-        <button @click="startJubging()" class="btn">{{msg}}</button>
-      </div>
+      <img height="550px" src="" alt="줍깅 설명">
+      <!-- <button @click="startJubging()" class="btn-jubging">{{ msg }}</button> -->
+      <button @click="startJubging()" class="btn">{{msg}}</button>
     </div>
   </div>
 </template>
