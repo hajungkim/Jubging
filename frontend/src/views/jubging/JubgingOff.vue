@@ -8,13 +8,13 @@
         <div id="info">
           <div>
             <div>
-              <span class="bolder">{{ this.jubgingInfo.time }}</span>
+              <span class="bolder">{{ jubgingInfo.time }}</span>
             </div>
             <div><b>시간</b></div>
           </div>
           <div>
             <div>
-              <span class="bolder">{{ this.jubgingInfo.dist }}</span><span> km</span>
+              <span class="bolder">{{ jubgingInfo.dist }}</span><span> km</span>
             </div>
             <div><b>운동 거리</b></div>
           </div>
@@ -57,7 +57,6 @@ props: {
 },
 data() {
 	return{
-    jubgingInfo: this.$store.state.jubgingInfo,
     spot: {mountain: false, river: false, ocean: false, arround: false},
     trash: {trash: false, plastic: false, can: false, vinyl: false, 
             paper: false, bottle: false, styroform: false, metal: false},
