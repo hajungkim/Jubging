@@ -211,6 +211,7 @@ methods: {
     HTTP.post('/article', data)
       .then((res) => {
         this.article_id = res.data.article_id
+        this.$router.push({ name: 'Home' })
       })
       .catch((err)=>{
         console.error(err)
@@ -220,10 +221,8 @@ methods: {
     // this.jubgingInfo.distance.toStirng()   distance 바꿔야함
     var data = {...this.jubgingOption.spot, ...this.jubgingOption.trash ,distance: this.$store.state.jubgingInfo.dist, userId: parseInt(this.userId)}          
     HTTP.put('/mission', data)
-      .then((res) => {
-        console.log(res)
+      .then(() => {
         // this.$router.push({name:'Detail', params: { article_id: this.article_id }})
-        this.$router.push({ name: 'Home' })
       })
       .catch((err)=>{
         console.error(err)
