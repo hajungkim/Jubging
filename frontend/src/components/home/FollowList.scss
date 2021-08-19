@@ -1,11 +1,15 @@
 .follow_container{
   display:flex;
-  margin: 20px 0px 10px 16px;
+  margin: 10px 8px 0px 8px;
+  border:1px solid silver;
+  border-radius: 20px;
+  padding:10px;
   /* justify-content: space-around;*/
 }
 .photo-img{
   width: 185px;
   height: 185px;
+  border-radius: 10px;
 }
 .follow_profile{
   width: 60px;
@@ -22,12 +26,14 @@
 }
 .hashtag_container{
   width: 180px;
-  height: 50px;
-  margin:10px 16px 10px 10px;
+  height: 55px;
+  margin: 13px 10px 5px 10px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   word-break:break-all;
+  overflow:hidden;
 }
 .like_comment_container{
   display: flex;
@@ -37,5 +43,5 @@
 .lcbox{
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 8px;
 }

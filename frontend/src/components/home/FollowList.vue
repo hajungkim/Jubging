@@ -8,9 +8,9 @@
           <span style="margin-top:20px; font-weight:bold">{{followarticle.nickname}}</span>
         </div>
         <div class="hashtag_container" @click="moveDetail(followarticle)">
-          <span v-for="(hash,idx) in followarticle.hashlist" :key="idx">#{{hash}}</span>
+          <div v-for="(hash,idx) in followarticle.hashlist" :key="idx" style="font-size:14px;">#{{hash}}</div>
         </div>
-        <div class="like_comment_container">
+        <div class="like_comment_container" @click="moveDetail(followarticle)">
           <div class="lcbox">
             <font-awesome-icon :icon="['fas','users']"/><span style="margin-left:5px;">{{user.follower}}</span>
           </div>
@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
+
 export default {
   name:'FollowList',
   props:{
@@ -37,19 +38,15 @@ export default {
   },
   data(){
     return {
+      hashflag: false,
       user:{
         profilePath: '',
         follower: 0,
-      }
+      },
     }
   },
   created(){
-    let URL = `http://localhost:8080/user/${this.followarticle.userId}`
-    let params = {
-      method: 'get',
-      url: URL,
-    }
-    axios(params)
+    HTTP.get(`user/${this.followarticle.userId}`)
       .then((res) => {
         this.user.profilePath = res.data.data.profilePath
         this.user.follower = res.data.data.follower          
@@ -61,17 +58,18 @@ export default {
   methods:{
     moveDetail(article){
       this.$store.state.selectArticle = article
-      this.$router.push({name:'Detail'})
+      this.$router.push({name:'Detail', params: { article_id: article.articleId }})
     },
     moveProfile(userId){
       this.$store.state.currentUser = userId
       this.$store.state.backPage = 0
-      this.$router.push({name:'Userprofile'})
+      console.log(this.followarticle.userId)
+      this.$router.push({name:'Userprofile', params: { user_id: this.followarticle.userId }})
     }
   }
 }
 </script>
 
 <style lang='scss' scoped>
-@import "@/components/home/Followlist.scss";
+@import "@/components/home/FollowList.scss";
 </style>

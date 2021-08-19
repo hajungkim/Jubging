@@ -4,6 +4,7 @@ import com.ssafy.jupging.dto.MissionUpdateRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,27 +16,45 @@ public class Mission {
     @Id
     private Long userId;
 
-    private int canCnt;
-    private int plasticCnt;
-    private int bottleCnt;
-    private int paperCnt;
-    private int styroformCnt;
-    private int metalCnt;
-    private int vinylCnt;
-    private int trashCnt;
+    @Column(name="can_cnt")
+    private int can;
+    @Column(name="plastic_cnt")
+    private int plastic;
+    @Column(name="bottle_cnt")
+    private int bottle;
+    @Column(name="paper_cnt")
+    private int paper;
+    @Column(name="styroform_cnt")
+    private int styroform;
+    @Column(name="metal_cnt")
+    private int metal;
+    @Column(name="vinyl_cnt")
+    private int vinyl;
+    @Column(name="trash_cnt")
+    private int trash;
 
-    private int mountainCnt;
-    private int oceanCnt;
-    private int riverCnt;
-    private int arroundCnt;
+    @Column(name="mountain_cnt")
+    private int mountain;
+    @Column(name="ocean_cnt")
+    private int ocean;
+    @Column(name="river_cnt")
+    private int river;
+    @Column(name="arround_cnt")
+    private int arround;
 
-    private int likeCnt;
-    private int followCnt;
-    private int commentCnt;
-    private int articleCnt;
-    private int jubgingCnt;
+    @Column(name="like_cnt")
+    private int like;
+    @Column(name="follow_cnt")
+    private int follow;
+    @Column(name="comment_cnt")
+    private int comment;
+    @Column(name="article_cnt")
+    private int article;
+    @Column(name="jubging_cnt")
+    private int jubging;
 
-    private double totalDistance;
+    @Column(name="total_distance")
+    private double distance;
 
     public Mission saveInit(Long userId) {
         Mission mission = new Mission();
@@ -44,58 +63,58 @@ public class Mission {
     }
 
     public void updateMission(MissionUpdateRequestDto requestDto) {
-        if (requestDto.isCanCnt()) this.canCnt++;
-        if (requestDto.isPlasticCnt()) this.plasticCnt++;
-        if (requestDto.isBottleCnt()) this.bottleCnt++;
-        if (requestDto.isPaperCnt()) this.paperCnt++;
-        if (requestDto.isStyroformCnt()) this.styroformCnt++;
-        if (requestDto.isMetalCnt()) this.metalCnt++;
-        if (requestDto.isVinylCnt()) this.vinylCnt++;
-        if (requestDto.isTrashCnt()) this.trashCnt++;
-        if (requestDto.isMountainCnt()) this.mountainCnt++;
-        if (requestDto.isOceanCnt()) this.oceanCnt++;
-        if (requestDto.isRiverCnt()) this.riverCnt++;
-        if (requestDto.isArroundCnt()) this.arroundCnt++;
-        this.jubgingCnt++;
-        this.totalDistance += Double.parseDouble(requestDto.getTotalDistance());
+        if (requestDto.isCan()) this.can++;
+        if (requestDto.isPlastic()) this.plastic++;
+        if (requestDto.isBottle()) this.bottle++;
+        if (requestDto.isPaper()) this.paper++;
+        if (requestDto.isStyroform()) this.styroform++;
+        if (requestDto.isMetal()) this.metal++;
+        if (requestDto.isVinyl()) this.vinyl++;
+        if (requestDto.isTrash()) this.trash++;
+        if (requestDto.isMountain()) this.mountain++;
+        if (requestDto.isOcean()) this.ocean++;
+        if (requestDto.isRiver()) this.river++;
+        if (requestDto.isArround()) this.arround++;
+        this.jubging++;
+        this.distance += Double.parseDouble(requestDto.getDistance());
     }
 
     public void updateFollowMission(boolean isFollow) {
         if (isFollow) {
-            this.followCnt++;
+            this.follow++;
         } else {
-            if (this.followCnt != 0) {
-                this.followCnt--;
+            if (this.follow != 0) {
+                this.follow--;
             }
         }
     }
 
     public void updateArticleMission(boolean isArticle) {
         if (isArticle) {
-            this.articleCnt++;
+            this.article++;
         } else {
-            if (this.articleCnt != 0) {
-                this.articleCnt--;
+            if (this.article != 0) {
+                this.article--;
             }
         }
     }
 
     public void updateLikeMission(boolean isLike) {
         if (isLike) {
-            this.likeCnt++;
+            this.like++;
         } else {
-            if (this.likeCnt != 0) {
-                this.likeCnt--;
+            if (this.like != 0) {
+                this.like--;
             }
         }
     }
 
     public void updateCommentMission(boolean isComment) {
         if (isComment) {
-            this.commentCnt++;
+            this.comment++;
         } else {
-            if (this.commentCnt != 0) {
-                this.commentCnt--;
+            if (this.comment != 0) {
+                this.comment--;
             }
         }
     }

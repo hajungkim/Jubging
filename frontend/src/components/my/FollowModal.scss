@@ -1,24 +1,108 @@
-.modal-card{
-	border-radius: 15px;
-	margin-top:200px;
-	width:300px;
-	height:400px;
+@import "@/assets/css/common.scss";
+li {
+  list-style:none;
 }
-.like_time{
-	font-size:10px;
-	margin-top:5px;
-	margin-left:5px;
+.like_time {
+	font-size: 10px;
+	margin-top: 5px;
+	margin-left: 5px;
 }
-.comment_profile{
-  height:60px;
-  width:60px;
+.follow_container {
+  padding: 0px;
+  margin: 0px;
 }
-.close{
-	color: #00bfa5;
-  font-size:16px;
-  margin-right:5px;
+.img_name_contain {
+  display: flex;
+  margin-bottom: 20px;
+}
+.follow_profile_img {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+.follow_profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  .follow-btn {
+    color: $primary;
+    background-color: white;
+    border-radius: 12px;
+    padding: 3px 12px;
+    border: 2px solid $primary; 
+  }
+  .following-btn {
+    color: white;
+    background-color: $primary;
+    border-radius: 12px;
+    padding: 3px 12px;
+    border: 2px solid $primary; 
+  }
+}
+
+.follow-text-group { 
+  display: flex;
+  flex-direction: column;
+  .follow-text {
+    color: rgb(161, 161, 161);
+    font-size: 12px;
+  }
+}
+
+// 모달
+.modal,
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+.overlay {
+  opacity: 0.5;
+  background-color: black;
+  padding: 20px;
+}
+.modal-card {
+  border-radius: 15px;
+  position: relative;
+  max-width: 372px;
+  margin: auto;
+  padding: 0px;
+  margin-top: 50px;
   background-color: white;
-  /* border-radius: 20px; */
-  border-color:#00bfa5;
-  border:2px solid;
+  min-height: 681px;
+  z-index: 10;
+  opacity: 1;
+  box-shadow: 0px 5px 5px 5px rgba(55, 55, 55, .2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 22px;
+  border-bottom: 2px solid $primary;
+  span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .icon {
+    font-size: 24px;
+    cursor: pointer;
+  }
+}
+.modal-content {
+  padding: 20px 20px;
+  margin: auto;
+  width: 332px;
+  height: 580px;
+  overflow: auto;
+}
+.modal-footer {
+  height: 1px;
 }

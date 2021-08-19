@@ -5,20 +5,35 @@
         v-for="(log,idx) in jubginglogs"
         :key="idx"
       >
-        <img class="jubging_profile" src="@/assets/sample.png">
-        <div>
-          <div style="font-weight:bold;">'{{log.createdDate.slice(0,10)}}'</div>
-          <div class="jubging_time">{{log.totalTime}}</div>
-          <div class="jubging_distance">{{log.distance}} km</div>
+      <div class="content_box">
+        <div class="info">
+          <div>
+            <div class="time_dist_text">운동 시간</div>
+            <div class="time_dist">{{log.totalTime}}</div>
+          </div>
+          <div>
+            <div class="time_dist_text">운동 거리</div>
+            <div class="time_dist">{{log.distance}} km</div>
+          </div>
         </div>
+        <div class="date_address">
+          <div>
+            <span style="margin-left:35px;">{{log.date}}</span>
+          </div>
+          <div>
+            <span style="margin-right:10px;">{{log.address}}</span>
+          </div>
+        </div>
+      </div>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
 import { mapState } from 'vuex'
+
 export default {
   name: 'Jubginglog',
   data(){
@@ -36,12 +51,7 @@ export default {
   },
   methods:{
     getJunbginglogs(){
-      const URL = `http://localhost:8080/jubginglog/${this.userId}`
-      const params = {
-        method: 'get',
-        url: URL,
-      }
-      axios(params)
+      HTTP.get(`jubginglog/${this.userId}`)
         .then((res) => {
           this.jubginglogs = res.data.data
         })

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="top3-group">
+    <div class="top3-group" v-if="rankers">
 			<div class="top3-group-silver">
 				<font-awesome-icon icon="trophy" class="silver"/>
 				<div class="top3">
-					<img src="http://placehold.it/185x185">
+					<img :src="rankers[1].profilePath" @click="switchProfile(rankers[1].userId)">
 					<span>{{ rankers[1].nickname }}</span>
 					<span class="score">{{ rankers[1].score }}</span>
 				</div>
@@ -13,7 +13,7 @@
 			<div class="top3-group-gold">
 				<font-awesome-icon icon="trophy" class="gold"/>
 				<div class="top3">
-					<img :src="rankers[0].profile_path">
+					<img :src="rankers[0].profilePath" @click="switchProfile(rankers[0].userId)">
 					<span>{{ rankers[0].nickname }}</span>
 					<span class="score">{{ rankers[0].score }}</span>
 				</div>
@@ -22,7 +22,7 @@
 			<div class="top3-group-bronze">
 				<font-awesome-icon icon="trophy" class="bronze"/>
 				<div class="top3">
-					<img :src="rankers[2].profile_path">
+					<img :src="rankers[2].profilePath" @click="switchProfile(rankers[2].userId)">
 					<span>{{ rankers[2].nickname }}</span>
 					<span class="score">{{ rankers[2].score }}</span>
 				</div>
@@ -35,7 +35,7 @@
 					<div class="rank-user-group">
 						<span class="ranker-rank">{{ idx+1 }}</span>
 						<div class="ranker-user">
-							<img :src="user.profilePath">
+							<img :src="user.profilePath" @click="switchProfile(user.userId)">
 							<span>{{ user.nickname }}</span>
 						</div>
 					</div>
@@ -57,6 +57,11 @@ export default {
 	},
 	created() {
 		this.$store.dispatch('getRanker')
+	},
+	methods: {
+		switchProfile(userId) {
+			this.$router.push({ name:'Userprofile', params: { user_id: userId } })
+		}
 	}
 }
 </script>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.7">
+
+        <Button
+            android:id="@+id/btn_tracking"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_baseline_gps_fixed_24"
+            android:backgroundTint="@color/black"
+            />
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="0:00:00"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/map_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/distance"
+        app:layout_constraintBottom_toTopOf="@id/time_title"/>
+
+    <ImageView
+        android:id="@+id/img_clock"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_baseline_timer_24"
+        app:tint="@color/black"
+        android:padding="10dp"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/time_title"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        app:layout_constraintBottom_toTopOf="@id/btn_start"/>
+
+    <TextView
+        android:id="@+id/time_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="시간"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:layout_marginRight="60dp"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintLeft_toRightOf="@id/img_clock"
+        app:layout_constraintRight_toLeftOf="@id/img_dist"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        app:layout_constraintBottom_toTopOf="@id/btn_start"/>
+
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="0.00"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@id/time"
+        app:layout_constraintTop_toBottomOf="@id/map_view"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/distance_title"/>
+
+    <ImageView
+        android:id="@+id/img_dist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:tint="@color/black"
+        android:padding="10dp"
+        android:layout_marginLeft="60dp"
+        android:src="@drawable/ic_baseline_directions_run_24"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintLeft_toRightOf="@id/time_title"
+        app:layout_constraintRight_toLeftOf="@id/distance_title"
+        app:layout_constraintTop_toBottomOf="@id/distance"
+        app:layout_constraintBottom_toTopOf="@id/btn_start"
+        />
+
+    <TextView
+        android:id="@+id/distance_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="KM"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginRight="40dp"
+        app:layout_constraintHorizontal_weight="0.3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/img_dist"
+        app:layout_constraintTop_toBottomOf="@id/distance"
+        app:layout_constraintBottom_toTopOf="@id/btn_start"/>
+
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_toEndOf="@id/map_view"
+        android:text="줍깅 시작"
+        android:textColor="#00bfa5"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:background="@drawable/btn_radius_click"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

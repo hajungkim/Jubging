@@ -13,4 +13,6 @@ public class JubgingLogSaveRequestDto {
 
     private Long userId;
 
+    private String address;
+
 }

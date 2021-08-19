@@ -1,22 +1,33 @@
 <template>
-  <div class="findPassword-wrap">
+  <div>
+    <div class="top">
+      <font-awesome-icon icon="angle-left" class="fa-2x back_icon" @click="back"/>
+      <img class="logo" src="@/assets/logo/textlogo.png" alt="logo" width="100px;">
+    </div>
 
-		<h1>비밀번호 찾기</h1>
-    <p>이메일로 임시 비밀번호를 발급해드립니다.</p>
-		
-		<div class="form-group">
-			<input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
-			<div v-if="error.email" class="text-error form-error">{{error.email}}</div>
-			<button @click="findPassword(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'form-btn' : 'form-disable-btn']">비밀번호 재설정</button>
-		</div>
+    <div class="findPassword-wrap">
+			<div class="text-group">
+				<h2 class="m-0">비밀번호 찾기</h2>
+				<p class="m-0">이메일로 임시 비밀번호를 발급해드립니다</p>
+			</div>
+      
+      <div class="form-group">
+        <div class="form-mb">
+          <input class="form-input" type="text" id="email" v-model="credentials.email" placeholder="email">
+          <div v-if="error.email" class="text-error form-error">
+            <font-awesome-icon icon="check-circle"/>
+            <span> {{ error.email }}</span>
+          </div>
+        </div>
+        <button @click="findPassword(credentials)" :disabled="!isSubmit" :class="[isSubmit ? 'btn-user-mgt' : 'btn-user-mgt-disable']">비밀번호 재발급</button>
+      </div>
 
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
-axios.defaults.baseURL = 'http://localhost:8080/'
+import { HTTP } from '@/util/http-common'
 
 export default {
   name: 'FindPassword',
@@ -27,7 +38,8 @@ export default {
 			},
       error: {
         email: false,
-      }
+      },
+      isSubmit: false
     }
   },
   watch: {
@@ -57,19 +69,30 @@ export default {
       return test.test(email);
     },
     findPassword() {
-      axios.post('user/emailck', this.credentials)
+      HTTP.post('user/emailck', this.credentials)
         .then(res => {
-          if (res.data.data) {
-            alert('존재하지 않는 이메일 입니다.')
+          if (!res.data.data) {
+            HTTP.put('email/changepw', this.credentials)
+            .then(() => {
+              alert('해당 이메일로 임시 비밀번호를 발급했습니다.')
+            })
+            .then(() => {
+              this.$router.push({ name: 'Login' })
+            })
+            .catch(err => {
+              console.error(err)
+            })
           } else { 
-            alert('해당 이메일로 임시 비밀번호를 발급했습니다.')
-            // 임시 비밀번호 발급 요청 추가 예정
+            alert('존재하지 않는 이메일 입니다.')
           }
         })
         .catch(err => {
           console.error(err)
         })
-    }
+    },
+		back() {
+			this.$router.push({ name: 'Login' })
+		}
 	},
 }
 </script>

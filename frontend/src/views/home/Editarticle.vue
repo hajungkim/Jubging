@@ -6,42 +6,51 @@
     </div>
     <div class="content">
       <span class="text">게시글 수정하기</span>
-      <textarea v-model="content" type="text" style="margin-top:15px;"></textarea>
+      <textarea v-model="content" type="text"></textarea>
       <!-- <img src="@/assets/logo/iconlogo.png" class="logo_img"> -->
-      <button class="edit_button" @click="onEdit">수정 완료</button>
+      <button class="btn" @click="onEdit">수정 완료</button>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '@/util/http-common'
+import { mapState } from 'vuex'
+
 export default {
+  name: 'Editarticle',
   data(){
     return{
       content: '',
     }
   },
+  computed:{
+    ...mapState([
+      'selectArticle',
+		]),
+  },
   created(){
-    this.content = this.$store.state.selectArticle.content
+    HTTP.get(`article/detail/${this.$route.params.article_id}`)
+      .then((res) => {
+        this.content=res.data.data.content
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+    this.content = this.selectArticle.content
   },
   methods:{
     onClick(){
-      this.$router.push({ name:'Detail' })
+      this.$router.push({name:'Detail', params: { article_id: this.$route.params.article_id }})
     },
     onEdit(){
-      let URL = `http://localhost:8080/article/`
       let data = {
-        articleId: this.$store.state.selectArticle.articleId,
+        articleId: this.$route.params.article_id,
         content: this.content
       }
-      let params = {
-        method: 'put',
-        url: URL,
-        data: data,
-      }
-      axios(params)
+      HTTP.put('article/', data)
         .then(() => {
-          this.$router.push({name:'Detail'})
+          this.$router.push({name:'Detail', params: { article_id: this.$route.params.article_id }})
         })
         .catch((e) => {
           console.error(e);

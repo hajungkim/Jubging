@@ -2,17 +2,23 @@
   display: flex;
   align-items: center;
   height: 50px;
+  .hamburger{
+    margin-right: 10px;
+    font-size: 22.4px;
+  }
+  .logo{
+    display: block;
+    margin:0px auto;
+    width: 100px;
+    transform:scale(1.5);
+    padding-left:20px;
+  }
 }
-.hamburger{
-margin-right:10px;
+
+.my-wrap {
+  height: 73px;
 }
-.logo{
-display: block;
-margin:0px auto;
-width: 100px;
-transform:scale(1.5);
-padding-left:20px;
-}
+
 /* 유저 정보 */
 .my_info{
 display:flex;
@@ -40,7 +46,7 @@ object-fit: cover;
 display: flex;
 width: 350px;
 justify-content: space-around;
-margin-top:3vh;
+margin-top:2vh;
 }
 .lcbox{
 display: flex;
@@ -48,31 +54,48 @@ flex-direction: column;
 }
 /* 뱃지부분 */
 .badge_box{
-margin-top: 3vh;
-margin-bottom:3vh;
-
+  margin-top: 13px;
+  margin-bottom:12px;
 }
 .badge_img{
-height: 50px;
+height: 60px;
 }
 .badge_carousel{
 margin: 0;
 }
-
+.nobadge_text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -63px;
+  margin-bottom: 28px;
+  width: 412px;
+}
+.nobadge{
+  font-size:20px;
+  color:gray;
+}
 /* 피드 부분 */
 .photo_list{
 overflow: auto;
-height: 346px;
+height: 352px;
 width: 412px;
 }
 .photo-grid {
-display:flex;
-/* height: auto; */
+  display:flex;
+  flex-wrap:wrap;
 }
 .photo-img {
 width: 135px;
 height: 135px;
-margin-left:2px;
+}
+.no_article{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 367px;
+  color: gray;
 }
 /* 바텀시트 */
 .bt_common{
@@ -82,10 +105,14 @@ align-items: center;
 height: 60px;
 }
 .likelog{
-margin-left:38px;
+  margin-left:38px;
 }
 .icon{
-margin-right:10px;
+  font-size:25px;
+  margin-right:10px;
+}
+.bt_common > span{
+  font-size:18px;
 }
 /* 라우터 링크 색 변경x */
 .default-link{

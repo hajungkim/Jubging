@@ -1,3 +1,5 @@
+@import "@/assets/css/common.scss";
+
 #header {
   position: relative;
   width: 100%;
@@ -11,6 +13,10 @@
   justify-content: space-around;
   height: 731px;
   background-color: white;
+  button {
+    margin: 0 auto;
+    margin-bottom: 15px;
+  }
 }
 #map {
   width: 100%;
@@ -32,15 +38,27 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+.top{
+  display: flex;
+  align-items: center;
+  height: 50px;
+  .logo{
+    margin-left: 161px;
+    transform: scale(1.5);
+  }
+}
+
+.logo{
+  display: block;
+  margin:0px auto;
+  width: 100px;
+  transform:scale(1.5);
+}
 .to-center {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.goback {
-  position: absolute;
-  left: 0;
 }
 .item {
   text-align: center;
@@ -50,20 +68,26 @@
   height: 60px;
   margin: 10px;
   line-height: 60px;
-  background-color: cadetblue;
-  border-radius: 20px;
+  border-radius: 12px;
   font-weight: bold;
   font-size: 14px;
+  border: 2px solid $graylight;
+  color: $graylight;
+}
+.item-check {
+  background-color: $primary;
+  color: black;
   border: 2px solid black;
 }
 .bolder {
   font-weight: bold;
   font-size: 32px;
 }
-.btn {
+.btn-next {
   padding: 20px;
   margin: 10px 30px;
   border-radius: 30px;
   font-weight: bold;
   font-size: 18px;
+  background-color: cadetblue;
 }
