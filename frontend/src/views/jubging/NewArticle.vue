@@ -14,7 +14,6 @@
             name="text" 
             placeholder="본문에 #을 이용하여 태그를 사용해보세요"
             id="ta"
-            rows="13"
             v-on:input="content_typing"
           ></textarea>
       </div>
@@ -160,9 +159,14 @@ methods: {
   },
 
   crop() {
+  let imageWidth = document.getElementById('image').width
+  let imageHeight = document.getElementById('image').height
+  let minValue = Math.min(imageWidth, imageHeight, 1000)
+  let targetValue = Math.max(minValue, 300)
+
   this.croppedCanvas = this.cropper.getCroppedCanvas({
-    width: 1000,
-    height: 1000,
+    width: targetValue,
+    height: targetValue,
   });
   this.photos = [...this.photos, {
       preview: this.croppedCanvas.toDataURL(),
@@ -175,6 +179,7 @@ methods: {
   // 추가 부분
   },
   async sendData() {
+    this.sendOption()
     var photosPath = ''
     var j = 0
     var L = this.canvasList.length;
@@ -206,7 +211,7 @@ methods: {
     HTTP.post('/article', data)
       .then((res) => {
         this.article_id = res.data.article_id
-        this.sendOption()
+        this.$router.push({ name: 'Home' })
       })
       .catch((err)=>{
         console.error(err)
@@ -218,7 +223,6 @@ methods: {
     HTTP.put('/mission', data)
       .then(() => {
         // this.$router.push({name:'Detail', params: { article_id: this.article_id }})
-        this.$router.push({ name: 'Home' })
       })
       .catch((err)=>{
         console.error(err)
