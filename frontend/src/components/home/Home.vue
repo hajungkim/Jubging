@@ -191,7 +191,7 @@ export default {
           self.isNotice = true
           setTimeout(() => {
             self.isNotice = false
-          }, 2000)
+          }, 3000)
         }
         HTTP.put(`missionsuccess`, this.isSuccess)
         .then(() => {
