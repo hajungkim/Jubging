@@ -26,7 +26,6 @@ props: {
 data() {
 	return{
     msg: "줍깅 시작",
-		myKey: "8774c36051efa950c0ca483b2578a15c",
 		latitude: 0.0,
 		longitude: 0.0,
 	}
