@@ -1,4 +1,3 @@
-
 줍깅 | JUBGING 🌎
 =============
 
@@ -133,8 +132,6 @@
 
    <br>
 
-   ### ✔ Code Style
-
    ### ✔ Naming Rule
    
    - #### 프론트엔드
@@ -151,6 +148,57 @@
 <br>
 
 # 💻 구현
+### [메인화면]
+ ![main](README.assets/main.gif) 
+ ![followarticle](README.assets/followarticle.gif)  
+> 메인에서는 전체 유저의 게시글을 볼 수 있습니다.  
+> 상단에 위치한 토글 버튼을 사용하면 팔로우한 유저의 게시글만 따로 모아 확인할 수 있습니다.  
+> (로그인을 하지 않았을 경우에는 전체 유저의 게시글만 볼 수 있으며 토글 버튼은 생기지 않습니다.)
 
+
+### [게시글]
+ ![artice](README.assets/artice.gif) 
+ ![comment](README.assets/comment.gif) 
+> 게시글을 클릭하면 사진과 작성글을 볼 수 있으며, 좋아요 누르기 및 댓글 등록 및 삭제가 가능합니다.
+
+### [검색기능 및 팔로우]  
+ ![search](README.assets/search.gif) 
+ ![follow](README.assets/follow.gif)  
+> 유저와 해시태그를 검색할 수 있습니다.
+> 유저 개인 페이지에서 팔로우를 신청할 수 있고, 팔로우 및 팔로잉 리스트를 확인할 수 있습니다.
+
+### [알림기능]
+ ![alarm-alert](README.assets/alarm-alert.gif) 
+> 댓글 등록, 팔로우, 좋아요에 대한 알람이 실시간으로 전송됩니다.
+> 메인 화면의 알림창에서 이전 알림들을 확인할 수 있습니다.
+
+#### [줍깅기능]
+ ![jubging-on](README.assets/jubging-on.gif) 
+ ![jubging-off](README.assets/jubging-off.gif) 
+> 줍깅을 시작 전 검정 봉투를 가지고 있는지 인증합니다.  
+> 줍깅을 시작하면 이동 경로가 지도에 표시되고, 시간 및 이동 거리를 확인할 수 있습니다.  
+> 줍깅이 끝나면 줍깅 활동 기록을 확인하고, 어디서 줍깅을 했는지 그리고 어떤 쓰레기를 주웠는지 체크합니다.  
+
+#### [게시글 작성]
+ ![article-write](README.assets/article-write.gif) 
+> 줍깅을 완료하면 게시글을 작성할 수 있습니다.  
+> 카메라 및 갤러리에서 사진 선택이 가능하며, 1:1로 크롭합니다.  
+
+#### [미션 및 랭킹 기능]
+ ![jubging-mission](README.assets/jubging-mission.gif) 
+ ![jubging-ranking](README.assets/jubging-ranking.gif) 
+> 미션은 줍깅 활동과 SNS 활동 미션으로 나뉩니다.  
+> 줍깅 활동을 하며 획득한 뱃지를 확인할 수 있습니다.  
+> 랭킹은 유저 활동 점수 랭킹과 지역 별 줍깅수 랭킹으로 나뉩니다.  
+
+#### [마이페이지]
+ ![mypage](README.assets/mypage.gif) 
+> 마이페이지에서는 개인 피드 및 획득한 뱃지를 확인할 수 있습니다.
+> 회원정보 수정이 가능하고, 줍깅 기록과 좋아요 기록을 확인할 수 있습니다.
 
 # 📝 산출물
+#### [DB] https://www.notion.so/DB-415189d7c7b943829d32216d39b7df0d  
+#### [와이어프레임] https://www.notion.so/DB-415189d7c7b943829d32216d39b7df0d  
+#### [기능명세서] https://www.notion.so/a956b3d37f524960aa721233fab1c432  
+#### [프로젝트 계획서] https://www.notion.so/0fe9491369fb4f04ada54edf21d12227  
+#### [최종 발표 자료 및 UCC] https://drive.google.com/drive/folders/1TGs6Q2QL1dhRx-PeGWbAz5Id3Dnn5xnw?usp=sharing  
