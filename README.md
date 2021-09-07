@@ -189,7 +189,7 @@
 
 # 📝 산출물
 #### [DB] https://www.notion.so/DB-415189d7c7b943829d32216d39b7df0d  
-#### [와이어프레임] https://www.notion.so/DB-415189d7c7b943829d32216d39b7df0d  
+#### [와이어프레임] https://www.notion.so/Figma-880e6842614d41909e4ce6b3258e0da8  
 #### [기능명세서] https://www.notion.so/a956b3d37f524960aa721233fab1c432  
 #### [프로젝트 계획서] https://www.notion.so/0fe9491369fb4f04ada54edf21d12227  
 #### [최종 발표 자료 및 UCC] https://drive.google.com/drive/folders/1TGs6Q2QL1dhRx-PeGWbAz5Id3Dnn5xnw?usp=sharing  
