@@ -149,8 +149,7 @@
 
 # 💻 구현
 ### [메인화면]
- ![main](README.assets/main.gif) 
- ![followarticle](README.assets/followarticle.gif)  
+<img src="README.assets/main.gif" width="40%"> <img src="README.assets/followarticle.gif" width="40%">  
 > 메인에서는 전체 유저의 게시글을 볼 수 있습니다.  
 > 상단에 위치한 토글 버튼을 사용하면 팔로우한 유저의 게시글만 따로 모아 확인할 수 있습니다.  
 > (로그인을 하지 않았을 경우에는 전체 유저의 게시글만 볼 수 있으며 토글 버튼은 생기지 않습니다.)
