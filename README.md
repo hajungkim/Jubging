@@ -172,7 +172,7 @@
 > 메인 화면의 알림창에서 이전 알림들을 확인할 수 있습니다.
 
 #### [줍깅기능]
- <img src="README.assets/jubging-on.gif" width="40%"> <img src="README.assets/jubging-off.gif" width="40%">   
+ <img src="README.assets/teachable.gif" width="30%"> <img src="README.assets/jubging-on.gif" width="30%"> <img src="README.assets/jubging-off.gif" width="30%">   
 > 줍깅을 시작 전 검정 봉투를 가지고 있는지 인증합니다.  
 > 줍깅을 시작하면 이동 경로가 지도에 표시되고, 시간 및 이동 거리를 확인할 수 있습니다.  
 > 줍깅이 끝나면 줍깅 활동 기록을 확인하고, 어디서 줍깅을 했는지 그리고 어떤 쓰레기를 주웠는지 체크합니다.  
@@ -200,5 +200,7 @@
 #### [프로젝트 계획서] https://www.notion.so/0fe9491369fb4f04ada54edf21d12227  
 #### [최종 발표 자료 및 UCC] https://drive.google.com/drive/folders/1TGs6Q2QL1dhRx-PeGWbAz5Id3Dnn5xnw?usp=sharing  
 
+<br>
+
 # 🏆 수상
-삼성 청년 SW 아카데미(SSAFY) 공통 프로젝트 우수상
+## 삼성 청년 SW 아카데미(SSAFY) 공통 프로젝트 우수상
