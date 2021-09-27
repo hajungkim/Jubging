@@ -171,25 +171,25 @@
 > 댓글 등록, 팔로우, 좋아요에 대한 알람이 실시간으로 전송됩니다.
 > 메인 화면의 알림창에서 이전 알림들을 확인할 수 있습니다.
 
-#### [줍깅기능]
+### [줍깅기능]
  <img src="README.assets/teachable.gif" width="30%"> <img src="README.assets/jubging-on.gif" width="30%"> <img src="README.assets/jubging-off.gif" width="30%">   
 > 줍깅을 시작 전 검정 봉투를 가지고 있는지 인증합니다.  
 > 줍깅을 시작하면 이동 경로가 지도에 표시되고, 시간 및 이동 거리를 확인할 수 있습니다.  
 > 줍깅이 끝나면 줍깅 활동 기록을 확인하고, 어디서 줍깅을 했는지 그리고 어떤 쓰레기를 주웠는지 체크합니다.  
 
-#### [게시글 작성]
+### [게시글 작성]
 <img src="README.assets/article-write.gif" width="40%">
 
 > 줍깅을 완료하면 게시글을 작성할 수 있습니다.  
 > 카메라 및 갤러리에서 사진 선택이 가능하며, 1:1로 크롭합니다.  
 
-#### [미션 및 랭킹 기능]
+### [미션 및 랭킹 기능]
  <img src="README.assets/jubging-mission.gif" width="40%"> <img src="README.assets/jubging-ranking.gif" width="40%">   
 > 미션은 줍깅 활동과 SNS 활동 미션으로 나뉩니다.   
 > 줍깅 활동을 하며 획득한 뱃지를 확인할 수 있습니다.   
 > 랭킹은 유저 활동 점수 랭킹과 지역 별 줍깅수 랭킹으로 나뉩니다.   
 
-#### [마이페이지]
+### [마이페이지]
 <img src="README.assets/mypage.gif" width="40%">
 
 > 마이페이지에서는 개인 피드 및 획득한 뱃지를 확인할 수 있습니다.  
